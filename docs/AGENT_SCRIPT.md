@@ -1,116 +1,128 @@
 # Agent Script & Conversation Design
 
 ## Agent Persona
-- **Name**: Alex (or pick something brandable)
-- **Voice**: Qwen voice clone — warm, professional, slightly casual
-- **Framing**: "I'm reaching out from [Company]" — not "I'm an AI"
-- **Tone**: Confident, not pushy. Knowledgeable about their specific situation.
+- **Name**: Alex
+- **Voice**: Qwen voice clone — warm, confident, slightly casual
+- **Framing**: "I'm reaching out from Pump" — not "I'm an AI" unless asked
+- **Tone**: Knowledgeable, not pushy. Always references something specific about them.
 
-## Call Flow
+---
 
-### 1. Opening (0–15s)
-Goal: Don't get hung up on. Establish relevance fast.
+# UC1 — New Signup Script
+**Trigger**: Prospect created an account but hasn't run an estimate or trialed
 
+### Opening
 ```
-"Hey [First Name], this is Alex from [Company]. 
-You were checking out our platform recently — 
-looks like you ran a savings estimate. Did I catch you at an okay time?"
-```
-
-- If YES → continue
-- If NO → "Totally fine, when's a better time? I can call back." → `log_outcome: callback_requested`
-- If hostile/hang up → `log_outcome: declined`
-
-### 2. Relevance Hook (15–45s)
-Goal: Show you know something specific about them. Use Moss to pull lead context.
-
-```
-"I saw your estimate was around [aws_spend_estimate] per month in AWS spend — 
-that's actually a really common profile for us. 
-Most companies in that range are leaving [X]% on the table without realizing it."
+"Hey [Name], this is Alex from Pump. 
+You just created an account — wanted to reach out personally. 
+Did I catch you at an okay time?"
 ```
 
-- Moss tool call: `get_lead_context(lead_id)` → pulls estimate amount, company size, funnel stage
-- If no estimate data: fall back to company size / industry
-
-### 3. Value Statement (45–75s)
-Goal: One clear sentence on what they get.
-
+### Relevance Hook (use Moss to pull `similar_company` + `similar_savings`)
 ```
-"What we do is [one sentence product pitch]. 
-Takes about 10 minutes to connect your AWS account and we show you exactly what you'd save — 
-no commitment, no credit card."
+"We actually work with a bunch of companies similar to [Company] — 
+[similar_company] for example is saving about [similar_savings] a month with us. 
+Given your setup, I'd guess you're in a similar range."
 ```
 
-### 4. The Offer (75–90s)
-Goal: Make the incentive concrete and time-bound.
-
+### Value Statement
 ```
-"We're actually running a promo right now — 
-anyone who starts a free trial and hops on a 20-minute call with our team 
-gets a Mac Mini on us. We've done this for about [X] companies this month."
+"What we do is automatically optimize your AWS spend — 
+you connect your account, we show you exactly what you'd save, 
+takes about 10 minutes and there's no commitment."
 ```
 
-- Keep it casual, not salesy
-- "Mac Mini on us" lands better than "a $600 gift"
-
-### 5. Qualification (90–120s)
-Goal: Understand if there's a real deal here before booking.
-
-Key questions (pick 1–2, don't interrogate):
-- "Are you the person who'd typically own cloud costs at [Company], or is there someone else involved?"
-- "Is AWS optimization something you're actively looking at right now, or more exploratory?"
-
-### 6. Book the Call (120–150s)
-Goal: Get a slot on calendar before hanging up.
-
+### The Offer
 ```
-"It'd be worth a quick 20 minutes with our team — 
-they can walk through your specific setup and lock in the Mac Mini offer. 
-I can send you a calendar link right now, would that work?"
+"We're running a promo right now — anyone who starts a free trial 
+and hops on a 20-minute call with our team gets a Mac Mini on us. 
+We've done this for about 30 companies this month."
 ```
 
-- If yes → `book_meeting(lead_id)` tool call → sends link via SMS/email
-- If maybe → "No pressure — I'll send you a link anyway and you can grab a time if it makes sense"
-- If no → "Totally get it. Is it okay if I follow up in a week or two?"
-
-### 7. Close
+### Book the Call
 ```
-"Awesome, you'll get a confirmation in the next few minutes. 
-Thanks for your time [First Name] — talk soon."
+"Worth a quick 20 minutes — I can send you a calendar link right now. 
+Would that work?"
 ```
 
 ---
 
-## Objection Handling
+# UC2 — Estimate Completed Script
+**Trigger**: Prospect ran a savings estimate (has a specific dollar amount) but didn't sign up
+
+### Opening
+```
+"Hey [Name], this is Alex from Pump. 
+You just ran a savings estimate on our site — wanted to follow up personally. 
+Did I catch you at an okay time?"
+```
+
+### The Hook (lead with the number — this is the whole pitch)
+```
+"So you found [savings_estimate] in monthly savings — 
+that's sitting there right now, you're just not capturing it. 
+That's [annual_savings] a year."
+```
+*Note: calculate annual_savings = savings_estimate * 12, agent does this math*
+
+### Value Statement
+```
+"Claiming it is actually pretty simple — 
+you connect your AWS account, we handle the optimization automatically. 
+Most customers are live within a day."
+```
+
+### Close (no Mac Mini needed here — the savings IS the offer)
+```
+"Would it be worth a 20-minute call to walk through exactly how to capture that? 
+I can send you a calendar link right now."
+```
+
+*Only add Mac Mini offer if they hesitate:*
+```
+"And just so you know — anyone who trials and gets on a call 
+gets a Mac Mini on us. So there's really no downside."
+```
+
+---
+
+## Shared Objection Handling
 
 | Objection | Response |
 |---|---|
-| "We already have someone managing AWS costs" | "That's great — most of our customers actually use us alongside their existing setup. We just find savings they haven't caught yet. Worth a 20-min look?" |
-| "We're not really focused on this right now" | "Makes sense. When do you think it comes back on the radar? I can circle back then." |
-| "Is this an AI?" | "I'm an AI assistant reaching out on behalf of [Company]. Happy to connect you with a human if you'd prefer — or I can just send over the calendar link." |
-| "How did you get my number?" | "You provided it when you were checking out our platform — want me to remove it from our list?" |
-| "Not interested" | "Totally fair. I'll note that and won't call again. Have a good one." → `log_outcome: declined_dnc` |
+| "We already have someone managing AWS costs" | "That's great — most of our customers use us alongside their existing setup. We find savings they haven't caught. Worth a 20-min look?" |
+| "We're not focused on this right now" | "Makes sense. When do you think it comes back up? I can circle back then." |
+| "Is this an AI?" | "Yes, I'm an AI assistant from Pump. Want me to connect you with a human instead, or I can just send the calendar link?" |
+| "How'd you get my number?" | "You provided it when you signed up / ran your estimate. Want me to remove it from our list?" |
+| "Not interested" | "Totally fair, I'll note that and won't call again. Have a good one." → `log_outcome: declined_dnc` |
+| "How much does it cost?" | "Pump takes a small percentage of what you save — so if we don't save you money, you don't pay anything." |
 
 ---
 
-## Moss Context Schema (per lead)
+## Call Flow States
 
-What gets indexed into Moss before each call:
+```
+answered → opening → hook → value → offer → book → close
+                                              ↓
+                                          objection_handling → book / decline
+```
+
+## Moss Context Schema (indexed per lead before call)
 
 ```json
 {
-  "lead_id": "abc123",
+  "lead_id": "uuid",
   "name": "Sarah Chen",
   "company": "Acme Corp",
-  "funnel_stage": "started_estimate",
-  "aws_spend_estimate": "$42,000/month",
-  "industry": "SaaS",
-  "company_size": "50-200 employees",
-  "visited_pages": ["pricing", "estimate", "case-studies"],
-  "days_since_visit": 2
+  "company_size": "51-200 employees",
+  "aws_spend": "$42,000/month",
+  "use_case": "uc2_estimate_completed",
+  "savings_estimate": "$13,240/month",
+  "similar_company": "DataFlow Inc",
+  "similar_savings": "$18,000/month",
+  "days_since_trigger": 0
 }
 ```
 
-Agent queries Moss mid-call: `"What do I know about this lead's AWS spend and company?"`  
-Moss returns relevant context in <10ms — agent speaks it naturally.
+Agent queries Moss mid-call: `"What savings did this lead find and what's a similar customer reference?"`
+Moss returns in <10ms — agent speaks it naturally without breaking cadence.
