@@ -1,0 +1,14 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780825722",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "agent",
+      "text": "Hey, this is Alex, an AI customer success manager calling from pump.co. I'm just calling because I saw you ran an estimate. Are there any questions that I could answer for you about pump?",
+      "timestamp": "2026-06-07T09:49:04.531550+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T09:54:05.303269+00:00"
+}
