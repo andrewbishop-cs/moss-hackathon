@@ -58,18 +58,19 @@ export default function PumpSignupPage() {
       <main className="mx-auto grid w-full max-w-5xl gap-10 px-6 py-10 lg:grid-cols-2 lg:items-center">
         <section>
           <span className="text-primary text-sm font-semibold tracking-wider uppercase">
-            Cloud cost optimization
+            Cloud + AI cost optimization
           </span>
           <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
-            Stop overpaying for cloud.
+            Stop overpaying for cloud and AI.
           </h1>
           <p className="text-muted-foreground mt-4 text-lg">
-            Pump automatically optimizes your AWS, GCP, and Azure spend. Connect your account
-            and we find the savings in minutes — no commitment, no engineering lift.
+            Pump automatically optimizes your cloud (AWS, GCP, Azure) and AI model spend
+            (OpenAI, Anthropic). Connect your accounts and we find the savings in minutes —
+            no commitment, no engineering lift.
           </p>
           <ul className="text-muted-foreground mt-6 space-y-2 text-sm">
             {[
-              'Average 23% reduction in monthly cloud spend',
+              'Average 23% reduction in monthly cloud + AI spend',
               'Live in under a day — read-only access',
               'You only pay a percentage of what you save',
             ].map((item) => (

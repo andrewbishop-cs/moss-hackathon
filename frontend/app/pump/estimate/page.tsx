@@ -11,7 +11,7 @@ import { formatUsd } from '@/lib/leads';
 import { cn } from '@/lib/shadcn/utils';
 
 const SAVINGS_RATE = 0.23;
-const SERVICES = ['EC2', 'S3', 'RDS'] as const;
+const SERVICES = ['Compute', 'Storage', 'AI inference'] as const;
 const FIELD =
   'w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-ring focus:ring-2 focus:ring-ring/30';
 
@@ -22,7 +22,7 @@ function EstimateCalculator() {
   const leadId = leadIdFromQuery ?? FIXTURE_LEADS[0].id;
 
   const [spend, setSpend] = useState<number>(42000);
-  const [services, setServices] = useState<string[]>(['EC2', 'S3']);
+  const [services, setServices] = useState<string[]>(['Compute', 'AI inference']);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [demoNote, setDemoNote] = useState(false);
@@ -57,13 +57,13 @@ function EstimateCalculator() {
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10">
       <span className="text-primary text-sm font-semibold tracking-wider uppercase">
-        AWS savings estimate
+        Cloud + AI savings estimate
       </span>
       <h1 className="mt-3 text-3xl font-bold tracking-tight">
         See what you&apos;re leaving on the table
       </h1>
       <p className="text-muted-foreground mt-2">
-        Enter your monthly AWS spend and we&apos;ll estimate your savings.
+        Enter your monthly cloud + AI spend and we&apos;ll estimate your savings.
       </p>
 
       <div className="border-border bg-background mt-8 rounded-2xl border p-6 shadow-sm">
@@ -83,7 +83,9 @@ function EstimateCalculator() {
           </div>
         ) : (
           <>
-            <label className="mb-1 block text-xs font-medium">Monthly AWS spend (USD)</label>
+            <label className="mb-1 block text-xs font-medium">
+              Monthly cloud + AI spend (USD)
+            </label>
             <input
               type="number"
               min={0}
