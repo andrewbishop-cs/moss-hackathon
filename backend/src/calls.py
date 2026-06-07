@@ -17,6 +17,26 @@ from livekit import api
 from src import db, moss_index
 from src.config import AGENT_NAME
 
+# Leads already auto-retried after a no_answer this process. Prevents the retry's
+# own no_answer from looping into infinite calls. In-memory is fine for the
+# hackathon (resets on restart); cleared when a non-no_answer outcome arrives so
+# a future fresh call can retry again.
+_retried_leads: set[str] = set()
+
+
+def mark_retry_if_first(lead_id: str | UUID) -> bool:
+    """Record + return True if this lead hasn't been auto-retried yet."""
+    key = str(lead_id)
+    if key in _retried_leads:
+        return False
+    _retried_leads.add(key)
+    return True
+
+
+def clear_retry(lead_id: str | UUID) -> None:
+    """Forget a lead's retry flag (call on any non-no_answer outcome)."""
+    _retried_leads.discard(str(lead_id))
+
 
 async def start_call(lead_id: str | UUID) -> str:
     """Index the lead and dispatch the agent. Returns the LiveKit room name."""

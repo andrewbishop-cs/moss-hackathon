@@ -14,10 +14,12 @@ from livekit.agents import (
     AgentSession,
     JobContext,
     JobProcess,
+    MetricsCollectedEvent,
     RunContext,
     cli,
     function_tool,
     inference,
+    metrics,
     room_io,
 )
 from livekit.plugins import ai_coustics, silero
@@ -159,6 +161,16 @@ def _instructions_for(use_case: str) -> str:
         - If they're not interested, respect it immediately, log the outcome as
           "declined", and end politely.
 
+        # Voicemail and automated systems
+
+        - If you reach a voicemail greeting, an answering machine, or an automated
+          menu — signs include "please leave a message", "record your message
+          after the tone", "the person you are trying to reach", "you've reached
+          the voicemail of", or a beep — do NOT say anything and do NOT leave a
+          message.
+        - Instead, immediately call `log_outcome` with "no_answer". The call will
+          be ended automatically. Never pitch to a machine.
+
         # Output rules
 
         You are speaking via voice, so your output must sound natural in a
@@ -213,6 +225,7 @@ class Assistant(Agent):
         self,
         *,
         room=None,
+        job_ctx: JobContext | None = None,
         lead_id: str = DEFAULT_LEAD_ID,
         use_case: str = DEFAULT_USE_CASE,
     ) -> None:
@@ -226,6 +239,8 @@ class Assistant(Agent):
             instructions=_instructions_for(use_case),
         )
         self._room = room
+        # Job context, used to hang up the call immediately on voicemail.
+        self._job_ctx = job_ctx
         self._lead_id = lead_id
         self._use_case = use_case
         self._moss = MossClient(
@@ -414,7 +429,93 @@ class Assistant(Agent):
         await post_call_outcome(
             self._lead_id, normalized, f"Call outcome: {normalized}"
         )
+        # Voicemail / no answer: don't leave a message. Hang up immediately so the
+        # backend's single retry lands inside iPhone's 3-minute "Repeated Calls"
+        # window and rings through Do Not Disturb.
+        if normalized == "no_answer":
+            await self._hangup()
         return "Noted."
+
+    async def _hangup(self) -> None:
+        """End the current call immediately by deleting the LiveKit room.
+
+        Best-effort: a failure here must not raise inside a tool call.
+        """
+        if self._job_ctx is None:
+            return
+        try:
+            await self._job_ctx.api.room.delete_room(
+                api.DeleteRoomRequest(room=self._job_ctx.room.name)
+            )
+        except Exception:
+            logger.exception("failed to hang up call")
+
+
+def _ms(value: float | None) -> float:
+    """Seconds -> milliseconds, treating None/negative as 0 for clean logs."""
+    return (value or 0.0) * 1000.0
+
+
+def _setup_latency_metrics(session: AgentSession) -> metrics.UsageCollector:
+    """Log per-stage voice latency so we can see the EOU -> LLM -> TTS breakdown.
+
+    User-perceived "time to respond" after the lead stops talking is roughly:
+
+        end_of_utterance_delay (turn close)  +  LLM ttft  +  TTS ttfb
+
+    We log each stage as it arrives and, when the TTS first byte for a turn lands,
+    a `RESPONSE` rollup keyed by speech_id. Grep the worker logs for `latency[` on
+    your next test call. Returns a UsageCollector for an end-of-session summary.
+    """
+    usage = metrics.UsageCollector()
+    # EOU + LLM metrics arrive before TTS for a given turn; stash by speech_id.
+    pending: dict[str, dict[str, float]] = {}
+
+    @session.on("metrics_collected")
+    def _on_metrics(ev: MetricsCollectedEvent) -> None:
+        m = ev.metrics
+        usage.collect(m)
+        sid = getattr(m, "speech_id", None)
+
+        if isinstance(m, metrics.EOUMetrics):
+            logger.info(
+                "latency[EOU] eou_delay=%.0fms transcription_delay=%.0fms",
+                _ms(m.end_of_utterance_delay),
+                _ms(m.transcription_delay),
+            )
+            if sid:
+                pending.setdefault(sid, {})["eou"] = m.end_of_utterance_delay or 0.0
+        elif isinstance(m, metrics.LLMMetrics):
+            if m.cancelled:
+                return
+            logger.info(
+                "latency[LLM] ttft=%.0fms duration=%.0fms tok/s=%.0f",
+                _ms(m.ttft),
+                _ms(m.duration),
+                m.tokens_per_second or 0.0,
+            )
+            if sid:
+                pending.setdefault(sid, {})["llm_ttft"] = m.ttft or 0.0
+        elif isinstance(m, metrics.TTSMetrics):
+            if m.cancelled:
+                return
+            logger.info(
+                "latency[TTS] ttfb=%.0fms duration=%.0fms",
+                _ms(m.ttfb),
+                _ms(m.duration),
+            )
+            parts = pending.pop(sid, {}) if sid else {}
+            eou = parts.get("eou", 0.0)
+            llm_ttft = parts.get("llm_ttft", 0.0)
+            logger.info(
+                "latency[RESPONSE] ~%.0fms (eou=%.0f + llm_ttft=%.0f + tts_ttfb=%.0f)",
+                _ms(eou + llm_ttft + (m.ttfb or 0.0)),
+                _ms(eou),
+                _ms(llm_ttft),
+                _ms(m.ttfb),
+            )
+
+    return usage
 
 
 server = AgentServer()
@@ -480,6 +581,14 @@ async def my_agent(ctx: JobContext):
         preemptive_generation=True,
     )
 
+    # Per-stage latency logging (EOU -> LLM -> TTS) for the next test call.
+    usage = _setup_latency_metrics(session)
+
+    async def _log_usage_summary():
+        logger.info("session usage summary: %s", usage.get_summary())
+
+    ctx.add_shutdown_callback(_log_usage_summary)
+
     # Join the room first so we can place the outbound call into it.
     await ctx.connect()
 
@@ -521,7 +630,9 @@ async def my_agent(ctx: JobContext):
 
     # Start the session, which initializes the voice pipeline and warms up the models
     await session.start(
-        agent=Assistant(room=ctx.room, lead_id=lead_id, use_case=use_case),
+        agent=Assistant(
+            room=ctx.room, job_ctx=ctx, lead_id=lead_id, use_case=use_case
+        ),
         room=ctx.room,
         room_options=room_io.RoomOptions(
             audio_input=room_io.AudioInputOptions(

@@ -74,6 +74,16 @@ async def trigger_call(payload: CallTrigger):
 
 
 @app.post("/calls/outcome")
-def call_outcome(payload: LogOutcome):
+async def call_outcome(payload: LogOutcome):
     db.set_outcome(payload.lead_id, payload.status, payload.outcome_notes)
-    return {"ok": True}
+    retried = False
+    if payload.status == "no_answer":
+        # Voicemail / no-answer: re-dispatch ONCE. The retry fires within
+        # seconds, landing inside iPhone's 3-minute "Repeated Calls" window so
+        # the second call breaks through Do Not Disturb / Focus.
+        if calls.mark_retry_if_first(payload.lead_id):
+            await calls.start_call(payload.lead_id)
+            retried = True
+    else:
+        calls.clear_retry(payload.lead_id)
+    return {"ok": True, "retried": retried}
