@@ -85,6 +85,11 @@ _LEAD_QUERY = "lead profile and context for this outbound call"
 # in-room/console flow. See agent-py/.env.local and docs/ARCHITECTURE.md.
 SIP_OUTBOUND_TRUNK_ID = os.getenv("SIP_OUTBOUND_TRUNK_ID")
 
+# Seconds to wait after SIP pickup before speaking the opener, so the callee's
+# audio path is established and the first word isn't clipped. Tunable: lower if
+# the lead-in feels sluggish, raise if words still get cut. Phone path only.
+_OPENING_LEAD_IN_S = 0.6
+
 # FastAPI hub base URL. The agent persists call outcomes by POSTing to the hub
 # (POST /calls/outcome) rather than touching Supabase directly, keeping all DB
 # writes in one place. See backend/src/main.py.
@@ -1258,6 +1263,21 @@ async def my_agent(ctx: JobContext):
             # talkers (down from 3.0 — call logs showed turns regularly hitting
             # the old cap, adding ~1s of dead air on every pause).
             "endpointing": {"min_delay": 0.2, "max_delay": 2.0},
+            # Make the agent easier to cut off. Defaults (min_duration 0.5s +
+            # resume_false_interruption after a 2.0s silent window) meant a quick
+            # barge-in often didn't register, or the agent paused then resumed
+            # talking — so it took two interrupts to actually stop her. We drop
+            # min_duration to 0.25s so a short barge-in registers fast, and shorten
+            # the false-interruption window to 1.0s so if she does pause she doesn't
+            # plow ahead for a full 2s. mode stays "adaptive" so phone-line noise
+            # and backchannels ("mhm", "yeah") don't trip false interruptions.
+            "interruption": {
+                "mode": "adaptive",
+                "min_duration": 0.25,
+                "min_words": 0,
+                "false_interruption_timeout": 1.0,
+                "resume_false_interruption": True,
+            },
             # Speculatively run BOTH the LLM and the TTS before the turn is
             # confirmed, so audio is ready the instant the user stops speaking
             # (hides most of the TTS time-to-first-byte). Costs some wasted compute
@@ -1385,6 +1405,14 @@ async def my_agent(ctx: JobContext):
     # — a few seconds faster than generate_reply. The opener is deterministic by
     # design (short greeting + AI disclosure + one-line reason), so nothing is
     # lost by not routing it through the model.
+    # On a fresh SIP answer the callee's RTP downlink isn't always fully up at the
+    # instant the pipeline warms, so the first word of session.say gets clipped
+    # ("...ey, this is Alex" instead of "Hey, this is Alex"). A short settle delay
+    # before speaking lets the audio path establish. Phone-only — the console/in-room
+    # flow has no such race, so we don't pay the latency there.
+    if phone_number:
+        await asyncio.sleep(_OPENING_LEAD_IN_S)
+
     opening_t = time.perf_counter()
     await session.say(_spoken_opening(use_case, first_name))
     logger.info(

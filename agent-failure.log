@@ -1,0 +1,141 @@
+
+> moss-hacker-starter@1.0.0 dev /Users/andrewbishop/moss-hackathon/moss-hackathon
+> pnpm kill:agents && pnpm reset:leads && concurrently -n agent-py,backend,frontend -c cyan,green,magenta "pnpm dev:agent-py" "pnpm dev:backend" "pnpm dev:frontend"
+
+
+> moss-hacker-starter@1.0.0 kill:agents /Users/andrewbishop/moss-hackathon/moss-hackathon
+> bash scripts/kill-stray-agents.sh
+
+[predev] no stray dev processes — clean start.
+
+> moss-hacker-starter@1.0.0 reset:leads /Users/andrewbishop/moss-hackathon/moss-hackathon
+> bash scripts/lib/backend-run.sh -m src.reset
+
+[reset] leads reset to pending: 23 (call history preserved)
+[frontend] 
+[frontend] > moss-hacker-starter@1.0.0 dev:frontend /Users/andrewbishop/moss-hackathon/moss-hackathon
+[frontend] > pnpm --dir frontend dev
+[frontend] 
+[backend] 
+[backend] > moss-hacker-starter@1.0.0 dev:backend /Users/andrewbishop/moss-hackathon/moss-hackathon
+[backend] > bash scripts/lib/dev-backend.sh
+[backend] 
+[agent-py] 
+[agent-py] > moss-hacker-starter@1.0.0 dev:agent-py /Users/andrewbishop/moss-hackathon/moss-hackathon
+[agent-py] > bash scripts/lib/dev-agent.sh
+[agent-py] 
+[frontend] 
+[frontend] > agent-starter-react@0.1.0 dev /Users/andrewbishop/moss-hackathon/moss-hackathon/frontend
+[frontend] > next dev --turbopack
+[frontend] 
+[backend] INFO:     Started server process [72385]
+[backend] INFO:     Waiting for application startup.
+[backend] INFO:     Application startup complete.
+[backend] INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+[agent-py]     03:17:38.997 DEBUG    asyncio            Using selector: KqueueSelector  
+[agent-py]     03:17:38.998 DEV      livekit.agents     Watching                           
+[agent-py]                                              /Users/andrewbishop/moss-hackath...  
+[frontend]  ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+[frontend]  We detected multiple lockfiles and selected the directory of /Users/andrewbishop/moss-hackathon/moss-hackathon/pnpm-lock.yaml as the root directory.
+[frontend]  To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+[frontend]    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+[frontend]  Detected additional lockfiles: 
+[frontend]    * /Users/andrewbishop/moss-hackathon/moss-hackathon/frontend/pnpm-lock.yaml
+[frontend] 
+[frontend]    ▲ Next.js 15.5.18 (Turbopack)
+[frontend]    - Local:        http://localhost:3000
+[frontend]    - Network:      http://172.17.22.35:3000
+[frontend]    - Environments: .env.local
+[frontend] 
+[frontend]  ✓ Starting...
+[agent-py]     03:17:39.521 DEBUG    asyncio            Using selector: KqueueSelector  
+[agent-py]     03:17:39.524 INFO     livekit.agents     starting worker  
+[agent-py]                                          {"version": "1.5.16", "rtc-version": 
+[agent-py] "1.1.8"}
+[agent-py]     03:17:39.525 INFO     livekit.agents     plugin registered  
+[agent-py]                                          {"plugin": 
+[agent-py] "livekit.plugins.ai_coustics", "version": "0.2.15"}
+[agent-py]                  INFO     livekit.agents     plugin registered  
+[agent-py]                                          {"plugin": "livekit.plugins.silero", 
+[agent-py] "version": "1.5.16"}
+[agent-py]                  INFO     livekit.agents     plugin registered  
+[agent-py]                                          {"plugin": 
+[agent-py] "livekit.plugins.turn_detector.base", "version": "1.5.16"}
+[agent-py]     03:17:39.526 INFO     livekit.agents     plugin registered  
+[agent-py]                                          {"plugin": 
+[agent-py] "livekit.plugins.turn_detector.base", "version": "1.5.16"}
+[agent-py]                  INFO     livekit.agents     starting inference executor  
+[agent-py]     03:17:39.530 INFO     livekit.agents     initializing process  
+[agent-py]                                          {"pid": 72432, "inference": true}
+[frontend]  ✓ Ready in 808ms
+[agent-py] [transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+[agent-py]     03:17:41.938 INFO     livekit.agents     process initialized  
+[agent-py]                                          {"pid": 72432, "inference": true, 
+[agent-py] "elapsed_time": 2.41}
+[agent-py]     03:17:41.940 INFO     livekit.agents     HTTP server listening on :58422  
+[agent-py]     03:17:42.073 INFO     livekit.agents     registered worker  
+[agent-py]                                          {"agent_name": "agent-py", 
+[agent-py] "deployment": "", "id": "AW_NYFNLXYRNk9H", "url": 
+[agent-py] "wss://moss-hackathon-5w6viydl.livekit.cloud", "region": "US West B", 
+[agent-py] "protocol": 17}
+[frontend]  ○ Compiling /dashboard ...
+[frontend]  ✓ Compiled /dashboard in 1672ms
+[backend] INFO:     127.0.0.1:58447 - "GET /leads HTTP/1.1" 200 OK
+[frontend]  GET /dashboard 200 in 2198ms
+[backend] INFO:     127.0.0.1:58456 - "OPTIONS /leads HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "GET /leads HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "OPTIONS /calls/trigger HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "OPTIONS /leads HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58463 - "OPTIONS /leads HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "GET /leads HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58465 - "GET /leads HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "POST /calls/trigger HTTP/1.1" 200 OK
+[frontend]  ○ Compiling /dashboard/calls/[id] ...
+[backend] INFO:     127.0.0.1:58458 - "OPTIONS /leads HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58465 - "GET /leads HTTP/1.1" 200 OK
+[frontend]  ✓ Compiled /dashboard/calls/[id] in 3s
+[backend] INFO:     127.0.0.1:58476 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[frontend]  GET /dashboard/calls/b1000000-0001-0000-0000-000000000001 200 in 3472ms
+[backend] INFO:     127.0.0.1:58465 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58465 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[frontend]  ✓ Compiled /api/viewer-token in 363ms
+[frontend]  POST /api/viewer-token 200 in 666ms
+[frontend]  POST /api/viewer-token 200 in 239ms
+[frontend]  POST /api/viewer-token 200 in 232ms
+[frontend]  POST /api/viewer-token 200 in 244ms
+[backend] INFO:     127.0.0.1:58458 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58458 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:58456 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
