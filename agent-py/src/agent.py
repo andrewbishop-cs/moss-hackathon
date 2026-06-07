@@ -491,8 +491,8 @@ class Assistant(Agent):
         Supabase (via the FastAPI hub).
 
         Args:
-            outcome: One of "booked", "not_qualified", "not_eligible",
-                "callback", "requested_human", "declined", or "no_answer".
+            outcome: One of "booked", "interested", "callback", "declined",
+                "no_answer", "disqualified", "bad_data", or "reengage_90d".
             notes: Optional context, e.g. callback timing or why they declined.
         """
         normalized = outcome.strip().lower()
@@ -513,10 +513,13 @@ class Assistant(Agent):
             normalized,
         )
         await post_call_outcome(self._lead_id, normalized, detail)
-        # Voicemail / no answer: don't leave a message. Hang up immediately so the
-        # backend's single retry lands inside iPhone's 3-minute "Repeated Calls"
-        # window and rings through Do Not Disturb.
-        if normalized == "no_answer":
+        # Outcomes that get one instant automatic callback (backend re-dispatches
+        # when the POST above lands). Hang up now so call #1 tears down before the
+        # retry rings:
+        #   - no_answer: voicemail. Don't leave a message; the retry lands inside
+        #     iPhone's 3-minute "Repeated Calls" window and breaks through DND.
+        #   - declined: end the call promptly, then ring back once.
+        if normalized in ("no_answer", "declined"):
             await self._hangup()
         return "Noted."
 
