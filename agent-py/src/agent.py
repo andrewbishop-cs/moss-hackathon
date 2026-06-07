@@ -123,6 +123,7 @@ async def post_call_outcome(
     try:
         timeout = aiohttp.ClientTimeout(total=5)
         async with (
+            _timed("backend.outcome"),
             aiohttp.ClientSession(timeout=timeout) as session,
             session.post(f"{BACKEND_URL}/calls/outcome", json=payload) as resp,
         ):
@@ -506,8 +507,9 @@ class Assistant(Agent):
                 )
             else:
                 try:
-                    await self._moss.load_index(KNOWLEDGE_INDEX)
-                    await self._moss.load_index(LEADS_INDEX)
+                    async with _timed("moss.load_index"):
+                        await self._moss.load_index(KNOWLEDGE_INDEX)
+                        await self._moss.load_index(LEADS_INDEX)
                     self._indexes_loaded = True
                     logger.info(
                         "Loaded Moss indexes '%s' and '%s'",
@@ -586,17 +588,18 @@ class Assistant(Agent):
 
     async def _query_lead(self):
         """Query the leads index for this call's lead, pinned by lead_id."""
-        return await self._moss.query(
-            LEADS_INDEX,
-            _LEAD_QUERY,
-            QueryOptions(
-                top_k=1,
-                filter={
-                    "field": "lead_id",
-                    "condition": {"$eq": self._lead_id},
-                },
-            ),
-        )
+        async with _timed("moss.query leads"):
+            return await self._moss.query(
+                LEADS_INDEX,
+                _LEAD_QUERY,
+                QueryOptions(
+                    top_k=1,
+                    filter={
+                        "field": "lead_id",
+                        "condition": {"$eq": self._lead_id},
+                    },
+                ),
+            )
 
     @staticmethod
     def _profile_text(result) -> str:
@@ -634,7 +637,10 @@ class Assistant(Agent):
         Args:
             query: The lead's question or the objection/topic to look up.
         """
-        result = await self._moss.query(KNOWLEDGE_INDEX, query, QueryOptions(top_k=5))
+        async with _timed("moss.query knowledge"):
+            result = await self._moss.query(
+                KNOWLEDGE_INDEX, query, QueryOptions(top_k=5)
+            )
         await self._publish_moss_context(query, result)
 
         docs = getattr(result, "docs", None) or []
@@ -745,6 +751,22 @@ class Assistant(Agent):
 def _ms(value: float | None) -> float:
     """Seconds -> milliseconds, treating None/negative as 0 for clean logs."""
     return (value or 0.0) * 1000.0
+
+
+@contextlib.asynccontextmanager
+async def _timed(label: str):
+    """Log the wall-clock duration of an awaited block as `latency[<label>]`.
+
+    Pipeline metrics (EOU/LLM/TTS) miss the hidden cost of mid-turn work: Moss
+    queries and backend POSTs that run *inside* a tool call, plus the second LLM
+    inference that follows. Wrapping those blocks with this surfaces them under
+    the same `latency[` grep so the next call shows the full per-turn budget.
+    """
+    t0 = time.perf_counter()
+    try:
+        yield
+    finally:
+        logger.info("latency[%s] elapsed_ms=%.0f", label, (time.perf_counter() - t0) * 1000)
 
 
 def _setup_latency_metrics(session: AgentSession) -> metrics.UsageCollector:
