@@ -70,7 +70,59 @@ const CLAY = company({
   savings_total: 533500,
 });
 
+const BEACON_LABS = company({
+  id: 'a1b2c3d4-0006-0000-0000-000000000006',
+  name: 'Beacon Labs',
+  company_size: '11-50',
+  cloud_provider: 'aws',
+  spend_aws: 12000,
+  spend_total: 12000,
+  savings_aws: 2760,
+  savings_total: 2760,
+});
+
+const PINEWOOD_AI = company({
+  id: 'a1b2c3d4-0007-0000-0000-000000000007',
+  name: 'Pinewood AI',
+  company_size: '1-10',
+  cloud_provider: 'aws',
+  spend_aws: 4000,
+  spend_total: 4000,
+  savings_aws: 920,
+  savings_total: 920,
+});
+
 export const FIXTURE_LEADS: LeadWithCompany[] = [
+  {
+    id: 'b1000000-0017-0000-0000-000000000017',
+    company_id: PINEWOOD_AI.id,
+    first_name: 'Sam',
+    last_name: 'Okonkwo',
+    email: 'sam@pinewood.ai',
+    phone: '+14155550117',
+    timezone: 'America/Chicago',
+    use_case: 'uc1_new_signup',
+    status: 'pending',
+    created_at: '2026-06-05T19:10:00Z',
+    called_at: null,
+    outcome_notes: null,
+    company: PINEWOOD_AI,
+  },
+  {
+    id: 'b1000000-0016-0000-0000-000000000016',
+    company_id: BEACON_LABS.id,
+    first_name: 'Alex',
+    last_name: 'Rivera',
+    email: 'alex@beaconlabs.io',
+    phone: '+14155550116',
+    timezone: 'America/New_York',
+    use_case: 'uc2_estimate_completed',
+    status: 'pending',
+    created_at: '2026-06-05T19:00:00Z',
+    called_at: null,
+    outcome_notes: null,
+    company: BEACON_LABS,
+  },
   {
     id: 'b1000000-0001-0000-0000-000000000001',
     company_id: CURSOR.id,

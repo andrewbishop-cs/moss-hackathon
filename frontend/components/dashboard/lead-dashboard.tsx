@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ClockIcon, PhoneCallIcon, SpinnerGapIcon, XIcon } from '@phosphor-icons/react/dist/ssr';
-import { StatusBadge, UseCaseBadge } from '@/components/dashboard/badges';
+import { StatusBadge, TierBadge, UseCaseBadge } from '@/components/dashboard/badges';
 import { DashboardShell } from '@/components/dashboard/dashboard-shell';
 import { useCallQueue } from '@/hooks/useCallQueue';
 import { getLeads, triggerCall } from '@/lib/api';
@@ -18,6 +18,7 @@ import {
   TEXT_SECONDARY,
 } from '@/lib/dashboard-ui';
 import { type LeadWithCompany, formatMonthly, fullName } from '@/lib/leads';
+import { spendToTier } from '@/lib/tiers';
 import { cn } from '@/lib/shadcn/utils';
 
 interface LeadDashboardProps {
@@ -319,6 +320,7 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
                 <th className="pb-2 pr-3 font-normal">Use case</th>
                 <th className="pb-2 pr-3 text-right font-normal">Spend</th>
                 <th className="pb-2 pr-3 text-right font-normal">Savings</th>
+                <th className="pb-2 pr-3 font-normal">Tier</th>
                 <th className="pb-2 pr-3 font-normal">Status</th>
                 <th className="pb-2 font-normal" />
               </tr>
@@ -329,6 +331,7 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
                 const isCallable = CALLABLE_STATUSES.has(lead.status);
                 const isSelected = selectedIds.has(lead.id);
                 const isQueueActive = queue.activeLeadId === lead.id;
+                const tier = spendToTier(lead.company?.spend_total);
 
                 return (
                   <tr
@@ -372,6 +375,9 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
                     </td>
                     <td className="py-2 pr-3 text-right align-middle tabular-nums">
                       {formatMonthly(lead.company?.savings_total)}
+                    </td>
+                    <td className="py-2 pr-3 align-middle">
+                      {tier ? <TierBadge tier={tier} /> : '—'}
                     </td>
                     <td className="py-2 pr-3 align-middle">
                       <StatusBadge status={lead.status} />
