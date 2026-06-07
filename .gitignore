@@ -30,7 +30,6 @@ Thumbs.db
 
 .pnpm-store/
 
-# Accidental local artifacts (train-call redirects, npm noise, agent logs)
-agent.log
+# Accidental local artifacts (train-call redirects, npm noise)
 /bash
 moss-hacker-starter@*
