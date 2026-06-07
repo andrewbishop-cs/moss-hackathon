@@ -1,7 +1,152 @@
-# Paul's To-Do — Checkpoint 1
+# Paul's To-Do — Frontend / Website
 
-1. Create Supabase project (coordinate with Andrew — same project)
-2. Ask Claude to generate mock lead JSON
-3. Seed 15 leads into Supabase once Andrew has the table up
+You own: the fake Pump website + the dashboard (all in `frontend/`).
+You don't touch: `backend/`, `agent-py/`. Code against the REST contract in
+`backend/src/models.py`. See [HACKATHON_PLAN.md](HACKATHON_PLAN.md) + [ARCHITECTURE.md](ARCHITECTURE.md).
 
-**Checkpoint**: 15 mock leads visible in Supabase with `pending` status.
+> Done: Supabase project + schema + 15 seeded leads (Paul). Andrew owns the backend from here.
+
+## Phase 1 — Scaffold (don't wait on Andrew)
+- [ ] Add routes: `/pump` (fake website) and `/dashboard`
+- [ ] Build UI against fake JSON shaped like `models.py` (`LeadWithCompany`, `Company`)
+- [ ] Confirm the existing voice starter still runs (`pnpm dev:frontend`)
+
+## Phase 2 — Fake Pump website
+- [ ] UC1 signup form (name, email, company, phone, cloud provider) → `POST /triggers/new-signup`
+  - Show "Account created! You'll hear from us shortly."
+- [ ] UC2 estimate calculator (AWS spend → savings result) → `POST /triggers/estimate-completed`
+  - Show "You could save $X/month." then "We'll call you shortly."
+- [ ] Style like a real SaaS landing page (logo, hero, pricing-ish)
+
+## Phase 3 — Dashboard
+- [ ] Lead queue (`/dashboard`): table from `GET /leads` — name, company, UC1/UC2 badge, status
+- [ ] "Call Now" button → `POST /calls/trigger` (by `lead_id`)
+- [ ] Live call view (`/dashboard/calls/[id]`):
+  - Join the LiveKit room read-only using `room_name` from `GET /leads/:id` (token via existing `frontend/app/api/token/route.ts`)
+  - Render transcript + Moss context panel (reuse `hooks/useMossContextEvents.ts` + `components/app/moss-results-panel.tsx`)
+  - Show UC1/UC2 label + lead context (spend, savings, similar company)
+
+## Phase 4 — Analytics + polish
+- [ ] Analytics (`/dashboard/analytics`): funnel triggered → called → booked (counts from `GET /leads`)
+- [ ] Supabase realtime (or polling) so status updates without refresh
+- [ ] Demo polish: clean visuals, obvious UC1 vs UC2 distinction
+
+## Phase 5 — Demo prep (joint with Andrew)
+- [ ] Dry-run UC1 + UC2 from the website end-to-end
+- [ ] Make sure dashboard live view looks great on the projector
+
+**Checkpoints**: P1 stubbed dashboard · P2 website fires triggers · P3 Call Now + live transcript · P4 analytics live
+
+---
+
+# API Contract — what to collect & what you get back
+
+Base URL: `http://localhost:8000` (Andrew runs FastAPI here; ask him to enable CORS for `localhost:3000`).
+All shapes come from `backend/src/models.py`. Enums:
+- `company_size`: `"1-10" | "11-50" | "51-200" | "201-500" | "500+"`
+- `cloud_provider`: `"aws" | "gcp" | "azure"`
+- `use_case`: `"uc1_new_signup" | "uc2_estimate_completed"`
+- `status`: `"pending" | "calling" | "called" | "booked" | "no_answer" | "declined"`
+
+Shared response objects:
+
+```jsonc
+// Company
+{
+  "id": "uuid", "name": "Acme Corp", "company_size": "51-200", "cloud_provider": "aws",
+  "spend_aws": 42000, "spend_gcp": 0, "spend_azure": 0, "spend_openai": 0, "spend_anthropic": 0, "spend_total": 42000,
+  "savings_aws": 13240, "savings_gcp": 0, "savings_azure": 0, "savings_openai": 0, "savings_anthropic": 0, "savings_total": 13240,
+  "created_at": "2026-06-06T10:00:00Z"
+}
+
+// Lead
+{
+  "id": "uuid", "company_id": "uuid",
+  "first_name": "Sarah", "last_name": "Chen", "email": "sarah@acme.com", "phone": "+14155550101",
+  "timezone": "America/New_York", "use_case": "uc2_estimate_completed", "status": "pending",
+  "created_at": "2026-06-06T10:00:00Z", "called_at": null, "outcome_notes": null
+}
+
+// LeadWithCompany = Lead + { "company": Company }  ← what GET /leads returns
+```
+
+### Endpoints you call
+
+| What | Method + path | You SEND | You GET back |
+|---|---|---|---|
+| UC1 signup (auto-calls) | `POST /triggers/new-signup` | `TriggerNewSignup` (below) | `{ "lead": LeadWithCompany, "room_name": string }` |
+| UC2 estimate done (auto-calls) | `POST /triggers/estimate-completed` | `{ "lead_id": uuid, "savings_total": number }` | `{ "lead": LeadWithCompany, "room_name": string }` |
+| "Call Now" (dashboard) | `POST /calls/trigger` | `{ "lead_id": uuid }` | `{ "lead_id": uuid, "room_name": string }` |
+| List leads (queue + analytics) | `GET /leads` | — | `LeadWithCompany[]` |
+| Lead detail (live view) | `GET /leads/:id` | — | `LeadWithCompany` (+ `room_name` if a call is live) |
+
+`TriggerNewSignup` body (UC1 form collects exactly this):
+
+```json
+{
+  "first_name": "Sarah",
+  "last_name": "Chen",
+  "email": "sarah@acme.com",
+  "phone": "+14155550101",
+  "company_name": "Acme Corp",
+  "company_size": "51-200",
+  "cloud_provider": "aws",
+  "timezone": "America/New_York"
+}
+```
+
+> Phone must be E.164 (`+1` + 10 digits). For UC2, the lead must already exist, so the
+> estimate page needs a `lead_id` (pass it via query param, e.g. `/pump/estimate?lead_id=...`,
+> or pick a demo lead). If you want the estimate to work for brand-new visitors, tell Andrew —
+> that changes the `/triggers/estimate-completed` contract.
+
+---
+
+# Copy-paste prompts (paste into Cursor, one at a time)
+
+### 1. UC1 signup page
+```
+Create a Next.js page at frontend/app/pump/page.tsx for a fake SaaS product called "Pump"
+that cuts AWS bills. Hero + a signup form collecting: first_name, last_name, email,
+phone (E.164, default +1), company_name, company_size (select: 1-10, 11-50, 51-200,
+201-500, 500+), cloud_provider (select: aws, gcp, azure). Default timezone to
+"America/New_York". On submit, POST the JSON to http://localhost:8000/triggers/new-signup,
+then show "Account created — you'll hear from us shortly." Use the existing Tailwind +
+shadcn/ui components in the repo. Handle loading and error states.
+```
+
+### 2. UC2 estimate calculator page
+```
+Create a Next.js page at frontend/app/pump/estimate/page.tsx: an "AWS savings estimate"
+calculator. Read lead_id from the query string. Inputs: monthly AWS spend (number) and a
+few checkboxes (EC2, S3, RDS). Compute savings_total = spend * 0.23 and show
+"You could save $X/month" with a big number. On "Get my plan", POST
+{ lead_id, savings_total } to http://localhost:8000/triggers/estimate-completed, then show
+"We'll call you shortly." Match the Pump styling from app/pump/page.tsx.
+```
+
+### 3. Dashboard lead queue
+```
+Create frontend/app/dashboard/page.tsx: fetch GET http://localhost:8000/leads (returns
+LeadWithCompany[]). Render a table: lead name, company.name, a UC1/UC2 badge from
+use_case, status badge, and AWS spend (company.spend_total). Add a "Call Now" button per
+row that POSTs { lead_id: lead.id } to http://localhost:8000/calls/trigger and, on success,
+routes to /dashboard/calls/[lead_id]. Poll the list every 3s so statuses update.
+```
+
+### 4. Live call view (joins the LiveKit room read-only)
+```
+Create frontend/app/dashboard/calls/[id]/page.tsx. Fetch GET
+http://localhost:8000/leads/:id to get the lead + company + room_name. Connect to that
+LiveKit room as a read-only viewer using a token from the existing /api/token route, render
+the live transcript, and show a Moss context side panel by reusing
+hooks/useMossContextEvents.ts and components/app/moss-results-panel.tsx. Show a header with
+the lead name, UC1/UC2 label, AWS spend, and savings_total.
+```
+
+### 5. Analytics funnel
+```
+Create frontend/app/dashboard/analytics/page.tsx: fetch GET http://localhost:8000/leads and
+compute a funnel from status counts: triggered (all) -> called (called/booked/no_answer/
+declined) -> booked. Render three big stat cards plus a simple bar. Auto-refresh every 5s.
+```

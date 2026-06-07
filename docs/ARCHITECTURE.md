@@ -2,36 +2,37 @@
 
 ## High-Level Flow
 
+The **FastAPI backend is the hub**. The fake website and the dashboard never talk to
+LiveKit / Moss / Supabase directly — they only call FastAPI REST endpoints. A "call"
+is the backend dispatching the agent with metadata; the agent itself dials the phone
+over a LiveKit SIP outbound trunk.
+
 ```
-[Fake Pump Website]
-     │
-     ├── UC1: Account created (no estimate)
-     └── UC2: Estimate completed (no trial)
-     │
-     ▼
-[Trigger Service] — FastAPI endpoint called by website on funnel event
-     │  - determines which use case (UC1 vs UC2)
-     │  - pulls lead context from Supabase
-     │  - indexes context into Moss
-     │
-     ▼
-[LiveKit Voice Agent] — Python
-     │  - LiveKit Inference for STT + LLM + TTS (managed, no provider keys)
-     │  - Moss for real-time lead context retrieval mid-call
-     │  - Runs UC1 or UC2 script based on trigger type
-     │
-     ▼
-[Call Outcome Handler]
-     │  - updates lead status in Supabase
-     │  - if booked → logs meeting
-     │
-     ▼
-[Next.js Dashboard]
-     - fake Pump website (triggers the demo)
-     - live call monitor with transcript
-     - lead queue with UC1/UC2 labels
-     - analytics funnel
+[Fake Pump Website]            [Dashboard]
+   │ POST /triggers/*             │ POST /calls/trigger ("Call Now")
+   │ (UC1 signup / UC2 estimate)  │ GET /leads
+   ▼                              ▼
+[FastAPI backend] ─── upsert company + lead ──▶ [Supabase]
+   │            └──── index lead document ─────▶ [Moss "leads" index]
+   │
+   │  create_dispatch(agent_name="agent-py",
+   │     metadata={ phone_number, lead_id, use_case })
+   ▼
+[LiveKit Cloud] ── job ──▶ [agent-py worker]
+                              │  - create_sip_participant via OUTBOUND TRUNK → real phone rings
+                              │  - LiveKit Inference STT + LLM + TTS (managed, no provider keys)
+                              │  - get_lead_context → Moss (per-lead, <10ms)
+                              │  - runs UC1 or UC2 script (from use_case)
+                              │  - book_meeting / log_outcome → Supabase
+                              ▼
+                           [Lead's phone]
+
+[Dashboard live call view] ── joins the LiveKit room read-only ──▶ transcript + moss_context panel
 ```
+
+Local dev = three processes: Next.js (`pnpm dev:frontend`, `:3000`), FastAPI
+(`uvicorn`, `:8000`), and the agent worker (`pnpm dev:agent-py`, connects to LiveKit
+Cloud). Website/dashboard → FastAPI → (Supabase + Moss + LiveKit dispatch) → agent dials.
 
 ---
 
@@ -60,73 +61,112 @@ Two interactive flows that trigger calls:
 **`companies` table**
 
 ```sql
-id                uuid primary key
-name              text
-company_size      text     -- '1-10', '11-50', '51-200', '201-500', '500+'
-cloud_provider    text     -- 'aws' | 'gcp' | 'azure'
-spend_aws         numeric  default 0
-spend_gcp         numeric  default 0
-spend_azure       numeric  default 0
-spend_openai      numeric  default 0
-spend_anthropic   numeric  default 0
-spend_total       numeric  default 0
-savings_aws       numeric  default 0
-savings_gcp       numeric  default 0
-savings_azure     numeric  default 0
-savings_openai    numeric  default 0
-savings_anthropic numeric  default 0
-savings_total     numeric  default 0
-created_at        timestamp
+id                uuid         primary key default gen_random_uuid()
+name              text         not null
+company_size      text         -- '1-10', '11-50', '51-200', '201-500', '500+'
+cloud_provider    text         -- 'aws' | 'gcp' | 'azure'
+spend_aws         numeric      not null default 0
+spend_gcp         numeric      not null default 0
+spend_azure       numeric      not null default 0
+spend_openai      numeric      not null default 0
+spend_anthropic   numeric      not null default 0
+spend_total       numeric      not null default 0
+savings_aws       numeric      not null default 0
+savings_gcp       numeric      not null default 0
+savings_azure     numeric      not null default 0
+savings_openai    numeric      not null default 0
+savings_anthropic numeric      not null default 0
+savings_total     numeric      not null default 0
+created_at        timestamptz  not null default now()
 ```
 
 **`leads` table**
 
 ```sql
-id              uuid primary key
-company_id      uuid references companies(id)
-first_name      text
-last_name       text
-email           text
-phone           text
-timezone        text
-use_case        text  -- 'uc1_new_signup' | 'uc2_estimate_completed'
-status          text  -- 'pending' | 'calling' | 'called' | 'booked' | 'no_answer' | 'declined'
-created_at      timestamp
-called_at       timestamp
-outcome_notes   text
+id              uuid         primary key default gen_random_uuid()
+company_id      uuid         not null references companies(id)
+first_name      text         not null
+last_name       text         not null
+email           text         not null
+phone           text         not null
+timezone        text         not null
+use_case        text         not null  -- 'uc1_new_signup' | 'uc2_estimate_completed'
+status          text         not null default 'pending'
+                             -- 'pending' | 'calling' | 'called' | 'booked' | 'no_answer' | 'declined'
+created_at      timestamptz  not null default now()
+called_at       timestamptz            -- null until the call is placed
+outcome_notes   text                   -- null until an outcome is logged
 ```
 
 ---
 
-### 3. FastAPI Backend
+### 3. FastAPI Backend (the hub)
 
-**Trigger endpoints** (called by website):
+Every trigger does the same three things: **upsert** the lead/company in Supabase →
+**index** the lead document into the Moss `leads` index → **dispatch** the agent
+(`create_dispatch` with `{ phone_number, lead_id, use_case }`), storing the generated
+`room_name` on the lead so the dashboard can join the call read-only.
 
-- `POST /triggers/new-signup` — UC1 trigger
-- `POST /triggers/estimate-completed` — UC2 trigger
+**Trigger endpoints** (called by the fake website):
+
+- `POST /triggers/new-signup` — UC1: create company+lead → index → dispatch
+- `POST /triggers/estimate-completed` — UC2: set `savings_total` → re-index → dispatch
 
 **Call management**:
 
-- `POST /calls/trigger` — manually trigger a call (dashboard use)
-- `POST /calls/webhook` — LiveKit status callbacks
-- `GET /calls/queue` — current queue
+- `POST /calls/trigger` — manual "Call Now" from dashboard (by `lead_id`) → index → dispatch
+- `POST /calls/outcome` — persist `LogOutcome` (status + notes); also writable by the agent
 
-**Lead endpoints**:
+**Lead endpoints** (read by dashboard):
 
-- `GET /leads` — all leads with status
-- `GET /leads/:id` — single lead detail + call transcript
+- `GET /leads` — all leads with company + status (for queue + analytics)
+- `GET /leads/:id` — single lead detail (+ `room_name` for the live call view)
+
+Request/response shapes are the Pydantic models in `backend/src/models.py` — this is the
+contract the frontend codes against.
 
 ---
 
 ### 4. LiveKit Voice Agent (Python)
 
-- Reads `use_case` from session metadata to determine which script to run
+- Registered dispatch name `agent-py` (must match `AGENT_NAME`). The backend dispatches
+  it per call; do not rename.
+- Reads **dispatch metadata** `{ phone_number, lead_id, use_case }` from `ctx.job.metadata`
+  to know who to dial and which script to run.
 - Tools:
-  - `get_lead_context(lead_id)` — Moss semantic search over lead profile
-  - `book_meeting(lead_id)` — logs booked meeting, updates Supabase
-  - `log_outcome(lead_id, outcome)` — updates status in Supabase
+  - `get_lead_context()` — Moss semantic search over the lead's profile (filtered by `lead_id`)
+  - `search_knowledge(query)` — Moss RAG over Pump product/offer/objection facts
+  - `book_meeting()` — marks the lead `booked` in Supabase
+  - `log_outcome(outcome)` — updates lead `status` + `outcome_notes` in Supabase
 - STT / LLM / TTS all run on **LiveKit Inference** — managed gateway, no separate provider API keys
 - Qwen TTS is an optional stretch swap for a custom voice persona (see Key Technical Decisions)
+
+**Dispatch metadata contract** (backend → agent, the internal seam):
+
+```json
+{ "phone_number": "+14155550101", "lead_id": "<uuid>", "use_case": "uc2_estimate_completed" }
+```
+
+---
+
+### 4a. Outbound Calling (LiveKit SIP)
+
+The agent is **agent-initiated outbound**: the backend dispatches the agent into a fresh
+room with the metadata above, and the agent places the real phone call from inside the job.
+
+- **Outbound trunk**: created once from the Moss-provided number via
+  `lk sip outbound create`; find the id with `lk sip outbound list` (`ST_xxxx`). Store
+  `SIP_OUTBOUND_TRUNK_ID` (+ any `SIP_*` creds) in `agent-py/.env.local`.
+- **Dialing** (in the agent entrypoint, after `ctx.connect()`):
+  `ctx.api.sip.create_sip_participant(CreateSIPParticipantRequest(room_name=ctx.room.name,
+  sip_trunk_id=..., sip_call_to=phone_number, participant_identity=phone_number,
+  wait_until_answered=True))`, then `await ctx.wait_for_participant(identity=phone_number)`
+  before the agent's opening line.
+- **Failure handling**: `create_sip_participant` raises `TwirpError` on busy/no-answer/
+  trunk failure (inspect `sip_status_code`); call `ctx.shutdown()` and log `no_answer`.
+- Reference implementation: `livekit-examples/outbound-caller-python`.
+- **Fallback**: if PSTN is blocked, omit `phone_number` and run the same flow in-browser
+  (a person joins the room as the "lead") — the dispatch path is otherwise identical.
 
 ---
 

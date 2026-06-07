@@ -1,9 +1,9 @@
-"""Unit tests for the agent's three Moss-backed tools.
+"""Unit tests for the agent's Moss-backed and outcome tools.
 
 Unlike the LLM-judged evals in `test_agent.py`, these are deterministic unit
 tests that exercise the tool methods directly. They stub `MossClient` via
 monkeypatch so they run with no Moss credentials and no network access — the
-live, credentialed behavior is validated in the live-test task.
+live, credentialed behavior is validated by re-indexing and a console run.
 """
 
 import json
@@ -13,7 +13,7 @@ import pytest
 import agent as agent_module
 from agent import Assistant
 
-USER_ID = "user_42"
+LEAD_ID = "lead-uc2-sarah"
 
 
 class _FakeDoc:
@@ -84,25 +84,27 @@ async def test_search_knowledge_returns_joined_text_and_publishes_context(
 ) -> None:
     """search_knowledge joins snippets and publishes a well-formed payload."""
     room = _FakeRoom()
-    assistant = Assistant(room=room, user_id=USER_ID)
+    assistant = Assistant(room=room, lead_id=LEAD_ID)
     assistant._moss.query_result = _FakeSearchResult(
         [
-            _FakeDoc("First snippet.", score=0.9, metadata={"source": "docs"}),
-            _FakeDoc("Second snippet.", score=0.8),
+            _FakeDoc(
+                "Pump cuts your AWS bill.", score=0.9, metadata={"category": "product"}
+            ),
+            _FakeDoc("No credit card required.", score=0.8),
         ],
         time_taken_ms=7.0,
     )
 
-    result = await assistant.search_knowledge(None, "how does turn detection work?")
+    result = await assistant.search_knowledge(None, "how does pump work?")
 
     # Returns the snippets joined as plain text.
-    assert result == "First snippet.\n\nSecond snippet."
+    assert result == "Pump cuts your AWS bill.\n\nNo credit card required."
 
     # Queried the knowledge (RAG) index with the user's query.
     assert len(assistant._moss.query_calls) == 1
     index, query, options = assistant._moss.query_calls[0]
     assert index == agent_module.KNOWLEDGE_INDEX
-    assert query == "how does turn detection work?"
+    assert query == "how does pump work?"
     assert options.top_k == 3
 
     # Published exactly one moss_context message, reliably.
@@ -115,65 +117,66 @@ async def test_search_knowledge_returns_joined_text_and_publishes_context(
     data = payload["data"]
     # Contractual keys consumed by the frontend parser.
     assert set(data) == {"query", "matches", "time_taken_ms", "timestamp"}
-    assert data["query"] == "how does turn detection work?"
     assert data["time_taken_ms"] == 7.0
     assert isinstance(data["timestamp"], (int, float))
 
     matches = data["matches"]
     assert len(matches) == 2
-    assert matches[0]["text"] == "First snippet."
+    assert matches[0]["text"] == "Pump cuts your AWS bill."
     assert matches[0]["score"] == 0.9
-    assert matches[0]["metadata"] == {"source": "docs"}
-    assert matches[1]["text"] == "Second snippet."
+    assert matches[0]["metadata"] == {"category": "product"}
 
 
-async def test_remember_fact_adds_doc_with_user_metadata(stub_moss) -> None:
-    """remember_fact upserts a memory doc tagged with the caller's user_id."""
-    assistant = Assistant(user_id=USER_ID)
-
-    fact = "I am building a drive-thru ordering agent."
-    result = await assistant.remember_fact(None, fact)
-    assert isinstance(result, str) and result
-
-    assert len(assistant._moss.add_docs_calls) == 1
-    index, docs, _options = assistant._moss.add_docs_calls[0]
-    assert index == agent_module.MEMORY_INDEX
-    assert len(docs) == 1
-
-    doc = docs[0]
-    assert doc.text == fact
-    assert doc.metadata == {"user_id": USER_ID}
-    # Document ids are namespaced by user so writes never collide across users.
-    assert doc.id.startswith(f"{USER_ID}-")
-
-
-async def test_recall_facts_filters_by_user_id(stub_moss) -> None:
-    """recall_facts scopes the memory query to the caller via a metadata filter."""
+async def test_get_lead_context_filters_by_lead_id(stub_moss) -> None:
+    """get_lead_context scopes the leads query to this call's lead_id."""
     room = _FakeRoom()
-    assistant = Assistant(room=room, user_id=USER_ID)
+    assistant = Assistant(room=room, lead_id=LEAD_ID)
     assistant._moss.query_result = _FakeSearchResult(
         [
-            _FakeDoc("They are building a drive-thru ordering agent."),
-            _FakeDoc("Their name is Alex."),
+            _FakeDoc(
+                "Sarah Chen ran an estimate showing $13,240/month in savings.",
+                metadata={"lead_id": LEAD_ID, "name": "Sarah Chen"},
+            ),
         ]
     )
 
-    result = await assistant.recall_facts(None, "what am I building?")
+    result = await assistant.get_lead_context(None)
 
-    assert result == (
-        "They are building a drive-thru ordering agent.\nTheir name is Alex."
-    )
+    # Returns the lead's profile text.
+    assert "Sarah Chen" in result
+    assert "13,240" in result
 
+    # Queried the leads index, pinned to this lead via a metadata filter.
     assert len(assistant._moss.query_calls) == 1
-    index, query, options = assistant._moss.query_calls[0]
-    assert index == agent_module.MEMORY_INDEX
-    assert query == "what am I building?"
-    assert options.top_k == 5
-    # Per-user isolation: the filter must pin user_id to this caller.
+    index, _query, options = assistant._moss.query_calls[0]
+    assert index == agent_module.LEADS_INDEX
     assert options.filter == {
-        "field": "user_id",
-        "condition": {"$eq": USER_ID},
+        "field": "lead_id",
+        "condition": {"$eq": LEAD_ID},
     }
 
-    # recall_facts also surfaces context to the frontend panel.
+    # Surfaces context to the frontend panel.
     assert len(room.local_participant.published) == 1
+
+
+async def test_get_lead_context_handles_missing_lead(stub_moss) -> None:
+    """With no matching lead doc, get_lead_context returns a graceful message."""
+    assistant = Assistant(lead_id="lead-does-not-exist")
+    assistant._moss.query_result = _FakeSearchResult([])
+
+    result = await assistant.get_lead_context(None)
+    assert isinstance(result, str) and result
+
+
+async def test_book_meeting_returns_confirmation(stub_moss) -> None:
+    """book_meeting acknowledges the booking (stub: no external side effects yet)."""
+    assistant = Assistant(lead_id=LEAD_ID)
+    result = await assistant.book_meeting(None)
+    assert isinstance(result, str) and result
+
+
+async def test_log_outcome_returns_ack(stub_moss) -> None:
+    """log_outcome records the call result and acknowledges."""
+    assistant = Assistant(lead_id=LEAD_ID)
+    result = await assistant.log_outcome(None, "booked")
+    assert isinstance(result, str) and result

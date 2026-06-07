@@ -2,9 +2,11 @@
 
 Creates two indexes from the credentials in ``agent-py/.env.local``:
 
-* the static ``knowledge`` index (RAG corpus), seeded from ``agent-py/knowledge.json``
-* the ``memory`` index (per-user agentic memory), seeded with a single placeholder
-  document so the index exists and can be loaded before the first runtime write.
+* the static ``knowledge`` index (RAG corpus of Pump product / offer / objection
+  facts), seeded from ``agent-py/knowledge.json``
+* the ``leads`` index (one document per lead, tagged with ``lead_id`` metadata),
+  seeded from ``agent-py/leads.json`` for local dev. In production this index is
+  populated from Supabase before each call instead.
 
 Run from the repo root via ``pnpm moss:index`` (which invokes
 ``uv --directory agent-py run src/create_index.py``) once Moss credentials are set.
@@ -26,26 +28,27 @@ from moss import DocumentInfo, MossClient
 # current working directory. ``src/create_index.py`` -> parent.parent == agent-py/.
 AGENT_DIR = Path(__file__).resolve().parent.parent
 KNOWLEDGE_PATH = AGENT_DIR / "knowledge.json"
+LEADS_PATH = AGENT_DIR / "leads.json"
 ENV_PATH = AGENT_DIR / ".env.local"
 
 DEFAULT_MODEL_ID = "moss-minilm"
 DEFAULT_KNOWLEDGE_INDEX = "knowledge"
-DEFAULT_MEMORY_INDEX = "memory"
+DEFAULT_LEADS_INDEX = "leads"
 
 # Load environment variables from agent-py/.env.local.
 load_dotenv(ENV_PATH)
 
 
-def _load_knowledge_documents() -> list[DocumentInfo]:
-    """Load knowledge.json into a list of Moss DocumentInfo entries."""
-    if not KNOWLEDGE_PATH.exists():
-        raise FileNotFoundError(f"Knowledge data file not found at {KNOWLEDGE_PATH}.")
+def _load_documents(path: Path, label: str) -> list[DocumentInfo]:
+    """Load a ``{id, text, metadata}`` JSON list into Moss DocumentInfo entries."""
+    if not path.exists():
+        raise FileNotFoundError(f"{label} data file not found at {path}.")
 
-    with KNOWLEDGE_PATH.open("r", encoding="utf-8") as handle:
+    with path.open("r", encoding="utf-8") as handle:
         data = json.load(handle)
 
     if not isinstance(data, list):
-        raise ValueError("knowledge.json must be a list of document entries.")
+        raise ValueError(f"{path.name} must be a list of document entries.")
 
     documents: list[DocumentInfo] = []
     for entry in data:
@@ -63,31 +66,16 @@ def _load_knowledge_documents() -> list[DocumentInfo]:
         documents.append(DocumentInfo(id=str(doc_id), text=str(text), metadata=metadata))
 
     if not documents:
-        raise ValueError("No valid documents were loaded from knowledge.json.")
+        raise ValueError(f"No valid documents were loaded from {path.name}.")
 
     return documents
-
-
-def _memory_seed_documents() -> list[DocumentInfo]:
-    """A single placeholder doc so the memory index exists and loads cleanly.
-
-    The agent's memory tools upsert real per-user documents at runtime (matching
-    ``id`` upserts). This seed is filtered out at query time by its ``user_id``.
-    """
-    return [
-        DocumentInfo(
-            id="__seed__",
-            text="(memory seed) placeholder document so the memory index can be loaded before the first write.",
-            metadata={"user_id": "__seed__"},
-        )
-    ]
 
 
 async def build_indexes() -> None:
     project_id = os.getenv("MOSS_PROJECT_ID")
     project_key = os.getenv("MOSS_PROJECT_KEY")
     knowledge_index = os.getenv("MOSS_INDEX_NAME", DEFAULT_KNOWLEDGE_INDEX)
-    memory_index = os.getenv("MOSS_MEMORY_INDEX_NAME", DEFAULT_MEMORY_INDEX)
+    leads_index = os.getenv("MOSS_LEADS_INDEX_NAME", DEFAULT_LEADS_INDEX)
     model_id = os.getenv("MOSS_MODEL_ID", DEFAULT_MODEL_ID)
 
     missing = [
@@ -108,8 +96,8 @@ async def build_indexes() -> None:
     assert project_id is not None
     assert project_key is not None
 
-    knowledge_docs = _load_knowledge_documents()
-    memory_docs = _memory_seed_documents()
+    knowledge_docs = _load_documents(KNOWLEDGE_PATH, "Knowledge")
+    leads_docs = _load_documents(LEADS_PATH, "Leads")
 
     client = MossClient(project_id, project_key)
 
@@ -124,16 +112,16 @@ async def build_indexes() -> None:
     )
 
     print(
-        f"Creating Moss memory index '{memory_index}' with "
-        f"{len(memory_docs)} seed doc(s) using model '{model_id}'..."
+        f"Creating Moss leads index '{leads_index}' with "
+        f"{len(leads_docs)} docs using model '{model_id}'..."
     )
-    memory_result = await client.create_index(memory_index, memory_docs, model_id)
+    leads_result = await client.create_index(leads_index, leads_docs, model_id)
     print(
-        f"  done (job: {memory_result.job_id}, index: {memory_result.index_name}, "
-        f"docs: {memory_result.doc_count})"
+        f"  done (job: {leads_result.job_id}, index: {leads_result.index_name}, "
+        f"docs: {leads_result.doc_count})"
     )
 
-    print("Both Moss indexes created. Knowledge (RAG) and memory are ready for use.")
+    print("Both Moss indexes created. Knowledge (RAG) and leads are ready for use.")
 
 
 if __name__ == "__main__":
