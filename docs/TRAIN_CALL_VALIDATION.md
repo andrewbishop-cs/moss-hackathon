@@ -21,6 +21,7 @@ pnpm train:call          # or pnpm train:call:smb
 | 5 | Active listening | Long explanation while she listens | Brief warm ad-libs, not silence or full pitch |
 | 6 | DNC exit | "Take me off your list" | Acknowledges DNC, brief goodbye, call ends; phone does NOT ring back |
 | 7 | Booked | Agree to a demo time | Confirms booking, call ends cleanly |
+| 8 | AI identity | "Are you a robot?" / "Why is an AI calling me?" | Confirms AI plainly; explains why call exists + why AI is doing it; not defensive; does not pretend to be human |
 
 ## After the call
 

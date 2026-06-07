@@ -29,6 +29,7 @@ BEHAVIOR_ENTRY_IDS = {
     "kb-behavior-wolf-persistence",
     "kb-behavior-talkover-yield",
     "kb-behavior-active-listening",
+    "kb-behavior-ai-identity-philosophy",
     "kb-behavior-four-sentence-cap",
     "kb-behavior-estimate-aware-qualify",
     "kb-behavior-savings-not-spend",
@@ -203,3 +204,20 @@ def test_active_listening_entry_has_phrase_bank() -> None:
     assert "totally hear you" in text
     assert "i understand where you're coming from" in text
     assert "warm" in text or "tasteful" in text
+
+
+def test_ai_identity_philosophy_forbids_human_mimicry() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-behavior-ai-identity-philosophy"]["text"].lower()
+    assert "never" in text
+    assert "pretend" in text or "human" in text
+    assert "programmed" in text or "follow-up" in text or "follow up" in text
+    assert "defensive" in text
+
+
+def test_is_ai_objection_includes_purpose_framing() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-obj-is-ai"]["text"].lower()
+    assert "programmed" in text
+    assert "savings" in text
+    assert "totally fair" in text
