@@ -1,7 +1,9 @@
+import atexit
 import contextlib
 import json
 import logging
 import os
+import sys
 import textwrap
 from datetime import datetime, timezone
 
@@ -29,6 +31,22 @@ from moss import MossClient, QueryOptions
 logger = logging.getLogger("agent")
 
 load_dotenv(".env.local")
+
+
+# moss_core's native (Rust) static destructors abort with SIGABRT during the C
+# runtime's __cxa_finalize at normal interpreter exit (a mutex lock on an
+# already-torn-down runtime). This fires on every clean shutdown — and in `dev`
+# mode, on every file-watch reload — producing noisy macOS crash reports even
+# though all call work has already finished. Registered first (so it runs LAST
+# among atexit handlers, after everyone else has flushed), this hard-exits with
+# os._exit, which skips the C++ finalizers entirely and dodges the abort.
+def _hard_exit_skipping_native_finalizers() -> None:
+    sys.stdout.flush()
+    sys.stderr.flush()
+    os._exit(0)
+
+
+atexit.register(_hard_exit_skipping_native_finalizers)
 
 # Moss index names (overridable via env so create_index.py and the agent stay
 # in sync). `knowledge` backs RAG over Pump product/offer/objection facts;
@@ -649,10 +667,17 @@ async def my_agent(ctx: JobContext):
         # English model finalizes faster (and more accurately) than "multi".
         # See all available models at https://docs.livekit.io/agents/models/stt/
         stt=inference.STT(model="deepgram/nova-3", language="en"),
-        # Text-to-speech (TTS): the agent's voice.
+        # Text-to-speech (TTS): the agent's voice. Inworld TTS-2 via LiveKit
+        # Inference (no separate key, co-located = low latency) for a warmer, more
+        # human delivery than Cartesia Sonic. "Serena" is an Inworld default voice.
+        # If latency becomes an issue, "inworld/inworld-tts-1.5-mini" is faster.
         # See all available models and voices at https://docs.livekit.io/agents/models/tts/
         tts=inference.TTS(
-            model="cartesia/sonic-3", voice="9626c31c-bec5-4cca-baa8-f8ba9e84c8bc"
+            model="inworld/inworld-tts-2",
+            voice="Serena",
+            language="en",
+            # 1.3x speaking rate for a snappier, less drawn-out delivery.
+            extra_kwargs={"speaking_rate": 1.3},
         ),
         # VAD and turn detection determine when the user is speaking. English turn
         # detector pairs with the English STT above.
