@@ -21,7 +21,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           <BeepWordmark />
         </div>
         <nav className="flex flex-1 flex-col gap-0.5 px-2 pb-4">
-          <p className="text-muted-foreground px-2 py-1.5 text-[11px] font-medium tracking-wide uppercase">
+          <p className="text-foreground/70 px-2 py-1.5 text-[11px] font-medium tracking-wide uppercase">
             Workspace
           </p>
           {NAV.map((item) => {
@@ -35,10 +35,10 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'flex items-center gap-2 rounded-md px-2 py-1.5 text-[14px] transition-colors',
+                  'flex items-center gap-2 rounded-md border px-2 py-1.5 text-[14px] transition-colors',
                   active
-                    ? 'bg-accent text-foreground font-medium'
-                    : 'text-foreground/80 hover:bg-accent font-normal'
+                    ? 'border-foreground bg-background text-foreground font-medium'
+                    : 'text-foreground/80 hover:border-foreground/30 hover:bg-background border-transparent font-normal'
                 )}
               >
                 <Icon className="size-4 shrink-0 opacity-70" weight={active ? 'fill' : 'regular'} />
@@ -50,7 +50,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
         <div className="px-2 pb-4">
           <Link
             href="/pump"
-            className="text-muted-foreground hover:bg-accent hover:text-foreground flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] font-normal transition-colors"
+            className="text-foreground/70 hover:border-foreground/30 hover:bg-background hover:text-foreground flex items-center gap-2 rounded-md border border-transparent px-2 py-1.5 text-[13px] font-normal transition-colors"
           >
             Pump site
             <span className="opacity-50">↗</span>
@@ -59,7 +59,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
       </aside>
 
       <div className="bg-background flex min-w-0 flex-1 flex-col">
-        <header className="border-border flex items-center gap-3 border-b px-4 py-3 md:hidden">
+        <header className="border-foreground flex items-center gap-3 border-b px-4 py-3 md:hidden">
           <BeepWordmark />
           <nav className="ml-auto flex gap-1">
             {NAV.map((item) => (
@@ -67,10 +67,10 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'rounded-md px-2 py-1 text-[12px]',
+                  'rounded-md border px-2 py-1 text-[12px] transition-colors',
                   pathname === item.href || pathname.startsWith(item.href + '/')
-                    ? 'bg-accent font-medium'
-                    : 'text-muted-foreground font-normal'
+                    ? 'border-foreground bg-background text-foreground font-medium'
+                    : 'text-foreground/70 hover:border-foreground/30 hover:bg-background border-transparent font-normal'
                 )}
               >
                 {item.label}

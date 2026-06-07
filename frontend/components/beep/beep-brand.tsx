@@ -22,7 +22,7 @@ export function BeepWordmark({ href = '/dashboard', className }: { href?: string
     <Link
       href={href}
       className={cn(
-        'hover:bg-accent flex h-9 w-full items-center gap-2 rounded-md px-2 transition-colors',
+        'hover:bg-background flex h-9 w-full items-center gap-2 rounded-md px-2 transition-colors',
         className
       )}
     >

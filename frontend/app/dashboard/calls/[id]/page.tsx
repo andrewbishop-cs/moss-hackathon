@@ -12,7 +12,7 @@ export default async function CallPage({ params }: { params: Promise<{ id: strin
     return (
       <main className="beep-brand bg-background text-foreground mx-auto flex min-h-svh w-full max-w-3xl flex-col items-center justify-center px-4 text-center">
         <h1 className="text-xl font-semibold">Lead not found</h1>
-        <p className="text-muted-foreground mt-2 text-sm">
+        <p className="text-foreground/70 mt-2 text-sm">
           No lead with id <code>{id}</code>.
         </p>
         <Link href="/dashboard" className="text-primary mt-4 text-sm underline">

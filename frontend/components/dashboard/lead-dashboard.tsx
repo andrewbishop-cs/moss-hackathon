@@ -8,7 +8,15 @@ import { StatusBadge, UseCaseBadge } from '@/components/dashboard/badges';
 import { DashboardShell } from '@/components/dashboard/dashboard-shell';
 import { useCallQueue } from '@/hooks/useCallQueue';
 import { getLeads, triggerCall } from '@/lib/api';
-import { BTN_OUTLINE, PAGE_SUBTITLE, PAGE_TITLE } from '@/lib/dashboard-ui';
+import {
+  BTN_OUTLINE,
+  LINK_GHOST,
+  PANEL_OUTLINE,
+  PAGE_SUBTITLE,
+  PAGE_TITLE,
+  ROW_INTERACTIVE,
+  TEXT_SECONDARY,
+} from '@/lib/dashboard-ui';
 import { type LeadWithCompany, formatMonthly, fullName } from '@/lib/leads';
 import { cn } from '@/lib/shadcn/utils';
 
@@ -208,14 +216,14 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
         </div>
 
         {showSchedule && selectedCallable.length > 0 && (
-          <div className="border-border mb-6 flex flex-wrap items-end gap-3 rounded-md border px-4 py-3">
+          <div className={cn(PANEL_OUTLINE, 'mb-6 flex flex-wrap items-end gap-3 px-4 py-3')}>
             <label className="flex flex-col gap-1 text-[13px]">
-              <span className="text-muted-foreground">Start auto-dialer at</span>
+              <span className={TEXT_SECONDARY}>Start auto-dialer at</span>
               <input
                 type="datetime-local"
                 value={scheduleAt}
                 onChange={(e) => setScheduleAt(e.target.value)}
-                className="border-border rounded-md border px-2 py-1.5 text-[14px]"
+                className="border-foreground bg-background rounded-md border px-2 py-1.5 text-[14px]"
               />
             </label>
             <button
@@ -228,7 +236,7 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
             <button
               type="button"
               onClick={() => setShowSchedule(false)}
-              className="text-muted-foreground hover:text-foreground text-[13px]"
+              className={cn(LINK_GHOST, 'text-[13px]')}
             >
               Cancel
             </button>
@@ -236,7 +244,7 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
         )}
 
         {queueLabel && (
-          <div className="border-border bg-accent mb-6 flex flex-wrap items-center justify-between gap-3 rounded-md border px-4 py-2.5 text-[13px]">
+          <div className={cn(PANEL_OUTLINE, 'mb-6 flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 text-[13px]')}>
             <div className="flex items-center gap-2">
               {queue.phase === 'running' && (
                 <SpinnerGapIcon className="size-3.5 animate-spin" />
@@ -260,7 +268,7 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
                 <button
                   type="button"
                   onClick={cancelSchedule}
-                  className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
+                  className={cn(LINK_GHOST, 'inline-flex items-center gap-1')}
                 >
                   <XIcon className="size-3.5" />
                   Cancel
@@ -270,14 +278,14 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
                 <button
                   type="button"
                   onClick={stop}
-                  className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
+                  className={cn(LINK_GHOST, 'inline-flex items-center gap-1')}
                 >
                   <XIcon className="size-3.5" />
                   Stop
                 </button>
               )}
               {queue.phase === 'done' && (
-                <button type="button" onClick={reset} className="text-muted-foreground hover:text-foreground">
+                <button type="button" onClick={reset} className={LINK_GHOST}>
                   Dismiss
                 </button>
               )}
@@ -292,7 +300,7 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left text-[14px]">
             <thead>
-              <tr className="text-muted-foreground border-border border-b text-[12px]">
+              <tr className="text-foreground border-foreground border-b text-[12px]">
                 <th className="w-8 pb-2 pr-2 font-normal">
                   <input
                     type="checkbox"
@@ -302,7 +310,7 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
                     }}
                     onChange={toggleSelectAllCallable}
                     disabled={callableLeads.length === 0}
-                    className="accent-foreground size-3.5 cursor-pointer rounded border"
+                    className="size-3.5 cursor-pointer disabled:cursor-not-allowed disabled:opacity-30"
                     aria-label="Select all callable leads"
                   />
                 </th>
@@ -326,9 +334,13 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
                   <tr
                     key={lead.id}
                     className={cn(
-                      'border-border hover:bg-accent group cursor-pointer border-b transition-colors',
+                      ROW_INTERACTIVE,
+                      'group cursor-pointer',
                       (isCalling || isQueueActive) && 'border-l-2 border-l-sky-500 bg-sky-50/60',
-                      isSelected && !isCalling && !isQueueActive && 'bg-accent/60'
+                      isSelected &&
+                        !isCalling &&
+                        !isQueueActive &&
+                        'ring-1 ring-foreground/20 ring-inset'
                     )}
                     onClick={() => router.push(`/dashboard/calls/${lead.id}`)}
                   >
@@ -338,17 +350,17 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
                         checked={isSelected}
                         disabled={!isCallable || isBusy}
                         onChange={() => toggleSelect(lead.id)}
-                        className="accent-foreground size-3.5 cursor-pointer rounded border disabled:cursor-not-allowed disabled:opacity-30"
+                        className="size-3.5 cursor-pointer disabled:cursor-not-allowed disabled:opacity-30"
                         aria-label={`Select ${fullName(lead)}`}
                       />
                     </td>
                     <td className="py-2 pr-3 align-middle">
                       <div className="font-normal">{fullName(lead)}</div>
-                      <div className="text-muted-foreground text-[12px]">{lead.email}</div>
+                      <div className={cn(TEXT_SECONDARY, 'text-[12px]')}>{lead.email}</div>
                     </td>
                     <td className="py-2 pr-3 align-middle">
                       <div>{lead.company?.name ?? '—'}</div>
-                      <div className="text-muted-foreground text-[12px]">
+                      <div className={cn(TEXT_SECONDARY, 'text-[12px]')}>
                         {lead.company?.cloud_provider} · {lead.company?.company_size}
                       </div>
                     </td>

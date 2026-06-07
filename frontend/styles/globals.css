@@ -142,13 +142,37 @@
   --secondary: oklch(0.975 0.004 90);
   --secondary-foreground: oklch(0.278 0.008 75);
   --muted: oklch(0.278 0.008 75 / 0.06);
-  --muted-foreground: oklch(0.278 0.008 75 / 0.55);
+  --muted-foreground: oklch(0.278 0.008 75 / 0.7);
   --accent: oklch(0.278 0.008 75 / 0.08);
   --accent-foreground: oklch(0.278 0.008 75);
   --destructive: oklch(0.55 0.2 25);
-  --border: oklch(0.278 0.008 75 / 0.09);
-  --input: oklch(0.278 0.008 75 / 0.09);
-  --ring: oklch(0.278 0.008 75 / 0.2);
+  --border: oklch(0.278 0.008 75);
+  --input: oklch(0.278 0.008 75);
+  --ring: oklch(0.278 0.008 75 / 0.35);
+}
+
+.beep-brand input[type='checkbox'] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid oklch(0.278 0.008 75);
+  border-radius: 0.125rem;
+}
+
+.beep-brand input[type='checkbox']:checked {
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3.5 8.25 6.5 11.25 12.5 5.25' stroke='%23232323' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.beep-brand input[type='checkbox']:indeterminate {
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 8h8' stroke='%23232323' stroke-width='1.75' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .dark .beep-brand {
@@ -166,13 +190,13 @@
   --secondary: oklch(0.975 0.004 90);
   --secondary-foreground: oklch(0.278 0.008 75);
   --muted: oklch(0.278 0.008 75 / 0.06);
-  --muted-foreground: oklch(0.278 0.008 75 / 0.55);
+  --muted-foreground: oklch(0.278 0.008 75 / 0.7);
   --accent: oklch(0.278 0.008 75 / 0.08);
   --accent-foreground: oklch(0.278 0.008 75);
   --destructive: oklch(0.55 0.2 25);
-  --border: oklch(0.278 0.008 75 / 0.09);
-  --input: oklch(0.278 0.008 75 / 0.09);
-  --ring: oklch(0.278 0.008 75 / 0.2);
+  --border: oklch(0.278 0.008 75);
+  --input: oklch(0.278 0.008 75);
+  --ring: oklch(0.278 0.008 75 / 0.35);
 }
 
 @theme inline {
