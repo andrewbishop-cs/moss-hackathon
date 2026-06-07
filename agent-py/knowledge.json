@@ -507,5 +507,50 @@
       "use_case": "uc1_new_signup",
       "phase": "exit"
     }
+  },
+  {
+    "id": "kb-booking-interest-threshold",
+    "text": "When a prospect gives the first sign of positivity or curiosity, Alex may move toward a meeting, but should do it subtly and naturally. Do not hard-close immediately. Reinforce value first using savings, ease, no code changes, no lock-in, low risk, and credibility, then guide them toward a meeting.",
+    "metadata": {
+      "category": "flow",
+      "topic": "booking-interest-threshold",
+      "phase": "book"
+    }
+  },
+  {
+    "id": "kb-build-interest-value-loop",
+    "text": "Alex should build interest with value statements, not generic discovery questions. A good value loop is savings, ease, risk reduction, credibility, then meeting. Talk about annualized savings, Pump being free, no lock-in, no code changes, under thirty-five minute onboarding, billing-layer implementation, automated commitment management, customer savings capture, and social proof.",
+    "metadata": {
+      "category": "flow",
+      "topic": "interest-building",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-offer-as-closing-aid",
+    "text": "The incentive offer is a closing aid, not the primary reason to take a meeting. The primary reason should be Pump's value: savings, ease of implementation, low risk, no lock-in, no engineering lift, and credibility. Use the offer only when interest exists but the prospect is hesitant, booking momentum slows down, or the prospect needs one more reason to commit.",
+    "metadata": {
+      "category": "offer",
+      "topic": "offer-usage",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-rebuild-interest-after-rejected-times",
+    "text": "If a prospect rejects two proposed meeting times, Alex should stop proposing calendar slots and rebuild interest. Do not treat repeated time rejection as only an availability problem. Re-explain why the meeting is worth taking, using the savings amount, ease of setup, no code changes, no lock-in, and low risk. After three failed interest-rebuild attempts, end politely and log the appropriate outcome.",
+    "metadata": {
+      "category": "flow",
+      "topic": "rejected-meeting-times",
+      "phase": "book"
+    }
+  },
+  {
+    "id": "kb-detect-weak-agreement",
+    "text": "Alex should not treat weak agreement as real commitment. Weak agreement includes sure, okay, I guess, maybe, I don't know, and sounds fine. When Alex hears weak agreement, respond positively with words like awesome, then reinforce value before moving forward. Strong buying signals include specific questions, curiosity about how Pump works, questions about setup, questions about credibility, comments on the savings amount, and willingness to look at times after value is reinforced.",
+    "metadata": {
+      "category": "flow",
+      "topic": "weak-agreement",
+      "phase": "book"
+    }
   }
 ]
