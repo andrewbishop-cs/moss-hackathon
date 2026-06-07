@@ -25,7 +25,14 @@ export function StatusBadge({ status }: { status: LeadStatus }) {
 
 export function UseCaseBadge({ useCase }: { useCase: UseCase }) {
   return (
-    <span className="bg-neutral-100 text-neutral-600 inline-flex rounded px-1.5 py-0.5 text-[12px] font-normal leading-none">
+    <span
+      className={cn(
+        'inline-flex rounded px-1.5 py-0.5 text-[12px] font-normal leading-none',
+        useCase === 'uc1_new_signup'
+          ? 'bg-violet-50 text-violet-700'
+          : 'bg-blue-50 text-blue-700'
+      )}
+    >
       {USE_CASE_LABEL[useCase]}
     </span>
   );

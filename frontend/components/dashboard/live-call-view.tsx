@@ -16,7 +16,9 @@ import { MossResultsPanel } from '@/components/app/moss-results-panel';
 import { StatusBadge, UseCaseBadge } from '@/components/dashboard/badges';
 import { DashboardShell } from '@/components/dashboard/dashboard-shell';
 import { useMossContextEvents } from '@/hooks/useMossContextEvents';
+import { PAGE_SUBTITLE, PAGE_TITLE } from '@/lib/dashboard-ui';
 import { type LeadWithCompany, formatMonthly, fullName } from '@/lib/leads';
+import { cn } from '@/lib/shadcn/utils';
 
 interface LiveCallViewProps {
   lead: LeadWithCompany;
@@ -27,31 +29,29 @@ interface LiveCallViewProps {
 function ContextPanel({ lead }: { lead: LeadWithCompany }) {
   const company = lead.company;
   return (
-    <div className="space-y-6 text-[13px] font-normal">
+    <div className="space-y-6 text-[14px] font-normal">
+      <p className="text-muted-foreground text-[11px] font-medium tracking-wide uppercase">
+        Lead context
+      </p>
       <div>
         <p className="text-muted-foreground text-[12px]">Estimated savings</p>
-        <p className="mt-1 text-xl font-normal tabular-nums tracking-[-0.01em]">
+        <p className="mt-1 text-xl font-semibold tabular-nums tracking-[-0.01em]">
           {formatMonthly(company?.savings_total)}
           <span className="text-muted-foreground text-[13px] font-normal"> /mo</span>
         </p>
       </div>
-      <dl className="space-y-2">
-        <div className="flex justify-between gap-4">
-          <dt className="text-muted-foreground">Company</dt>
-          <dd>{company?.name ?? '—'}</dd>
-        </div>
-        <div className="flex justify-between gap-4">
-          <dt className="text-muted-foreground">Spend</dt>
-          <dd className="tabular-nums">{formatMonthly(company?.spend_total)}</dd>
-        </div>
-        <div className="flex justify-between gap-4">
-          <dt className="text-muted-foreground">Cloud</dt>
-          <dd className="uppercase">{company?.cloud_provider ?? '—'}</dd>
-        </div>
-        <div className="flex justify-between gap-4">
-          <dt className="text-muted-foreground">Phone</dt>
-          <dd className="tabular-nums">{lead.phone}</dd>
-        </div>
+      <dl className="divide-border divide-y">
+        {[
+          ['Company', company?.name ?? '—'],
+          ['Spend', formatMonthly(company?.spend_total)],
+          ['Cloud', (company?.cloud_provider ?? '—').toUpperCase()],
+          ['Phone', lead.phone],
+        ].map(([label, value]) => (
+          <div key={label} className="flex justify-between gap-4 py-2">
+            <dt className="text-muted-foreground">{label}</dt>
+            <dd className={cn(label !== 'Company' && 'tabular-nums')}>{value}</dd>
+          </div>
+        ))}
       </dl>
     </div>
   );
@@ -70,20 +70,20 @@ function CallSession({ lead }: { lead: LeadWithCompany }) {
   }, []);
 
   return (
-    <div className="grid flex-1 gap-0 overflow-hidden lg:grid-cols-[1fr_300px]">
-      <div className="relative flex min-h-[60vh] flex-col">
+    <div className="border-border grid flex-1 gap-0 overflow-hidden border-t lg:grid-cols-[1fr_280px]">
+      <div className="relative flex min-h-[55vh] flex-col bg-background">
         {!isConnected && (
-          <div className="text-muted-foreground absolute inset-0 z-10 flex items-center justify-center text-[13px]">
+          <div className="text-muted-foreground absolute inset-0 z-10 flex items-center justify-center text-[14px]">
             Connecting…
           </div>
         )}
         <AgentChatTranscript
           agentState={agentState}
           messages={messages}
-          className="h-full px-8 py-6"
+          className="h-full px-10 py-8 md:px-16"
         />
         {isConnected && messages.length === 0 && (
-          <div className="text-muted-foreground pointer-events-none absolute inset-x-0 top-1/2 text-center text-[13px]">
+          <div className="text-muted-foreground pointer-events-none absolute inset-x-0 top-1/2 text-center text-[14px]">
             Waiting for conversation…
           </div>
         )}
@@ -116,25 +116,23 @@ export function LiveCallView({ lead, roomName, isDemo }: LiveCallViewProps) {
   return (
     <DashboardShell>
       <div className="flex min-h-0 flex-1 flex-col">
-        <div className="px-10 py-10 md:px-16 md:py-12">
+        <div className="px-10 py-8 md:px-16 md:py-10">
           <Link
             href="/dashboard"
-            className="text-muted-foreground hover:text-foreground mb-4 inline-flex items-center gap-1.5 text-[13px] font-normal transition-colors"
+            className="border-border bg-background text-foreground hover:bg-accent mb-5 inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-[13px] font-normal transition-colors"
           >
             <ArrowLeftIcon className="size-3.5" />
             Lead queue
           </Link>
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <h1 className="text-foreground text-[2.5rem] leading-[1.2] font-bold tracking-[-0.02em]">
-                {fullName(lead)}
-              </h1>
-              <p className="text-muted-foreground mt-2 text-[14px] font-normal">
+              <h1 className={PAGE_TITLE}>{fullName(lead)}</h1>
+              <p className={PAGE_SUBTITLE}>
                 {company?.name} · {formatMonthly(company?.spend_total)} spend ·{' '}
                 {formatMonthly(company?.savings_total)} savings
               </p>
             </div>
-            <div className="flex items-center gap-2 pt-2">
+            <div className="flex items-center gap-2">
               <UseCaseBadge useCase={lead.use_case} />
               <StatusBadge status={lead.status} />
             </div>
@@ -150,9 +148,9 @@ export function LiveCallView({ lead, roomName, isDemo }: LiveCallViewProps) {
         {tokenSource ? (
           <SessionBoundary tokenSource={tokenSource} lead={lead} />
         ) : (
-          <div className="grid flex-1 gap-0 overflow-hidden lg:grid-cols-[1fr_300px]">
-            <div className="text-muted-foreground flex min-h-[50vh] items-center justify-center px-8 text-center text-[13px]">
-              No active call yet. Hit Call from the queue to start one.
+          <div className="border-border grid flex-1 gap-0 overflow-hidden border-t lg:grid-cols-[1fr_280px]">
+            <div className="text-muted-foreground flex min-h-[50vh] items-center justify-center px-10 text-center text-[14px] md:px-16">
+              No active call yet. Select leads on the queue and hit Call selected.
             </div>
             <aside className="border-border bg-[var(--beep-sidebar)] border-l px-6 py-8">
               <ContextPanel lead={lead} />

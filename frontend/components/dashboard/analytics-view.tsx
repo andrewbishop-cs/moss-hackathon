@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { DashboardShell } from '@/components/dashboard/dashboard-shell';
 import { getLeads } from '@/lib/api';
+import { PAGE_SUBTITLE, PAGE_TITLE } from '@/lib/dashboard-ui';
 import { type LeadStatus, type LeadWithCompany, STATUS_LABEL } from '@/lib/leads';
 
 interface AnalyticsViewProps {
@@ -28,7 +29,7 @@ function StatRow({ label, value, hint }: { label: string; value: number; hint?: 
         <p className="text-[14px] font-normal">{label}</p>
         {hint && <p className="text-muted-foreground mt-0.5 text-[12px] font-normal">{hint}</p>}
       </div>
-      <p className="text-[2rem] leading-none font-bold tabular-nums tracking-[-0.02em]">{value}</p>
+      <p className="text-xl leading-none font-semibold tabular-nums tracking-[-0.01em]">{value}</p>
     </div>
   );
 }
@@ -72,11 +73,9 @@ export function AnalyticsView({ initialLeads, initialIsDemo }: AnalyticsViewProp
   return (
     <DashboardShell>
       <div className="mx-auto w-full max-w-3xl flex-1 px-10 py-12 md:px-16 md:py-14">
-        <div className="mb-10">
-          <h1 className="text-foreground text-[2.5rem] leading-[1.2] font-bold tracking-[-0.02em]">
-            Analytics
-          </h1>
-          <p className="text-muted-foreground mt-2 text-[14px] font-normal">
+        <div className="mb-8">
+          <h1 className={PAGE_TITLE}>Analytics</h1>
+          <p className={PAGE_SUBTITLE}>
             Conversion funnel{isDemo && ' · Demo data'}
           </p>
         </div>

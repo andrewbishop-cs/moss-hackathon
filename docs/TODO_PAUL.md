@@ -15,24 +15,25 @@ schema/migrations — just those content/data files. Code the UI against the RES
 - [x] Confirm the existing voice starter still runs (`pnpm dev:frontend`)
 
 ## Phase 2 — Fake Pump website
-- [ ] UC1 signup form (name, email, company, phone, cloud provider) → `POST /triggers/new-signup`
+- [x] UC1 signup form (name, email, company, phone, cloud provider) → `POST /triggers/new-signup`
   - Show "Account created! You'll hear from us shortly."
-- [ ] UC2 estimate calculator (cloud + AI spend → savings result) → `POST /triggers/estimate-completed`
+- [x] UC2 estimate calculator (cloud + AI spend → savings result) → `POST /triggers/estimate-completed`
   - Show "You could save $X/month." then "We'll call you shortly."
-- [ ] Style like a real SaaS landing page (logo, hero, pricing-ish)
+- [x] Style like a real SaaS landing page (logo, hero, pricing-ish)
 
 ## Phase 3 — Dashboard
-- [ ] Lead queue (`/dashboard`): table from `GET /leads` — name, company, UC1/UC2 badge, status
-- [ ] "Call Now" button → `POST /calls/trigger` (by `lead_id`)
-- [ ] Live call view (`/dashboard/calls/[id]`):
-  - Join the LiveKit room read-only using `room_name` from `GET /leads/:id` (token via existing `frontend/app/api/token/route.ts`)
+- [x] Lead queue (`/dashboard`): table from `GET /leads` — name, company, UC1/UC2 badge, status
+- [x] "Call Now" button → `POST /calls/trigger` (by `lead_id`)
+- [x] Auto-dialer: select leads, Call selected, optional schedule
+- [x] Live call view (`/dashboard/calls/[id]`):
+  - Join the LiveKit room read-only using `room_name` from `GET /leads/:id` (token via `frontend/app/api/viewer-token/route.ts`)
   - Render transcript + Moss context panel (reuse `hooks/useMossContextEvents.ts` + `components/app/moss-results-panel.tsx`)
   - Show UC1/UC2 label + lead context (spend, savings, similar company)
 
 ## Phase 4 — Analytics + polish
-- [ ] Analytics (`/dashboard/analytics`): funnel triggered → called → booked (counts from `GET /leads`)
-- [ ] Supabase realtime (or polling) so status updates without refresh
-- [ ] Demo polish: clean visuals, obvious UC1 vs UC2 distinction
+- [x] Analytics (`/dashboard/analytics`): funnel triggered → called → booked (counts from `GET /leads`)
+- [x] Supabase realtime (or polling) so status updates without refresh
+- [x] Demo polish: Beep/Notion UI, UC1 vs UC2 badge colors, auto-dialer
 
 ## Content — the agent's words (do alongside the UI)
 - [ ] Author the agent playbook in `agent-py/knowledge.json`: product / pricing / offer FAQ +
@@ -43,8 +44,9 @@ schema/migrations — just those content/data files. Code the UI against the RES
 - [ ] After editing either file, ping Andrew to re-run `pnpm moss:index` (re-indexes Moss)
 
 ## Phase 5 — Demo prep (joint with Andrew)
-- [ ] Dry-run UC1 + UC2 from the website end-to-end
-- [ ] Make sure dashboard live view looks great on the projector
+- [ ] Dry-run UC1 + UC2 from the website end-to-end (see `docs/INTEGRATION_CHECKLIST.md`)
+- [ ] Dry-run auto-dialer + live transcript with `pnpm dev:agent-py` running
+- [ ] Expand `agent-py/knowledge.json` from AGENT_SCRIPT.md; ping Andrew to re-index
 
 **Checkpoints**: P1 stubbed dashboard · P2 website fires triggers · P3 Call Now + live transcript · P4 analytics live
 
@@ -57,7 +59,7 @@ All shapes come from `backend/src/models.py`. Enums:
 - `company_size`: `"1-10" | "11-50" | "51-200" | "201-500" | "500+"`
 - `cloud_provider`: `"aws" | "gcp" | "azure"`
 - `use_case`: `"uc1_new_signup" | "uc2_estimate_completed"`
-- `status`: `"pending" | "calling" | "called" | "booked" | "no_answer" | "declined"`
+- `status`: `"pending" | "calling" | "called" | "booked" | "interested" | "callback" | "no_answer" | "declined"`
 
 Shared response objects:
 
