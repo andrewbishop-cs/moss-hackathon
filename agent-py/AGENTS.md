@@ -67,7 +67,7 @@ Paul + ChatGPT own sales coaching; Cursor implements promoted rules.
 | [docs/BEHAVIORAL_PRINCIPLES.md](../docs/BEHAVIORAL_PRINCIPLES.md) | Canonical behavior rules |
 | [docs/IMPLEMENTATION_BACKLOG.md](../docs/IMPLEMENTATION_BACKLOG.md) | Tickets → code/prompt/kb/tests |
 
-Behavioral anchors in `knowledge.json` use ids `kb-behavior-*`. Always-on rules (voicemail, tier privacy, persistence hard stops) live in `agent.py`. Signal detection lives in `call_signals.py`.
+Behavioral anchors in `knowledge.json` use ids `kb-behavior-*`. Always-on rules (voicemail, tier privacy, wolf persistence, DNC exit, talk-over yield, active listening) live in `agent.py`. Signal detection and coaching hints live in `call_signals.py`.
 
 ## Backend integration
 

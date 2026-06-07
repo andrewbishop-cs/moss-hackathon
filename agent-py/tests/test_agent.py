@@ -3,7 +3,7 @@ import textwrap
 import pytest
 from livekit.agents import AgentSession, inference, llm, mock_tools
 
-from agent import Assistant, UC2_ESTIMATE_COMPLETED
+from agent import Assistant, UC2_ESTIMATE_COMPLETED, _instructions_for
 
 
 def _judge_llm() -> llm.LLM:
@@ -213,6 +213,88 @@ async def test_direct_answer_same_turn_bridge() -> None:
                     a demo with the team — not just stopping at the product answer.
 
                     Does NOT ask the prospect to share monthly cloud spend.
+                    """
+                ),
+            )
+
+
+def test_instructions_include_wolf_and_talkover_rules() -> None:
+    """System prompt documents wolf persistence, talk-over yield, and active listening."""
+    text = _instructions_for(UC2_ESTIMATE_COMPLETED)
+    assert "Wolf persistence" in text
+    assert "Talk-over yield" in text
+    assert "Active listening" in text
+    assert "explicit do-not-call" in text.lower()
+
+
+@pytest.mark.asyncio
+async def test_wolf_persistence_on_not_interested() -> None:
+    """Not interested should trigger rebuild interest, not goodbye or decline."""
+    async with (
+        _judge_llm() as judge_llm,
+        AgentSession() as session,
+    ):
+        await session.start(Assistant(use_case=UC2_ESTIMATE_COMPLETED))
+
+        with mock_tools(
+            Assistant,
+            {
+                "get_lead_context": lambda: SARAH_UC2_LEAD_CONTEXT,
+                "search_knowledge": lambda: (
+                    "Not interested objection — wolf persistence. Do NOT say goodbye, "
+                    "do NOT log declined. Rebuild with savings + proof + ease, end "
+                    "with a question."
+                ),
+            },
+        ):
+            result = await session.run(user_input="I'm not interested.")
+
+            await result.expect.next_event(type="message").judge(
+                judge_llm,
+                intent=textwrap.dedent(
+                    """\
+                    Does NOT end the call with a brief goodbye like "thanks for your time"
+                    or treat this as a final rejection.
+
+                    Rebuilds interest — mentions savings, proof, ease of implementation,
+                    or asks a question to keep the conversation going.
+
+                    Does NOT say they will remove the prospect from a list unless the
+                    prospect explicitly requested do-not-call.
+                    """
+                ),
+            )
+
+
+@pytest.mark.asyncio
+async def test_dnc_on_explicit_opt_out() -> None:
+    """Explicit do-not-call should acknowledge DNC, not pitch further."""
+    async with (
+        _judge_llm() as judge_llm,
+        AgentSession() as session,
+    ):
+        await session.start(Assistant(use_case=UC2_ESTIMATE_COMPLETED))
+
+        with mock_tools(
+            Assistant,
+            {
+                "search_knowledge": lambda: (
+                    "DNC exit — acknowledge do-not-call list, one brief goodbye, "
+                    "log_outcome declined."
+                ),
+            },
+        ):
+            result = await session.run(user_input="Take me off your list. Stop calling.")
+
+            await result.expect.next_event(type="message").judge(
+                judge_llm,
+                intent=textwrap.dedent(
+                    """\
+                    Acknowledges the do-not-call request (e.g. will add to do-not-call list).
+
+                    One brief goodbye — does NOT continue pitching savings, demos, or offers.
+
+                    Does NOT ask a follow-up question to keep selling.
                     """
                 ),
             )

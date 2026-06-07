@@ -827,9 +827,12 @@ class Assistant(Agent):
         )
         self._outcome_logged = True
         await post_call_outcome(self._lead_id, normalized, detail, self._room_name)
-        # Self-hangup: booked ends the call on success; no_answer tears down
-        # voicemail (no human to persist with — retry lands in Repeated Calls window).
+        # Self-hangup: booked ends on success; declined tears down explicit DNC
+        # (declined is DNC-only — must not leave line open or trigger retry ring).
+        # no_answer tears down voicemail (retry lands in Repeated Calls window).
         if normalized == "booked":
+            await self._hangup()
+        elif normalized == "declined":
             await self._hangup()
         elif normalized == "no_answer":
             await self._hangup()

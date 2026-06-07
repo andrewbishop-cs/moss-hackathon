@@ -20,8 +20,8 @@ from src.config import AGENT_NAME
 # Outcomes that trigger one instant automatic callback:
 #   - no_answer: voicemail / no pickup. The retry lands inside iPhone's 3-minute
 #     "Repeated Calls" window so the second call breaks through Do Not Disturb.
-#   - declined: a soft/hard no. One more immediate attempt before giving up.
-RETRY_OUTCOMES: frozenset[str] = frozenset({"no_answer", "declined"})
+# declined is DNC-only and must NOT retry (see wolf persistence / DNC exit).
+RETRY_OUTCOMES: frozenset[str] = frozenset({"no_answer"})
 
 # Whether the most recent call dispatched for a lead was itself an auto-retry.
 # Each fresh call (manual "Call Now" or a use-case trigger) is eligible for ONE

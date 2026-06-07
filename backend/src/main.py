@@ -104,11 +104,11 @@ async def call_outcome(payload: LogOutcome):
         db.set_call_outcome(payload.room_name, payload.status, payload.outcome_notes)
     retried = False
     if payload.status in calls.RETRY_OUTCOMES and calls.should_retry(payload.lead_id):
-        # Voicemail/no-answer or a decline: re-dispatch ONCE, immediately. The
-        # retry fires within seconds — for no_answer it lands inside iPhone's
-        # 3-minute "Repeated Calls" window so the second call breaks through Do
-        # Not Disturb / Focus; for declined it's one more instant attempt. The
+        # Voicemail/no-answer: re-dispatch ONCE, immediately. The retry fires
+        # within seconds and lands inside iPhone's 3-minute "Repeated Calls"
+        # window so the second call breaks through Do Not Disturb / Focus. The
         # retry is flagged so its own outcome can't spawn another (one per call).
+        # declined (explicit DNC) does not retry.
         await calls.start_call(payload.lead_id, is_retry=True)
         retried = True
     return {"ok": True, "retried": retried}
