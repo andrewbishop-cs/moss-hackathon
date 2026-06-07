@@ -46,7 +46,35 @@ schema/migrations — just those content/data files. Code the UI against the RES
 - [ ] iPhone DND prep + test call with DND on
 - [ ] Ping Andrew: `pnpm moss:index` after knowledge.json updates
 
+## Phase 6 — Stretch: deeper UI, analytics, transcripts & follow-up (if time)
+
+> Priority: 6a analytics/UI first · 6b transcripts second · 6c email/LinkedIn last.
+> Paul owns frontend only; flag Andrew for any new API/table work.
+
+### 6a — Deeper analytics & dashboard UI (frontend-only)
+- [ ] Analytics: UC1 vs UC2 conversion split (group `use_case` on existing `GET /leads` data)
+- [ ] Analytics: connect rate + booked rate (% of triggered → called → booked)
+- [ ] Analytics: disposition breakdown by spend tier (`lib/tiers.ts`) and cloud provider
+- [ ] Analytics: simple bar chart or visual funnel (keep polling; no new endpoint required)
+- [ ] Lead queue: post-call summary column or expandable row (`outcome_notes`, disposition, `called_at`)
+- [ ] Live call view: post-call mode when `room_name` clears — show final disposition + insights instead of idle placeholder
+- [ ] Call insights: richer call summary (disposition next action from LEAD_DISPOSITIONS.md + key Moss topics + highlights)
+
+### 6b — Transcript reference (post-call)
+- [ ] Ping Andrew: persist transcript chunks to Supabase during/after call + `GET /leads/:id/transcript` (see HACKATHON_PLAN fallback)
+- [ ] **OR** frontend-only fallback: capture live transcript in session state during live view and stash per `lead_id` (localStorage / in-memory) for demo replay
+- [ ] Post-call transcript panel on `/dashboard/calls/[id]` — scrollable replay after room ends
+- [ ] Copy transcript button (clipboard) for quick reference
+
+### 6c — Email & LinkedIn follow-up scripts (end-of-hackathon)
+- [ ] Follow-up panel on call detail: draft **email** body from disposition + transcript highlights + lead context (name, savings, UC hook)
+- [ ] Same panel: draft **LinkedIn** connection/note message (shorter, conversational tone)
+- [ ] Surface disposition next action from [LEAD_DISPOSITIONS.md](LEAD_DISPOSITIONS.md) as the suggested CTA (e.g. "re-queue in 2 days", "AE notified")
+- [ ] Copy-to-clipboard for each draft — no SendGrid/LinkedIn API needed for demo
+- [ ] (Optional) Pull objection-handling lines from `agent-py/knowledge.json` / Moss topics discussed as "script reference" snippets
+
 **Checkpoints**: P1 stubbed dashboard · P2 website fires triggers · P3 Call Now + live transcript · P4 analytics live
+**Stretch checkpoint**: P6a richer funnel · P6b post-call transcript · P6c email/LinkedIn drafts
 
 ---
 

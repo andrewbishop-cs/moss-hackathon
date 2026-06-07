@@ -2,6 +2,8 @@
 
 **Target:** 2 minutes · UC2 first · Real PSTN to Paul's iPhone (DND on)
 
+**Exact spoken words:** [DEMO_SCRIPT.md](DEMO_SCRIPT.md) · **Anthropic context brief:** [ANTHROPIC_DEMO_CONTEXT.md](ANTHROPIC_DEMO_CONTEXT.md)
+
 ## Before you start (5 min)
 
 ### Three terminals
@@ -17,6 +19,15 @@ pnpm dev:frontend   # :3000
 ```bash
 ./scripts/smoke-backend.sh
 ```
+
+### Tier demo dry-run (automated)
+
+```bash
+./scripts/dry-run-tier-demo.sh           # SMB + Whale
+./scripts/dry-run-tier-demo.sh --whale   # Whale only (tight-time)
+```
+
+Log: [DEMO_DRY_RUN_LOG.md](DEMO_DRY_RUN_LOG.md)
 
 ### Tier demo data (Supabase)
 

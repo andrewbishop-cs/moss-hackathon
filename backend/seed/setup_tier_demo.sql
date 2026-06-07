@@ -38,7 +38,7 @@ INSERT INTO leads (
   (
     'b1000000-0016-0000-0000-000000000016',
     'a1b2c3d4-0006-0000-0000-000000000006',
-    'Alex', 'Rivera', 'alex@beaconlabs.io', '+1YOUR_VERIFIED_NUMBER',
+    'Alex', 'Rivera', 'alex@beaconlabs.io', '+19145598426',
     'America/New_York', 'uc2_estimate_completed', 'pending', '2026-06-05T19:00:00Z'
   ),
   (
@@ -58,7 +58,7 @@ ON CONFLICT (id) DO UPDATE SET
 
 -- Whale hero (Michael Truell @ Cursor) — same verified phone for live PSTN calls.
 UPDATE leads
-SET phone = '+1YOUR_VERIFIED_NUMBER'
+SET phone = '+19145598426'
 WHERE id IN (
   'b1000000-0001-0000-0000-000000000001',
   'b1000000-0016-0000-0000-000000000016'
