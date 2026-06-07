@@ -1,76 +1,116 @@
 # AGENTS.md
 
-This is a LiveKit Agents project. LiveKit Agents is a Python SDK for building voice AI agents. This project is intended to be used with LiveKit Cloud. See @README.md for more about the rest of the LiveKit ecosystem.
+Guide for coding agents working on **Alex** — Pump's outbound voice sales agent built with [LiveKit Agents](https://docs.livekit.io/agents/) and [Moss](https://docs.moss.dev/docs). See @README.md for general LiveKit setup and @docs/ARCHITECTURE.md for the full system diagram.
 
-The following is a guide for working with this project.
+## What this agent does
+
+**Alex** is an AI customer success manager at Pump who makes outbound PLG sales calls. Two use cases share the same persona and tools but differ in the opening hook:
+
+| Use case | ID | Hook |
+|----------|-----|------|
+| New signup, no estimate | `uc1_new_signup` | Social proof + ask monthly spend to qualify |
+| Estimate completed, no trial | `uc2_estimate_completed` | Lead with their annual savings number, then tier offer |
+
+The backend dispatches jobs with metadata `{ lead_id, use_case, phone_number? }`. When `phone_number` is present, the agent dials out via a LiveKit SIP trunk; otherwise it runs in-room/console mode. Registered agent name is `agent-py` — do not rename.
 
 ## Project structure
 
-This Python project uses the `uv` package manager. You should always use `uv` to install dependencies, run the agent, and run tests.
+This Python project uses the `uv` package manager. Always use `uv` to install dependencies, run the agent, and run tests.
 
-All app-level code is in the `src/` directory. In general, simple agents can be constructed with a single `agent.py` file. Additional files can be added, but you must retain `agent.py` as the entrypoint (see the associated Dockerfile for how this is deployed).
+All app-level code is in `src/`. `agent.py` is the entrypoint (see the Dockerfile). Supporting modules:
 
-Be sure to maintain code formatting. You can use the ruff formatter/linter as needed: `uv run ruff format` and `uv run ruff check`.
+- `call_signals.py` — rule-based booking signal detection; injects coaching hints mid-call
+- `transcript_store.py` — captures turns and persists transcripts on shutdown
+- `create_index.py` — rebuilds Moss indexes from JSON seed files
+
+Format with ruff: `uv run ruff format` and `uv run ruff check`.
 
 ## Moss semantic search
 
-This is more than a generic voice assistant: it is a **Moss**-powered semantic-search agent. [Moss](https://docs.moss.dev/docs) is a Python SDK for semantic search with on-device AI capabilities. The agent uses it for both retrieval-augmented generation (RAG) and per-user agentic memory.
-
-Moss ships as the `moss` package (already in `pyproject.toml`; install standalone with `pip install moss`). The agent talks to Moss through `MossClient`, authenticated with `MOSS_PROJECT_ID` / `MOSS_PROJECT_KEY` (see `.env.example`). The agent uses `inference` for STT/LLM/TTS, so Moss credentials are the only non-LiveKit secrets to wire.
+[Moss](https://docs.moss.dev/docs) backs RAG over Pump product facts and per-lead context. The agent talks to Moss through `MossClient`, authenticated with `MOSS_PROJECT_ID` / `MOSS_PROJECT_KEY` (see `.env.example`). STT/LLM/TTS run on LiveKit Inference — Moss credentials are the main non-LiveKit secrets.
 
 ### Indexes
 
-The agent reads and writes two Moss indexes (names overridable via `MOSS_INDEX_NAME` / `MOSS_MEMORY_INDEX_NAME`):
+Two Moss indexes (names overridable via `MOSS_INDEX_NAME` / `MOSS_LEADS_INDEX_NAME`):
 
-- **`knowledge`** — the static RAG corpus. Read-only at runtime; seeded from `knowledge.json`.
-- **`memory`** — per-user agentic memory. Read **and** write at runtime. Every document carries `metadata={"user_id": <id>}`, and recall queries are scoped to the caller with a metadata filter so users never see each other's facts.
+- **`knowledge`** — static RAG corpus. Read-only at runtime; seeded from `knowledge.json`.
+- **`leads`** — one document per lead, tagged with `lead_id` metadata. Read-only at runtime; seeded from `leads.json` for local dev. In production the backend indexes each lead from Supabase before dispatch.
 
-`src/create_index.py` builds both indexes from `knowledge.json` (plus a seed doc for `memory`). Run it from the repo root via `pnpm moss:index` (which calls `uv --directory agent-py run src/create_index.py`) once Moss credentials are set.
+`src/create_index.py` builds both indexes. Run from the repo root via `pnpm moss:index` once Moss credentials are set. Re-run after any change to `knowledge.json` or `leads.json`.
 
 ### Tools
 
-The `Assistant` (in `src/agent.py`) exposes three `@function_tool()` methods:
+The `Assistant` (in `src/agent.py`) exposes four `@function_tool()` methods:
 
-- **`search_knowledge(query)`** — queries the `knowledge` index (RAG), returns the joined snippet text, and publishes a `moss_context` data message to the room for the frontend context panel.
-- **`remember_fact(fact)`** — upserts a document into the `memory` index via `add_docs`, tagged with the current user's `user_id` metadata.
-- **`recall_facts(query)`** — queries the `memory` index filtered to the current user (`filter={"field": "user_id", "condition": {"$eq": <user_id>}}`) and publishes a `moss_context` message.
+- **`get_lead_context()`** — queries the `leads` index filtered to the current `lead_id`. Normally preloaded into the system prompt in `on_enter`; use as a fallback mid-call.
+- **`search_knowledge(query)`** — queries the `knowledge` index (RAG), returns joined snippet text, and publishes a `moss_context` data message to the room for the frontend context panel.
+- **`book_meeting(when, tier)`** — records a booked demo via `POST {BACKEND_URL}/calls/outcome` with status `booked`.
+- **`log_outcome(outcome, notes)`** — records the call disposition via the same backend endpoint. Valid outcomes: `booked`, `interested`, `callback`, `declined`, `no_answer`, `disqualified`, `bad_data`, `reengage_90d`. Auto-hangup on `no_answer` and `declined`.
 
-The per-user `user_id` is parsed from `ctx.job.metadata` (dispatched by the frontend), falling back to a default for `console` mode. When you change a Moss tool's behavior, follow the TDD guidance below and update `tests/test_moss.py`, which stubs `MossClient` so the tools can be tested without Moss credentials or network access.
+`lead_id` and `use_case` are parsed from `ctx.job.metadata` (dispatched by the backend), falling back to defaults for `console` mode. When you change tool behavior, follow the TDD guidance below and update `tests/test_moss.py`, which stubs `MossClient` for deterministic unit tests.
 
-## LiveKit Documentation
+## System prompt and script sync
 
-LiveKit Agents is a fast-evolving project, and the documentation is updated frequently. You should always refer to the latest documentation when working with this project. For your convenience, LiveKit offers both a CLI and an MCP server that can be used to browse and search its documentation. If the developer has not yet installed the CLI, you should recommend that they install it.
+Call flow, guardrails, and tool-usage rules live in `_instructions_for()` and `_opening_for()` in `src/agent.py`. These must stay aligned with `docs/AGENT_SCRIPT.md` — the agent source explicitly references that doc.
 
-### LiveKit CLI
+Speakable product facts, objection lines, and phase-specific scripts live in `knowledge.json` and are retrieved at runtime via `search_knowledge`. When changing script wording, update **both** the system prompt (for control-plane rules) and `knowledge.json` (for RAG content), then re-index.
 
-The [LiveKit CLI](https://docs.livekit.io/intro/basics/cli/) `lk docs` subcommand gives full access to LiveKit documentation from the terminal. Requires CLI version 2.15.0+. Check with `lk --version`.
+Do not duplicate the entire call flow in both places. System prompt = control plane; knowledge = content plane.
 
-Install or update the CLI:
+## Coaching loop (sales behavior)
 
-- **macOS:** `brew install livekit-cli` (update: `brew update && brew upgrade livekit-cli`)
-- **Linux:** `curl -sSL https://get.livekit.io/cli | bash`
-- **Windows:** `winget install LiveKit.LiveKitCLI` (update: `winget upgrade LiveKit.LiveKitCLI`)
+Paul + ChatGPT own sales coaching; Cursor implements promoted rules.
 
-Run `lk docs --help` to see all available commands. Key commands: `lk docs overview`, `lk docs search`, `lk docs get-page`, `lk docs code-search`, `lk docs changelog`, `lk docs submit-feedback`. Run `lk docs <command> --help` before using a command for the first time, as the help text includes advice on usage and interpreting results. Prefer browsing (`overview`, `get-page`) over search, and prefer `search` over `code-search`, as docs pages are more up-to-date and provide better context than raw code.
+| Doc | Purpose |
+|-----|---------|
+| [docs/COACHING_LOG.md](../docs/COACHING_LOG.md) | Raw call observations |
+| [docs/BEHAVIORAL_PRINCIPLES.md](../docs/BEHAVIORAL_PRINCIPLES.md) | Canonical behavior rules |
+| [docs/IMPLEMENTATION_BACKLOG.md](../docs/IMPLEMENTATION_BACKLOG.md) | Tickets → code/prompt/kb/tests |
 
-### LiveKit Docs MCP Server
+Behavioral anchors in `knowledge.json` use ids `kb-behavior-*`. Always-on rules (voicemail, tier privacy, persistence hard stops) live in `agent.py`. Signal detection lives in `call_signals.py`.
 
-For deeper IDE integration, LiveKit also offers an [MCP server](https://docs.livekit.io/reference/developer-tools/docs-mcp/) with the same documentation access. It uses Streamable HTTP transport at `https://docs.livekit.io/mcp`. Refer to your IDE's documentation for how to add it.
+## Backend integration
 
-### Submit docs feedback to LiveKit
+The agent does not write to Supabase directly. Outcomes and transcripts go through the FastAPI hub:
 
-If you use the LiveKit CLI or MCP Server to search or browse documentation, also submit constructive feedback to LiveKit with `lk docs submit-feedback` or the MCP `submit_docs_feedback` tool. Add this to your to-do list when planning work, to ensure you file feedback after completing your other tasks. Useful feedback includes incomplete documentation, broken examples, missing steps or any other documentation gap or issue.
+- `POST {BACKEND_URL}/calls/outcome` — `book_meeting` and `log_outcome` (see `docs/LEAD_DISPOSITIONS.md` for the 7-category framework)
+- Transcript upload on session shutdown via `transcript_store.py`
 
-## Handoffs and tasks ("workflows")
+Set `BACKEND_URL` in `.env.local` (default `http://localhost:8000`).
 
-Voice AI agents are highly sensitive to excessive latency. For this reason, it's important to design complex agents in a structured manner that minimizes the amount of irrelevant context and unnecessary tools included in requests to the LLM. LiveKit Agents supports handoffs (one agent hands control to another) and tasks (tightly-scoped prompts to achieve a specific outcome) to support building reliable workflows. You should make use of these features, instead of writing long instruction prompts that cover multiple phases of a conversation.  Refer to the [documentation](https://docs.livekit.io/agents/build/workflows/) for more information.
+## Outbound telephony
+
+When dispatch metadata includes `phone_number`, the agent dials via `SIP_OUTBOUND_TRUNK_ID` using `create_sip_participant`. On voicemail or answering machine, the agent stays silent, calls `log_outcome("no_answer")`, and hangs up — never leaves a message.
+
+## Call signals and transcripts
+
+`call_signals.py` classifies prospect utterances (weak agreement, positive curiosity, strong intent) and injects a `# Booking coaching (this turn)` block into the system prompt dynamically. Update `tests/test_call_signals.py` when changing signal phrases.
+
+`transcript_store.py` records each turn (with signal tags for lead utterances) and persists locally plus to the backend on shutdown.
+
+## Environment variables
+
+Key vars in `.env.example`:
+
+- `MOSS_PROJECT_ID`, `MOSS_PROJECT_KEY`, `MOSS_INDEX_NAME`, `MOSS_LEADS_INDEX_NAME`
+- `BACKEND_URL`
+- `SIP_OUTBOUND_TRUNK_ID` (outbound calls)
+- `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`
 
 ## Testing
 
-When possible, add tests for agent behavior. Read the [documentation](https://docs.livekit.io/agents/start/testing/), and refer to existing tests in the `tests/` directory.  Run tests with `uv run pytest`.
+Run tests with `uv run pytest` from `agent-py/`.
 
-Important: When modifying core agent behavior such as instructions, tool descriptions, and tasks/workflows/handoffs, never just guess what will work. Always use test-driven development (TDD) and begin by writing tests for the desired behavior. For instance, if you're planning to add a new tool, write one or more tests for the tool's behavior, then iterate on the tool until the tests pass correctly. This will ensure you are able to produce a working, reliable agent for the user.
+| File | What it covers |
+|------|----------------|
+| `tests/test_moss.py` | Moss tools (`search_knowledge`, `get_lead_context`, `book_meeting`, `log_outcome`) — deterministic unit tests |
+| `tests/test_call_signals.py` | Booking signal classification and coaching hints |
+| `tests/test_agent.py` | LLM-judged behavioral evals (disclosure, grounding, guardrails) |
 
-## LiveKit CLI
+When modifying core agent behavior — instructions, tool descriptions, call flow — use test-driven development. Write tests for the desired behavior first, then iterate until they pass. For new tools, add cases to `test_moss.py`. For prompt/script changes, add or update evals in `test_agent.py`.
 
-Beyond documentation access, the LiveKit CLI (`lk`) supports other tasks such as managing SIP trunks for telephony-based agents. Run `lk --help` to explore available commands.
+## LiveKit reference
+
+LiveKit Agents docs evolve quickly. Use the [LiveKit CLI](https://docs.livekit.io/intro/basics/cli/) (`lk docs`, requires v2.15.0+) or the [docs MCP server](https://docs.livekit.io/reference/developer-tools/docs-mcp/) at `https://docs.livekit.io/mcp` to browse current APIs. The CLI also manages SIP trunks and other infrastructure — run `lk --help` to explore.
+
+Install CLI: macOS `brew install livekit-cli`, Linux `curl -sSL https://get.livekit.io/cli | bash`, Windows `winget install LiveKit.LiveKitCLI`.

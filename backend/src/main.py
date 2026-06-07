@@ -10,7 +10,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from src import calls, db
+from src import calls, db, transcripts
 from src.config import FRONTEND_ORIGIN
 from src.models import (
     LogOutcome,
@@ -32,6 +32,21 @@ class CallTrigger(BaseModel):
     lead_id: UUID
 
 
+class TranscriptTurn(BaseModel):
+    role: str
+    text: str
+    timestamp: str
+    signal: str | None = None
+
+
+class CallTranscriptPayload(BaseModel):
+    lead_id: UUID
+    room_name: str
+    use_case: str
+    turns: list[TranscriptTurn]
+    saved_at: str | None = None
+
+
 @app.get("/health")
 def health():
     return {"ok": True}
@@ -48,6 +63,20 @@ def get_lead(lead_id: UUID):
         return db.get_lead(lead_id)
     except Exception as exc:  # noqa: BLE001 - surface as 404 for the dashboard
         raise HTTPException(status_code=404, detail="lead not found") from exc
+
+
+@app.get("/leads/{lead_id}/transcript")
+def get_lead_transcript(lead_id: UUID):
+    data = transcripts.get_latest_transcript(lead_id)
+    if data is None:
+        raise HTTPException(status_code=404, detail="transcript not found")
+    return data
+
+
+@app.post("/calls/transcript")
+def save_call_transcript(payload: CallTranscriptPayload):
+    path = transcripts.save_transcript(payload.model_dump(mode="json"))
+    return {"ok": True, "path": str(path)}
 
 
 @app.post("/triggers/new-signup")

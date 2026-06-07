@@ -29,7 +29,7 @@
   },
   {
     "id": "lead-uc1-marcus",
-    "text": "Marcus Lee signed up on the Pump website from Northwind, an 11-50 person company, but never ran a savings estimate. Companies similar to Northwind, like Globex, save about 9,800 dollars per month with Pump. Use case: UC1 (new signup, no estimate).",
+    "text": "Marcus Lee signed up on the Pump website from Northwind, an 11-50 person company, but never ran a savings estimate. Companies similar to Northwind, like Globex, save about 9,800 dollars per month with Pump (similar_savings in metadata is monthly — multiply by twelve when quoting annual savings in the UC1 qualify hook). Use case: UC1 (new signup, no estimate).",
     "metadata": {
       "lead_id": "lead-uc1-marcus",
       "name": "Marcus Lee",
@@ -43,7 +43,7 @@
   },
   {
     "id": "lead-uc1-priya",
-    "text": "Priya Nair signed up on the Pump website from Cohere Retail, a 51-200 person company, but never ran a savings estimate. Companies similar to Cohere Retail, like Initech, save about 15,200 dollars per month with Pump. Use case: UC1 (new signup, no estimate).",
+    "text": "Priya Nair signed up on the Pump website from Cohere Retail, a 51-200 person company, but never ran a savings estimate. Companies similar to Cohere Retail, like Initech, save about 15,200 dollars per month with Pump (similar_savings in metadata is monthly — multiply by twelve when quoting annual savings in the UC1 qualify hook). Use case: UC1 (new signup, no estimate).",
     "metadata": {
       "lead_id": "lead-uc1-priya",
       "name": "Priya Nair",

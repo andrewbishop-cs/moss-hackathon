@@ -11,6 +11,16 @@ Complete before the joint PSTN dry run. ~10 minutes.
 
 Confirm this is your **Twilio-verified** E.164 number.
 
+## Automated checks (done)
+
+```bash
+pnpm demo:check   # backend, frontend, agent, SIP trunk, hero leads
+```
+
+- [x] `SIP_OUTBOUND_TRUNK_ID` set in `agent-py/.env.local` (`ST_RkZbHfV4vC87`)
+- [x] Hero leads pending with `+19145598426`
+- [x] Whale dry run dispatches and PSTN participant joins room (agent log)
+
 ## Contacts + Favorites
 
 - [ ] Add Twilio outbound caller ID to **Contacts** (name it "Pump Demo" or similar)
@@ -30,12 +40,10 @@ Confirm this is your **Twilio-verified** E.164 number.
 
 ## Test call (required before judges)
 
-**Prerequisite:** `agent-py/.env.local` must include `SIP_OUTBOUND_TRUNK_ID` (ask Andrew if missing).
-
-1. Run whale dry run: `./scripts/dry-run-tier-demo.sh --whale`
+1. Run whale dry run: `pnpm demo:dry-run:whale` (or `pnpm demo:fallback-prep`)
 2. **Answer when phone rings** — confirm you hear the agent
 3. Hang up after one exchange
-4. Reset: `uv --directory backend run python -m src.reset`
+4. Reset: `pnpm reset:leads`
 
 ## Demo window
 

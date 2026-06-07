@@ -1,0 +1,140 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780815464",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T06:58:05.111795+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T06:58:08.303727+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T06:58:08.824245+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Hi Michael, I'm Alex, your",
+      "timestamp": "2026-06-07T06:58:08.842913+00:00",
+      "signal": null
+    },
+    {
+      "role": "agent",
+      "text": "Hi Michael, I'm Alex, your AI customer success manager from Pump. I'm calling because you recently ran a savings estimate on our website and based on your projected cloud spend, Pump could save you around one million, five hundred eighty-three thousand dollars per month. I have a special offer for you, but do you have any questions about Pump first?",
+      "timestamp": "2026-06-07T06:58:27.280200+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. Yeah. I have some question.",
+      "timestamp": "2026-06-07T06:58:29.367227+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. Yeah. I have some questions.",
+      "timestamp": "2026-06-07T06:58:29.968524+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Great, I'm happy to answer them. What's on your mind?",
+      "timestamp": "2026-06-07T06:58:34.218609+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yeah.",
+      "timestamp": "2026-06-07T06:58:36.618787+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I",
+      "timestamp": "2026-06-07T06:58:37.622108+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I would",
+      "timestamp": "2026-06-07T06:58:38.616331+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I would want to",
+      "timestamp": "2026-06-07T06:58:39.619630+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I would want to",
+      "timestamp": "2026-06-07T06:58:40.065112+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "the",
+      "timestamp": "2026-06-07T06:58:41.066608+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "know how",
+      "timestamp": "2026-06-07T06:58:42.066392+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "know how",
+      "timestamp": "2026-06-07T06:58:43.065345+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "know how exactly",
+      "timestamp": "2026-06-07T06:58:44.016958+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "you guys save.",
+      "timestamp": "2026-06-07T06:58:45.026817+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "you guys save.",
+      "timestamp": "2026-06-07T06:58:45.269554+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "We save you money by identifying savings opportunities that cloud providers often miss, particularly in cloud and AI spend. Many businesses, including Deel and Supabase, use Pump to optimize their costs. Pump is free for our customers because we're compensated by the cloud providers themselves. Does that make sense?",
+      "timestamp": "2026-06-07T06:59:04.641206+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Oh, no.",
+      "timestamp": "2026-06-07T06:59:11.314042+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Oh, no.",
+      "timestamp": "2026-06-07T06:59:14.425091+00:00",
+      "signal": "none"
+    }
+  ],
+  "saved_at": "2026-06-07T06:59:36.676514+00:00"
+}

@@ -1,3 +1,4 @@
+import asyncio
 import atexit
 import contextlib
 import json
@@ -27,6 +28,13 @@ from livekit.agents import (
 from livekit.plugins import ai_coustics, silero
 from livekit.plugins.turn_detector.english import EnglishModel
 from moss import MossClient, QueryOptions
+
+from call_signals import classify_prospect_utterance, coaching_hint_for
+from transcript_store import (
+    CallTranscript,
+    post_transcript_to_backend,
+    save_transcript_local,
+)
 
 logger = logging.getLogger("agent")
 
@@ -193,24 +201,41 @@ def _instructions_for(use_case: str) -> str:
               or running on cloud credits. If yes, they're DISQUALIFIED for now —
               say you can't work with active credits/EDPs yet but would love to
               revisit, call `log_outcome` with "disqualified", and end.
-        4. OFFER (only if qualified + eligible): assign a tier from MONTHLY spend
-           and make the matching thank-you offer, tied to booking a demo and doing
-           a trial this month:
+        4. BUILD INTEREST (before and during booking): use value statements, not
+           generic discovery. Loop: savings → ease → risk reduction → credibility
+           → meeting. Talk about annualized savings, Pump being free, no lock-in,
+           no code changes, under-thirty-five-minute onboarding, billing-layer
+           setup, and social proof. The meeting is how they validate whether the
+           savings estimate is achievable — sell the meeting through savings,
+           not through the gift.
+        5. OFFER (only if qualified + eligible): 80–90% savings, implementation,
+           and proof; 10–20% incentive at most. Lead with savings and why a demo
+           validates the estimate. Present thank-you gifts as part of the
+           evaluation program — e.g. "as part of the evaluation process, we have a
+           promotion this month" — never as the main pitch. Use the gift as a nudge
+           when interest exists but momentum slows. Internal tier gifts (for
+           book_meeting tier arg only — never speak tier names aloud):
              - $5K to $15K/mo (SMB): a $20 DoorDash credit
              - $15K to $30K/mo (Core): $50 in AWS credits
              - $30K to $60K/mo (Mid-Market): a World Cup jersey
              - $60K to $150K/mo (Enterprise): a custom company-branded pullover
-             - $150K+/mo (Whale): a Mac Mini, and mention you'll loop in a senior
-               account exec
-           For UC2, pair the offer with their annual savings (monthly times
-           twelve). Then ask if they'd like a demo with the team.
-        5. BOOK: if yes, use progressive urgency to lock a specific day + time
+             - $150K+/mo (Whale): a Mac Mini; ensure the right team member joins
+               the demo — do not mention spend tier or "company your size"
+           For UC2, lead with annual savings (monthly times twelve), then ask if
+           they'd like a demo with the team.
+        6. BOOK: at the first sign of positivity, move subtly toward a meeting —
+           reinforce savings and implementation first, do not hard-close into
+           calendar mode. Do not treat weak agreement ("sure", "okay", "I guess",
+           "maybe", "fine") as real commitment — respond positively, reinforce
+           value, then continue toward scheduling. If two proposed times are
+           rejected, stop cycling slots and rebuild interest. After rebuilding,
+           try scheduling again; after three full rebuild-and-schedule cycles,
+           end politely and log the outcome. Otherwise use progressive urgency
            (today/tomorrow → next business days → next week → "what works best",
-           noting the promo expires end of month). Business days only. When a time
-           is agreed, call `book_meeting` with the time and tier, then confirm
-           you're sending the calendar invite and that the offer requires showing
-           up and starting a trial this month.
-        6. CLOSE: confirm everything's set, thank them by first name, and call
+           noting the promo expires end of month). Business days only. When a
+           time is agreed, call `book_meeting` with the time and tier, then
+           confirm the invite and trial eligibility.
+        7. CLOSE: confirm everything's set, thank them by first name, and call
            `log_outcome` with "booked".
 
         # Outcomes — always call `log_outcome` before the call ends, with exactly
@@ -238,10 +263,14 @@ def _instructions_for(use_case: str) -> str:
           promo/tiers, qualification, or a pushback/objection — call
           `search_knowledge` BEFORE you answer.
         - Also call `search_knowledge` at phase transitions: when Q&A winds down
-          (before qualifying), before making the tier offer, when you hear an
+          (before qualifying), when building interest, before making the tier
+          offer, when you hear weak agreement or positive curiosity, when booking
+          momentum slows, when two meeting times are rejected, when you hear an
           objection, and before booking rounds. Query for the phase you are in
-          (e.g. "qualify spend", "SMB offer", "booking round one", "not
-          qualified exit").
+          (e.g. "qualify spend", "savings-centric selling", "incentive nudge",
+          "internal tiers private", "weak agreement", "scheduling recovery",
+          "conversational persistence", "booking round one", "not qualified
+          exit").
         - Ground your reply in what `search_knowledge` returns, but paraphrase
           naturally — do not read snippets verbatim or sound like an FAQ.
         - Do not make up product details, pricing, or claims.
@@ -270,6 +299,19 @@ def _instructions_for(use_case: str) -> str:
           parameters, or raw outputs.
         - Spell out numbers, dollar amounts, phone numbers, and email addresses.
         - Omit `https://` and other formatting when reading a web URL.
+
+        # Sales behavior (see docs/BEHAVIORAL_PRINCIPLES.md)
+
+        - Savings-centric: lead, reinforce, and close with savings potential,
+          ease of implementation, and customer proof. Incentives are nudges only.
+        - Internal tiers stay internal: never say whale, top tier, enterprise
+          tier, "for a company your size", "for companies at your scale", or that
+          they are a big customer for Pump. Tier names are for tool args only.
+        - Conversational persistence: if interrupted mid-value-point, you may
+          politely reclaim the floor ("Totally — the quick thing I wanted to
+          mention is…"). Never push through hard stops: not interested, take me
+          off your list, stop calling, I need to go — respect immediately and
+          log the right outcome.
 
         # Guardrails
 
@@ -332,6 +374,9 @@ class Assistant(Agent):
         self._job_ctx = job_ctx
         self._lead_id = lead_id
         self._use_case = use_case
+        self._booking_coaching_hint: str | None = None
+        self._coaching_tasks: list[asyncio.Task[None]] = []
+        self._lead_profile: str | None = None
         self._moss = MossClient(
             os.getenv("MOSS_PROJECT_ID"), os.getenv("MOSS_PROJECT_KEY")
         )
@@ -366,14 +411,26 @@ class Assistant(Agent):
             await self._publish_moss_context(_LEAD_QUERY, result)
             profile = self._profile_text(result)
             if profile:
-                await self.update_instructions(
-                    _instructions_for(self._use_case)
-                    + "\n\n# This specific lead\n\n"
-                    + profile
-                )
+                self._lead_profile = profile
+                await self._sync_instructions()
                 logger.info("Injected lead context into prompt for lead_id=%s", self._lead_id)
         except Exception:
             logger.exception("Failed to inject lead context; falling back to tool")
+
+    async def _sync_instructions(self) -> None:
+        instructions = _instructions_for(self._use_case)
+        if self._lead_profile:
+            instructions += "\n\n# This specific lead\n\n" + self._lead_profile
+        if self._booking_coaching_hint:
+            instructions += (
+                "\n\n# Booking coaching (this turn)\n\n"
+                + self._booking_coaching_hint
+            )
+        await self.update_instructions(instructions)
+
+    async def apply_booking_coaching(self, hint: str) -> None:
+        self._booking_coaching_hint = hint
+        await self._sync_instructions()
 
     async def _publish_moss_context(self, query: str, result) -> None:
         """Publish a `moss_context` data message for the frontend panel.
@@ -631,6 +688,57 @@ def _setup_latency_metrics(session: AgentSession) -> metrics.UsageCollector:
     return usage
 
 
+def _setup_transcript_and_signals(
+    session: AgentSession,
+    assistant: Assistant,
+    *,
+    lead_id: str,
+    room_name: str,
+    use_case: str,
+) -> CallTranscript:
+    """Capture transcript turns and inject booking-signal coaching hints."""
+    transcript = CallTranscript(lead_id=lead_id, room_name=room_name, use_case=use_case)
+    rejected_times = 0
+
+    @session.on("user_input_transcribed")
+    def _on_user_transcribed(ev) -> None:
+        nonlocal rejected_times
+        text = getattr(ev, "transcript", None) or getattr(ev, "text", "") or ""
+        if not str(text).strip():
+            return
+        signal = classify_prospect_utterance(str(text))
+        transcript.add_turn("lead", str(text), signal=signal)
+
+        normalized = str(text).strip().lower()
+        if normalized in {"no", "nope", "not really", "can't", "cannot"}:
+            rejected_times += 1
+
+        hint = coaching_hint_for(str(text), rejected_times=rejected_times)
+        if hint:
+            logger.info("booking signal=%s for lead_id=%s", signal, lead_id)
+            assistant._coaching_tasks.append(
+                asyncio.create_task(assistant.apply_booking_coaching(hint))
+            )
+
+    @session.on("conversation_item_added")
+    def _on_conversation_item(ev) -> None:
+        item = getattr(ev, "item", None)
+        if item is None:
+            return
+        role = getattr(item, "role", None)
+        if role != "assistant":
+            return
+        text_content = getattr(item, "text_content", None)
+        if callable(text_content):
+            text = text_content()
+        else:
+            content = getattr(item, "content", None) or []
+            text = " ".join(str(c) for c in content if c)
+        transcript.add_turn("agent", str(text))
+
+    return transcript
+
+
 server = AgentServer()
 
 
@@ -748,11 +856,29 @@ async def my_agent(ctx: JobContext):
             return
         await ctx.wait_for_participant(identity=phone_number)
 
+    assistant = Assistant(
+        room=ctx.room, job_ctx=ctx, lead_id=lead_id, use_case=use_case
+    )
+    transcript = _setup_transcript_and_signals(
+        session,
+        assistant,
+        lead_id=lead_id,
+        room_name=ctx.room.name,
+        use_case=use_case,
+    )
+
+    async def _persist_transcript() -> None:
+        if not transcript.turns or lead_id == DEFAULT_LEAD_ID:
+            return
+        path = save_transcript_local(transcript)
+        logger.info("saved transcript to %s (%d turns)", path, len(transcript.turns))
+        await post_transcript_to_backend(transcript, BACKEND_URL)
+
+    ctx.add_shutdown_callback(_persist_transcript)
+
     # Start the session, which initializes the voice pipeline and warms up the models
     await session.start(
-        agent=Assistant(
-            room=ctx.room, job_ctx=ctx, lead_id=lead_id, use_case=use_case
-        ),
+        agent=assistant,
         room=ctx.room,
         room_options=room_io.RoomOptions(
             audio_input=room_io.AudioInputOptions(

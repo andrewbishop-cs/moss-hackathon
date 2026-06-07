@@ -5,6 +5,39 @@ Spoken script: [DEMO_SCRIPT.md](DEMO_SCRIPT.md)
 
 ---
 
+## 2026-06-07 — Hour 10+ demo prep plan execution
+
+### Completed
+
+| Check | Result |
+|-------|--------|
+| SIP env restored | `SIP_OUTBOUND_TRUNK_ID=ST_RkZbHfV4vC87` added to `agent-py/.env.local` |
+| Agent worker restarted | Picks up new SIP config |
+| `pnpm demo:check` | 6 passed, 0 failed (3 manual iPhone warnings) |
+| SMB dispatch | `status=calling` · Alex · room assigned |
+| Whale dispatch | `status=calling` · Michael · room assigned |
+| PSTN participant joined | Agent log: `participant=+19145598426` · Moss loaded · LLM started |
+| Demo prep scripts | `demo-prep-check.sh`, `pitch-rehearsal.sh`, `fallback-video-prep.sh`, `pitch-rehearsal-batch.sh` |
+| pnpm shortcuts | `demo:check`, `demo:dry-run`, `demo:fallback-prep`, `demo:pitch`, `demo:pitch:batch` |
+
+### Manual steps still required (Paul)
+
+| Step | Detail |
+|------|--------|
+| Answer phone during dry run | Confirm audio + agent script on speaker |
+| iPhone prep | [DEMO_IPHONE_PREP.md](DEMO_IPHONE_PREP.md) — Contacts, Favorites, DND, ringer |
+| Record fallback video | [FALLBACK_VIDEO.md](FALLBACK_VIDEO.md) — run `pnpm demo:fallback-prep` then Cmd+Shift+5 |
+| Spoken pitch × 3 | [PITCH_REHEARSAL_LOG.md](PITCH_REHEARSAL_LOG.md) — use `pnpm demo:pitch` |
+
+### Resolved blockers
+
+| Issue | Resolution |
+|-------|------------|
+| SIP env missing | Trunk ID added; agent successfully dials PSTN |
+| Hour-9 PSTN blocked | Fixed — participant joins room within ~15s of dispatch |
+
+---
+
 ## 2026-06-07 — Hour 9 plan execution (automated + blocked items)
 
 ### Completed
