@@ -9,19 +9,21 @@ You don't touch: `frontend/`. See [HACKATHON_PLAN.md](HACKATHON_PLAN.md) + [ARCH
 - [ ] Confirm Moss indexes exist (`pnpm moss:index`)
 - [ ] Enable CORS in FastAPI for `http://localhost:3000` (the frontend calls you directly)
 
-## Phase 2 — FastAPI hub
-- [ ] `backend/src/main.py`: FastAPI app + Supabase client + Moss client
-- [ ] Shared helper: `upsert lead/company → index lead doc into Moss "leads" → dispatch agent`
-- [ ] `POST /triggers/new-signup` (UC1) — body = `TriggerNewSignup`
-- [ ] `POST /triggers/estimate-completed` (UC2) — body = `TriggerEstimateCompleted` (set `savings_total`)
-- [ ] `GET /leads` and `GET /leads/:id` (return `LeadWithCompany`)
-- [ ] Dispatch via `agent_dispatch.create_dispatch(agent_name="agent-py", room=<new>, metadata=json)`; store `room_name` on the lead
-- [ ] Prove the path in-browser first (no SIP): trigger → agent joins with right `lead_id`/`use_case`
+## Phase 2 — FastAPI hub  ✅ DONE
+- [x] `backend/src/main.py` + `config.py`/`db.py`/`moss_index.py`/`calls.py` (FastAPI + Supabase + Moss clients)
+- [x] Shared helper `calls.start_call()`: `upsert lead/company → index lead doc into Moss "leads" → dispatch agent`
+- [x] `POST /triggers/new-signup` (UC1) — body = `TriggerNewSignup`
+- [x] `POST /triggers/estimate-completed` (UC2) — body = `TriggerEstimateCompleted`
+- [x] `POST /calls/trigger` (manual), `POST /calls/outcome`
+- [x] `GET /leads` and `GET /leads/:id` (return `LeadWithCompany`) — verified against live Supabase (15 leads)
+- [x] Dispatch via `agent_dispatch.create_dispatch(agent_name="agent-py", room=<new>, metadata={phone_number,lead_id,use_case})`; store `room_name` on the lead
+- [x] Run: `pnpm dev:backend` (uvicorn :8000). Frontend `/dashboard` wired to it.
+- [ ] Verify a trigger actually lands a job on the running `agent-py` worker (run `pnpm dev:agent-py`, then Call Now)
 
 ## Phase 3 — Real phone calls (LiveKit SIP + Twilio)
-- [ ] Twilio: create account, buy a number, create an Elastic SIP trunk; capture termination URI (`<name>.pstn.twilio.com`) + SIP creds; **verify demo phone numbers** (trial accounts only dial verified numbers)
-- [ ] Register the Twilio trunk with LiveKit: `lk sip outbound create` (pass `<name>.pstn.twilio.com` address + Twilio number)
-- [ ] Get trunk id: `lk sip outbound list` → `ST_xxxx`; add `SIP_OUTBOUND_TRUNK_ID` + `SIP_AUTH_USERNAME`/`SIP_AUTH_PASSWORD` to `agent-py/.env.local`
+- [x] ~~Twilio Elastic SIP trunk + LiveKit outbound trunk~~ — done (`ST_RkZbHfV4vC87`, `beep-outbound.pstn.twilio.com`); test call connects via CLI
+- [x] `SIP_OUTBOUND_TRUNK_ID` / `SIP_AUTH_USERNAME` / `SIP_AUTH_PASSWORD` in `agent-py/.env.local`
+- [ ] Twilio still in TRIAL → only dials **verified** numbers. Set a demo lead's `phone` to a verified number (or upgrade the account)
 - [ ] `agent-py/src/agent.py`: read `phone_number` from `ctx.job.metadata`
 - [ ] After `ctx.connect()`: `ctx.api.sip.create_sip_participant(CreateSIPParticipantRequest(room_name=ctx.room.name, sip_trunk_id=..., sip_call_to=phone_number, participant_identity=phone_number, wait_until_answered=True))`
 - [ ] `await ctx.wait_for_participant(identity=phone_number)` before the opening line

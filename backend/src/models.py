@@ -56,6 +56,9 @@ class Lead(BaseModel):
     created_at: datetime
     called_at: Optional[datetime] = None
     outcome_notes: Optional[str] = None
+    # LiveKit room for the lead's active/most-recent call. Set by the backend at
+    # dispatch time so the dashboard can join that room read-only to watch the call.
+    room_name: Optional[str] = None
 
 
 class LeadWithCompany(Lead):

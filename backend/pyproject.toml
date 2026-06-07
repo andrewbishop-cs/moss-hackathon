@@ -1,0 +1,27 @@
+[project]
+name = "pump-backend"
+version = "1.0.0"
+description = "FastAPI hub: website triggers -> Supabase + Moss + LiveKit agent dispatch"
+requires-python = ">=3.10, <3.15"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "supabase>=2.7",
+    "livekit-api>=1.0",
+    "moss>=1.4",
+    "python-dotenv>=1.0",
+]
+
+[tool.uv]
+# This is an app, not a library — don't try to build/install it as a package.
+package = false
+# yarl 1.24.1 shipped only a cp310 wheel; mirror the agent-py constraint so installs
+# work on Python 3.11+.
+constraint-dependencies = ["yarl<1.24"]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+ignore = ["E501"]

@@ -28,4 +28,4 @@ ALTER TABLE leads
 
 -- Resulting columns:
 --   id, company_id, first_name, last_name, email, phone, timezone,
---   use_case, status, created_at, called_at, outcome_notes
+--   use_case, status, created_at, called_at, outcome_notes, room_name

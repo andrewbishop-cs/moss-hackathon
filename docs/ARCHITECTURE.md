@@ -96,6 +96,7 @@ status          text         not null default 'pending'
 created_at      timestamptz  not null default now()
 called_at       timestamptz            -- null until the call is placed
 outcome_notes   text                   -- null until an outcome is logged
+room_name       text                   -- LiveKit room for the active/last call (set at dispatch)
 ```
 
 ---

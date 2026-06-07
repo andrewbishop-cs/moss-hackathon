@@ -17,6 +17,9 @@ agent-py/.pytest_cache/
 .env.local
 .env.*.local
 
+# SIP trunk config (holds Twilio SIP credentials)
+outbound-trunk.json
+
 # OS
 .DS_Store
 Thumbs.db
