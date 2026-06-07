@@ -1,0 +1,80 @@
+{
+  "lead_id": "b1000000-0018-0000-0000-000000000018",
+  "room_name": "call-b1000000-1780833998",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "agent",
+      "text": "Hey, this is Alex, an AI customer success manager calling from pump.co. I'm just calling because I saw you ran an estimate. Are there any questions that I could answer for you about pump?",
+      "timestamp": "2026-06-07T12:07:05.086238+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Why are you",
+      "timestamp": "2026-06-07T12:07:07.816650+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Why are you calling",
+      "timestamp": "2026-06-07T12:07:07.955764+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Why are you calling me?",
+      "timestamp": "2026-06-07T12:07:08.417051+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I’m reaching out because you ran a savings estimate on our site, and I’m here to answer any questions you might have about how Pump works. Your estimate shows about four hundred eighty‑three thousand dollars a year in potential savings, and as part of our evaluation program we can send you a Mac Mini. Would you be open to a quick walkthrough to see how we can capture that savings?",
+      "timestamp": "2026-06-07T12:07:29.249681+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "I'm on",
+      "timestamp": "2026-06-07T12:07:31.321821+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I'm honest enough,",
+      "timestamp": "2026-06-07T12:07:31.827940+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I'm honestly not very interested.",
+      "timestamp": "2026-06-07T12:07:32.617607+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I understand, many people are busy and may not be focused on cost projects right now. Just so you know, customers typically capture around seventy to eighty percent of that projected savings, and we’re even offering a Mac Mini as a thank‑you for a quick demo. Would it be helpful to walk through a brief overview of how the platform works?",
+      "timestamp": "2026-06-07T12:07:51.855004+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Fine. Yeah. Which",
+      "timestamp": "2026-06-07T12:07:55.066147+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "lead",
+      "text": "Fine. Yeah. We can.",
+      "timestamp": "2026-06-07T12:07:55.421237+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "agent",
+      "text": "Perfect, you're all set — I've got that booked and I'm sending the calendar invite now. Just a heads up: the offer is for people who show up and start a trial this month, so keep an eye out for it. Talk soon!",
+      "timestamp": "2026-06-07T12:08:08.220633+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T12:08:09.817692+00:00"
+}

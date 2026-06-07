@@ -1,0 +1,313 @@
+2026-06-07 04:44:17,515 INFO    [pid:23234] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:44:17,515 INFO    [pid:23234] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:44:17,523 DEBUG   [pid:23234] asyncio Using selector: KqueueSelector
+2026-06-07 04:44:17,525 DEV     [pid:23234] livekit.agents Watching /Users/paulrusso/moss-hackathon/agent-py/src
+2026-06-07 04:44:18,989 INFO    [pid:23286] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:44:18,989 INFO    [pid:23286] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:44:18,990 DEBUG   [pid:23286] asyncio Using selector: KqueueSelector
+2026-06-07 04:44:18,997 INFO    [pid:23286] livekit.agents starting worker
+2026-06-07 04:44:18,998 INFO    [pid:23286] livekit.agents plugin registered
+2026-06-07 04:44:18,999 INFO    [pid:23286] livekit.agents plugin registered
+2026-06-07 04:44:18,999 INFO    [pid:23286] livekit.agents plugin registered
+2026-06-07 04:44:19,000 INFO    [pid:23286] livekit.agents plugin registered
+2026-06-07 04:44:19,001 INFO    [pid:23286] livekit.agents starting inference executor
+2026-06-07 04:44:19,007 INFO    [pid:23286] livekit.agents initializing process
+2026-06-07 04:44:23,195 INFO    [pid:23286] livekit.agents process initialized
+2026-06-07 04:44:23,200 INFO    [pid:23286] livekit.agents HTTP server listening on :60314
+2026-06-07 04:44:23,393 INFO    [pid:23286] livekit.agents registered worker
+2026-06-07 04:46:22,763 INFO    [pid:23286] livekit.agents received job request
+2026-06-07 04:46:22,790 DEBUG   [pid:23286] livekit.agents received assignment
+2026-06-07 04:46:22,791 WARNING [pid:23286] livekit.agents no warmed process available for job, waiting for one to be created
+2026-06-07 04:46:22,795 INFO    [pid:23286] livekit.agents initializing process
+2026-06-07 04:46:24,191 DEBUG   [pid:23481] asyncio Using selector: KqueueSelector
+2026-06-07 04:46:24,191 DEBUG   [pid:23481] asyncio Using selector: KqueueSelector
+2026-06-07 04:46:25,719 INFO    [pid:23481] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:46:25,719 INFO    [pid:23481] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:46:25,721 DEBUG   [pid:23481] asyncio Using selector: KqueueSelector
+2026-06-07 04:46:25,725 INFO    [pid:23286] livekit.agents process initialized
+2026-06-07 04:46:25,721 DEBUG   [pid:23481] asyncio Using selector: KqueueSelector
+2026-06-07 04:46:26,313 WARNING [pid:23481] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:46:26,313 WARNING [pid:23481] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:46:27,700 INFO    [pid:23481] agent startup phase=connect elapsed_ms=1386
+2026-06-07 04:46:27,700 DEBUG   [pid:23481] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:46:27,700 INFO    [pid:23481] agent startup phase=connect elapsed_ms=1386
+2026-06-07 04:46:27,700 DEBUG   [pid:23481] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:46:40,734 INFO    [pid:23481] agent startup phase=sip_answered elapsed_ms=14420
+2026-06-07 04:46:40,734 INFO    [pid:23481] agent startup phase=sip_answered elapsed_ms=14420
+2026-06-07 04:46:40,757 DEBUG   [pid:23481] livekit.agents input stream attached
+2026-06-07 04:46:40,757 DEBUG   [pid:23481] livekit.agents input stream attached
+2026-06-07 04:46:40,757 INFO    [pid:23481] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:46:40,759 DEBUG   [pid:23481] livekit.agents start reading stream
+2026-06-07 04:46:40,757 INFO    [pid:23481] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:46:40,759 DEBUG   [pid:23481] livekit.agents start reading stream
+2026-06-07 04:46:40,761 INFO    [pid:23481] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:46:40,761 INFO    [pid:23481] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:46:40,762 DEBUG   [pid:23481] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:46:40,762 DEBUG   [pid:23481] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:46:40,762 INFO    [pid:23481] agent startup phase=session_start elapsed_ms=6 total_ms=14449
+2026-06-07 04:46:40,762 DEBUG   [pid:23481] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:46:40,763 INFO    [pid:23481] agent Lead context (from metadata) ready for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:46:40,762 DEBUG   [pid:23481] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:46:40,762 INFO    [pid:23481] agent startup phase=session_start elapsed_ms=6 total_ms=14449
+2026-06-07 04:46:40,763 INFO    [pid:23481] agent Lead context (from metadata) ready for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:46:41,818 DEBUG   [pid:23481] livekit.agents aec warmup active, disabling interruptions for 3.00s
+2026-06-07 04:46:41,818 DEBUG   [pid:23481] livekit.agents aec warmup active, disabling interruptions for 3.00s
+2026-06-07 04:46:44,134 INFO    [pid:23481] agent latency[TTS] ttfb=413ms duration=2729ms
+2026-06-07 04:46:44,134 INFO    [pid:23481] agent latency[RESPONSE] ~413ms (eou=0 + llm_ttft=0 + tts_ttfb=413)
+2026-06-07 04:46:44,134 INFO    [pid:23481] agent latency[TTS] ttfb=413ms duration=2729ms
+2026-06-07 04:46:44,134 INFO    [pid:23481] agent latency[RESPONSE] ~413ms (eou=0 + llm_ttft=0 + tts_ttfb=413)
+2026-06-07 04:46:44,819 DEBUG   [pid:23481] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:46:44,819 DEBUG   [pid:23481] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:46:51,969 INFO    [pid:23481] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:46:51,970 INFO    [pid:23481] agent startup phase=opening_say elapsed_ms=10607 total_ms=25657
+2026-06-07 04:46:51,969 INFO    [pid:23481] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:46:51,970 INFO    [pid:23481] agent startup phase=opening_say elapsed_ms=10607 total_ms=25657
+2026-06-07 04:46:54,617 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:46:54,617 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:46:54,659 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:46:54,659 DEBUG   [pid:23481] livekit.agents received user transcript
+2026-06-07 04:46:54,659 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:46:54,659 DEBUG   [pid:23481] livekit.agents received user transcript
+2026-06-07 04:46:55,058 DEBUG   [pid:23481] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:46:55,058 DEBUG   [pid:23481] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:46:55,059 WARNING [pid:23481] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:46:55,059 INFO    [pid:23481] agent latency[EOU] eou_delay=605ms transcription_delay=206ms
+2026-06-07 04:46:55,059 WARNING [pid:23481] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:46:55,059 INFO    [pid:23481] agent latency[EOU] eou_delay=605ms transcription_delay=206ms
+2026-06-07 04:46:55,076 INFO    [pid:23481] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:46:55,076 INFO    [pid:23481] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:46:56,580 INFO    [pid:23481] agent latency[LLM] ttft=757ms duration=1518ms tok/s=235
+2026-06-07 04:46:56,580 INFO    [pid:23481] agent latency[LLM] ttft=757ms duration=1518ms tok/s=235
+2026-06-07 04:47:01,071 INFO    [pid:23481] agent latency[TTS] ttfb=450ms duration=4596ms
+2026-06-07 04:47:01,071 INFO    [pid:23481] agent latency[RESPONSE] ~1813ms (eou=605 + llm_ttft=757 + tts_ttfb=450)
+2026-06-07 04:47:01,071 INFO    [pid:23481] agent latency[TTS] ttfb=450ms duration=4596ms
+2026-06-07 04:47:01,071 INFO    [pid:23481] agent latency[RESPONSE] ~1813ms (eou=605 + llm_ttft=757 + tts_ttfb=450)
+2026-06-07 04:47:16,321 INFO    [pid:23481] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:16,321 INFO    [pid:23481] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:17,910 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:17,910 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:18,910 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:18,911 DEBUG   [pid:23481] livekit.agents received user transcript
+2026-06-07 04:47:18,910 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:18,911 DEBUG   [pid:23481] livekit.agents received user transcript
+2026-06-07 04:47:19,220 DEBUG   [pid:23481] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:47:19,220 DEBUG   [pid:23481] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:47:19,809 INFO    [pid:23481] agent latency[LLM] ttft=497ms duration=894ms tok/s=193
+2026-06-07 04:47:19,809 INFO    [pid:23481] agent latency[LLM] ttft=497ms duration=894ms tok/s=193
+2026-06-07 04:47:20,653 WARNING [pid:23481] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:47:20,654 INFO    [pid:23481] agent latency[EOU] eou_delay=2000ms transcription_delay=258ms
+2026-06-07 04:47:20,653 WARNING [pid:23481] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:47:20,654 INFO    [pid:23481] agent latency[EOU] eou_delay=2000ms transcription_delay=258ms
+2026-06-07 04:47:20,659 INFO    [pid:23481] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:20,659 INFO    [pid:23481] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:21,652 INFO    [pid:23481] agent latency[LLM] ttft=494ms duration=998ms tok/s=239
+2026-06-07 04:47:21,652 INFO    [pid:23481] agent latency[LLM] ttft=494ms duration=998ms tok/s=239
+2026-06-07 04:47:26,508 INFO    [pid:23481] agent latency[TTS] ttfb=469ms duration=4991ms
+2026-06-07 04:47:26,508 INFO    [pid:23481] agent latency[RESPONSE] ~2963ms (eou=2000 + llm_ttft=494 + tts_ttfb=469)
+2026-06-07 04:47:26,508 INFO    [pid:23481] agent latency[TTS] ttfb=469ms duration=4991ms
+2026-06-07 04:47:26,508 INFO    [pid:23481] agent latency[RESPONSE] ~2963ms (eou=2000 + llm_ttft=494 + tts_ttfb=469)
+2026-06-07 04:47:42,628 INFO    [pid:23481] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:42,628 INFO    [pid:23481] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:45,656 INFO    [pid:23481] agent booking signal=weak_agreement for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:45,656 INFO    [pid:23481] agent booking signal=weak_agreement for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:46,714 INFO    [pid:23481] agent booking signal=weak_agreement for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:46,714 DEBUG   [pid:23481] livekit.agents received user transcript
+2026-06-07 04:47:46,714 INFO    [pid:23481] agent booking signal=weak_agreement for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:46,714 DEBUG   [pid:23481] livekit.agents received user transcript
+2026-06-07 04:47:47,069 DEBUG   [pid:23481] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:47:47,069 WARNING [pid:23481] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:47:47,069 DEBUG   [pid:23481] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:47:47,069 INFO    [pid:23481] agent latency[EOU] eou_delay=567ms transcription_delay=212ms
+2026-06-07 04:47:47,069 WARNING [pid:23481] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:47:47,069 INFO    [pid:23481] agent latency[EOU] eou_delay=567ms transcription_delay=212ms
+2026-06-07 04:47:47,078 INFO    [pid:23481] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:47,078 INFO    [pid:23481] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:48,466 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:48,466 DEBUG   [pid:23481] livekit.agents received user transcript
+2026-06-07 04:47:48,466 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:48,466 DEBUG   [pid:23481] livekit.agents received user transcript
+2026-06-07 04:47:48,470 INFO    [pid:23481] agent talkover count=2 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:48,470 INFO    [pid:23481] agent talkover count=2 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:47:48,815 DEBUG   [pid:23481] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:47:48,815 DEBUG   [pid:23481] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:47:48,816 INFO    [pid:23481] agent latency[EOU] eou_delay=563ms transcription_delay=213ms
+2026-06-07 04:47:48,816 INFO    [pid:23481] agent latency[EOU] eou_delay=563ms transcription_delay=213ms
+2026-06-07 04:47:50,026 DEBUG   [pid:23481] livekit.agents executing tool
+2026-06-07 04:47:50,026 DEBUG   [pid:23481] livekit.agents executing tool
+2026-06-07 04:47:50,039 INFO    [pid:23481] agent latency[moss.query knowledge] elapsed_ms=12
+2026-06-07 04:47:50,039 INFO    [pid:23481] agent latency[LLM] ttft=728ms duration=1221ms tok/s=108
+2026-06-07 04:47:50,039 INFO    [pid:23481] agent latency[moss.query knowledge] elapsed_ms=12
+2026-06-07 04:47:50,039 INFO    [pid:23481] agent latency[LLM] ttft=728ms duration=1221ms tok/s=108
+2026-06-07 04:47:50,040 DEBUG   [pid:23481] livekit.agents tools execution completed
+2026-06-07 04:47:50,040 DEBUG   [pid:23481] livekit.agents tools execution completed
+2026-06-07 04:47:51,417 INFO    [pid:23481] agent latency[LLM] ttft=435ms duration=1351ms tok/s=310
+2026-06-07 04:47:51,417 INFO    [pid:23481] agent latency[LLM] ttft=435ms duration=1351ms tok/s=310
+2026-06-07 04:47:55,614 INFO    [pid:23481] agent latency[TTS] ttfb=403ms duration=4277ms
+2026-06-07 04:47:55,614 INFO    [pid:23481] agent latency[RESPONSE] ~1401ms (eou=563 + llm_ttft=435 + tts_ttfb=403)
+2026-06-07 04:47:55,614 INFO    [pid:23481] agent latency[TTS] ttfb=403ms duration=4277ms
+2026-06-07 04:47:55,614 INFO    [pid:23481] agent latency[RESPONSE] ~1401ms (eou=563 + llm_ttft=435 + tts_ttfb=403)
+2026-06-07 04:48:10,235 INFO    [pid:23481] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:10,235 INFO    [pid:23481] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:12,466 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:12,466 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:12,556 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:12,557 DEBUG   [pid:23481] livekit.agents received user transcript
+2026-06-07 04:48:12,556 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:12,557 DEBUG   [pid:23481] livekit.agents received user transcript
+2026-06-07 04:48:12,571 DEBUG   [pid:23481] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:48:12,571 DEBUG   [pid:23481] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:48:12,765 WARNING [pid:23481] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:48:12,765 INFO    [pid:23481] agent latency[EOU] eou_delay=0ms transcription_delay=0ms
+2026-06-07 04:48:12,765 WARNING [pid:23481] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:48:12,765 INFO    [pid:23481] agent latency[EOU] eou_delay=0ms transcription_delay=0ms
+2026-06-07 04:48:12,775 INFO    [pid:23481] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:12,775 INFO    [pid:23481] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:14,176 INFO    [pid:23481] agent latency[LLM] ttft=697ms duration=1406ms tok/s=201
+2026-06-07 04:48:14,176 INFO    [pid:23481] agent latency[LLM] ttft=697ms duration=1406ms tok/s=201
+2026-06-07 04:48:15,790 INFO    [pid:23481] agent latency[TTS] ttfb=362ms duration=1635ms
+2026-06-07 04:48:15,790 INFO    [pid:23481] agent latency[RESPONSE] ~1058ms (eou=0 + llm_ttft=697 + tts_ttfb=362)
+2026-06-07 04:48:15,790 INFO    [pid:23481] agent latency[TTS] ttfb=362ms duration=1635ms
+2026-06-07 04:48:15,790 INFO    [pid:23481] agent latency[RESPONSE] ~1058ms (eou=0 + llm_ttft=697 + tts_ttfb=362)
+2026-06-07 04:48:19,865 INFO    [pid:23481] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:19,865 INFO    [pid:23481] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:21,606 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:21,606 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:22,620 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:22,620 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:22,869 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:22,869 DEBUG   [pid:23481] livekit.agents received user transcript
+2026-06-07 04:48:22,869 INFO    [pid:23481] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:22,869 DEBUG   [pid:23481] livekit.agents received user transcript
+2026-06-07 04:48:22,916 DEBUG   [pid:23481] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:48:22,916 DEBUG   [pid:23481] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:48:22,916 WARNING [pid:23481] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:48:22,916 INFO    [pid:23481] agent latency[EOU] eou_delay=513ms transcription_delay=467ms
+2026-06-07 04:48:22,916 WARNING [pid:23481] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:48:22,916 INFO    [pid:23481] agent latency[EOU] eou_delay=513ms transcription_delay=467ms
+2026-06-07 04:48:22,926 INFO    [pid:23481] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:22,926 INFO    [pid:23481] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:23,975 DEBUG   [pid:23481] livekit.agents executing tool
+2026-06-07 04:48:23,975 INFO    [pid:23481] agent book_meeting called for lead_id=b1000000-0001-0000-0000-000000000001 when='Tuesday at 2pm' tier='Whale'
+2026-06-07 04:48:23,975 DEBUG   [pid:23481] livekit.agents executing tool
+2026-06-07 04:48:23,976 INFO    [pid:23481] agent latency[LLM] ttft=638ms duration=1057ms tok/s=167
+2026-06-07 04:48:23,975 INFO    [pid:23481] agent book_meeting called for lead_id=b1000000-0001-0000-0000-000000000001 when='Tuesday at 2pm' tier='Whale'
+2026-06-07 04:48:23,976 INFO    [pid:23481] agent latency[LLM] ttft=638ms duration=1057ms tok/s=167
+2026-06-07 04:48:24,085 INFO    [pid:23481] agent persisted outcome 'booked' for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:24,086 INFO    [pid:23481] agent latency[backend.outcome] elapsed_ms=110
+2026-06-07 04:48:24,085 INFO    [pid:23481] agent persisted outcome 'booked' for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:24,086 INFO    [pid:23481] agent latency[backend.outcome] elapsed_ms=110
+2026-06-07 04:48:26,974 INFO    [pid:23481] agent latency[TTS] ttfb=325ms duration=2861ms
+2026-06-07 04:48:26,975 INFO    [pid:23481] agent latency[RESPONSE] ~325ms (eou=0 + llm_ttft=0 + tts_ttfb=325)
+2026-06-07 04:48:26,974 INFO    [pid:23481] agent latency[TTS] ttfb=325ms duration=2861ms
+2026-06-07 04:48:26,975 INFO    [pid:23481] agent latency[RESPONSE] ~325ms (eou=0 + llm_ttft=0 + tts_ttfb=325)
+2026-06-07 04:48:36,389 INFO    [pid:23481] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:36,389 INFO    [pid:23481] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:36,945 WARNING [pid:23481] livekit livekit_api::signal_client:530:livekit_api::signal_client - dropping pass-through signal — no stream available
+2026-06-07 04:48:36,945 WARNING [pid:23481] livekit livekit_api::signal_client:530:livekit_api::signal_client - dropping pass-through signal — no stream available
+2026-06-07 04:48:37,167 DEBUG   [pid:23481] livekit.agents tools execution completed
+2026-06-07 04:48:37,167 DEBUG   [pid:23481] livekit.agents tools execution completed
+2026-06-07 04:48:37,174 INFO    [pid:23481] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:37,174 INFO    [pid:23481] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:48:37,175 DEBUG   [pid:23481] livekit.agents input stream detached
+2026-06-07 04:48:37,175 DEBUG   [pid:23481] livekit.agents input stream detached
+2026-06-07 04:48:39,211 DEBUG   [pid:23481] livekit.agents stream closed
+2026-06-07 04:48:39,211 DEBUG   [pid:23481] livekit.agents stream closed
+2026-06-07 04:48:39,411 DEBUG   [pid:23481] livekit.agents session closed
+2026-06-07 04:48:39,411 DEBUG   [pid:23481] livekit.agents session closed
+2026-06-07 04:48:39,417 DEBUG   [pid:23481] livekit.agents shutting down job task
+2026-06-07 04:48:39,417 INFO    [pid:23286] livekit.agents process exiting
+2026-06-07 04:48:39,417 INFO    [pid:23481] agent session usage summary: UsageSummary(llm_prompt_tokens=37246, llm_prompt_cached_tokens=26624, llm_input_audio_tokens=0, llm_input_cached_audio_tokens=0, llm_input_text_tokens=0, llm_input_cached_text_tokens=0, llm_input_image_tokens=0, llm_input_cached_image_tokens=0, llm_completion_tokens=1777, llm_output_audio_tokens=0, llm_output_image_tokens=0, llm_output_text_tokens=0, tts_characters_count=1640, tts_audio_duration=85.86333333333323, stt_audio_duration=114.84999999999981)
+2026-06-07 04:48:39,417 DEBUG   [pid:23481] livekit.agents shutting down job task
+2026-06-07 04:48:39,419 INFO    [pid:23481] agent saved transcript to /Users/paulrusso/moss-hackathon/agent-py/export/transcripts/b1000000-0001-0000-0000-000000000001-call-b1000000-1780832781.json (18 turns)
+2026-06-07 04:48:39,417 INFO    [pid:23481] agent session usage summary: UsageSummary(llm_prompt_tokens=37246, llm_prompt_cached_tokens=26624, llm_input_audio_tokens=0, llm_input_cached_audio_tokens=0, llm_input_text_tokens=0, llm_input_cached_text_tokens=0, llm_input_image_tokens=0, llm_input_cached_image_tokens=0, llm_completion_tokens=1777, llm_output_audio_tokens=0, llm_output_image_tokens=0, llm_output_text_tokens=0, tts_characters_count=1640, tts_audio_duration=85.86333333333323, stt_audio_duration=114.84999999999981)
+2026-06-07 04:48:39,419 INFO    [pid:23481] agent saved transcript to /Users/paulrusso/moss-hackathon/agent-py/export/transcripts/b1000000-0001-0000-0000-000000000001-call-b1000000-1780832781.json (18 turns)
+2026-06-07 04:48:39,478 DEBUG   [pid:23481] livekit.agents http_session(): closing the httpclient ctx
+2026-06-07 04:48:39,478 DEBUG   [pid:23481] livekit.agents http_session(): closing the httpclient ctx
+2026-06-07 04:54:56,736 INFO    [pid:23286] livekit.agents shutting down worker
+2026-06-07 04:54:56,741 INFO    [pid:23286] livekit.agents process exiting
+2026-06-07 04:55:01,179 INFO    [pid:26891] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:55:01,179 INFO    [pid:26891] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:55:01,180 DEBUG   [pid:26891] asyncio Using selector: KqueueSelector
+2026-06-07 04:55:01,187 INFO    [pid:26891] livekit.agents starting worker
+2026-06-07 04:55:01,188 INFO    [pid:26891] livekit.agents plugin registered
+2026-06-07 04:55:01,189 INFO    [pid:26891] livekit.agents plugin registered
+2026-06-07 04:55:01,189 INFO    [pid:26891] livekit.agents plugin registered
+2026-06-07 04:55:01,190 INFO    [pid:26891] livekit.agents plugin registered
+2026-06-07 04:55:01,190 INFO    [pid:26891] livekit.agents starting inference executor
+2026-06-07 04:55:01,196 INFO    [pid:26891] livekit.agents initializing process
+2026-06-07 04:55:05,699 INFO    [pid:26891] livekit.agents process initialized
+2026-06-07 04:55:05,704 INFO    [pid:26891] livekit.agents HTTP server listening on :61857
+2026-06-07 04:55:05,707 INFO    [pid:26891] livekit.agents shutting down worker
+2026-06-07 04:55:05,709 INFO    [pid:26891] livekit.agents process exiting
+2026-06-07 04:55:06,852 INFO    [pid:26948] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:55:06,853 INFO    [pid:26948] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:55:06,853 DEBUG   [pid:26948] asyncio Using selector: KqueueSelector
+2026-06-07 04:55:06,859 INFO    [pid:26948] livekit.agents starting worker
+2026-06-07 04:55:06,859 INFO    [pid:26948] livekit.agents plugin registered
+2026-06-07 04:55:06,860 INFO    [pid:26948] livekit.agents plugin registered
+2026-06-07 04:55:06,861 INFO    [pid:26948] livekit.agents plugin registered
+2026-06-07 04:55:06,861 INFO    [pid:26948] livekit.agents plugin registered
+2026-06-07 04:55:06,862 INFO    [pid:26948] livekit.agents starting inference executor
+2026-06-07 04:55:06,868 INFO    [pid:26948] livekit.agents initializing process
+2026-06-07 04:55:10,107 INFO    [pid:26948] livekit.agents process initialized
+2026-06-07 04:55:10,111 INFO    [pid:26948] livekit.agents HTTP server listening on :61873
+2026-06-07 04:55:10,219 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 04:58:00,861 WARNING [pid:23234] watchfiles.main received signal 15, raising KeyboardInterrupt
+2026-06-07 04:58:00,869 WARNING [pid:23234] livekit.agents exiting forcefully
+2026-06-07 05:46:17,605 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 05:46:17,724 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 06:02:40,985 WARNING [pid:26948] livekit.agents unexpected message type: 258
+2026-06-07 06:02:40,991 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 06:02:41,107 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 06:19:16,338 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 06:19:16,468 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 06:24:56,212 WARNING [pid:26948] livekit.agents unexpected message type: 258
+2026-06-07 06:24:56,218 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 06:24:56,333 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 06:29:55,814 WARNING [pid:26948] livekit.agents unexpected message type: 258
+2026-06-07 06:29:55,816 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 06:29:55,925 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 07:06:01,651 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 07:06:01,938 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 07:48:40,758 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 07:48:41,601 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 09:03:38,078 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 09:03:38,414 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 09:21:10,022 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 09:21:11,279 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 10:06:32,965 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 10:06:33,352 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 10:32:17,058 WARNING [pid:26948] livekit.agents unexpected message type: 258
+2026-06-07 10:32:17,062 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 10:32:18,266 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 11:10:05,708 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 11:10:06,357 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 11:58:05,840 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 11:58:06,062 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 12:09:54,648 WARNING [pid:26948] livekit.agents unexpected message type: 258
+2026-06-07 12:09:54,654 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 12:09:55,140 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 12:37:45,362 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 12:37:45,584 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 12:53:48,167 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 12:53:48,183 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 2s
+2026-06-07 12:53:50,189 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 4s
+2026-06-07 12:53:54,197 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 6s
+2026-06-07 12:54:00,205 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 8s
+2026-06-07 12:54:48,489 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 10s
+2026-06-07 12:54:58,832 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 13:43:46,318 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 13:43:46,500 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 14:28:43,465 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 14:28:43,925 INFO    [pid:26948] livekit.agents registered worker
+2026-06-07 15:25:38,734 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 0s
+2026-06-07 15:25:38,742 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 2s
+2026-06-07 15:25:40,754 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 4s
+2026-06-07 15:28:35,692 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 6s
+2026-06-07 15:28:41,700 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 8s
+2026-06-07 15:28:49,706 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 10s
+2026-06-07 15:28:59,711 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 10s
+2026-06-07 15:29:09,718 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 10s
+2026-06-07 15:29:19,724 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 10s
+2026-06-07 15:29:29,730 WARNING [pid:26948] livekit.agents failed to connect to livekit, retrying in 10s
+2026-06-07 15:29:41,171 INFO    [pid:26948] livekit.agents registered worker
