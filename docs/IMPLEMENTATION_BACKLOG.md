@@ -24,7 +24,7 @@ Translates [BEHAVIORAL_PRINCIPLES.md](BEHAVIORAL_PRINCIPLES.md) into code, promp
 | P1 | Talk-over yield | TALKOVER hints, `speech_created` callback, kb-behavior-talkover-yield | `call_signals.py`, `agent.py`, `knowledge.json` | Cursor | implemented |
 | P1 | Active listening ad-libs | Prompt + kb-behavior-active-listening phrase bank | `agent.py`, `knowledge.json` | Cursor | implemented |
 | P1 | Canonical opener | Fixed pump.co opener via `_spoken_opening`; update kb + docs | `agent.py`, `knowledge.json`, `docs/` | Cursor | implemented |
-| P1 | Four-sentence cap | Hard 4-sentence max; last sentence must be a question | `agent.py`, `knowledge.json` | Cursor | implemented |
+| P1 | Three-sentence cap | Exactly 3 sentences (2 statements + 1 question) per turn | `agent.py`, `knowledge.json` | Cursor | implemented |
 | P2 | Rebuild cycle counter | Runtime counter for 3 full rebuild+schedule cycles (today: prompt-only) | `agent.py` | Cursor | open |
 | P2 | LLM-judged behavior evals | Judge tests for wolf persistence, talk-over rules, incentive-as-nudge | `test_agent.py` | Cursor | implemented |
 | P2 | Training export sync | Regenerate export corpus after wolf/talk-over kb changes | `agent-py/export/` | Cursor | implemented |

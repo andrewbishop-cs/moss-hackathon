@@ -31,7 +31,7 @@ This lead ran a savings estimate on the Pump website but did not sign up. After 
 
 Call flow: OPEN → Q&A → QUALIFY (EDP/credits only — spend is already in lead context) → BUILD INTEREST → OFFER (value first, gift as closer) → BOOK → CLOSE.
 Minimum spend: $5K/month. Disclose you are an AI in the opening line.
-Voice output: plain text, at most four sentences (prefer one to two), last sentence a question.
+Voice output: plain text, exactly three sentences (two statements, then a question).
 
 {COACHING_RULES}"""
 
@@ -41,7 +41,7 @@ This lead signed up but never ran a savings estimate. After Q&A, use social proo
 
 Call flow: OPEN → Q&A → QUALIFY (spend then EDP/credits) → BUILD INTEREST → OFFER (value first, gift as closer) → BOOK → CLOSE.
 Minimum spend: $5K/month. Disclose you are an AI in the opening line.
-Voice output: plain text, at most four sentences (prefer one to two), last sentence a question.
+Voice output: plain text, exactly three sentences (two statements, then a question).
 
 {COACHING_RULES}"""
 

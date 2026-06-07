@@ -2,7 +2,7 @@
 
 Manual validation for wolf persistence, talk-over yield, and active listening. Run after agent worker restart (`pnpm dev` or restart `dev:agent-py`).
 
-**One-minute demo rehearsal (prospect lines, booked call):** [DEMO_ONE_MIN_CALL.md](DEMO_ONE_MIN_CALL.md)
+**5-beat demo rehearsal (~60–90s prospect lines, booked call):** [DEMO_ONE_MIN_CALL.md](DEMO_ONE_MIN_CALL.md)
 
 ## Setup
 
@@ -16,7 +16,9 @@ pnpm train:call          # or pnpm train:call:smb
 
 | # | Scenario | Say / do | Pass criteria |
 |---|----------|----------|---------------|
-| 1 | Wolf persistence | "I'm not interested" | Alex rebuilds (savings/proof/ease), asks a question; no goodbye, call stays open |
+| 1 | Wolf persistence | "I'm not interested" | Alex rebuilds (savings/proof/ease + named tier gift), asks a question; no goodbye, call stays open |
+| 1b | Early offer | "Why are you calling me?" | Alex names annual savings + tier gift (e.g. Mac Mini) in same reply — not only after objection |
+| 1c | Default slot | Agree to demo / "what times do you have?" | Alex proposes **Tuesday at two** — not open-ended "what day works?" |
 | 2 | Opener not rejection | "No thanks" right after opener | Pivots to savings hook; does NOT log declined or hang up |
 | 3 | Talk-over once | Interrupt mid-sentence once | Reclaims floor once ("Totally — the quick thing…") |
 | 4 | Talk-over twice | Interrupt again before she finishes | Yields with ad-lib only ("Totally hear you", "I got it"); no pitching |

@@ -1,0 +1,122 @@
+{
+  "lead_id": "b1000000-0018-0000-0000-000000000018",
+  "room_name": "call-b1000000-1780833054",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "agent",
+      "text": "Hey, this is Alex, an AI customer success manager calling from pump.co. I'm just calling because I saw you ran an estimate. Are there any questions that I could answer for you about pump?",
+      "timestamp": "2026-06-07T11:51:23.433945+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Why are you calling me?",
+      "timestamp": "2026-06-07T11:51:26.517636+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Why are you calling me?",
+      "timestamp": "2026-06-07T11:51:26.771061+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I’m reaching out because you recently completed a savings estimate on our site, and I’m here to answer any questions you might have about that. Based on your estimate, you could save around four hundred eighty‑three thousand dollars a year, and we can set you up on a free trial so you can see those savings in action. Would you be open to a quick walkthrough to validate the numbers together?",
+      "timestamp": "2026-06-07T11:51:47.424775+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "I'm not really",
+      "timestamp": "2026-06-07T11:51:50.218245+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I'm not really interested.",
+      "timestamp": "2026-06-07T11:51:50.925704+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I hear you—sometimes it’s easy to brush off these kinds of calls. Just to recap, the estimate shows roughly four hundred eighty‑three thousand dollars of potential annual savings, and many of our customers—like Deel and Supabase—see similar results within weeks without any code changes. The trial is completely free, no lock‑in, and we handle the entire setup at the billing layer. Does that sound like something worth a brief look to see if it could apply to Beehiiv?",
+      "timestamp": "2026-06-07T11:52:17.350539+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "I guess it's",
+      "timestamp": "2026-06-07T11:52:19.475966+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "lead",
+      "text": "I guess it it does sound pretty",
+      "timestamp": "2026-06-07T11:52:20.477357+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I guess it's",
+      "timestamp": "2026-06-07T11:52:21.477946+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "lead",
+      "text": "it does sound pretty compelling. I'm open to",
+      "timestamp": "2026-06-07T11:52:21.510866+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "it does sound pretty compelling. I'm open to chat.",
+      "timestamp": "2026-06-07T11:52:21.877181+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Great to hear that! Would you be open to a quick 20‑minute walkthrough sometime this week to see how the estimate could translate into real savings for Beehiiv?",
+      "timestamp": "2026-06-07T11:52:31.335483+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yes.",
+      "timestamp": "2026-06-07T11:52:33.369584+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Perfect! What day and time this week works best for a brief 20‑minute walkthrough?",
+      "timestamp": "2026-06-07T11:52:39.669334+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Can",
+      "timestamp": "2026-06-07T11:52:41.661764+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Tuesday at two.",
+      "timestamp": "2026-06-07T11:52:42.619943+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Tuesday at two.",
+      "timestamp": "2026-06-07T11:52:42.777349+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Perfect, you're all set — I've got that booked and I'm sending the calendar invite now. Just a heads up: the offer is for people who show up and start a trial this month, so keep an eye out for it. Talk soon!",
+      "timestamp": "2026-06-07T11:52:55.251780+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T11:52:56.131446+00:00"
+}

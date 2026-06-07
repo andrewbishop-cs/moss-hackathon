@@ -5,6 +5,33 @@ Spoken script: [DEMO_SCRIPT.md](DEMO_SCRIPT.md)
 
 ---
 
+## 2026-06-07 — Finish-up rehearsal (ready to record)
+
+### Whale PSTN rehearsal — PASS
+
+| Check | Result |
+|-------|--------|
+| Dispatch | `room=call-b1000000-1780832781` via `pnpm train:call --wait` |
+| Lead status | `booked` — Tuesday 2pm, Whale tier |
+| Canonical opener | AI identity + pump.co + estimate follow-up (session.say) |
+| Annual savings | ~$18.996M cited on "why are you calling" |
+| Wolf rebuild | Rebuilt after "not interested" — no goodbye |
+| Transcript | `agent-py/export/transcripts/...-call-b1000000-1780832781.json` (18 turns) |
+
+**Recording take:** leads reset to `pending`. Tabs open: dashboard, whale estimate, live view.  
+**Phone script:** [DEMO_ONE_MIN_CALL.md](DEMO_ONE_MIN_CALL.md) — 5 beats only.
+
+### Fallback clips (if PSTN wobbles on camera)
+
+| Transcript | Outcome | Notes |
+|------------|---------|-------|
+| `...-call-b1000000-1780832781.json` | `booked` | Tonight's rehearsal — on-script opener + wolf |
+| `...-call-b1000000-1780830130.json` | `booked` | Earlier take — Mac Mini + Tuesday 2pm |
+
+Record fallback per [FALLBACK_VIDEO.md](FALLBACK_VIDEO.md) · save as `demo-fallback-2026-06-07.mp4`.
+
+---
+
 ## 2026-06-07 — Hour 10+ demo prep plan execution
 
 ### Completed

@@ -221,7 +221,7 @@
   },
   {
     "id": "kb-obj-not-interested",
-    "text": "Not interested objection \u2014 wolf persistence. Do NOT say goodbye, do NOT log declined, do NOT stop talking. Acknowledge briefly, then rebuild: cite their savings estimate, customer proof (fourteen hundred plus companies including Deel and Supabase), ease of implementation (ten-minute setup), end with a question. On repeated pushback, rotate angles \u2014 savings number, proof, ease, incentive nudge. Example: I hear you \u2014 before you decide, your estimate showed real savings on the table and it only takes about ten minutes to connect. Companies like Deel use Pump to cut cloud spend with zero effort. What would it take for you to give it a quick look?",
+    "text": "Not interested objection \u2014 wolf persistence. Do NOT say goodbye, do NOT log declined, do NOT stop talking. Acknowledge briefly, then rebuild: cite their savings estimate, customer proof (fourteen hundred plus companies including Deel and Supabase), ease of implementation (ten-minute setup), name their tier thank-you gift as incentive nudge, end with a question. On first pushback always include the explicit gift \u2014 savings alone is not enough. On repeated pushback, rotate angles \u2014 savings number, proof, ease, incentive nudge. Example: I hear you \u2014 your estimate showed nineteen million a year on the table and it only takes about ten minutes to connect. Companies like Deel use Pump with zero effort, and as part of our evaluation program we'd send you a Mac Mini for going through the demo. What would it take for you to give it a quick look?",
     "metadata": {
       "category": "objection",
       "topic": "not-interested",
@@ -239,7 +239,7 @@
   },
   {
     "id": "kb-obj-is-this-ai",
-    "text": "Is this AI / are you a real person \u2014 confirm plainly, do not get defensive, reinforce purpose. Never pretend to be human. Example: Yes \u2014 I'm Alex, an AI customer success manager at Pump. I've been programmed to follow up so I can answer questions and help people evaluate savings opportunities. If you'd rather talk to someone on the team, I can connect you \u2014 or we can keep going if that works.",
+    "text": "Is this AI / are you a real person \u2014 confirm plainly, do not get defensive, reinforce purpose. Never pretend to be human. Example: Yes \u2014 I'm Alex, an AI customer success manager at Pump. I've been programmed to follow up so I can answer questions and help people evaluate savings opportunities. Would you like to keep going, or should I connect you with someone on the team?",
     "metadata": {
       "category": "objection",
       "topic": "disclosure",
@@ -275,7 +275,7 @@
   },
   {
     "id": "kb-obj-is-ai",
-    "text": "Is this AI / are you a bot / I don't want to talk to a bot \u2014 confirm plainly, do not get defensive, explain purpose. Never pretend to be human. UC2 purpose example: Because you ran a savings estimate with Pump. I've been programmed to follow up with anyone whose estimate shows a meaningful savings opportunity so I can answer questions and make sure they don't miss it. UC1 purpose example: Because you created an account on Pump. I've been programmed to follow up so I can answer questions and help you evaluate whether Pump is a fit. Objection example: Totally fair. I've been programmed to help people evaluate savings opportunities and answer questions. If it makes sense to continue, I can connect you with the appropriate member of the Pump team.",
+    "text": "Is this AI / are you a bot / I don't want to talk to a bot \u2014 confirm plainly, do not get defensive, explain purpose. Never pretend to be human. UC2 purpose example: Because you ran a savings estimate with Pump. I've been programmed to follow up with anyone whose estimate shows a meaningful savings opportunity so I can answer questions and make sure they don't miss it. UC1 purpose example: Because you created an account on Pump. I've been programmed to follow up so I can answer questions and help you evaluate whether Pump is a fit. Objection example: Totally fair. I've been programmed to help people evaluate savings opportunities and answer questions. Would you like to keep going, or should I connect you with someone on the team?",
     "metadata": {
       "category": "objection",
       "topic": "is_ai",
@@ -284,7 +284,7 @@
   },
   {
     "id": "kb-obj-soft-skepticism",
-    "text": "Soft skepticism recovery \u2014 for spam doubts, who-is-this, sounds-like-a-sales-call, I'm busy, or not sure: this is recoverable, do NOT log declined. Give one brief credibility-first recovery, then continue only if they stay engaged. Never lead with the gift or offer. Example: Totally fair \u2014 I'll be quick. This is Alex from Pump; you ran a savings estimate with us. Pump works with more than fourteen hundred companies including Deel and Supabase to cut cloud and AI spend, and the reason I'm calling is your estimate showed a meaningful savings opportunity.",
+    "text": "Soft skepticism recovery \u2014 for spam doubts, who-is-this, sounds-like-a-sales-call, I'm busy, or not sure: this is recoverable, do NOT log declined. Give one brief credibility-first recovery, then continue only if they stay engaged. Never lead with the gift or offer. Example: Totally fair \u2014 I'll be quick. This is Alex from Pump; you ran a savings estimate with us. What would you like to know about how Pump works?",
     "metadata": {
       "category": "objection",
       "topic": "soft_skepticism",
@@ -351,7 +351,7 @@
   },
   {
     "id": "kb-flow-booking-progression",
-    "text": "Booking progression \u2014 progressive urgency, business days only. Round one: I can get you on the calendar right now \u2014 are you free later today or tomorrow? Round two if no: How about [next business day] or [business day after that]? Round three: How about sometime next week or the week after? Round four final urgency: I don't want to take up too much of your time \u2014 what time works best for you? Just want to make sure we get something locked in because the promo expires at the end of the month and our team's availability is pretty limited given the amount of savings we're finding for people right now. After they agree to a time, call book_meeting, confirm the invite verbally, then close.",
+    "text": "Booking progression \u2014 lead with a concrete default slot, then progressive urgency if rejected. Business days only. Round one when prospect agrees to a demo, asks for times, or gives weak agreement toward scheduling: Does Tuesday at two work for a quick demo? Do NOT ask open-ended what day works. Round two if Tuesday at two is rejected: I can get you on the calendar right now \u2014 are you free later today or tomorrow? Round three if no: How about [next business day] or [business day after that]? Round four: How about sometime next week or the week after? Round five final urgency: I don't want to take up too much of your time \u2014 what time works best for you? Just want to make sure we get something locked in because the promo expires at the end of the month and our team's availability is pretty limited given the amount of savings we're finding for people right now. After they agree to a time, call book_meeting, confirm the invite verbally, then close.",
     "metadata": {
       "category": "flow",
       "topic": "booking-progression",
@@ -400,7 +400,7 @@
   },
   {
     "id": "kb-offer-uc1-whale",
-    "text": "UC1 Whale offer \u2014 one fifty K plus per month (internal tier only). Lead with savings and why a demo validates the estimate. As part of the evaluation program this month, qualifying participants can receive a Mac Mini as a thank you. I'll make sure the right person from our team joins the demo. Would you be interested in getting a demo from someone on our team?",
+    "text": "UC1 Whale offer \u2014 one fifty K plus per month (internal tier only). Lead with savings and why a demo validates the estimate. Example: Your estimate showed real savings on the table, and a quick demo is the best way to validate it. As part of the evaluation program this month, we'd send you a Mac Mini for going through the demo. Would you be interested in getting a demo from someone on our team?",
     "metadata": {
       "category": "offer",
       "topic": "whale",
@@ -450,7 +450,7 @@
   },
   {
     "id": "kb-offer-uc2-whale",
-    "text": "UC2 Whale offer \u2014 one fifty K plus per month (internal tier only). Lead with annual savings. Example: I'm calling because we found [annual_savings] in savings for you this year \u2014 completely free, no lock-in, no risk. The demo is the best way to validate whether that estimate is achievable. As part of the evaluation program this month, qualifying participants can receive a Mac Mini as a thank you. I'll make sure the right person from our team joins. Would you be interested in getting a demo from someone on our team?",
+    "text": "UC2 Whale offer \u2014 one fifty K plus per month (internal tier only). Lead with annual savings. Example: I'm calling because we found [annual_savings] in savings for you this year \u2014 completely free, no lock-in. As part of the evaluation program this month, we'd send you a Mac Mini for going through the demo. Would you be interested in getting a demo from someone on our team?",
     "metadata": {
       "category": "offer",
       "topic": "whale",

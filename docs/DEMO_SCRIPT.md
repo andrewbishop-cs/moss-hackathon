@@ -52,7 +52,7 @@ Click path and setup: [DEMO_RUN_OF_SHOW.md](DEMO_RUN_OF_SHOW.md) · Context for 
 
 **Agent should say (reference — don't read aloud):**
 
-> "Hey Alex, this is Alex — I'm an AI customer success manager at Pump. You ran a savings estimate on our site and I wanted to follow up personally — I actually have an offer for you. … I'm calling because we found thirty-three thousand in savings for you this year … We'd love to send you a twenty-dollar DoorDash credit as a thank you."
+> "Hey Alex, this is Alex — I'm an AI customer success manager at Pump. You ran a savings estimate on our site … I'm calling because we found thirty-three thousand in savings for you this year … as part of our evaluation program we'd send you a twenty-dollar DoorDash credit for going through the demo. … [on 'not interested'] … your estimate showed real savings … we'd send you that DoorDash credit … Does Tuesday at two work for a quick demo?"
 
 *If call connects: answer briefly, let agent run one exchange, hang up or let it book.*
 
@@ -82,7 +82,7 @@ Click path and setup: [DEMO_RUN_OF_SHOW.md](DEMO_RUN_OF_SHOW.md) · Context for 
 
 **Agent should say (reference):**
 
-> "Hey Michael, this is Alex — I'm an AI customer success manager at Pump. … We found nineteen million in savings for you this year … for a company your size, we'll send you a Mac Mini on us. I'm also going to personally loop in one of our senior team members."
+> "Hey Michael, this is Alex — I'm an AI customer success manager at Pump. … We found nineteen million in savings for you this year … as part of our evaluation program we'd send you a Mac Mini for going through the demo. … [on 'not interested'] … nineteen million on the table … Mac Mini for the demo … Does Tuesday at two work?"
 
 *Optional: agree to a meeting time → status flips to `booked` on analytics.*
 
@@ -112,7 +112,7 @@ Click path and setup: [DEMO_RUN_OF_SHOW.md](DEMO_RUN_OF_SHOW.md) · Context for 
 
 Use when you're running long or only have one clean PSTN window.
 
-**One-minute prospect script (what to say on the phone):** [DEMO_ONE_MIN_CALL.md](DEMO_ONE_MIN_CALL.md)
+**5-beat prospect script (~60–90s live call):** [DEMO_ONE_MIN_CALL.md](DEMO_ONE_MIN_CALL.md)
 
 | Segment | Time | Script |
 |---------|------|--------|
@@ -134,10 +134,10 @@ Use when you're running long or only have one clean PSTN window.
 |--------|------|--------------|
 | Queue intro | Names tiers and spend | — |
 | Before Call 1 | "Watch what happens when someone abandons their estimate." | — |
-| During Call 1 | Narrate savings + DoorDash offer from dashboard | Opens with estimate follow-up, quotes ~$33K/yr savings, offers DoorDash |
+| During Call 1 | Narrate savings + DoorDash offer from dashboard | Names DoorDash on first bridge; wolf beat uses gift; proposes Tuesday at two |
 | Between calls | "Same agent, different tier." | — |
 | Before Call 2 | "$8.5M spend, $19M/year savings, Mac Mini." | — |
-| During Call 2 | "Real PSTN over LiveKit." | Whale offer + senior AE |
+| During Call 2 | "Real PSTN over LiveKit." | Names Mac Mini early + wolf nudge; proposes Tuesday at two |
 | UC1 gesture | One sentence on Sam row | (Would say: "saw you created an account" → ask spend → not qualified exit) |
 
 ---

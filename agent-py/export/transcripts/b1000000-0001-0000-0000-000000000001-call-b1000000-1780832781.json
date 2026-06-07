@@ -1,0 +1,116 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780832781",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "agent",
+      "text": "Hey, this is Alex, an AI customer success manager calling from pump.co. I'm just calling because I saw you ran an estimate. Are there any questions that I could answer for you about pump?",
+      "timestamp": "2026-06-07T11:46:51.969023+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Why are you calling?",
+      "timestamp": "2026-06-07T11:46:54.616927+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Why are you calling?",
+      "timestamp": "2026-06-07T11:46:54.659283+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "You ran a savings estimate on our site, and I’m programmed to follow up with anyone whose estimate shows a meaningful opportunity so I can answer any questions you have. Based on your data, Pump projects an annual savings of about eighteen million nine hundred ninety‑six thousand dollars. I can walk you through how we achieve that and set up a free trial. Would you like a quick demo to see how it works?",
+      "timestamp": "2026-06-07T11:47:16.320450+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "And there",
+      "timestamp": "2026-06-07T11:47:17.909970+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I'm not really interested",
+      "timestamp": "2026-06-07T11:47:18.910700+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Totally hear you — a lot of folks feel that way until they see how simple it can be. Our platform has helped over fourteen hundred companies, like Deel and Supabase, capture seventy to eighty percent of the projected savings without any code changes or lock‑in. It’s completely free to try, and the onboarding usually takes under thirty‑five minutes. Would you be open to learning a bit more about how that works?",
+      "timestamp": "2026-06-07T11:47:42.627079+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "I guess",
+      "timestamp": "2026-06-07T11:47:45.656320+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "lead",
+      "text": "I guess if it's free.",
+      "timestamp": "2026-06-07T11:47:46.714462+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "lead",
+      "text": "How is it free?",
+      "timestamp": "2026-06-07T11:47:48.465983+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Pump is free to you because we receive a small margin from the cloud providers—AWS, GCP, and Azure—so there’s no upfront cost or credit card required. Over fourteen hundred companies, such as Deel and Supabase, use this model to capture savings without any lock‑in. Would you like a quick walkthrough to see how it works?",
+      "timestamp": "2026-06-07T11:48:10.235249+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "K.",
+      "timestamp": "2026-06-07T11:48:12.466718+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "K.",
+      "timestamp": "2026-06-07T11:48:12.556912+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Great, I can set up a brief walkthrough for you. What day this week would be convenient for a quick demo?",
+      "timestamp": "2026-06-07T11:48:19.864660+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Please",
+      "timestamp": "2026-06-07T11:48:21.606376+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Tuesday at two works.",
+      "timestamp": "2026-06-07T11:48:22.620050+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Tuesday at two works.",
+      "timestamp": "2026-06-07T11:48:22.869638+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Perfect, you're all set — I've got that booked and I'm sending the calendar invite now. Just a heads up: the offer is for people who show up and start a trial this month, so keep an eye out for it. Talk soon!",
+      "timestamp": "2026-06-07T11:48:36.387938+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T11:48:39.418221+00:00"
+}

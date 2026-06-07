@@ -76,6 +76,19 @@ def test_soft_objection_injects_recovery_hint() -> None:
     assert hint == OBJECTION_RECOVERY_HINT
     assert "wolf persistence" in hint.lower()
     assert "do not log declined" in hint.lower()
+    assert "thank-you gift" in hint.lower() or "incentive nudge" in hint.lower()
+
+
+def test_weak_agreement_proposes_tuesday_at_two() -> None:
+    hint = coaching_hint_for("I guess")
+    assert hint is not None
+    assert "tuesday at two" in hint.lower()
+
+
+def test_strong_intent_proposes_tuesday_at_two() -> None:
+    hint = coaching_hint_for("Can we schedule a demo?")
+    assert hint is not None
+    assert "tuesday at two" in hint.lower()
 
 
 def test_meeting_deferral_injects_hint() -> None:

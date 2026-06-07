@@ -155,7 +155,8 @@ OBJECTION_RECOVERY_HINT = (
     "WOLF PERSISTENCE — prospect pushed back but did NOT opt out of all contact. "
     "Do NOT say goodbye, do NOT log declined, do NOT stop talking. "
     "Acknowledge briefly, rebuild interest with their savings number + proof + ease, "
-    "end with a question. Call search_knowledge for not-interested objection first."
+    "name their tier thank-you gift as incentive nudge, end with a question. "
+    "Call search_knowledge for not-interested objection first."
 )
 
 DNC_EXIT_HINT = (
@@ -169,8 +170,9 @@ HARD_STOP_HINT = DNC_EXIT_HINT
 COACHING_HINTS: dict[SignalKind, str] = {
     "weak_agreement": (
         "Prospect gave weak agreement — not commitment. Respond positively "
-        "(e.g. Awesome), reinforce savings + ease + proof, then continue "
-        "toward scheduling. Do not treat as booked."
+        "(e.g. Awesome), reinforce savings + ease + proof, then propose "
+        "Tuesday at two for a quick demo. Do not ask open-ended what day "
+        "works. Do not treat as booked until time confirmed."
     ),
     "positive_curiosity": (
         "Prospect showed positive curiosity — move subtly toward a meeting. "
@@ -179,8 +181,8 @@ COACHING_HINTS: dict[SignalKind, str] = {
     ),
     "strong_intent": (
         "Prospect showed strong buying signals — briefly confirm value, then "
-        "guide toward booking. Keep savings as the primary reason; incentive "
-        "only as a brief nudge if needed."
+        "propose Tuesday at two for a quick demo. Keep savings as the primary "
+        "reason; incentive only as a brief nudge if needed."
     ),
     "none": "",
 }

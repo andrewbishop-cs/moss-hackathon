@@ -139,6 +139,20 @@ def test_not_interested_objection_uses_wolf_persistence() -> None:
     assert "do not log declined" in text or "do not" in text
 
 
+def test_not_interested_objection_names_tier_gift() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-obj-not-interested"]["text"].lower()
+    assert "incentive nudge" in text or "thank-you gift" in text
+    assert "mac mini" in text
+
+
+def test_booking_progression_leads_with_tuesday_at_two() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-flow-booking-progression"]["text"].lower()
+    assert "tuesday at two" in text
+    assert "what day works" in text  # forbidden open-ended ask
+
+
 def test_is_ai_objection_includes_purpose_framing() -> None:
     entries = {e["id"]: e for e in _load_knowledge()}
     text = entries["kb-obj-is-ai"]["text"].lower()
@@ -162,3 +176,11 @@ def test_booking_progression_entry_exists() -> None:
     text = entries["kb-flow-booking-progression"]["text"].lower()
     assert "progressive urgency" in text
     assert "today or tomorrow" in text
+
+
+def test_instructions_enforce_three_sentence_cap() -> None:
+    from agent import UC2_ESTIMATE_COMPLETED, _instructions_for
+
+    text = _instructions_for(UC2_ESTIMATE_COMPLETED).lower()
+    assert "three sentences" in text
+    assert "four sentences" not in text

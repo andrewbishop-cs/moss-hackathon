@@ -1,6 +1,6 @@
 # One-Minute Demo Call Script (Prospect Lines)
 
-Prospect-side script for a ~60-second live PSTN call that hits Alex's highest-impact behaviors in one booked conversation.
+Prospect-side script for a **~60–90 second** live PSTN call — five beats that hit Alex's highest-impact behaviors in one booked conversation.
 
 **Presenter pitch:** [DEMO_SCRIPT.md](DEMO_SCRIPT.md) · **Full validation checklist:** [TRAIN_CALL_VALIDATION.md](TRAIN_CALL_VALIDATION.md)
 
@@ -17,7 +17,7 @@ pnpm train:call             # dispatches Michael Truell (whale UC2)
 
 **Lead:** Michael Truell · Cursor · UC2 estimate completed · ~$19M/year savings hook  
 **Goal outcome:** `booked`  
-**Pace:** Speak each line once, clearly; let Alex finish before the next beat.
+**Pace:** Speak each line once, clearly; let Alex finish before the next beat (~15s per Alex turn on PSTN).
 
 ---
 
@@ -26,16 +26,16 @@ pnpm train:call             # dispatches Michael Truell (whale UC2)
 | Time | You say | Alex should demonstrate |
 |------|---------|-------------------------|
 | 0s | *(answer phone)* "Hello?" | Canonical opener — AI identity, pump.co, estimate follow-up |
-| 8s | "Wait — who is this? Are you a robot?" | AI identity philosophy + why the call exists |
-| 18s | "Why are you calling me?" | Direct answer + annual savings + demo bridge (no spend re-ask) |
-| 28s | "How is Pump free?" | Product answer + same-turn bridge toward demo |
-| 38s | "I'm not interested." | Wolf persistence — rebuild, no goodbye |
-| 48s | "Okay, I guess. What times do you have?" | Weak agreement → soft scheduling (interest warming) |
+| 15s | "Why are you calling me?" | Direct answer + annual savings + **named tier gift** (Mac Mini) + demo ask |
+| 30s | "I'm not interested." | Wolf persistence — rebuild with savings/proof/ease + **explicit gift nudge**, no goodbye |
+| 45s | "Okay, what times do you have?" *(optional)* | Alex proposes **Tuesday at two** — skip this beat if Alex already offered the slot |
 | 55s | "Tuesday at two works." | `book_meeting` + confirm invite |
-| 60s | *(listen to confirm, hang up)* | `log_outcome(booked)` |
+| 60–90s | *(listen to confirm, hang up)* | `log_outcome(booked)` |
 
-**Not in this 60s script** (use separate clips or the 2-min [DEMO_SCRIPT.md](DEMO_SCRIPT.md) instead):
+**Not in this script** (use separate clips or the 2-min [DEMO_SCRIPT.md](DEMO_SCRIPT.md) instead):
 
+- Robot / talk-over ("who is this? are you a robot?") — opener already discloses AI; adds a full extra turn
+- "How is Pump free?" — product Q&A; wolf rebuild and savings answer usually cover "free to start"
 - DNC ("take me off your list") — ends the call
 - Email deferral ("just send me an email") — known weak spot; educate-first path is longer
 - Talk-over twice / active-listening vent — needs longer agent turns
@@ -45,38 +45,30 @@ pnpm train:call             # dispatches Michael Truell (whale UC2)
 
 ## The script (prospect lines only)
 
-Read naturally; do not rush. Approximate timing assumes Alex responds in ~8–12s per turn.
+Read naturally; do not rush. Approximate timing assumes Alex responds in **~15s per turn** on live PSTN.
 
 ```
 [0s — phone rings, answer]
 
 "Hello?"
 
-[8s — right after Alex starts opener; optional talk-over beat]
-
-"Wait — who is this? Are you a robot?"
-
-[18s]
+[15s — after Alex finishes opener]
 
 "Why are you calling me?"
 
-[28s]
-
-"How is Pump free?"
-
-[38s]
+[30s]
 
 "I'm not interested."
 
-[48s — after Alex rebuilds once]
+[45s — after Alex rebuilds once]
 
-"Okay, I guess. What times do you have?"
+"Okay, what times do you have?"
 
 [55s — when Alex proposes a slot]
 
 "Tuesday at two works."
 
-[60s — let Alex confirm booking, then hang up]
+[60–90s — let Alex confirm booking, then hang up]
 ```
 
 ---
@@ -87,7 +79,8 @@ After the call, confirm in dashboard / transcript:
 
 - Alex disclosed AI in opener or first reply
 - Alex cited **annual** savings (~nineteen million), never asked monthly spend
-- Alex answered "how is Pump free" before pushing calendar
+- Alex named the **Mac Mini** on the first bridge and again on the wolf beat
+- Alex proposed **Tuesday at two** before the prospect volunteered a time
 - Alex did **not** say goodbye after "not interested"
 - Lead status → **`booked`**
 - Transcript shows Moss context panel populated (if audience is watching dashboard)
@@ -96,8 +89,9 @@ After the call, confirm in dashboard / transcript:
 
 ## Delivery tips
 
-- **One line per beat** — do not stack objections; 60s is tight.
+- **One line per beat** — do not stack objections; five beats is the floor for a booked demo.
+- **~15s per Alex turn** — wait for the full reply before your next line.
 - **"I'm not interested"** is the wolf beat — give Alex a full reply before softening.
-- **Skip email deferral** in this script — it adds a turn and currently tends toward email capitulation.
-- If Alex is slow on the first turn, skip the talk-over beat ("Wait — who is this?") and go straight to "Why are you calling me?"
-- If booking slips past 60s, agreeing to any specific time is fine — the demo still lands.
+- Alex should propose **Tuesday at two** on weak agreement or when asked for times — if she does inside the wolf rebuild, **skip** "what times do you have?" and go straight to "Tuesday at two works."
+- **Skip email deferral** — adds a turn and currently tends toward email capitulation.
+- If booking runs past 90s, agreeing to any specific time still counts as a pass.
