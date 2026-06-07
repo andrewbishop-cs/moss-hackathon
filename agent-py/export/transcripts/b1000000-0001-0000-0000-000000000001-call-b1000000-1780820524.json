@@ -1,0 +1,26 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780820524",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:22:21.558226+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:22:21.757472+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Hey Michael, this is Alex, an AI",
+      "timestamp": "2026-06-07T08:22:25.817422+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T08:22:50.216943+00:00"
+}
