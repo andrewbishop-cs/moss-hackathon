@@ -23,7 +23,23 @@ BEHAVIOR_ENTRY_IDS = {
     "kb-behavior-weak-agreement",
     "kb-behavior-scheduling-recovery",
     "kb-behavior-conversational-persistence",
+    "kb-behavior-opener-short-conversational",
+    "kb-behavior-direct-answering",
 }
+
+OPENING_ENTRY_IDS = {
+    "kb-uc1-opening",
+    "kb-uc2-opening",
+}
+
+# Banned in opener example lines (docs/BEHAVIORAL_PRINCIPLES.md).
+BANNED_OPENER_PHRASES = (
+    "mac mini promotion",
+    "a mac mini",
+    "doordash credit",
+    "i have an offer",
+    "special offer",
+)
 
 # Offer/spoken entries updated for internal-tiers principle.
 SPOKEN_OFFER_IDS = {
@@ -61,3 +77,15 @@ def test_internal_tiers_entry_documents_evaluation_framing() -> None:
     text = entries["kb-behavior-internal-tiers-private"]["text"].lower()
     assert "evaluation" in text
     assert "whale" in text  # documents what not to say
+
+
+def test_opening_entries_avoid_banned_phrases() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    violations: list[str] = []
+    for entry_id in OPENING_ENTRY_IDS:
+        text = entries[entry_id]["text"]
+        example = text.split("Example:", 1)[-1].lower() if "Example:" in text else text.lower()
+        for phrase in BANNED_OPENER_PHRASES:
+            if phrase in example:
+                violations.append(f"{entry_id}: {phrase}")
+    assert not violations, f"Banned opener phrases found: {violations}"
