@@ -11,15 +11,15 @@
 
 ## Qualification Tiers
 
-| Tier | Annual Spend | Offer |
+| Tier | Monthly Spend | Offer |
 |---|---|---|
-| Not Qualified | < $5K/year | Wind down gracefully |
+| Not Qualified | < $5K/month | Wind down gracefully |
 | Not Eligible | Has EDP or cloud credits | Wind down gracefully |
-| SMB | $5K–$15K/year | $20 DoorDash credit |
-| Core | $15K–$30K/year | $50 AWS credits |
-| Mid-Market | $30K–$60K/year | World Cup jersey |
-| Enterprise | $60K–$150K/year | Custom company logo pullover |
-| Whale | $150K+/year | Mac Mini + flag senior AE |
+| SMB | $5K–$15K/month | $20 DoorDash credit |
+| Core | $15K–$30K/month | $50 AWS credits |
+| Mid-Market | $30K–$60K/month | World Cup jersey |
+| Enterprise | $60K–$150K/month | Custom company logo pullover |
+| Whale | $150K+/month | Mac Mini + flag senior AE |
 
 ---
 
@@ -133,16 +133,16 @@ CALL FLOW:
 → If NO: move directly to step 2.
 
 2. HOOK + QUALIFY
-"We work with a lot of companies similar to [company] — [similar_company] saves about [similar_savings * 12] a year with us. Just to make sure we can actually help — roughly what are you spending on cloud per year?"
+"We work with a lot of companies similar to [company] — [similar_company] saves about [similar_savings * 12] a year with us. Just to make sure we can actually help — roughly what are you spending on cloud per month?"
 
-→ If spend_total already known from lead context: skip the question, use the number directly.
+→ If spend_total already known from lead context: skip the question, use the monthly number directly.
 
 SPEND QUALIFICATION:
-- < $5K/year → NOT QUALIFIED
+- < $5K/month → NOT QUALIFIED
   "Got it — honestly at that spend level we might not be the right fit just yet. I'll make a note to check back as you scale. Thanks for your time [first_name]."
   → log_outcome: disqualified. End call.
 
-- ≥ $5K/year → continue. Ask:
+- ≥ $5K/month → continue. Ask:
   "And are you currently on any enterprise discount programs or do you have cloud credits — like an EDP with AWS or similar?"
 
   → YES to EDP or credits → NOT ELIGIBLE
@@ -150,11 +150,11 @@ SPEND QUALIFICATION:
   → log_outcome: disqualified. End call.
 
   → NO → assign tier and continue:
-  - $5K–$15K/year → SMB
-  - $15K–$30K/year → Core
-  - $30K–$60K/year → Mid-Market
-  - $60K–$150K/year → Enterprise
-  - $150K+/year → Whale → flag for senior AE
+  - $5K–$15K/month → SMB
+  - $15K–$30K/month → Core
+  - $30K–$60K/month → Mid-Market
+  - $60K–$150K/month → Enterprise
+  - $150K+/month → Whale → flag for senior AE
 
 3. OFFER
 
@@ -303,7 +303,7 @@ CALL FLOW:
 2. HOOK + OFFER (tier-dependent, no teasing — state offer directly)
 
 First qualify using spend_total from lead context. If not available, ask:
-"Just to make sure we can actually help — roughly what are you spending on cloud per year?"
+"Just to make sure we can actually help — roughly what are you spending on cloud per month?"
 
 Then ask: "Are you currently on any enterprise discount programs or do you have cloud credits — like an EDP with AWS or similar?"
 
@@ -311,11 +311,11 @@ Then ask: "Are you currently on any enterprise discount programs or do you have 
 "Got it — unfortunately we're not able to work with accounts that have active credits or enterprise discount programs. I don't want to waste your time, but I'd love to check back once that changes."
 → log_outcome: disqualified. End call.
 
-→ < $5K/year → NOT QUALIFIED
+→ < $5K/month → NOT QUALIFIED
 "I want to be upfront — at your current spend level we might not be the best fit yet. But those savings are real, and I'd encourage you to check back as you scale."
 → log_outcome: disqualified. End call.
 
-→ ≥ $5K/year → assign tier and deliver hook:
+→ ≥ $5K/month → assign tier and deliver hook:
 
 SMB:
 "I'm calling because we found [savings_total * 12] in savings for you this year — completely free, no lock-in, no risk. The only thing you need to do is put in a ticket with AWS to claim it. We'd also love to send you a $20 DoorDash credit as a thank you. Would you be interested in getting a demo from someone on our team?"

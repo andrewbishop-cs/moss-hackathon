@@ -10,10 +10,11 @@
     "install:backend": "uv --directory backend sync",
     "env:copy": "test -f frontend/.env.local || cp frontend/.env.example frontend/.env.local; test -f agent-py/.env.local || cp agent-py/.env.example agent-py/.env.local",
 
-    "dev": "concurrently -n agent-py,backend,frontend -c cyan,green,magenta \"pnpm dev:agent-py\" \"pnpm dev:backend\" \"pnpm dev:frontend\"",
+    "dev": "pnpm reset:leads && concurrently -n agent-py,backend,frontend -c cyan,green,magenta \"pnpm dev:agent-py\" \"pnpm dev:backend\" \"pnpm dev:frontend\"",
     "dev:frontend": "pnpm --dir frontend dev",
     "dev:agent-py": "uv --directory agent-py run src/agent.py dev",
-    "dev:backend": "uv --directory backend run uvicorn src.main:app --reload --port 8000",
+    "dev:backend": "uv --directory backend run uvicorn src.main:app --port 8000",
+    "reset:leads": "uv --directory backend run python -m src.reset",
 
     "agent:py:console": "uv --directory agent-py run src/agent.py console",
     "agent:py:start": "uv --directory agent-py run src/agent.py start",

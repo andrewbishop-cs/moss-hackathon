@@ -105,7 +105,7 @@
   },
   {
     "id": "kb-offer-tiers",
-    "text": "Q: What thank-you gift or promotion can we offer? A: It depends on the lead's annual spend tier, and all gifts are tied to booking a demo and doing a trial this month. SMB ($5K to $15K/year): a $20 DoorDash credit. Core ($15K to $30K/year): $50 in AWS credits. Mid-Market ($30K to $60K/year): a World Cup jersey. Enterprise ($60K to $150K/year): a custom company pullover. Whale ($150K+/year): a Mac Mini, plus we loop in a senior account exec.",
+    "text": "Q: What thank-you gift or promotion can we offer? A: It depends on the lead's monthly cloud spend tier, and all gifts are tied to booking a demo and doing a trial this month. Minimum to qualify is $5K/month. SMB ($5K to $15K/month): a $20 DoorDash credit. Core ($15K to $30K/month): $50 in AWS credits. Mid-Market ($30K to $60K/month): a World Cup jersey. Enterprise ($60K to $150K/month): a custom company pullover. Whale ($150K+/month): a Mac Mini, plus we loop in a senior account exec.",
     "metadata": {
       "category": "offer",
       "topic": "tiers"
@@ -257,7 +257,7 @@
   },
   {
     "id": "kb-uc2-book-meeting",
-    "text": "UC2 close: After qualifying, offer a specific calendar slot. Tier the thank-you gift by annual spend (DoorDash credit for SMB, AWS credits for Core, jersey for Mid-Market, etc.). Confirm they received the invite verbally before logging booked.",
+    "text": "UC2 close: After qualifying, offer a specific calendar slot. Tier the thank-you gift by monthly spend (DoorDash credit for SMB, AWS credits for Core, jersey for Mid-Market, etc.). Confirm they received the invite verbally before logging booked.",
     "metadata": {
       "category": "offer",
       "topic": "uc2-close"

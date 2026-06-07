@@ -57,15 +57,16 @@ BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 # Outcomes the agent may report. These must be valid LeadStatus values in
 # backend/src/models.py or the hub will reject the write (422). Mirrors the
-# outcome table in docs/AGENT_SCRIPT.md.
+# 7-category disposition framework in docs/LEAD_DISPOSITIONS.md.
 VALID_OUTCOMES = {
-    "booked",
-    "not_qualified",
-    "not_eligible",
-    "requested_human",
-    "callback",
-    "declined",
-    "no_answer",
+    "booked",  # Cat 1: meeting booked
+    "interested",  # Cat 2: interested, no specific time
+    "callback",  # Cat 2: specific callback time (put it in notes)
+    "declined",  # Cat 3: hard no
+    "no_answer",  # Cat 4: voicemail / no pickup
+    "disqualified",  # Cat 5: wrong ICP, no AWS/GCP, too small, already a customer
+    "bad_data",  # Cat 6: wrong number, left company, duplicate
+    "reengage_90d",  # Cat 7: revisit in ~90 days, no hard disqualifier
 }
 
 
@@ -110,15 +111,15 @@ DEFAULT_USE_CASE = UC2_ESTIMATE_COMPLETED
 _USE_CASE_HOOKS = {
     UC2_ESTIMATE_COMPLETED: (
         "This lead ran a savings estimate on the Pump website but did not sign "
-        "up. After the Q&A, lead with their specific annual savings number "
-        "(monthly savings from your lead context times twelve) — the money "
-        "they're leaving on the table — then make the tier-based offer."
+        "up. After the Q&A, lead with their specific monthly savings number from "
+        "your lead context — the money they're leaving on the table each month — "
+        "then make the tier-based offer."
     ),
     UC1_NEW_SIGNUP: (
         "This lead created an account on the Pump website but never ran a savings "
         "estimate, so you do not have their savings number yet. After the Q&A, "
         "use social proof (a comparable company and what companies like theirs "
-        "save) and ask what they spend on cloud per year to qualify them."
+        "save) and ask what they spend on cloud per month to qualify them."
     ),
 }
 
@@ -145,9 +146,10 @@ def _instructions_for(use_case: str) -> str:
         What we know about this specific lead (name, company, spend, and any
         estimated savings) is in the "This specific lead" section below. Use it to
         personalize your opening and greet them by first name. The spend and
-        savings figures there are MONTHLY — multiply by twelve for the annual
-        numbers you quote and for tier qualification. Only call `get_lead_context`
-        if that section is missing or you need to re-check a detail mid-call.
+        savings figures there are MONTHLY: tier qualification uses monthly spend
+        directly (do NOT annualize), and you quote savings as a per-month figure.
+        Only call `get_lead_context` if that section is missing or you need to
+        re-check a detail mid-call.
 
         # AI disclosure
 
@@ -163,24 +165,25 @@ def _instructions_for(use_case: str) -> str:
         2. Q&A: Answer any questions genuinely (see "Answering questions"). When
            questions wind down, move on.
         3. QUALIFY — two gates, in order:
-           a. Spend: establish their approximate ANNUAL cloud spend (use the lead
-              context if you have it; otherwise ask). If under $5,000/year they are
-              NOT QUALIFIED — be upfront, say you'll check back as they scale, call
-              `log_outcome` with "not_qualified", and end.
+           a. Spend: establish their approximate MONTHLY cloud spend (use the lead
+              context if you have it; otherwise ask). If under $5,000/month, or
+              they have no AWS/GCP usage, or they're too small / outside our ICP,
+              they're DISQUALIFIED — be upfront, say you'll check back as they
+              scale, call `log_outcome` with "disqualified", and end.
            b. Eligibility: ask if they're on an enterprise discount program (EDP)
-              or running on cloud credits. If yes, they are NOT ELIGIBLE — say you
-              can't work with active credits/EDPs yet but would love to revisit,
-              call `log_outcome` with "not_eligible", and end.
-        4. OFFER (only if qualified + eligible): assign a tier from annual spend
+              or running on cloud credits. If yes, they're DISQUALIFIED for now —
+              say you can't work with active credits/EDPs yet but would love to
+              revisit, call `log_outcome` with "disqualified", and end.
+        4. OFFER (only if qualified + eligible): assign a tier from MONTHLY spend
            and make the matching thank-you offer, tied to booking a demo and doing
            a trial this month:
-             - $5K to $15K (SMB): a $20 DoorDash credit
-             - $15K to $30K (Core): $50 in AWS credits
-             - $30K to $60K (Mid-Market): a World Cup jersey
-             - $60K to $150K (Enterprise): a custom company-branded pullover
-             - $150K+ (Whale): a Mac Mini, and mention you'll loop in a senior
+             - $5K to $15K/mo (SMB): a $20 DoorDash credit
+             - $15K to $30K/mo (Core): $50 in AWS credits
+             - $30K to $60K/mo (Mid-Market): a World Cup jersey
+             - $60K to $150K/mo (Enterprise): a custom company-branded pullover
+             - $150K+/mo (Whale): a Mac Mini, and mention you'll loop in a senior
                account exec
-           For UC2, pair the offer with their annual savings number. Then ask if
+           For UC2, pair the offer with their monthly savings number. Then ask if
            they'd like a demo with the team.
         5. BOOK: if yes, use progressive urgency to lock a specific day + time
            (today/tomorrow → next business days → next week → "what works best",
@@ -191,14 +194,24 @@ def _instructions_for(use_case: str) -> str:
         6. CLOSE: confirm everything's set, thank them by first name, and call
            `log_outcome` with "booked".
 
-        # Outcomes — always call `log_outcome` before the call ends, with one of:
-        - "booked": they agreed to a meeting
-        - "not_qualified": under $5K/year spend
-        - "not_eligible": active EDP or cloud credits
-        - "callback": they asked to be contacted later (put the timing in notes)
-        - "requested_human": they want to talk to a person
-        - "declined": not interested / do-not-call
-        - "no_answer": voicemail or no pickup (handled below)
+        # Outcomes — always call `log_outcome` before the call ends, with exactly
+        # one of these (the 7-category disposition framework):
+        - "booked": they agreed to a demo with a confirmed time
+        - "interested": interested but not ready, no specific time (door is open)
+        - "callback": they asked to be contacted at a specific later time (put the
+          time in notes)
+        - "declined": a hard no, locked into a competitor, or do-not-call
+        - "no_answer": voicemail, no pickup, or a gatekeeper with no path forward
+        - "disqualified": under $5K/month, no AWS/GCP usage, outside our ICP, on an
+          EDP/credits, or already a Pump customer
+        - "bad_data": wrong number, this isn't the person, they've left the
+          company, or it's a duplicate
+        - "reengage_90d": worth revisiting in a few months (budget freeze, recent
+          reorg) with no hard disqualifier
+        Notes: if they ask to speak to a human, treat it as "interested" (flag in
+        notes that they want a human). When unsure between "interested" and
+        "declined", prefer "interested" — misjudging a warm lead as a hard no is
+        costly.
 
         # Answering questions
 
@@ -478,8 +491,8 @@ class Assistant(Agent):
         Supabase (via the FastAPI hub).
 
         Args:
-            outcome: One of "booked", "not_qualified", "not_eligible",
-                "callback", "requested_human", "declined", or "no_answer".
+            outcome: One of "booked", "interested", "callback", "declined",
+                "no_answer", "disqualified", "bad_data", or "reengage_90d".
             notes: Optional context, e.g. callback timing or why they declined.
         """
         normalized = outcome.strip().lower()
@@ -500,10 +513,13 @@ class Assistant(Agent):
             normalized,
         )
         await post_call_outcome(self._lead_id, normalized, detail)
-        # Voicemail / no answer: don't leave a message. Hang up immediately so the
-        # backend's single retry lands inside iPhone's 3-minute "Repeated Calls"
-        # window and rings through Do Not Disturb.
-        if normalized == "no_answer":
+        # Outcomes that get one instant automatic callback (backend re-dispatches
+        # when the POST above lands). Hang up now so call #1 tears down before the
+        # retry rings:
+        #   - no_answer: voicemail. Don't leave a message; the retry lands inside
+        #     iPhone's 3-minute "Repeated Calls" window and breaks through DND.
+        #   - declined: end the call promptly, then ring back once.
+        if normalized in ("no_answer", "declined"):
             await self._hangup()
         return "Noted."
 

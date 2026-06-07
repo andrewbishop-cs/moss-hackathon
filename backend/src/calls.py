@@ -17,28 +17,29 @@ from livekit import api
 from src import db, moss_index
 from src.config import AGENT_NAME
 
-# Leads already auto-retried after a no_answer this process. Prevents the retry's
-# own no_answer from looping into infinite calls. In-memory is fine for the
-# hackathon (resets on restart); cleared when a non-no_answer outcome arrives so
-# a future fresh call can retry again.
-_retried_leads: set[str] = set()
+# Outcomes that trigger one instant automatic callback:
+#   - no_answer: voicemail / no pickup. The retry lands inside iPhone's 3-minute
+#     "Repeated Calls" window so the second call breaks through Do Not Disturb.
+#   - declined: a soft/hard no. One more immediate attempt before giving up.
+RETRY_OUTCOMES: frozenset[str] = frozenset({"no_answer", "declined"})
+
+# Whether the most recent call dispatched for a lead was itself an auto-retry.
+# Each fresh call (manual "Call Now" or a use-case trigger) is eligible for ONE
+# retry; the retry it spawns is not, which caps it at one extra attempt per call
+# without ever looping. Resets on every fresh call, so no backend restart is
+# needed between demo runs.
+_call_was_retry: dict[str, bool] = {}
 
 
-def mark_retry_if_first(lead_id: str | UUID) -> bool:
-    """Record + return True if this lead hasn't been auto-retried yet."""
-    key = str(lead_id)
-    if key in _retried_leads:
-        return False
-    _retried_leads.add(key)
-    return True
+def should_retry(lead_id: str | UUID) -> bool:
+    """True if this lead's current call is allowed to spawn one auto-retry.
+
+    A call is retry-eligible unless it was itself a retry.
+    """
+    return not _call_was_retry.get(str(lead_id), False)
 
 
-def clear_retry(lead_id: str | UUID) -> None:
-    """Forget a lead's retry flag (call on any non-no_answer outcome)."""
-    _retried_leads.discard(str(lead_id))
-
-
-async def start_call(lead_id: str | UUID) -> str:
+async def start_call(lead_id: str | UUID, *, is_retry: bool = False) -> str:
     """Index the lead and dispatch the agent. Returns the LiveKit room name."""
     lead = db.get_lead(lead_id)
     await moss_index.upsert_lead(lead)
@@ -65,4 +66,5 @@ async def start_call(lead_id: str | UUID) -> str:
         await lkapi.aclose()
 
     db.mark_calling(lead.id, room_name)
+    _call_was_retry[str(lead.id)] = is_retry
     return room_name

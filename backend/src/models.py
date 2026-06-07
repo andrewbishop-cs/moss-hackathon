@@ -9,20 +9,30 @@ from uuid import UUID
 
 UseCase = Literal["uc1_new_signup", "uc2_estimate_completed"]
 
-# Operational statuses ("pending", "calling", "called") plus the terminal call
-# outcomes from docs/AGENT_SCRIPT.md. "callback" = caller asked to be called back
-# later (details in outcome_notes).
+# Lead-status contract. Canonical taxonomy = the 7-category disposition framework
+# in docs/LEAD_DISPOSITIONS.md (what the dashboard displays + the agent emits),
+# plus operational statuses the backend sets while a call is in flight.
+#   - operational: "pending" (not yet called), "calling" (dispatched), "called"
+#     (generic fallback)
+#   - Cat 1 Meeting booked:        "booked"
+#   - Cat 2 Interested / Not ready: "interested" (general) / "callback" (has a time)
+#   - Cat 3 Not interested:        "declined"
+#   - Cat 4 No connect:            "no_answer"
+#   - Cat 5 Disqualified:          "disqualified"
+#   - Cat 6 Bad data:              "bad_data"
+#   - Cat 7 Re-engage in 90 days:  "reengage_90d"
 LeadStatus = Literal[
     "pending",
     "calling",
     "called",
     "booked",
-    "not_qualified",
-    "not_eligible",
-    "requested_human",
+    "interested",
     "callback",
-    "no_answer",
     "declined",
+    "no_answer",
+    "disqualified",
+    "bad_data",
+    "reengage_90d",
 ]
 
 # ============================================================

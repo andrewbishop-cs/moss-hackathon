@@ -13,7 +13,7 @@ import { ArrowLeftIcon } from '@phosphor-icons/react/dist/ssr';
 import { AgentChatTranscript } from '@/components/agents-ui/agent-chat-transcript';
 import { AgentSessionProvider } from '@/components/agents-ui/agent-session-provider';
 import { MossResultsPanel } from '@/components/app/moss-results-panel';
-import { StatusBadge, UseCaseBadge } from '@/components/dashboard/badges';
+import { StatusBadge, TierBadge, UseCaseBadge } from '@/components/dashboard/badges';
 import { CallInsightsPanel } from '@/components/dashboard/call-insights-panel';
 import { DashboardShell } from '@/components/dashboard/dashboard-shell';
 import { useMossContextEvents } from '@/hooks/useMossContextEvents';
@@ -21,6 +21,7 @@ import { getLead } from '@/lib/api';
 import { buildCallInsights } from '@/lib/call-insights';
 import { BTN_OUTLINE, PAGE_SUBTITLE, PAGE_TITLE, TEXT_SECONDARY } from '@/lib/dashboard-ui';
 import { type LeadWithCompany, formatMonthly, fullName } from '@/lib/leads';
+import { spendToTier } from '@/lib/tiers';
 import { cn } from '@/lib/shadcn/utils';
 
 const LEAD_POLL_MS = 3000;
@@ -33,6 +34,7 @@ interface LiveCallViewProps {
 
 function ContextPanel({ lead }: { lead: LeadWithCompany }) {
   const company = lead.company;
+  const tier = spendToTier(company?.spend_total);
   return (
     <div className="space-y-6 text-[14px] font-normal">
       <p className={cn(TEXT_SECONDARY, 'text-[11px] font-medium tracking-wide uppercase')}>
@@ -45,6 +47,17 @@ function ContextPanel({ lead }: { lead: LeadWithCompany }) {
           <span className={cn(TEXT_SECONDARY, 'text-[13px] font-normal')}> /mo</span>
         </p>
       </div>
+      {tier && (
+        <div className="mb-4">
+          <p className={cn(TEXT_SECONDARY, 'text-[12px]')}>Spend tier</p>
+          <div className="mt-1.5">
+            <TierBadge tier={tier} />
+          </div>
+          {tier.offer && (
+            <p className={cn(TEXT_SECONDARY, 'mt-2 text-[12px]')}>Offer: {tier.offer}</p>
+          )}
+        </div>
+      )}
       <dl className="divide-foreground divide-y">
         {[
           ['Company', company?.name ?? '—'],

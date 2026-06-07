@@ -136,6 +136,30 @@ def set_outcome(
     ).eq("id", str(lead_id)).execute()
 
 
+def reset_leads() -> int:
+    """Reset every lead to a clean pre-demo state. Returns the row count.
+
+    Mirrors backend/seed/reset_leads.sql: sets status back to `pending` and clears
+    the transient call fields so the dashboard/queue/analytics start fresh.
+    Contact info and use-case are preserved. The `.neq` on a sentinel id is the
+    supabase-py idiom for "update all rows".
+    """
+    res = (
+        supabase.table("leads")
+        .update(
+            {
+                "status": "pending",
+                "room_name": None,
+                "called_at": None,
+                "outcome_notes": None,
+            }
+        )
+        .neq("id", "00000000-0000-0000-0000-000000000000")
+        .execute()
+    )
+    return len(res.data)
+
+
 def get_similar_company(
     company_size: str, exclude_id: str | UUID
 ) -> Company | None:
