@@ -321,10 +321,12 @@ class Assistant(Agent):
         super().__init__(
             # The LLM (the agent's brain) runs on LiveKit Inference — no provider
             # API key required. STT/TTS are configured on the AgentSession below.
-            # Fast, low-TTFT model: the call is grounded by Moss RAG, so we don't
-            # need a heavyweight reasoning model and a slow one dominates latency.
+            # GPT-OSS-120B served by Groq for very low time-to-first-token (the
+            # dominant latency stage in our call logs) and high tok/s. The call is
+            # grounded by Moss RAG, so we don't need a heavyweight reasoning model.
+            # To revert: model="google/gemini-2.5-flash-lite" (drop provider).
             # See https://docs.livekit.io/agents/models/llm/
-            llm=inference.LLM(model="google/gemini-2.5-flash-lite"),
+            llm=inference.LLM(model="openai/gpt-oss-120b", provider="groq"),
             instructions=_instructions_for(use_case),
         )
         self._room = room
@@ -687,18 +689,25 @@ async def my_agent(ctx: JobContext):
             # 1.3x speaking rate for a snappier, less drawn-out delivery.
             extra_kwargs={"speaking_rate": 1.3},
         ),
-        # VAD and turn detection determine when the user is speaking. English turn
-        # detector pairs with the English STT above.
-        # See more at https://docs.livekit.io/agents/build/turns
-        turn_detection=EnglishModel(),
+        # VAD detects when the user is speaking. (Still a direct kwarg.)
         vad=ctx.proc.userdata["vad"],
-        # Latency: close the user's turn faster once they stop speaking. Default
-        # min is 0.5s; 0.2s shaves ~300ms off every reply. max caps the wait for
-        # slow/hesitant talkers. See docs/agents/logic/turns/tuning.
-        min_endpointing_delay=0.2,
-        max_endpointing_delay=3.0,
-        # Let the LLM generate a response while waiting for the end of turn.
-        preemptive_generation=True,
+        # Turn-taking + latency tuning via the modern turn_handling API. This
+        # replaces the deprecated turn_detection / min_endpointing_delay /
+        # max_endpointing_delay / preemptive_generation kwargs (one source of the
+        # deprecation warnings in the worker logs).
+        # See https://docs.livekit.io/reference/agents/turn-handling-options/
+        turn_handling={
+            # English turn detector pairs with the English STT above.
+            "turn_detection": EnglishModel(),
+            # Close the user's turn faster once they stop talking. min 0.2s shaves
+            # ~300ms off every reply; max caps the wait for slow/hesitant talkers.
+            "endpointing": {"min_delay": 0.2, "max_delay": 3.0},
+            # Speculatively run BOTH the LLM and the TTS before the turn is
+            # confirmed, so audio is ready the instant the user stops speaking
+            # (hides most of the TTS time-to-first-byte). Costs some wasted compute
+            # on discarded turns — a good trade for a low-latency live demo.
+            "preemptive_generation": {"enabled": True, "preemptive_tts": True},
+        },
     )
 
     # Per-stage latency logging (EOU -> LLM -> TTS) for the next test call.
