@@ -76,6 +76,7 @@ function EstimateWithLead({ leadId }: { leadId: string }) {
   const [demoNote, setDemoNote] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [elapsedSec, setElapsedSec] = useState(0);
+  const [agreedTos, setAgreedTos] = useState(false);
 
   const sampleSpend = useMemo(() => {
     if (resolvedSpend && resolvedSpend > 0) return resolvedSpend;
@@ -220,7 +221,27 @@ function EstimateWithLead({ leadId }: { leadId: string }) {
               </div>
             )}
 
-            <Button className="mt-6 w-full rounded-full" disabled={submitting} onClick={onGetPlan}>
+            <label className="mt-6 flex items-start gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={agreedTos}
+                onChange={(e) => setAgreedTos(e.target.checked)}
+                className="accent-primary mt-0.5 size-4 shrink-0 rounded"
+              />
+              <span className="text-muted-foreground">
+                I agree to the{' '}
+                <a href="#" className="text-primary underline underline-offset-2">
+                  Terms of Service
+                </a>
+                .
+              </span>
+            </label>
+
+            <Button
+              className="mt-3 w-full rounded-full"
+              disabled={submitting || !agreedTos}
+              onClick={onGetPlan}
+            >
               {submitting ? (
                 <>
                   <SpinnerGapIcon className="animate-spin" weight="bold" />

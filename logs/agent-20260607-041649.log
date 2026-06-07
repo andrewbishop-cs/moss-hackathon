@@ -1,0 +1,233 @@
+2026-06-07 04:16:50,162 INFO    [pid:38392] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:16:50,163 INFO    [pid:38392] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:16:50,166 DEBUG   [pid:38392] asyncio Using selector: KqueueSelector
+2026-06-07 04:16:50,167 DEV     [pid:38392] livekit.agents Watching /Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/src
+2026-06-07 04:16:50,675 INFO    [pid:38437] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:16:50,676 INFO    [pid:38437] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:16:50,676 DEBUG   [pid:38437] asyncio Using selector: KqueueSelector
+2026-06-07 04:16:50,678 INFO    [pid:38437] livekit.agents starting worker
+2026-06-07 04:16:50,679 INFO    [pid:38437] livekit.agents plugin registered
+2026-06-07 04:16:50,679 INFO    [pid:38437] livekit.agents plugin registered
+2026-06-07 04:16:50,680 INFO    [pid:38437] livekit.agents plugin registered
+2026-06-07 04:16:50,680 INFO    [pid:38437] livekit.agents plugin registered
+2026-06-07 04:16:50,680 INFO    [pid:38437] livekit.agents starting inference executor
+2026-06-07 04:16:50,685 INFO    [pid:38437] livekit.agents initializing process
+2026-06-07 04:16:53,322 INFO    [pid:38437] livekit.agents process initialized
+2026-06-07 04:16:53,325 INFO    [pid:38437] livekit.agents HTTP server listening on :62038
+2026-06-07 04:16:53,466 INFO    [pid:38437] livekit.agents registered worker
+2026-06-07 04:17:18,748 INFO    [pid:38437] livekit.agents received job request
+2026-06-07 04:17:18,778 DEBUG   [pid:38437] livekit.agents received assignment
+2026-06-07 04:17:18,780 WARNING [pid:38437] livekit.agents no warmed process available for job, waiting for one to be created
+2026-06-07 04:17:18,788 INFO    [pid:38437] livekit.agents initializing process
+2026-06-07 04:17:19,993 DEBUG   [pid:38945] asyncio Using selector: KqueueSelector
+2026-06-07 04:17:19,993 DEBUG   [pid:38945] asyncio Using selector: KqueueSelector
+2026-06-07 04:17:21,270 INFO    [pid:38945] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:17:21,270 INFO    [pid:38945] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:17:21,271 DEBUG   [pid:38945] asyncio Using selector: KqueueSelector
+2026-06-07 04:17:21,271 DEBUG   [pid:38945] asyncio Using selector: KqueueSelector
+2026-06-07 04:17:21,272 INFO    [pid:38437] livekit.agents process initialized
+2026-06-07 04:17:21,338 WARNING [pid:38945] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:17:21,338 WARNING [pid:38945] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:17:21,943 INFO    [pid:38945] agent startup phase=connect elapsed_ms=605
+2026-06-07 04:17:21,944 DEBUG   [pid:38945] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:17:21,943 INFO    [pid:38945] agent startup phase=connect elapsed_ms=605
+2026-06-07 04:17:21,944 DEBUG   [pid:38945] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:17:28,357 INFO    [pid:38945] agent startup phase=sip_answered elapsed_ms=7019
+2026-06-07 04:17:28,357 INFO    [pid:38945] agent startup phase=sip_answered elapsed_ms=7019
+2026-06-07 04:17:28,400 DEBUG   [pid:38945] livekit.agents input stream attached
+2026-06-07 04:17:28,400 DEBUG   [pid:38945] livekit.agents input stream attached
+2026-06-07 04:17:28,401 INFO    [pid:38945] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:17:28,403 DEBUG   [pid:38945] livekit.agents start reading stream
+2026-06-07 04:17:28,401 INFO    [pid:38945] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:17:28,403 DEBUG   [pid:38945] livekit.agents start reading stream
+2026-06-07 04:17:28,404 INFO    [pid:38945] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:17:28,404 INFO    [pid:38945] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:17:28,405 DEBUG   [pid:38945] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:17:28,405 DEBUG   [pid:38945] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:17:28,405 INFO    [pid:38945] agent startup phase=session_start elapsed_ms=6 total_ms=7067
+2026-06-07 04:17:28,405 INFO    [pid:38945] agent Lead context (from metadata) ready for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:17:28,405 DEBUG   [pid:38945] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:17:28,405 DEBUG   [pid:38945] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:17:28,405 INFO    [pid:38945] agent startup phase=session_start elapsed_ms=6 total_ms=7067
+2026-06-07 04:17:28,405 INFO    [pid:38945] agent Lead context (from metadata) ready for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:17:29,355 DEBUG   [pid:38945] livekit.agents aec warmup active, disabling interruptions for 3.00s
+2026-06-07 04:17:29,355 DEBUG   [pid:38945] livekit.agents aec warmup active, disabling interruptions for 3.00s
+2026-06-07 04:17:31,673 INFO    [pid:38945] agent latency[TTS] ttfb=337ms duration=2656ms
+2026-06-07 04:17:31,673 INFO    [pid:38945] agent latency[RESPONSE] ~337ms (eou=0 + llm_ttft=0 + tts_ttfb=337)
+2026-06-07 04:17:31,673 INFO    [pid:38945] agent latency[TTS] ttfb=337ms duration=2656ms
+2026-06-07 04:17:31,673 INFO    [pid:38945] agent latency[RESPONSE] ~337ms (eou=0 + llm_ttft=0 + tts_ttfb=337)
+2026-06-07 04:17:32,355 DEBUG   [pid:38945] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:17:32,355 DEBUG   [pid:38945] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:17:39,679 INFO    [pid:38945] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:17:39,683 INFO    [pid:38945] agent startup phase=opening_say elapsed_ms=10675 total_ms=18344
+2026-06-07 04:17:39,679 INFO    [pid:38945] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:17:39,683 INFO    [pid:38945] agent startup phase=opening_say elapsed_ms=10675 total_ms=18344
+2026-06-07 04:17:43,376 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:17:43,376 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:17:44,267 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:17:44,268 DEBUG   [pid:38945] livekit.agents received user transcript
+2026-06-07 04:17:44,267 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:17:44,268 DEBUG   [pid:38945] livekit.agents received user transcript
+2026-06-07 04:17:44,623 DEBUG   [pid:38945] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:17:44,623 DEBUG   [pid:38945] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:17:44,623 WARNING [pid:38945] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:17:44,624 INFO    [pid:38945] agent latency[EOU] eou_delay=564ms transcription_delay=209ms
+2026-06-07 04:17:44,623 WARNING [pid:38945] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:17:44,624 INFO    [pid:38945] agent latency[EOU] eou_delay=564ms transcription_delay=209ms
+2026-06-07 04:17:44,633 INFO    [pid:38945] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:17:44,633 INFO    [pid:38945] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:17:46,681 DEBUG   [pid:38945] livekit.agents executing tool
+2026-06-07 04:17:46,681 DEBUG   [pid:38945] livekit.agents executing tool
+2026-06-07 04:17:46,699 INFO    [pid:38945] agent latency[moss.query knowledge] elapsed_ms=18
+2026-06-07 04:17:46,699 INFO    [pid:38945] agent latency[moss.query knowledge] elapsed_ms=18
+2026-06-07 04:17:46,700 INFO    [pid:38945] agent latency[LLM] ttft=998ms duration=2074ms tok/s=175
+2026-06-07 04:17:46,700 INFO    [pid:38945] agent latency[LLM] ttft=998ms duration=2074ms tok/s=175
+2026-06-07 04:17:46,706 DEBUG   [pid:38945] livekit.agents tools execution completed
+2026-06-07 04:17:46,706 DEBUG   [pid:38945] livekit.agents tools execution completed
+2026-06-07 04:17:48,468 INFO    [pid:38945] agent latency[LLM] ttft=523ms duration=1733ms tok/s=308
+2026-06-07 04:17:48,468 INFO    [pid:38945] agent latency[LLM] ttft=523ms duration=1733ms tok/s=308
+2026-06-07 04:17:53,310 INFO    [pid:38945] agent latency[TTS] ttfb=399ms duration=4973ms
+2026-06-07 04:17:53,311 INFO    [pid:38945] agent latency[RESPONSE] ~1486ms (eou=564 + llm_ttft=523 + tts_ttfb=399)
+2026-06-07 04:17:53,310 INFO    [pid:38945] agent latency[TTS] ttfb=399ms duration=4973ms
+2026-06-07 04:17:53,311 INFO    [pid:38945] agent latency[RESPONSE] ~1486ms (eou=564 + llm_ttft=523 + tts_ttfb=399)
+2026-06-07 04:18:10,118 INFO    [pid:38945] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:10,118 INFO    [pid:38945] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:14,972 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:14,972 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:15,977 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:15,977 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:16,973 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:16,973 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:17,278 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:17,278 DEBUG   [pid:38945] livekit.agents received user transcript
+2026-06-07 04:18:17,278 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:17,278 DEBUG   [pid:38945] livekit.agents received user transcript
+2026-06-07 04:18:17,686 DEBUG   [pid:38945] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:18:17,686 WARNING [pid:38945] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:18:17,686 DEBUG   [pid:38945] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:18:17,686 INFO    [pid:38945] agent latency[EOU] eou_delay=579ms transcription_delay=171ms
+2026-06-07 04:18:17,686 WARNING [pid:38945] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:18:17,686 INFO    [pid:38945] agent latency[EOU] eou_delay=579ms transcription_delay=171ms
+2026-06-07 04:18:17,701 INFO    [pid:38945] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:17,701 INFO    [pid:38945] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:18,835 DEBUG   [pid:38945] livekit.agents executing tool
+2026-06-07 04:18:18,835 DEBUG   [pid:38945] livekit.agents executing tool
+2026-06-07 04:18:18,846 INFO    [pid:38945] agent latency[LLM] ttft=745ms duration=1157ms tok/s=149
+2026-06-07 04:18:18,846 INFO    [pid:38945] agent latency[moss.query knowledge] elapsed_ms=11
+2026-06-07 04:18:18,846 INFO    [pid:38945] agent latency[LLM] ttft=745ms duration=1157ms tok/s=149
+2026-06-07 04:18:18,846 INFO    [pid:38945] agent latency[moss.query knowledge] elapsed_ms=11
+2026-06-07 04:18:18,851 DEBUG   [pid:38945] livekit.agents tools execution completed
+2026-06-07 04:18:18,851 DEBUG   [pid:38945] livekit.agents tools execution completed
+2026-06-07 04:18:20,205 INFO    [pid:38945] agent latency[LLM] ttft=470ms duration=1327ms tok/s=302
+2026-06-07 04:18:20,205 INFO    [pid:38945] agent latency[LLM] ttft=470ms duration=1327ms tok/s=302
+2026-06-07 04:18:25,698 INFO    [pid:38945] agent latency[TTS] ttfb=446ms duration=5588ms
+2026-06-07 04:18:25,699 INFO    [pid:38945] agent latency[RESPONSE] ~1495ms (eou=579 + llm_ttft=470 + tts_ttfb=446)
+2026-06-07 04:18:25,698 INFO    [pid:38945] agent latency[TTS] ttfb=446ms duration=5588ms
+2026-06-07 04:18:25,699 INFO    [pid:38945] agent latency[RESPONSE] ~1495ms (eou=579 + llm_ttft=470 + tts_ttfb=446)
+2026-06-07 04:18:43,294 INFO    [pid:38945] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:43,294 INFO    [pid:38945] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:44,962 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:44,962 DEBUG   [pid:38945] livekit.agents received user transcript
+2026-06-07 04:18:44,962 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:44,962 DEBUG   [pid:38945] livekit.agents received user transcript
+2026-06-07 04:18:45,282 DEBUG   [pid:38945] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:18:45,282 DEBUG   [pid:38945] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:18:45,282 WARNING [pid:38945] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:18:45,283 INFO    [pid:38945] agent latency[EOU] eou_delay=574ms transcription_delay=254ms
+2026-06-07 04:18:45,282 WARNING [pid:38945] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:18:45,283 INFO    [pid:38945] agent latency[EOU] eou_delay=574ms transcription_delay=254ms
+2026-06-07 04:18:45,294 INFO    [pid:38945] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:45,294 INFO    [pid:38945] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:46,691 INFO    [pid:38945] agent latency[LLM] ttft=990ms duration=1406ms tok/s=115
+2026-06-07 04:18:46,691 INFO    [pid:38945] agent latency[LLM] ttft=990ms duration=1406ms tok/s=115
+2026-06-07 04:18:48,600 INFO    [pid:38945] agent latency[TTS] ttfb=424ms duration=1908ms
+2026-06-07 04:18:48,600 INFO    [pid:38945] agent latency[RESPONSE] ~1989ms (eou=574 + llm_ttft=990 + tts_ttfb=424)
+2026-06-07 04:18:48,600 INFO    [pid:38945] agent latency[TTS] ttfb=424ms duration=1908ms
+2026-06-07 04:18:48,600 INFO    [pid:38945] agent latency[RESPONSE] ~1989ms (eou=574 + llm_ttft=990 + tts_ttfb=424)
+2026-06-07 04:18:54,403 INFO    [pid:38945] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:54,403 INFO    [pid:38945] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:57,780 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:57,780 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:58,067 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:58,067 DEBUG   [pid:38945] livekit.agents received user transcript
+2026-06-07 04:18:58,067 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:58,067 DEBUG   [pid:38945] livekit.agents received user transcript
+2026-06-07 04:18:58,424 DEBUG   [pid:38945] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:18:58,424 DEBUG   [pid:38945] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:18:58,424 WARNING [pid:38945] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:18:58,424 INFO    [pid:38945] agent latency[EOU] eou_delay=568ms transcription_delay=211ms
+2026-06-07 04:18:58,424 WARNING [pid:38945] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:18:58,424 INFO    [pid:38945] agent latency[EOU] eou_delay=568ms transcription_delay=211ms
+2026-06-07 04:18:58,436 INFO    [pid:38945] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:18:58,436 INFO    [pid:38945] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:00,096 INFO    [pid:38945] agent latency[LLM] ttft=774ms duration=1669ms tok/s=254
+2026-06-07 04:19:00,096 INFO    [pid:38945] agent latency[LLM] ttft=774ms duration=1669ms tok/s=254
+2026-06-07 04:19:05,055 INFO    [pid:38945] agent latency[TTS] ttfb=454ms duration=5082ms
+2026-06-07 04:19:05,056 INFO    [pid:38945] agent latency[RESPONSE] ~1795ms (eou=568 + llm_ttft=774 + tts_ttfb=454)
+2026-06-07 04:19:05,055 INFO    [pid:38945] agent latency[TTS] ttfb=454ms duration=5082ms
+2026-06-07 04:19:05,056 INFO    [pid:38945] agent latency[RESPONSE] ~1795ms (eou=568 + llm_ttft=774 + tts_ttfb=454)
+2026-06-07 04:19:21,870 INFO    [pid:38945] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:21,870 INFO    [pid:38945] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:24,265 INFO    [pid:38945] agent booking signal=weak_agreement for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:24,265 INFO    [pid:38945] agent booking signal=weak_agreement for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:24,312 INFO    [pid:38945] agent booking signal=weak_agreement for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:24,312 DEBUG   [pid:38945] livekit.agents received user transcript
+2026-06-07 04:19:24,312 INFO    [pid:38945] agent booking signal=weak_agreement for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:24,312 DEBUG   [pid:38945] livekit.agents received user transcript
+2026-06-07 04:19:25,289 INFO    [pid:38945] agent latency[LLM] ttft=491ms duration=970ms tok/s=212
+2026-06-07 04:19:25,289 INFO    [pid:38945] agent latency[LLM] ttft=491ms duration=970ms tok/s=212
+2026-06-07 04:19:25,330 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:25,330 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:25,411 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:25,412 DEBUG   [pid:38945] livekit.agents received user transcript
+2026-06-07 04:19:25,411 INFO    [pid:38945] agent booking signal=none for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:25,412 DEBUG   [pid:38945] livekit.agents received user transcript
+2026-06-07 04:19:25,427 INFO    [pid:38945] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:25,427 INFO    [pid:38945] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:25,569 DEBUG   [pid:38945] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:19:25,570 WARNING [pid:38945] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:19:25,569 DEBUG   [pid:38945] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:19:25,570 INFO    [pid:38945] agent latency[EOU] eou_delay=564ms transcription_delay=405ms
+2026-06-07 04:19:25,570 WARNING [pid:38945] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:19:25,570 INFO    [pid:38945] agent latency[EOU] eou_delay=564ms transcription_delay=405ms
+2026-06-07 04:19:25,581 INFO    [pid:38945] agent talkover count=2 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:25,581 INFO    [pid:38945] agent talkover count=2 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:26,792 DEBUG   [pid:38945] livekit.agents executing tool
+2026-06-07 04:19:26,793 INFO    [pid:38945] agent book_meeting called for lead_id=b1000000-0001-0000-0000-000000000001 when='Thursday at 2pm' tier='Whale'
+2026-06-07 04:19:26,792 DEBUG   [pid:38945] livekit.agents executing tool
+2026-06-07 04:19:26,794 INFO    [pid:38945] agent latency[LLM] ttft=684ms duration=1221ms tok/s=184
+2026-06-07 04:19:26,793 INFO    [pid:38945] agent book_meeting called for lead_id=b1000000-0001-0000-0000-000000000001 when='Thursday at 2pm' tier='Whale'
+2026-06-07 04:19:26,794 INFO    [pid:38945] agent latency[LLM] ttft=684ms duration=1221ms tok/s=184
+2026-06-07 04:19:26,920 INFO    [pid:38945] agent persisted outcome 'booked' for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:26,920 INFO    [pid:38945] agent persisted outcome 'booked' for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:26,921 INFO    [pid:38945] agent latency[backend.outcome] elapsed_ms=128
+2026-06-07 04:19:26,921 INFO    [pid:38945] agent latency[backend.outcome] elapsed_ms=128
+2026-06-07 04:19:29,749 INFO    [pid:38945] agent latency[TTS] ttfb=321ms duration=2825ms
+2026-06-07 04:19:29,749 INFO    [pid:38945] agent latency[RESPONSE] ~321ms (eou=0 + llm_ttft=0 + tts_ttfb=321)
+2026-06-07 04:19:29,749 INFO    [pid:38945] agent latency[TTS] ttfb=321ms duration=2825ms
+2026-06-07 04:19:29,749 INFO    [pid:38945] agent latency[RESPONSE] ~321ms (eou=0 + llm_ttft=0 + tts_ttfb=321)
+2026-06-07 04:19:39,288 INFO    [pid:38945] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:39,288 INFO    [pid:38945] agent talkover count=0 interrupted=False for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:39,620 WARNING [pid:38945] livekit livekit_api::signal_client:530:livekit_api::signal_client - dropping pass-through signal — no stream available
+2026-06-07 04:19:39,620 WARNING [pid:38945] livekit livekit_api::signal_client:530:livekit_api::signal_client - dropping pass-through signal — no stream available
+2026-06-07 04:19:39,877 DEBUG   [pid:38945] livekit.agents tools execution completed
+2026-06-07 04:19:39,877 DEBUG   [pid:38945] livekit.agents tools execution completed
+2026-06-07 04:19:39,896 INFO    [pid:38945] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:39,896 INFO    [pid:38945] agent talkover count=1 interrupted=True for lead_id=b1000000-0001-0000-0000-000000000001
+2026-06-07 04:19:39,899 DEBUG   [pid:38945] livekit.agents input stream detached
+2026-06-07 04:19:39,899 DEBUG   [pid:38945] livekit.agents input stream detached
+2026-06-07 04:19:41,930 DEBUG   [pid:38945] livekit.agents stream closed
+2026-06-07 04:19:41,930 DEBUG   [pid:38945] livekit.agents stream closed
+2026-06-07 04:19:42,131 DEBUG   [pid:38945] livekit.agents session closed
+2026-06-07 04:19:42,131 DEBUG   [pid:38945] livekit.agents session closed
+2026-06-07 04:19:42,134 DEBUG   [pid:38945] livekit.agents shutting down job task
+2026-06-07 04:19:42,134 INFO    [pid:38437] livekit.agents process exiting
+2026-06-07 04:19:42,134 INFO    [pid:38945] agent session usage summary: UsageSummary(llm_prompt_tokens=44414, llm_prompt_cached_tokens=35840, llm_input_audio_tokens=0, llm_input_cached_audio_tokens=0, llm_input_text_tokens=0, llm_input_cached_text_tokens=0, llm_input_image_tokens=0, llm_input_cached_image_tokens=0, llm_completion_tokens=2485, llm_output_audio_tokens=0, llm_output_image_tokens=0, llm_output_text_tokens=0, tts_characters_count=1860, tts_audio_duration=95.14754166666653, stt_audio_duration=129.6499999999998)
+2026-06-07 04:19:42,135 INFO    [pid:38945] agent saved transcript to /Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/export/transcripts/b1000000-0001-0000-0000-000000000001-call-b1000000-1780831037.json (19 turns)
+2026-06-07 04:19:42,134 DEBUG   [pid:38945] livekit.agents shutting down job task
+2026-06-07 04:19:42,134 INFO    [pid:38945] agent session usage summary: UsageSummary(llm_prompt_tokens=44414, llm_prompt_cached_tokens=35840, llm_input_audio_tokens=0, llm_input_cached_audio_tokens=0, llm_input_text_tokens=0, llm_input_cached_text_tokens=0, llm_input_image_tokens=0, llm_input_cached_image_tokens=0, llm_completion_tokens=2485, llm_output_audio_tokens=0, llm_output_image_tokens=0, llm_output_text_tokens=0, tts_characters_count=1860, tts_audio_duration=95.14754166666653, stt_audio_duration=129.6499999999998)
+2026-06-07 04:19:42,135 INFO    [pid:38945] agent saved transcript to /Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/export/transcripts/b1000000-0001-0000-0000-000000000001-call-b1000000-1780831037.json (19 turns)
+2026-06-07 04:19:42,198 DEBUG   [pid:38945] livekit.agents http_session(): closing the httpclient ctx
+2026-06-07 04:19:42,198 DEBUG   [pid:38945] livekit.agents http_session(): closing the httpclient ctx
+2026-06-07 04:22:08,657 INFO    [pid:38437] livekit.agents shutting down worker
+2026-06-07 04:22:08,664 INFO    [pid:38437] livekit.agents process exiting

@@ -13,22 +13,26 @@ import {
 } from '@phosphor-icons/react/dist/ssr';
 import { PumpShell } from '@/components/pump/pump-shell';
 import { Button } from '@/components/ui/button';
-import { ApiError, triggerNewSignup } from '@/lib/api';
-import { FIXTURE_LEADS } from '@/lib/fixtures';
 import { CLOUD_PROVIDERS, COMPANY_SIZES, type TriggerNewSignup } from '@/lib/leads';
 
 const FIELD =
   'w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-ring focus:ring-2 focus:ring-ring/30';
 
+// Demo: the Beehiiv lead (Tyler Denk, UC2) is already seeded in Supabase
+// (see backend/seed/setup_beehive.sql). The signup form is pre-filled with his
+// details and "creating an account" reuses this existing lead instead of
+// inserting a new row, so the estimate → call flow runs against real data.
+const BEEHIIV_LEAD_ID = 'b1000000-0018-0000-0000-000000000018';
+
 const DEFAULTS: TriggerNewSignup = {
-  first_name: '',
-  last_name: '',
-  email: '',
-  phone: '+1',
-  company_name: '',
+  first_name: 'Tyler',
+  last_name: 'Denk',
+  email: 'tyler@beehiiv.com',
+  phone: '+19145598426',
+  company_name: 'Beehiiv',
   company_size: '51-200',
   cloud_provider: 'aws',
-  timezone: 'America/New_York',
+  timezone: 'America/Los_Angeles',
 };
 
 const PILLARS = [
@@ -62,8 +66,6 @@ function SignupForm() {
   const [form, setForm] = useState<TriggerNewSignup>(DEFAULTS);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
-  const [demoNote, setDemoNote] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [leadId, setLeadId] = useState<string | null>(null);
 
   const update = (key: keyof TriggerNewSignup, value: string) =>
@@ -72,24 +74,13 @@ function SignupForm() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    setError(null);
-    setDemoNote(false);
-    try {
-      const res = await triggerNewSignup(form);
-      setLeadId(res?.lead?.id ?? null);
-      setDone(true);
-    } catch (err) {
-      if (!(err instanceof ApiError)) {
-        // Backend offline — let the hackathon demo proceed to the next screen.
-        setLeadId(FIXTURE_LEADS[0].id);
-        setDemoNote(true);
-        setDone(true);
-      } else {
-        setError(err.message || 'Signup failed. Please try again.');
-      }
-    } finally {
-      setSubmitting(false);
-    }
+    // The Beehiiv lead already exists in Supabase — do NOT create a new lead.
+    // We just simulate the "creating account" beat and hand the existing
+    // lead_id to the estimate flow.
+    await new Promise((resolve) => setTimeout(resolve, 700));
+    setLeadId(BEEHIIV_LEAD_ID);
+    setSubmitting(false);
+    setDone(true);
   };
 
   return (
@@ -101,11 +92,6 @@ function SignupForm() {
           <p className="text-muted-foreground mt-2 text-sm">
             Next, connect your cloud to see how much you could save.
           </p>
-          {demoNote && (
-            <p className="mt-4 rounded-md bg-amber-500/15 px-3 py-1.5 text-xs text-amber-600 dark:text-amber-400">
-              Demo mode: backend offline, signup not actually sent.
-            </p>
-          )}
           <Button asChild className="mt-6 w-full rounded-full">
             <Link href={leadId ? `/pump/estimate?lead_id=${leadId}` : '/pump/estimate'}>
               Run your estimate
@@ -213,12 +199,6 @@ function SignupForm() {
               </select>
             </div>
           </div>
-
-          {error && (
-            <div className="border-destructive/30 bg-destructive/10 text-destructive rounded-lg border px-3 py-2 text-sm">
-              {error}
-            </div>
-          )}
 
           <Button type="submit" className="w-full rounded-full" disabled={submitting}>
             {submitting ? (

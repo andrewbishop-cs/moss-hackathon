@@ -1,0 +1,421 @@
+2026-06-07 04:32:38,707 INFO    [pid:57293] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:32:38,707 INFO    [pid:57293] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:32:38,710 DEBUG   [pid:57293] asyncio Using selector: KqueueSelector
+2026-06-07 04:32:38,711 DEV     [pid:57293] livekit.agents Watching /Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/src
+2026-06-07 04:32:39,213 INFO    [pid:57342] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:32:39,213 INFO    [pid:57342] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:32:39,213 DEBUG   [pid:57342] asyncio Using selector: KqueueSelector
+2026-06-07 04:32:39,216 INFO    [pid:57342] livekit.agents starting worker
+2026-06-07 04:32:39,216 INFO    [pid:57342] livekit.agents plugin registered
+2026-06-07 04:32:39,217 INFO    [pid:57342] livekit.agents plugin registered
+2026-06-07 04:32:39,217 INFO    [pid:57342] livekit.agents plugin registered
+2026-06-07 04:32:39,217 INFO    [pid:57342] livekit.agents plugin registered
+2026-06-07 04:32:39,218 INFO    [pid:57342] livekit.agents starting inference executor
+2026-06-07 04:32:39,222 INFO    [pid:57342] livekit.agents initializing process
+2026-06-07 04:32:41,469 INFO    [pid:57342] livekit.agents process initialized
+2026-06-07 04:32:41,472 INFO    [pid:57342] livekit.agents HTTP server listening on :62826
+2026-06-07 04:32:41,628 INFO    [pid:57342] livekit.agents registered worker
+2026-06-07 04:32:52,243 INFO    [pid:57342] livekit.agents received job request
+2026-06-07 04:32:52,271 DEBUG   [pid:57342] livekit.agents received assignment
+2026-06-07 04:32:52,273 WARNING [pid:57342] livekit.agents no warmed process available for job, waiting for one to be created
+2026-06-07 04:32:52,280 INFO    [pid:57342] livekit.agents initializing process
+2026-06-07 04:32:53,472 DEBUG   [pid:57596] asyncio Using selector: KqueueSelector
+2026-06-07 04:32:53,472 DEBUG   [pid:57596] asyncio Using selector: KqueueSelector
+2026-06-07 04:32:54,785 INFO    [pid:57596] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:32:54,785 INFO    [pid:57596] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:32:54,787 DEBUG   [pid:57596] asyncio Using selector: KqueueSelector
+2026-06-07 04:32:54,787 DEBUG   [pid:57596] asyncio Using selector: KqueueSelector
+2026-06-07 04:32:54,788 INFO    [pid:57342] livekit.agents process initialized
+2026-06-07 04:32:54,839 WARNING [pid:57596] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:32:54,839 WARNING [pid:57596] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:32:55,374 INFO    [pid:57596] agent startup phase=connect elapsed_ms=535
+2026-06-07 04:32:55,375 DEBUG   [pid:57596] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:32:55,374 INFO    [pid:57596] agent startup phase=connect elapsed_ms=535
+2026-06-07 04:32:55,375 DEBUG   [pid:57596] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:33:01,047 INFO    [pid:57596] agent startup phase=sip_answered elapsed_ms=6207
+2026-06-07 04:33:01,047 INFO    [pid:57596] agent startup phase=sip_answered elapsed_ms=6207
+2026-06-07 04:33:01,073 DEBUG   [pid:57596] livekit.agents input stream attached
+2026-06-07 04:33:01,073 DEBUG   [pid:57596] livekit.agents input stream attached
+2026-06-07 04:33:01,074 INFO    [pid:57596] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:33:01,074 INFO    [pid:57596] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:33:01,076 DEBUG   [pid:57596] livekit.agents start reading stream
+2026-06-07 04:33:01,076 DEBUG   [pid:57596] livekit.agents start reading stream
+2026-06-07 04:33:01,077 INFO    [pid:57596] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:33:01,077 INFO    [pid:57596] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:33:01,078 DEBUG   [pid:57596] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:33:01,078 DEBUG   [pid:57596] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:33:01,078 INFO    [pid:57596] agent startup phase=session_start elapsed_ms=5 total_ms=6238
+2026-06-07 04:33:01,078 DEBUG   [pid:57596] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:33:01,078 INFO    [pid:57596] agent Lead context (from metadata) ready for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:01,078 DEBUG   [pid:57596] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:33:01,078 INFO    [pid:57596] agent startup phase=session_start elapsed_ms=5 total_ms=6238
+2026-06-07 04:33:01,078 INFO    [pid:57596] agent Lead context (from metadata) ready for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:02,219 DEBUG   [pid:57596] livekit.agents aec warmup active, disabling interruptions for 1.00s
+2026-06-07 04:33:02,219 DEBUG   [pid:57596] livekit.agents aec warmup active, disabling interruptions for 1.00s
+2026-06-07 04:33:02,806 DEBUG   [pid:57596] livekit.agents interruption detected
+2026-06-07 04:33:02,806 DEBUG   [pid:57596] livekit.agents interruption detected
+2026-06-07 04:33:03,219 DEBUG   [pid:57596] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:33:03,219 DEBUG   [pid:57596] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:33:04,470 INFO    [pid:57596] agent latency[TTS] ttfb=465ms duration=2716ms
+2026-06-07 04:33:04,471 INFO    [pid:57596] agent latency[RESPONSE] ~465ms (eou=0 + llm_ttft=0 + tts_ttfb=465)
+2026-06-07 04:33:04,470 INFO    [pid:57596] agent latency[TTS] ttfb=465ms duration=2716ms
+2026-06-07 04:33:04,471 INFO    [pid:57596] agent latency[RESPONSE] ~465ms (eou=0 + llm_ttft=0 + tts_ttfb=465)
+2026-06-07 04:33:04,568 DEBUG   [pid:57596] livekit.agents resumed false interrupted speech
+2026-06-07 04:33:04,568 DEBUG   [pid:57596] livekit.agents resumed false interrupted speech
+2026-06-07 04:33:04,568 WARNING [pid:57596] livekit.agents _SegmentSynchronizerImpl.on_playback_started called after start_fut is set
+2026-06-07 04:33:04,568 WARNING [pid:57596] livekit.agents _SegmentSynchronizerImpl.on_playback_started called after start_fut is set
+2026-06-07 04:33:13,703 INFO    [pid:57596] agent talkover count=0 interrupted=False for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:13,704 INFO    [pid:57596] agent startup phase=opening_say elapsed_ms=12147 total_ms=18863
+2026-06-07 04:33:13,703 INFO    [pid:57596] agent talkover count=0 interrupted=False for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:13,704 INFO    [pid:57596] agent startup phase=opening_say elapsed_ms=12147 total_ms=18863
+2026-06-07 04:33:15,510 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:15,510 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:16,220 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:16,220 DEBUG   [pid:57596] livekit.agents received user transcript
+2026-06-07 04:33:16,220 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:16,220 DEBUG   [pid:57596] livekit.agents received user transcript
+2026-06-07 04:33:16,601 DEBUG   [pid:57596] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:33:16,601 DEBUG   [pid:57596] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:33:16,601 WARNING [pid:57596] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:33:16,602 INFO    [pid:57596] agent latency[EOU] eou_delay=581ms transcription_delay=200ms
+2026-06-07 04:33:16,601 WARNING [pid:57596] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:33:16,602 INFO    [pid:57596] agent latency[EOU] eou_delay=581ms transcription_delay=200ms
+2026-06-07 04:33:16,612 INFO    [pid:57596] agent talkover count=1 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:16,612 INFO    [pid:57596] agent talkover count=1 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:17,747 INFO    [pid:57596] agent latency[LLM] ttft=723ms duration=1142ms tok/s=167
+2026-06-07 04:33:17,747 INFO    [pid:57596] agent latency[LLM] ttft=723ms duration=1142ms tok/s=167
+2026-06-07 04:33:22,554 INFO    [pid:57596] agent latency[TTS] ttfb=505ms duration=4913ms
+2026-06-07 04:33:22,555 INFO    [pid:57596] agent latency[RESPONSE] ~1809ms (eou=581 + llm_ttft=723 + tts_ttfb=505)
+2026-06-07 04:33:22,554 INFO    [pid:57596] agent latency[TTS] ttfb=505ms duration=4913ms
+2026-06-07 04:33:22,555 INFO    [pid:57596] agent latency[RESPONSE] ~1809ms (eou=581 + llm_ttft=723 + tts_ttfb=505)
+2026-06-07 04:33:38,586 INFO    [pid:57596] agent talkover count=0 interrupted=False for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:38,586 INFO    [pid:57596] agent talkover count=0 interrupted=False for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:40,834 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:40,834 DEBUG   [pid:57596] livekit.agents received user transcript
+2026-06-07 04:33:40,834 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:40,834 DEBUG   [pid:57596] livekit.agents received user transcript
+2026-06-07 04:33:41,711 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:41,712 DEBUG   [pid:57596] livekit.agents received user transcript
+2026-06-07 04:33:41,711 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:41,712 DEBUG   [pid:57596] livekit.agents received user transcript
+2026-06-07 04:33:41,729 INFO    [pid:57596] agent talkover count=1 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:41,729 INFO    [pid:57596] agent talkover count=1 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:42,083 DEBUG   [pid:57596] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:33:42,083 DEBUG   [pid:57596] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:33:42,083 WARNING [pid:57596] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:33:42,083 INFO    [pid:57596] agent latency[EOU] eou_delay=562ms transcription_delay=191ms
+2026-06-07 04:33:42,083 WARNING [pid:57596] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:33:42,083 INFO    [pid:57596] agent latency[EOU] eou_delay=562ms transcription_delay=191ms
+2026-06-07 04:33:42,090 INFO    [pid:57596] agent talkover count=2 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:42,090 INFO    [pid:57596] agent talkover count=2 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:44,010 INFO    [pid:57596] agent latency[LLM] ttft=771ms duration=1926ms tok/s=279
+2026-06-07 04:33:44,010 INFO    [pid:57596] agent latency[LLM] ttft=771ms duration=1926ms tok/s=279
+2026-06-07 04:33:45,992 INFO    [pid:57596] agent latency[TTS] ttfb=295ms duration=1981ms
+2026-06-07 04:33:45,992 INFO    [pid:57596] agent latency[RESPONSE] ~1628ms (eou=562 + llm_ttft=771 + tts_ttfb=295)
+2026-06-07 04:33:45,992 INFO    [pid:57596] agent latency[TTS] ttfb=295ms duration=1981ms
+2026-06-07 04:33:45,992 INFO    [pid:57596] agent latency[RESPONSE] ~1628ms (eou=562 + llm_ttft=771 + tts_ttfb=295)
+2026-06-07 04:33:52,226 INFO    [pid:57596] agent talkover count=0 interrupted=False for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:52,226 INFO    [pid:57596] agent talkover count=0 interrupted=False for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:54,964 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:54,964 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:55,949 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:55,949 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:57,047 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:57,047 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:57,293 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:57,293 DEBUG   [pid:57596] livekit.agents received user transcript
+2026-06-07 04:33:57,293 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:57,293 DEBUG   [pid:57596] livekit.agents received user transcript
+2026-06-07 04:33:57,321 DEBUG   [pid:57596] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:33:57,322 WARNING [pid:57596] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:33:57,321 DEBUG   [pid:57596] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:33:57,322 INFO    [pid:57596] agent latency[EOU] eou_delay=600ms transcription_delay=572ms
+2026-06-07 04:33:57,322 WARNING [pid:57596] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:33:57,322 INFO    [pid:57596] agent latency[EOU] eou_delay=600ms transcription_delay=572ms
+2026-06-07 04:33:57,331 INFO    [pid:57596] agent talkover count=1 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:57,331 INFO    [pid:57596] agent talkover count=1 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:33:59,424 INFO    [pid:57596] agent latency[LLM] ttft=834ms duration=2099ms tok/s=277
+2026-06-07 04:33:59,424 INFO    [pid:57596] agent latency[LLM] ttft=834ms duration=2099ms tok/s=277
+2026-06-07 04:34:00,032 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:00,032 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:00,242 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:00,243 DEBUG   [pid:57596] livekit.agents received user transcript
+2026-06-07 04:34:00,242 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:00,243 DEBUG   [pid:57596] livekit.agents received user transcript
+2026-06-07 04:34:00,249 INFO    [pid:57596] agent talkover count=2 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:00,249 INFO    [pid:57596] agent talkover count=2 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:00,436 DEBUG   [pid:57596] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:34:00,436 DEBUG   [pid:57596] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:34:01,871 INFO    [pid:57596] agent latency[EOU] eou_delay=2000ms transcription_delay=372ms
+2026-06-07 04:34:01,871 INFO    [pid:57596] agent latency[EOU] eou_delay=2000ms transcription_delay=372ms
+2026-06-07 04:34:03,542 INFO    [pid:57596] agent latency[LLM] ttft=825ms duration=1668ms tok/s=234
+2026-06-07 04:34:03,542 INFO    [pid:57596] agent latency[LLM] ttft=825ms duration=1668ms tok/s=234
+2026-06-07 04:34:06,804 INFO    [pid:57596] agent latency[TTS] ttfb=414ms duration=3292ms
+2026-06-07 04:34:06,804 INFO    [pid:57596] agent latency[RESPONSE] ~3240ms (eou=2000 + llm_ttft=825 + tts_ttfb=414)
+2026-06-07 04:34:06,804 INFO    [pid:57596] agent latency[TTS] ttfb=414ms duration=3292ms
+2026-06-07 04:34:06,804 INFO    [pid:57596] agent latency[RESPONSE] ~3240ms (eou=2000 + llm_ttft=825 + tts_ttfb=414)
+2026-06-07 04:34:17,661 INFO    [pid:57596] agent talkover count=0 interrupted=False for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:17,661 INFO    [pid:57596] agent talkover count=0 interrupted=False for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:23,406 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:23,406 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:23,863 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:23,863 DEBUG   [pid:57596] livekit.agents received user transcript
+2026-06-07 04:34:23,863 INFO    [pid:57596] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:23,863 DEBUG   [pid:57596] livekit.agents received user transcript
+2026-06-07 04:34:24,135 DEBUG   [pid:57596] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:34:24,136 WARNING [pid:57596] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:34:24,135 DEBUG   [pid:57596] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:34:24,136 INFO    [pid:57596] agent latency[EOU] eou_delay=564ms transcription_delay=292ms
+2026-06-07 04:34:24,136 WARNING [pid:57596] livekit.agents preemptive generation enabled but chat context or tools have changed after `on_user_turn_completed`
+2026-06-07 04:34:24,136 INFO    [pid:57596] agent latency[EOU] eou_delay=564ms transcription_delay=292ms
+2026-06-07 04:34:24,145 INFO    [pid:57596] agent talkover count=1 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:24,145 INFO    [pid:57596] agent talkover count=1 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:25,712 INFO    [pid:57596] agent latency[LLM] ttft=975ms duration=1574ms tok/s=179
+2026-06-07 04:34:25,712 INFO    [pid:57596] agent latency[LLM] ttft=975ms duration=1574ms tok/s=179
+2026-06-07 04:34:28,458 INFO    [pid:57596] agent latency[TTS] ttfb=357ms duration=2827ms
+2026-06-07 04:34:28,458 INFO    [pid:57596] agent latency[RESPONSE] ~1896ms (eou=564 + llm_ttft=975 + tts_ttfb=357)
+2026-06-07 04:34:28,458 INFO    [pid:57596] agent latency[TTS] ttfb=357ms duration=2827ms
+2026-06-07 04:34:28,458 INFO    [pid:57596] agent latency[RESPONSE] ~1896ms (eou=564 + llm_ttft=975 + tts_ttfb=357)
+2026-06-07 04:34:34,173 INFO    [pid:57596] livekit.agents closing agent session due to participant disconnect (disable via `RoomInputOptions.close_on_disconnect=False`)
+2026-06-07 04:34:34,173 INFO    [pid:57596] livekit.agents closing agent session due to participant disconnect (disable via `RoomInputOptions.close_on_disconnect=False`)
+2026-06-07 04:34:34,175 DEBUG   [pid:57596] livekit.agents stream closed
+2026-06-07 04:34:34,175 DEBUG   [pid:57596] livekit.agents stream closed
+2026-06-07 04:34:34,180 INFO    [pid:57596] agent talkover count=2 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:34,180 INFO    [pid:57596] agent talkover count=2 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:34:34,183 DEBUG   [pid:57596] livekit.agents input stream detached
+2026-06-07 04:34:34,183 DEBUG   [pid:57596] livekit.agents input stream detached
+2026-06-07 04:34:36,471 DEBUG   [pid:57596] livekit.agents session closed
+2026-06-07 04:34:36,471 DEBUG   [pid:57596] livekit.agents session closed
+2026-06-07 04:34:38,589 INFO    [pid:57342] livekit.agents shutting down worker
+2026-06-07 04:34:38,596 DEBUG   [pid:57596] livekit.agents shutting down job task
+2026-06-07 04:34:38,597 INFO    [pid:57342] livekit.agents process exiting
+2026-06-07 04:34:38,596 DEBUG   [pid:57596] livekit.agents shutting down job task
+2026-06-07 04:34:38,633 INFO    [pid:57596] agent session usage summary: UsageSummary(llm_prompt_tokens=26060, llm_prompt_cached_tokens=22272, llm_input_audio_tokens=0, llm_input_cached_audio_tokens=0, llm_input_text_tokens=0, llm_input_cached_text_tokens=0, llm_input_image_tokens=0, llm_input_cached_image_tokens=0, llm_completion_tokens=1983, llm_output_audio_tokens=0, llm_output_image_tokens=0, llm_output_text_tokens=0, tts_characters_count=1124, tts_audio_duration=63.75329166666662, stt_audio_duration=91.69999999999989)
+2026-06-07 04:34:38,633 INFO    [pid:57596] agent session usage summary: UsageSummary(llm_prompt_tokens=26060, llm_prompt_cached_tokens=22272, llm_input_audio_tokens=0, llm_input_cached_audio_tokens=0, llm_input_text_tokens=0, llm_input_cached_text_tokens=0, llm_input_image_tokens=0, llm_input_cached_image_tokens=0, llm_completion_tokens=1983, llm_output_audio_tokens=0, llm_output_image_tokens=0, llm_output_text_tokens=0, tts_characters_count=1124, tts_audio_duration=63.75329166666662, stt_audio_duration=91.69999999999989)
+2026-06-07 04:34:38,634 INFO    [pid:57596] agent saved transcript to /Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/export/transcripts/b1000000-0018-0000-0000-000000000018-call-b1000000-1780831971.json (18 turns)
+2026-06-07 04:34:38,634 INFO    [pid:57596] agent saved transcript to /Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/export/transcripts/b1000000-0018-0000-0000-000000000018-call-b1000000-1780831971.json (18 turns)
+2026-06-07 04:34:38,636 ERROR   [pid:57596] agent failed to POST call transcript to backend
+Traceback (most recent call last):
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1291, in _wrap_create_connection
+    sock = await aiohappyeyeballs.start_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohappyeyeballs/impl.py", line 143, in start_connection
+    raise OSError(first_errno, msg)
+ConnectionRefusedError: [Errno 61] Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/src/transcript_store.py", line 82, in post_transcript_to_backend
+    async with (
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 1683, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 856, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 810, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 655, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1232, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1610, in _create_direct_connection
+    raise last_exc
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1579, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1314, in _wrap_create_connection
+    raise client_error(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorError: Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]
+2026-06-07 04:34:38,636 ERROR   [pid:57596] agent failed to POST call transcript to backend
+Traceback (most recent call last):
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1291, in _wrap_create_connection
+    sock = await aiohappyeyeballs.start_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohappyeyeballs/impl.py", line 143, in start_connection
+    raise OSError(first_errno, msg)
+ConnectionRefusedError: [Errno 61] Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/src/transcript_store.py", line 82, in post_transcript_to_backend
+    async with (
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 1683, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 856, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 810, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 655, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1232, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1610, in _create_direct_connection
+    raise last_exc
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1579, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1314, in _wrap_create_connection
+    raise client_error(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorError: Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]
+Traceback (most recent call last):
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1291, in _wrap_create_connection
+    sock = await aiohappyeyeballs.start_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohappyeyeballs/impl.py", line 143, in start_connection
+    raise OSError(first_errno, msg)
+ConnectionRefusedError: [Errno 61] Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/src/transcript_store.py", line 82, in post_transcript_to_backend
+    async with (
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 1683, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 856, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 810, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 655, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1232, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1610, in _create_direct_connection
+    raise last_exc
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1579, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1314, in _wrap_create_connection
+    raise client_error(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorError: Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]
+2026-06-07 04:34:38,642 INFO    [pid:57596] agent latency[backend.outcome] elapsed_ms=1
+2026-06-07 04:34:38,642 ERROR   [pid:57596] agent failed to POST call outcome to backend
+Traceback (most recent call last):
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1291, in _wrap_create_connection
+    sock = await aiohappyeyeballs.start_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohappyeyeballs/impl.py", line 143, in start_connection
+    raise OSError(first_errno, msg)
+ConnectionRefusedError: [Errno 61] Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/src/agent.py", line 180, in post_call_outcome
+    async with (
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 1683, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 856, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 810, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 655, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1232, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1610, in _create_direct_connection
+    raise last_exc
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1579, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1314, in _wrap_create_connection
+    raise client_error(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorError: Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]
+2026-06-07 04:34:38,644 DEBUG   [pid:57596] livekit.agents http_session(): closing the httpclient ctx
+2026-06-07 04:34:38,642 INFO    [pid:57596] agent latency[backend.outcome] elapsed_ms=1
+2026-06-07 04:34:38,642 ERROR   [pid:57596] agent failed to POST call outcome to backend
+Traceback (most recent call last):
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1291, in _wrap_create_connection
+    sock = await aiohappyeyeballs.start_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohappyeyeballs/impl.py", line 143, in start_connection
+    raise OSError(first_errno, msg)
+ConnectionRefusedError: [Errno 61] Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/src/agent.py", line 180, in post_call_outcome
+    async with (
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 1683, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 856, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 810, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 655, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1232, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1610, in _create_direct_connection
+    raise last_exc
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1579, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1314, in _wrap_create_connection
+    raise client_error(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorError: Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]
+Traceback (most recent call last):
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1291, in _wrap_create_connection
+    sock = await aiohappyeyeballs.start_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohappyeyeballs/impl.py", line 143, in start_connection
+    raise OSError(first_errno, msg)
+ConnectionRefusedError: [Errno 61] Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/src/agent.py", line 180, in post_call_outcome
+    async with (
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 1683, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 856, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/client.py", line 810, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 655, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1232, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1610, in _create_direct_connection
+    raise last_exc
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1579, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/.venv/lib/python3.11/site-packages/aiohttp/connector.py", line 1314, in _wrap_create_connection
+    raise client_error(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorError: Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]
+2026-06-07 04:34:38,644 DEBUG   [pid:57596] livekit.agents http_session(): closing the httpclient ctx
+2026-06-07 04:34:38,664 INFO    [pid:57342] livekit.agents process exiting

@@ -1,0 +1,342 @@
+2026-06-07 04:35:03,279 INFO    [pid:60795] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:35:03,279 INFO    [pid:60795] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:35:03,282 DEBUG   [pid:60795] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:03,283 DEV     [pid:60795] livekit.agents Watching /Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/src
+2026-06-07 04:35:03,828 INFO    [pid:60843] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:35:03,829 DEBUG   [pid:60843] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:03,837 INFO    [pid:60843] livekit.agents starting worker
+2026-06-07 04:35:03,839 INFO    [pid:60843] livekit.agents plugin registered
+2026-06-07 04:35:03,839 INFO    [pid:60843] livekit.agents plugin registered
+2026-06-07 04:35:03,840 INFO    [pid:60843] livekit.agents plugin registered
+2026-06-07 04:35:03,840 INFO    [pid:60843] livekit.agents plugin registered
+2026-06-07 04:35:03,841 INFO    [pid:60843] livekit.agents starting inference executor
+2026-06-07 04:35:03,845 INFO    [pid:60843] livekit.agents initializing process
+2026-06-07 04:35:05,967 INFO    [pid:60843] livekit.agents process initialized
+2026-06-07 04:35:05,970 INFO    [pid:60843] livekit.agents HTTP server listening on :63065
+2026-06-07 04:35:06,088 INFO    [pid:60843] livekit.agents registered worker
+2026-06-07 04:35:14,579 INFO    [pid:60843] livekit.agents received job request
+2026-06-07 04:35:14,608 DEBUG   [pid:60843] livekit.agents received assignment
+2026-06-07 04:35:14,610 WARNING [pid:60843] livekit.agents no warmed process available for job, waiting for one to be created
+2026-06-07 04:35:14,619 INFO    [pid:60843] livekit.agents initializing process
+2026-06-07 04:35:15,604 DEBUG   [pid:61073] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:15,604 DEBUG   [pid:61073] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:17,008 INFO    [pid:61073] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:35:17,008 INFO    [pid:61073] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:35:17,015 DEBUG   [pid:61073] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:17,016 INFO    [pid:60843] livekit.agents process initialized
+2026-06-07 04:35:17,015 DEBUG   [pid:61073] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:17,087 WARNING [pid:61073] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:35:17,087 WARNING [pid:61073] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:35:17,607 INFO    [pid:61073] agent startup phase=connect elapsed_ms=521
+2026-06-07 04:35:17,608 DEBUG   [pid:61073] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:35:17,607 INFO    [pid:61073] agent startup phase=connect elapsed_ms=521
+2026-06-07 04:35:17,608 DEBUG   [pid:61073] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:35:23,722 INFO    [pid:61073] agent startup phase=sip_answered elapsed_ms=6635
+2026-06-07 04:35:23,722 INFO    [pid:61073] agent startup phase=sip_answered elapsed_ms=6635
+2026-06-07 04:35:23,743 DEBUG   [pid:61073] livekit.agents input stream attached
+2026-06-07 04:35:23,743 DEBUG   [pid:61073] livekit.agents input stream attached
+2026-06-07 04:35:23,744 INFO    [pid:61073] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:35:23,744 INFO    [pid:61073] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:35:23,746 DEBUG   [pid:61073] livekit.agents start reading stream
+2026-06-07 04:35:23,746 DEBUG   [pid:61073] livekit.agents start reading stream
+2026-06-07 04:35:23,747 INFO    [pid:61073] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:35:23,747 INFO    [pid:61073] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:35:23,748 DEBUG   [pid:61073] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:35:23,748 DEBUG   [pid:61073] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:35:23,748 INFO    [pid:61073] agent startup phase=session_start elapsed_ms=5 total_ms=6661
+2026-06-07 04:35:23,748 DEBUG   [pid:61073] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:35:23,748 INFO    [pid:61073] agent Lead context (from metadata) ready for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:23,748 DEBUG   [pid:61073] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:35:23,748 INFO    [pid:61073] agent startup phase=session_start elapsed_ms=5 total_ms=6661
+2026-06-07 04:35:23,748 INFO    [pid:61073] agent Lead context (from metadata) ready for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:25,954 INFO    [pid:61073] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:25,954 INFO    [pid:61073] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:25,989 INFO    [pid:61073] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:25,989 DEBUG   [pid:61073] livekit.agents received user transcript
+2026-06-07 04:35:25,989 INFO    [pid:61073] agent booking signal=none for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:25,989 DEBUG   [pid:61073] livekit.agents received user transcript
+2026-06-07 04:35:26,067 DEBUG   [pid:61073] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:35:26,067 DEBUG   [pid:61073] livekit.plugins.turn_detector eou prediction
+2026-06-07 04:35:26,068 INFO    [pid:61073] agent talkover count=1 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:26,068 INFO    [pid:61073] agent talkover count=1 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:26,069 INFO    [pid:61073] agent startup phase=opening_say elapsed_ms=2020 total_ms=8982
+2026-06-07 04:35:26,069 INFO    [pid:61073] agent startup phase=opening_say elapsed_ms=2020 total_ms=8982
+2026-06-07 04:35:26,069 INFO    [pid:61073] agent latency[EOU] eou_delay=771ms transcription_delay=693ms
+2026-06-07 04:35:26,069 INFO    [pid:61073] agent latency[EOU] eou_delay=771ms transcription_delay=693ms
+2026-06-07 04:35:27,514 INFO    [pid:61073] agent latency[LLM] ttft=939ms duration=1444ms tok/s=161
+2026-06-07 04:35:27,514 INFO    [pid:61073] agent latency[LLM] ttft=939ms duration=1444ms tok/s=161
+2026-06-07 04:35:27,850 DEBUG   [pid:61073] livekit.agents aec warmup active, disabling interruptions for 1.00s
+2026-06-07 04:35:27,850 DEBUG   [pid:61073] livekit.agents aec warmup active, disabling interruptions for 1.00s
+2026-06-07 04:35:28,850 DEBUG   [pid:61073] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:35:28,850 DEBUG   [pid:61073] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:35:30,273 INFO    [pid:61073] agent latency[TTS] ttfb=411ms duration=2834ms
+2026-06-07 04:35:30,273 INFO    [pid:61073] agent latency[RESPONSE] ~2121ms (eou=771 + llm_ttft=939 + tts_ttfb=411)
+2026-06-07 04:35:30,273 INFO    [pid:61073] agent latency[TTS] ttfb=411ms duration=2834ms
+2026-06-07 04:35:30,273 INFO    [pid:61073] agent latency[RESPONSE] ~2121ms (eou=771 + llm_ttft=939 + tts_ttfb=411)
+2026-06-07 04:35:30,305 INFO    [pid:60843] livekit.agents shutting down worker
+2026-06-07 04:35:30,308 INFO    [pid:61073] agent talkover count=2 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:30,308 INFO    [pid:61073] agent talkover count=2 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:30,312 DEBUG   [pid:61073] livekit.agents input stream detached
+2026-06-07 04:35:30,312 DEBUG   [pid:61073] livekit.agents input stream detached
+2026-06-07 04:35:30,766 DEBUG   [pid:61073] livekit.agents stream closed
+2026-06-07 04:35:30,766 DEBUG   [pid:61073] livekit.agents stream closed
+2026-06-07 04:35:31,530 DEBUG   [pid:61073] livekit.agents session closed
+2026-06-07 04:35:31,530 DEBUG   [pid:61073] livekit.agents session closed
+2026-06-07 04:35:31,533 DEBUG   [pid:61073] livekit.agents shutting down job task
+2026-06-07 04:35:31,534 INFO    [pid:60843] livekit.agents process exiting
+2026-06-07 04:35:31,533 DEBUG   [pid:61073] livekit.agents shutting down job task
+2026-06-07 04:35:31,577 INFO    [pid:61073] agent session usage summary: UsageSummary(llm_prompt_tokens=5046, llm_prompt_cached_tokens=4352, llm_input_audio_tokens=0, llm_input_cached_audio_tokens=0, llm_input_text_tokens=0, llm_input_cached_text_tokens=0, llm_input_image_tokens=0, llm_input_cached_image_tokens=0, llm_completion_tokens=232, llm_output_audio_tokens=0, llm_output_image_tokens=0, llm_output_text_tokens=0, tts_characters_count=210, tts_audio_duration=10.792749999999996, stt_audio_duration=2.150000000000001)
+2026-06-07 04:35:31,577 INFO    [pid:61073] agent session usage summary: UsageSummary(llm_prompt_tokens=5046, llm_prompt_cached_tokens=4352, llm_input_audio_tokens=0, llm_input_cached_audio_tokens=0, llm_input_text_tokens=0, llm_input_cached_text_tokens=0, llm_input_image_tokens=0, llm_input_cached_image_tokens=0, llm_completion_tokens=232, llm_output_audio_tokens=0, llm_output_image_tokens=0, llm_output_text_tokens=0, tts_characters_count=210, tts_audio_duration=10.792749999999996, stt_audio_duration=2.150000000000001)
+2026-06-07 04:35:31,578 INFO    [pid:61073] agent saved transcript to /Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/export/transcripts/b1000000-0018-0000-0000-000000000018-call-b1000000-1780832113.json (3 turns)
+2026-06-07 04:35:31,578 INFO    [pid:61073] agent saved transcript to /Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/export/transcripts/b1000000-0018-0000-0000-000000000018-call-b1000000-1780832113.json (3 turns)
+2026-06-07 04:35:31,737 INFO    [pid:61073] agent persisted outcome 'called' for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:31,737 INFO    [pid:61073] agent persisted outcome 'called' for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:31,738 INFO    [pid:61073] agent latency[backend.outcome] elapsed_ms=108
+2026-06-07 04:35:31,739 DEBUG   [pid:61073] livekit.agents http_session(): closing the httpclient ctx
+2026-06-07 04:35:31,738 INFO    [pid:61073] agent latency[backend.outcome] elapsed_ms=108
+2026-06-07 04:35:31,739 DEBUG   [pid:61073] livekit.agents http_session(): closing the httpclient ctx
+2026-06-07 04:35:31,761 INFO    [pid:60843] livekit.agents process exiting
+2026-06-07 04:35:32,602 INFO    [pid:61357] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:35:32,602 INFO    [pid:61357] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:35:32,603 DEBUG   [pid:61357] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:32,607 INFO    [pid:61357] livekit.agents starting worker
+2026-06-07 04:35:32,607 INFO    [pid:61357] livekit.agents plugin registered
+2026-06-07 04:35:32,608 INFO    [pid:61357] livekit.agents plugin registered
+2026-06-07 04:35:32,608 INFO    [pid:61357] livekit.agents plugin registered
+2026-06-07 04:35:32,609 INFO    [pid:61357] livekit.agents plugin registered
+2026-06-07 04:35:32,609 INFO    [pid:61357] livekit.agents starting inference executor
+2026-06-07 04:35:32,613 DEV     [pid:61357] livekit.agents reloading job
+2026-06-07 04:35:32,618 WARNING [pid:61357] livekit.agents no warmed process available for job, waiting for one to be created
+2026-06-07 04:35:32,619 INFO    [pid:61357] livekit.agents initializing process
+2026-06-07 04:35:32,622 INFO    [pid:61357] livekit.agents initializing process
+2026-06-07 04:35:33,225 DEBUG   [pid:61372] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:33,225 DEBUG   [pid:61372] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:34,451 INFO    [pid:61372] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:35:34,451 INFO    [pid:61372] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:35:34,452 DEBUG   [pid:61372] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:34,452 DEBUG   [pid:61372] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:34,454 INFO    [pid:61357] livekit.agents process initialized
+2026-06-07 04:35:34,493 WARNING [pid:61372] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:35:34,493 WARNING [pid:61372] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:35:35,076 INFO    [pid:61357] livekit.agents process initialized
+2026-06-07 04:35:35,079 INFO    [pid:61357] livekit.agents HTTP server listening on :63168
+2026-06-07 04:35:35,181 INFO    [pid:61372] agent startup phase=connect elapsed_ms=687
+2026-06-07 04:35:35,181 DEBUG   [pid:61372] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:35:35,181 INFO    [pid:61372] agent startup phase=connect elapsed_ms=687
+2026-06-07 04:35:35,181 DEBUG   [pid:61372] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:35:35,206 INFO    [pid:61357] livekit.agents registered worker
+2026-06-07 04:35:35,207 DEBUG   [pid:61357] livekit.agents reported active jobs after registration
+2026-06-07 04:35:38,382 INFO    [pid:61357] livekit.agents shutting down worker
+2026-06-07 04:35:41,171 INFO    [pid:61372] agent startup phase=sip_answered elapsed_ms=6678
+2026-06-07 04:35:41,171 INFO    [pid:61372] agent startup phase=sip_answered elapsed_ms=6678
+2026-06-07 04:35:41,203 DEBUG   [pid:61372] livekit.agents input stream attached
+2026-06-07 04:35:41,203 DEBUG   [pid:61372] livekit.agents input stream attached
+2026-06-07 04:35:41,204 INFO    [pid:61372] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:35:41,204 INFO    [pid:61372] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:35:41,209 INFO    [pid:61372] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:35:41,209 INFO    [pid:61372] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:35:41,209 DEBUG   [pid:61372] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:35:41,210 DEBUG   [pid:61372] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:35:41,210 INFO    [pid:61372] agent startup phase=session_start elapsed_ms=7 total_ms=6716
+2026-06-07 04:35:41,210 INFO    [pid:61372] agent Lead context (from metadata) ready for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:41,209 DEBUG   [pid:61372] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:35:41,210 DEBUG   [pid:61372] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:35:41,210 INFO    [pid:61372] agent startup phase=session_start elapsed_ms=7 total_ms=6716
+2026-06-07 04:35:41,210 INFO    [pid:61372] agent Lead context (from metadata) ready for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:42,317 DEBUG   [pid:61372] livekit.agents aec warmup active, disabling interruptions for 1.00s
+2026-06-07 04:35:42,317 DEBUG   [pid:61372] livekit.agents aec warmup active, disabling interruptions for 1.00s
+2026-06-07 04:35:43,317 DEBUG   [pid:61372] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:35:43,317 DEBUG   [pid:61372] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:35:43,383 WARNING [pid:60795] watchfiles.main process has not terminated, sending SIGKILL
+2026-06-07 04:35:44,063 INFO    [pid:61569] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:35:44,064 INFO    [pid:61569] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:35:44,064 DEBUG   [pid:61569] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:44,068 INFO    [pid:61569] livekit.agents starting worker
+2026-06-07 04:35:44,068 INFO    [pid:61569] livekit.agents plugin registered
+2026-06-07 04:35:44,068 INFO    [pid:61569] livekit.agents plugin registered
+2026-06-07 04:35:44,069 INFO    [pid:61569] livekit.agents plugin registered
+2026-06-07 04:35:44,069 INFO    [pid:61569] livekit.agents plugin registered
+2026-06-07 04:35:44,070 INFO    [pid:61569] livekit.agents starting inference executor
+2026-06-07 04:35:44,074 DEV     [pid:61569] livekit.agents reloading job
+2026-06-07 04:35:44,075 WARNING [pid:61569] livekit.agents no warmed process available for job, waiting for one to be created
+2026-06-07 04:35:44,077 INFO    [pid:61569] livekit.agents initializing process
+2026-06-07 04:35:44,080 INFO    [pid:61569] livekit.agents initializing process
+2026-06-07 04:35:44,670 DEBUG   [pid:61588] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:44,670 DEBUG   [pid:61588] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:46,108 INFO    [pid:61588] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:35:46,108 INFO    [pid:61588] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:35:46,109 DEBUG   [pid:61588] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:46,109 DEBUG   [pid:61588] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:46,112 INFO    [pid:61569] livekit.agents process initialized
+2026-06-07 04:35:46,152 WARNING [pid:61588] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:35:46,152 WARNING [pid:61588] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:35:46,362 INFO    [pid:61569] livekit.agents process initialized
+2026-06-07 04:35:46,365 INFO    [pid:61569] livekit.agents HTTP server listening on :63190
+2026-06-07 04:35:46,480 INFO    [pid:61569] livekit.agents registered worker
+2026-06-07 04:35:46,482 DEBUG   [pid:61569] livekit.agents reported active jobs after registration
+2026-06-07 04:35:46,737 INFO    [pid:61588] agent startup phase=connect elapsed_ms=585
+2026-06-07 04:35:46,738 DEBUG   [pid:61588] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:35:46,737 INFO    [pid:61588] agent startup phase=connect elapsed_ms=585
+2026-06-07 04:35:46,738 DEBUG   [pid:61588] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:35:49,975 INFO    [pid:61569] livekit.agents shutting down worker
+2026-06-07 04:35:50,915 INFO    [pid:61588] agent startup phase=sip_answered elapsed_ms=4763
+2026-06-07 04:35:50,915 INFO    [pid:61588] agent startup phase=sip_answered elapsed_ms=4763
+2026-06-07 04:35:50,933 DEBUG   [pid:61588] livekit.agents input stream attached
+2026-06-07 04:35:50,933 DEBUG   [pid:61588] livekit.agents input stream attached
+2026-06-07 04:35:50,936 INFO    [pid:61588] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:35:50,936 INFO    [pid:61588] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:35:50,941 INFO    [pid:61588] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:35:50,941 INFO    [pid:61588] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:35:50,941 DEBUG   [pid:61588] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:35:50,941 DEBUG   [pid:61588] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:35:50,941 INFO    [pid:61588] agent startup phase=session_start elapsed_ms=9 total_ms=4790
+2026-06-07 04:35:50,942 INFO    [pid:61588] agent Lead context (from metadata) ready for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:50,941 DEBUG   [pid:61588] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:35:50,941 DEBUG   [pid:61588] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:35:50,941 INFO    [pid:61588] agent startup phase=session_start elapsed_ms=9 total_ms=4790
+2026-06-07 04:35:50,942 INFO    [pid:61588] agent Lead context (from metadata) ready for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:35:51,627 DEBUG   [pid:61588] livekit.agents aec warmup active, disabling interruptions for 1.30s
+2026-06-07 04:35:51,627 DEBUG   [pid:61588] livekit.agents aec warmup active, disabling interruptions for 1.30s
+2026-06-07 04:35:52,928 DEBUG   [pid:61588] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:35:52,928 DEBUG   [pid:61588] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:35:53,704 INFO    [pid:61588] agent latency[TTS] ttfb=428ms duration=2506ms
+2026-06-07 04:35:53,705 INFO    [pid:61588] agent latency[RESPONSE] ~428ms (eou=0 + llm_ttft=0 + tts_ttfb=428)
+2026-06-07 04:35:53,704 INFO    [pid:61588] agent latency[TTS] ttfb=428ms duration=2506ms
+2026-06-07 04:35:53,705 INFO    [pid:61588] agent latency[RESPONSE] ~428ms (eou=0 + llm_ttft=0 + tts_ttfb=428)
+2026-06-07 04:35:54,976 WARNING [pid:60795] watchfiles.main process has not terminated, sending SIGKILL
+2026-06-07 04:35:55,555 INFO    [pid:61771] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:35:55,555 INFO    [pid:61771] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:35:55,555 DEBUG   [pid:61771] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:55,559 INFO    [pid:61771] livekit.agents starting worker
+2026-06-07 04:35:55,559 INFO    [pid:61771] livekit.agents plugin registered
+2026-06-07 04:35:55,560 INFO    [pid:61771] livekit.agents plugin registered
+2026-06-07 04:35:55,560 INFO    [pid:61771] livekit.agents plugin registered
+2026-06-07 04:35:55,560 INFO    [pid:61771] livekit.agents plugin registered
+2026-06-07 04:35:55,561 INFO    [pid:61771] livekit.agents starting inference executor
+2026-06-07 04:35:55,565 DEV     [pid:61771] livekit.agents reloading job
+2026-06-07 04:35:55,566 WARNING [pid:61771] livekit.agents no warmed process available for job, waiting for one to be created
+2026-06-07 04:35:55,568 INFO    [pid:61771] livekit.agents initializing process
+2026-06-07 04:35:55,571 INFO    [pid:61771] livekit.agents initializing process
+2026-06-07 04:35:56,130 DEBUG   [pid:61786] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:56,130 DEBUG   [pid:61786] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:57,404 INFO    [pid:61786] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:35:57,404 INFO    [pid:61786] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:35:57,405 DEBUG   [pid:61786] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:57,405 DEBUG   [pid:61786] asyncio Using selector: KqueueSelector
+2026-06-07 04:35:57,407 INFO    [pid:61771] livekit.agents process initialized
+2026-06-07 04:35:57,445 WARNING [pid:61786] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:35:57,445 WARNING [pid:61786] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:35:57,593 INFO    [pid:61771] livekit.agents process initialized
+2026-06-07 04:35:57,596 INFO    [pid:61771] livekit.agents HTTP server listening on :63210
+2026-06-07 04:35:57,824 INFO    [pid:61771] livekit.agents registered worker
+2026-06-07 04:35:57,826 DEBUG   [pid:61771] livekit.agents reported active jobs after registration
+2026-06-07 04:35:58,089 INFO    [pid:61786] agent startup phase=connect elapsed_ms=644
+2026-06-07 04:35:58,090 DEBUG   [pid:61786] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:35:58,089 INFO    [pid:61786] agent startup phase=connect elapsed_ms=644
+2026-06-07 04:35:58,090 DEBUG   [pid:61786] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:36:07,420 INFO    [pid:61786] agent startup phase=sip_answered elapsed_ms=9975
+2026-06-07 04:36:07,420 INFO    [pid:61786] agent startup phase=sip_answered elapsed_ms=9975
+2026-06-07 04:36:07,449 DEBUG   [pid:61786] livekit.agents input stream attached
+2026-06-07 04:36:07,449 DEBUG   [pid:61786] livekit.agents input stream attached
+2026-06-07 04:36:07,450 INFO    [pid:61786] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:36:07,450 INFO    [pid:61786] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:36:07,454 INFO    [pid:61786] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:36:07,454 INFO    [pid:61786] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:36:07,454 DEBUG   [pid:61786] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:36:07,454 DEBUG   [pid:61786] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:36:07,454 DEBUG   [pid:61786] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:36:07,454 INFO    [pid:61786] agent startup phase=session_start elapsed_ms=6 total_ms=10009
+2026-06-07 04:36:07,455 INFO    [pid:61786] agent Lead context (from metadata) ready for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:36:07,454 DEBUG   [pid:61786] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:36:07,454 INFO    [pid:61786] agent startup phase=session_start elapsed_ms=6 total_ms=10009
+2026-06-07 04:36:07,455 INFO    [pid:61786] agent Lead context (from metadata) ready for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:36:08,346 DEBUG   [pid:61786] livekit.agents aec warmup active, disabling interruptions for 1.30s
+2026-06-07 04:36:08,346 DEBUG   [pid:61786] livekit.agents aec warmup active, disabling interruptions for 1.30s
+2026-06-07 04:36:09,647 DEBUG   [pid:61786] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:36:09,647 DEBUG   [pid:61786] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:36:10,391 INFO    [pid:61786] agent latency[TTS] ttfb=497ms duration=2542ms
+2026-06-07 04:36:10,391 INFO    [pid:61786] agent latency[RESPONSE] ~497ms (eou=0 + llm_ttft=0 + tts_ttfb=497)
+2026-06-07 04:36:10,391 INFO    [pid:61786] agent latency[TTS] ttfb=497ms duration=2542ms
+2026-06-07 04:36:10,391 INFO    [pid:61786] agent latency[RESPONSE] ~497ms (eou=0 + llm_ttft=0 + tts_ttfb=497)
+2026-06-07 04:36:12,837 INFO    [pid:61771] livekit.agents shutting down worker
+2026-06-07 04:36:12,841 INFO    [pid:61786] agent talkover count=1 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:36:12,841 INFO    [pid:61786] agent talkover count=1 interrupted=True for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:36:12,845 DEBUG   [pid:61786] livekit.agents input stream detached
+2026-06-07 04:36:12,845 DEBUG   [pid:61786] livekit.agents input stream detached
+2026-06-07 04:36:14,874 DEBUG   [pid:61786] livekit.agents session closed
+2026-06-07 04:36:14,874 DEBUG   [pid:61786] livekit.agents session closed
+2026-06-07 04:36:14,878 DEBUG   [pid:61786] livekit.agents shutting down job task
+2026-06-07 04:36:14,878 INFO    [pid:61771] livekit.agents process exiting
+2026-06-07 04:36:14,878 DEBUG   [pid:61786] livekit.agents shutting down job task
+2026-06-07 04:36:14,915 INFO    [pid:61786] agent session usage summary: UsageSummary(llm_prompt_tokens=0, llm_prompt_cached_tokens=0, llm_input_audio_tokens=0, llm_input_cached_audio_tokens=0, llm_input_text_tokens=0, llm_input_cached_text_tokens=0, llm_input_image_tokens=0, llm_input_cached_image_tokens=0, llm_completion_tokens=0, llm_output_audio_tokens=0, llm_output_image_tokens=0, llm_output_text_tokens=0, tts_characters_count=187, tts_audio_duration=9.391458333333334, stt_audio_duration=0.0)
+2026-06-07 04:36:14,915 INFO    [pid:61786] agent session usage summary: UsageSummary(llm_prompt_tokens=0, llm_prompt_cached_tokens=0, llm_input_audio_tokens=0, llm_input_cached_audio_tokens=0, llm_input_text_tokens=0, llm_input_cached_text_tokens=0, llm_input_image_tokens=0, llm_input_cached_image_tokens=0, llm_completion_tokens=0, llm_output_audio_tokens=0, llm_output_image_tokens=0, llm_output_text_tokens=0, tts_characters_count=187, tts_audio_duration=9.391458333333334, stt_audio_duration=0.0)
+2026-06-07 04:36:14,916 INFO    [pid:61786] agent saved transcript to /Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/export/transcripts/b1000000-0018-0000-0000-000000000018-call-b1000000-1780832113.json (1 turns)
+2026-06-07 04:36:14,916 INFO    [pid:61786] agent saved transcript to /Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/export/transcripts/b1000000-0018-0000-0000-000000000018-call-b1000000-1780832113.json (1 turns)
+2026-06-07 04:36:15,078 INFO    [pid:61786] agent persisted outcome 'called' for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:36:15,078 INFO    [pid:61786] agent persisted outcome 'called' for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:36:15,078 INFO    [pid:61786] agent latency[backend.outcome] elapsed_ms=105
+2026-06-07 04:36:15,078 INFO    [pid:61786] agent latency[backend.outcome] elapsed_ms=105
+2026-06-07 04:36:15,080 DEBUG   [pid:61786] livekit.agents http_session(): closing the httpclient ctx
+2026-06-07 04:36:15,080 DEBUG   [pid:61786] livekit.agents http_session(): closing the httpclient ctx
+2026-06-07 04:36:15,097 INFO    [pid:61771] livekit.agents process exiting
+2026-06-07 04:36:15,777 INFO    [pid:62117] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:36:15,777 INFO    [pid:62117] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:36:15,778 DEBUG   [pid:62117] asyncio Using selector: KqueueSelector
+2026-06-07 04:36:15,781 INFO    [pid:62117] livekit.agents starting worker
+2026-06-07 04:36:15,782 INFO    [pid:62117] livekit.agents plugin registered
+2026-06-07 04:36:15,782 INFO    [pid:62117] livekit.agents plugin registered
+2026-06-07 04:36:15,782 INFO    [pid:62117] livekit.agents plugin registered
+2026-06-07 04:36:15,783 INFO    [pid:62117] livekit.agents plugin registered
+2026-06-07 04:36:15,783 INFO    [pid:62117] livekit.agents starting inference executor
+2026-06-07 04:36:15,786 DEV     [pid:62117] livekit.agents reloading job
+2026-06-07 04:36:15,787 WARNING [pid:62117] livekit.agents no warmed process available for job, waiting for one to be created
+2026-06-07 04:36:15,789 INFO    [pid:62117] livekit.agents initializing process
+2026-06-07 04:36:15,792 INFO    [pid:62117] livekit.agents initializing process
+2026-06-07 04:36:16,361 DEBUG   [pid:62119] asyncio Using selector: KqueueSelector
+2026-06-07 04:36:16,361 DEBUG   [pid:62119] asyncio Using selector: KqueueSelector
+2026-06-07 04:36:17,734 INFO    [pid:62119] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:36:17,734 INFO    [pid:62119] agent Prewarmed Moss knowledge index 'knowledge'
+2026-06-07 04:36:17,736 DEBUG   [pid:62119] asyncio Using selector: KqueueSelector
+2026-06-07 04:36:17,736 DEBUG   [pid:62119] asyncio Using selector: KqueueSelector
+2026-06-07 04:36:17,739 INFO    [pid:62117] livekit.agents process initialized
+2026-06-07 04:36:17,778 WARNING [pid:62119] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:36:17,778 WARNING [pid:62119] livekit.agents metrics_collected is deprecated. Use session_usage_updated for usage tracking and ChatMessage.metrics for per-turn latency.
+2026-06-07 04:36:17,946 INFO    [pid:62117] livekit.agents process initialized
+2026-06-07 04:36:17,949 INFO    [pid:62117] livekit.agents HTTP server listening on :63243
+2026-06-07 04:36:18,060 INFO    [pid:62117] livekit.agents registered worker
+2026-06-07 04:36:18,061 DEBUG   [pid:62117] livekit.agents reported active jobs after registration
+2026-06-07 04:36:18,369 INFO    [pid:62119] agent startup phase=connect elapsed_ms=591
+2026-06-07 04:36:18,370 DEBUG   [pid:62119] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:36:18,369 INFO    [pid:62119] agent startup phase=connect elapsed_ms=591
+2026-06-07 04:36:18,370 DEBUG   [pid:62119] livekit.agents http_session(): creating a new httpclient ctx
+2026-06-07 04:36:30,040 INFO    [pid:62119] agent startup phase=sip_answered elapsed_ms=12262
+2026-06-07 04:36:30,040 INFO    [pid:62119] agent startup phase=sip_answered elapsed_ms=12262
+2026-06-07 04:36:30,061 DEBUG   [pid:62119] livekit.agents input stream attached
+2026-06-07 04:36:30,061 DEBUG   [pid:62119] livekit.agents input stream attached
+2026-06-07 04:36:30,065 INFO    [pid:62119] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:36:30,065 INFO    [pid:62119] livekit.agents adaptive interruption detector initialized
+2026-06-07 04:36:30,069 INFO    [pid:62119] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:36:30,069 INFO    [pid:62119] agent Reusing prewarmed Moss client (knowledge index loaded)
+2026-06-07 04:36:30,070 DEBUG   [pid:62119] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:36:30,070 DEBUG   [pid:62119] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:36:30,070 INFO    [pid:62119] agent startup phase=session_start elapsed_ms=10 total_ms=12292
+2026-06-07 04:36:30,070 DEBUG   [pid:62119] livekit.agents using audio io: `RoomIO` -> `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:36:30,070 INFO    [pid:62119] agent Lead context (from metadata) ready for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:36:30,070 DEBUG   [pid:62119] livekit.agents using transcript io: `AgentSession` -> `TranscriptSynchronizer` -> `RoomIO`
+2026-06-07 04:36:30,070 INFO    [pid:62119] agent startup phase=session_start elapsed_ms=10 total_ms=12292
+2026-06-07 04:36:30,070 INFO    [pid:62119] agent Lead context (from metadata) ready for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:36:31,175 DEBUG   [pid:62119] livekit.agents aec warmup active, disabling interruptions for 1.30s
+2026-06-07 04:36:31,175 DEBUG   [pid:62119] livekit.agents aec warmup active, disabling interruptions for 1.30s
+2026-06-07 04:36:32,476 DEBUG   [pid:62119] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:36:32,476 DEBUG   [pid:62119] livekit.agents aec warmup expired, re-enabling interruptions
+2026-06-07 04:36:33,300 INFO    [pid:62119] agent latency[TTS] ttfb=516ms duration=2641ms
+2026-06-07 04:36:33,300 INFO    [pid:62119] agent latency[RESPONSE] ~516ms (eou=0 + llm_ttft=0 + tts_ttfb=516)
+2026-06-07 04:36:33,300 INFO    [pid:62119] agent latency[TTS] ttfb=516ms duration=2641ms
+2026-06-07 04:36:33,300 INFO    [pid:62119] agent latency[RESPONSE] ~516ms (eou=0 + llm_ttft=0 + tts_ttfb=516)
+2026-06-07 04:36:41,125 INFO    [pid:62119] agent talkover count=0 interrupted=False for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:36:41,125 INFO    [pid:62119] agent talkover count=0 interrupted=False for lead_id=b1000000-0018-0000-0000-000000000018
+2026-06-07 04:36:44,029 INFO    [pid:62117] livekit.agents shutting down worker
+2026-06-07 04:36:44,034 DEBUG   [pid:62119] livekit.agents input stream detached
+2026-06-07 04:36:44,034 DEBUG   [pid:62119] livekit.agents input stream detached
+2026-06-07 04:36:44,671 WARNING [pid:62117] livekit.agents exiting forcefully
+2026-06-07 04:36:44,701 DEBUG   [pid:62119] livekit.agents session closed

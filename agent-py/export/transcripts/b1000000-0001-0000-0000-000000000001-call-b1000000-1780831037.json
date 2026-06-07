@@ -1,0 +1,122 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780831037",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "agent",
+      "text": "Hey, this is Alex, an AI customer success manager calling from pump.co. I'm just calling because I saw you ran an estimate. Are there any questions that I could answer for you about pump?",
+      "timestamp": "2026-06-07T11:17:39.678362+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "No. I think I'm",
+      "timestamp": "2026-06-07T11:17:43.376036+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. I think I'm okay right now.",
+      "timestamp": "2026-06-07T11:17:44.267746+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Totally, the quick thing I wanted to mention is that Pump operates right at your cloud provider’s billing layer, so there’s no code changes required. It’s a free service with no lock‑in, and most of our customers capture seventy to eighty percent of the savings their estimate predicts. Based on your estimate, that translates to close to nineteen million dollars in annual savings. Is there a particular part of the estimate you’d like to understand better?",
+      "timestamp": "2026-06-07T11:18:10.117086+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I guess, like, the",
+      "timestamp": "2026-06-07T11:18:14.971898+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I guess, like, the RDS savings",
+      "timestamp": "2026-06-07T11:18:15.977629+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I guess, like, the RDS savings, how did you get to twelve k?",
+      "timestamp": "2026-06-07T11:18:16.973311+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I guess, like, the RDS savings, how did you get to twelve k?",
+      "timestamp": "2026-06-07T11:18:17.277898+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Sure thing—Pump digs into your actual RDS usage, looks at the instance types, storage, and utilization patterns, then matches those against lower‑cost instance families, reserved‑instance pricing, and any idle capacity. By applying current AWS rates to the right‑sized configuration, the model projects roughly twelve thousand dollars of annual savings for that workload. Does that help clear up how the number was calculated?",
+      "timestamp": "2026-06-07T11:18:43.291613+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yep.",
+      "timestamp": "2026-06-07T11:18:44.962195+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Got it. Just to make sure everything lines up, are you currently on any enterprise discount program or using cloud credits for your spend?",
+      "timestamp": "2026-06-07T11:18:54.401850+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "No.",
+      "timestamp": "2026-06-07T11:18:57.780780+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No.",
+      "timestamp": "2026-06-07T11:18:58.067129+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Based on your estimate, you could be saving close to nineteen million dollars each year, and Pump can help you capture most of that without any code changes or lock‑in. It’s a free service with a fast, billing‑layer setup, and for companies at your scale we’re offering a Mac Mini as part of a limited‑time promotion when you take a quick walkthrough. Would you be open to a brief demo so we can show exactly how those savings can be realized?",
+      "timestamp": "2026-06-07T11:19:21.868299+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. Sure.",
+      "timestamp": "2026-06-07T11:19:24.265729+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. Sure.",
+      "timestamp": "2026-06-07T11:19:24.312404+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "lead",
+      "text": "That sounds good.",
+      "timestamp": "2026-06-07T11:19:25.329938+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "That sounds good.",
+      "timestamp": "2026-06-07T11:19:25.411732+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Perfect, you're all set — I've got that booked and I'm sending the calendar invite now. Just a heads up: the offer is for people who show up and start a trial this month, so keep an eye out for it. Talk soon!",
+      "timestamp": "2026-06-07T11:19:39.286315+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T11:19:42.135246+00:00"
+}
