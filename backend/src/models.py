@@ -9,20 +9,31 @@ from uuid import UUID
 
 UseCase = Literal["uc1_new_signup", "uc2_estimate_completed"]
 
-# Operational statuses ("pending", "calling", "called") plus the terminal call
-# outcomes from docs/AGENT_SCRIPT.md. "callback" = caller asked to be called back
-# later (details in outcome_notes).
+# Shared lead-status contract: the UNION of every disposition the dashboard can
+# display (Paul) and every outcome the agent can emit (see agent VALID_OUTCOMES).
+#   - operational: "pending", "calling", "called"
+#   - agent/script outcomes (docs/AGENT_SCRIPT.md): booked, not_qualified,
+#     not_eligible, requested_human, callback, no_answer, declined, interested
+#   - disposition framework Cat 5-7 (docs/LEAD_DISPOSITIONS.md, Paul): disqualified,
+#     bad_data, reengage_90d
+# NOTE: not_qualified/not_eligible (script) likely overlap with disqualified
+# (disposition framework); consolidate once LEAD_DISPOSITIONS.md is the agreed
+# source of truth. Kept as a superset for now so neither side breaks.
 LeadStatus = Literal[
     "pending",
     "calling",
     "called",
     "booked",
+    "interested",
+    "callback",
     "not_qualified",
     "not_eligible",
     "requested_human",
-    "callback",
     "no_answer",
     "declined",
+    "disqualified",
+    "bad_data",
+    "reengage_90d",
 ]
 
 # ============================================================
