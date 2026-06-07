@@ -12,6 +12,7 @@ from uuid import UUID
 
 from src.config import supabase
 from src.models import (
+    Call,
     Company,
     LeadStatus,
     LeadWithCompany,
@@ -136,6 +137,98 @@ def set_outcome(
     ).eq("id", str(lead_id)).execute()
 
 
+# ------------------------------------------------------------
+# Calls: one row per attempt. Source of truth for history + transcripts.
+# Correlated to the agent's later writes by room_name (unique per dispatch).
+# ------------------------------------------------------------
+
+_CALL_SELECT = (
+    "id, lead_id, room_name, use_case, is_retry, status, outcome_notes, "
+    "created_at, ended_at"
+)
+
+
+def create_call(
+    lead_id: str | UUID,
+    room_name: str,
+    use_case: str | None,
+    is_retry: bool = False,
+) -> dict:
+    """Insert a call row at dispatch time. The agent fills in outcome + transcript
+    later, keyed on room_name. Returns the inserted row."""
+    return (
+        supabase.table("calls")
+        .insert(
+            {
+                "lead_id": str(lead_id),
+                "room_name": room_name,
+                "use_case": use_case,
+                "is_retry": is_retry,
+                "status": "calling",
+            }
+        )
+        .execute()
+        .data[0]
+    )
+
+
+def set_call_outcome(
+    room_name: str, status: LeadStatus, notes: str | None = None
+) -> None:
+    """Stamp the call attempt's disposition + end time (matched by room_name)."""
+    supabase.table("calls").update(
+        {
+            "status": status,
+            "outcome_notes": notes,
+            "ended_at": datetime.now(timezone.utc).isoformat(),
+        }
+    ).eq("room_name", room_name).execute()
+
+
+def save_call_transcript(room_name: str, transcript: object) -> None:
+    """Persist the full transcript on the call attempt (matched by room_name)."""
+    supabase.table("calls").update(
+        {"transcript": transcript, "ended_at": datetime.now(timezone.utc).isoformat()}
+    ).eq("room_name", room_name).execute()
+
+
+def list_calls(lead_id: str | UUID) -> list[Call]:
+    """All call attempts for a lead, newest first. Transcript omitted (lean)."""
+    res = (
+        supabase.table("calls")
+        .select(_CALL_SELECT)
+        .eq("lead_id", str(lead_id))
+        .order("created_at", desc=True)
+        .execute()
+    )
+    return [Call(**row) for row in res.data]
+
+
+def get_call_transcript(call_id: str | UUID) -> object | None:
+    """The transcript for one specific call attempt (None if not stored yet)."""
+    res = (
+        supabase.table("calls")
+        .select("transcript")
+        .eq("id", str(call_id))
+        .single()
+        .execute()
+    )
+    return res.data.get("transcript")
+
+
+def get_latest_transcript(lead_id: str | UUID) -> object | None:
+    """The transcript of the lead's most recent call attempt (None if none)."""
+    res = (
+        supabase.table("calls")
+        .select("transcript")
+        .eq("lead_id", str(lead_id))
+        .order("created_at", desc=True)
+        .limit(1)
+        .execute()
+    )
+    return res.data[0].get("transcript") if res.data else None
+
+
 def reset_leads() -> int:
     """Reset every lead to a clean pre-demo state. Returns the row count.
 
@@ -154,6 +247,18 @@ def reset_leads() -> int:
                 "outcome_notes": None,
             }
         )
+        .neq("id", "00000000-0000-0000-0000-000000000000")
+        .execute()
+    )
+    return len(res.data)
+
+
+def reset_calls() -> int:
+    """Delete all call history + transcripts so each demo run starts clean.
+    Returns the number of rows removed."""
+    res = (
+        supabase.table("calls")
+        .delete()
         .neq("id", "00000000-0000-0000-0000-000000000000")
         .execute()
     )

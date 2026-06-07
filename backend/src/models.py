@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional, Literal
+from typing import Any, Optional, Literal
 from datetime import datetime
 from uuid import UUID
 
@@ -112,3 +112,37 @@ class LogOutcome(BaseModel):
     lead_id: UUID
     status: LeadStatus
     outcome_notes: Optional[str] = None
+    # The call attempt this outcome belongs to. When present, the hub also stamps
+    # the matching row in the `calls` table; the lead always gets the snapshot.
+    room_name: Optional[str] = None
+
+
+class SaveTranscript(BaseModel):
+    lead_id: UUID
+    # Correlates to a single row in the `calls` table (unique per dispatch).
+    room_name: str
+    # Full conversation as serialized by LiveKit's `session.history.to_dict()`
+    # (a dict with an "items" list). Kept as `Any` so we don't couple the API to
+    # the exact LiveKit schema — it's stored verbatim as jsonb and rendered by the
+    # dashboard.
+    transcript: Any
+
+
+# ============================================================
+# Call (one row per attempt in the `calls` table)
+# ============================================================
+
+
+class Call(BaseModel):
+    """A single call attempt. Transcript is omitted here to keep list responses
+    lean; fetch it per-call via GET /calls/{call_id}/transcript."""
+
+    id: UUID
+    lead_id: UUID
+    room_name: str
+    use_case: Optional[str] = None
+    is_retry: bool = False
+    status: str = "calling"
+    outcome_notes: Optional[str] = None
+    created_at: datetime
+    ended_at: Optional[datetime] = None

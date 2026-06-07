@@ -14,6 +14,7 @@ from src import calls, db
 from src.config import FRONTEND_ORIGIN
 from src.models import (
     LogOutcome,
+    SaveTranscript,
     TriggerEstimateCompleted,
     TriggerNewSignup,
 )
@@ -50,6 +51,28 @@ def get_lead(lead_id: UUID):
         raise HTTPException(status_code=404, detail="lead not found") from exc
 
 
+@app.get("/leads/{lead_id}/calls")
+def get_calls(lead_id: UUID):
+    """All call attempts for a lead, newest first (no transcripts — lean)."""
+    return db.list_calls(lead_id)
+
+
+@app.get("/leads/{lead_id}/transcript")
+def get_transcript(lead_id: UUID):
+    """The transcript of the lead's most recent call (null if none yet).
+
+    Convenience for the dashboard's lead view. For a specific attempt, use
+    GET /calls/{call_id}/transcript.
+    """
+    return {"lead_id": str(lead_id), "transcript": db.get_latest_transcript(lead_id)}
+
+
+@app.get("/calls/{call_id}/transcript")
+def get_call_transcript(call_id: UUID):
+    """The transcript of one specific call attempt (null if not stored yet)."""
+    return {"call_id": str(call_id), "transcript": db.get_call_transcript(call_id)}
+
+
 @app.post("/triggers/new-signup")
 async def trigger_new_signup(payload: TriggerNewSignup):
     """UC1: create the lead, then call them."""
@@ -75,7 +98,10 @@ async def trigger_call(payload: CallTrigger):
 
 @app.post("/calls/outcome")
 async def call_outcome(payload: LogOutcome):
+    # Lead snapshot (drives the dashboard table) + this attempt's row in `calls`.
     db.set_outcome(payload.lead_id, payload.status, payload.outcome_notes)
+    if payload.room_name:
+        db.set_call_outcome(payload.room_name, payload.status, payload.outcome_notes)
     retried = False
     if payload.status in calls.RETRY_OUTCOMES and calls.should_retry(payload.lead_id):
         # Voicemail/no-answer or a decline: re-dispatch ONCE, immediately. The
@@ -86,3 +112,13 @@ async def call_outcome(payload: LogOutcome):
         await calls.start_call(payload.lead_id, is_retry=True)
         retried = True
     return {"ok": True, "retried": retried}
+
+
+@app.post("/calls/transcript")
+async def save_transcript(payload: SaveTranscript):
+    """Persist the full call transcript at call end (agent shutdown callback).
+
+    Keyed by room_name to the matching row in the `calls` table.
+    """
+    db.save_call_transcript(payload.room_name, payload.transcript)
+    return {"ok": True}

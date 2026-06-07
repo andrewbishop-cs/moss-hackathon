@@ -14,6 +14,9 @@ SET status        = 'pending',
     called_at     = NULL,
     outcome_notes = NULL;
 
+-- Wipe call history + transcripts so each demo run starts clean.
+DELETE FROM calls;
+
 -- Sanity check — every row should report status = pending.
 SELECT status, count(*) AS leads
 FROM leads

@@ -65,6 +65,10 @@ async def start_call(lead_id: str | UUID, *, is_retry: bool = False) -> str:
     finally:
         await lkapi.aclose()
 
+    # Record this attempt in the calls table (history + transcript live there).
+    # The agent's later outcome/transcript writes correlate back by room_name.
+    db.create_call(lead.id, room_name, lead.use_case, is_retry)
+    # Lead keeps a denormalized snapshot of the latest call for the table view.
     db.mark_calling(lead.id, room_name)
     _call_was_retry[str(lead.id)] = is_retry
     return room_name

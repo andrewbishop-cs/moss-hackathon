@@ -13,7 +13,8 @@ from src import db
 def main() -> None:
     try:
         count = db.reset_leads()
-        print(f"[reset] leads reset to pending: {count}")
+        calls = db.reset_calls()
+        print(f"[reset] leads reset to pending: {count}; call history cleared: {calls}")
     except Exception as exc:  # noqa: BLE001 - never block `pnpm dev` on a reset hiccup
         print(f"[reset] skipped (could not reach Supabase): {exc}")
 
