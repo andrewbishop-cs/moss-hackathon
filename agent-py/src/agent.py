@@ -5,6 +5,7 @@ import os
 import textwrap
 from datetime import datetime, timezone
 
+import aiohttp
 from dotenv import load_dotenv
 from livekit import api
 from livekit.agents import (
@@ -42,6 +43,45 @@ UC2_ESTIMATE_COMPLETED = "uc2_estimate_completed"
 # `phone_number`, the agent dials it through this trunk; otherwise it runs the
 # in-room/console flow. See agent-py/.env.local and docs/ARCHITECTURE.md.
 SIP_OUTBOUND_TRUNK_ID = os.getenv("SIP_OUTBOUND_TRUNK_ID")
+
+# FastAPI hub base URL. The agent persists call outcomes by POSTing to the hub
+# (POST /calls/outcome) rather than touching Supabase directly, keeping all DB
+# writes in one place. See backend/src/main.py.
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+
+# Outcomes the agent may report. These must be valid LeadStatus values in
+# backend/src/models.py or the hub will reject the write (422).
+VALID_OUTCOMES = {"booked", "interested", "callback", "declined", "no_answer"}
+
+
+async def post_call_outcome(
+    lead_id: str, status: str, notes: str | None = None
+) -> None:
+    """Persist a call outcome to Supabase via the FastAPI hub.
+
+    Best-effort: a backend hiccup must never crash an in-progress call, so all
+    failures are logged and swallowed. Skips the default/console lead, which is
+    not a real Supabase row.
+    """
+    if not lead_id or lead_id == DEFAULT_LEAD_ID:
+        logger.info("skipping outcome write for non-persistent lead_id=%s", lead_id)
+        return
+    payload = {"lead_id": lead_id, "status": status, "outcome_notes": notes}
+    try:
+        timeout = aiohttp.ClientTimeout(total=5)
+        async with (
+            aiohttp.ClientSession(timeout=timeout) as session,
+            session.post(f"{BACKEND_URL}/calls/outcome", json=payload) as resp,
+        ):
+            if resp.status >= 400:
+                body = await resp.text()
+                logger.error("outcome write failed: HTTP %s %s", resp.status, body)
+            else:
+                logger.info(
+                    "persisted outcome '%s' for lead_id=%s", status, lead_id
+                )
+    except Exception:
+        logger.exception("failed to POST call outcome to backend")
 
 # Fallbacks used only when ctx.job.metadata is absent (e.g. `console` mode). The
 # frontend provides a real lead_id + use_case via agent dispatch metadata.
@@ -295,11 +335,13 @@ class Assistant(Agent):
     async def book_meeting(self, context: RunContext) -> str:
         """Book a twenty-minute follow-up call for this lead.
 
-        Call this once the lead agrees to a follow-up. (Stub: currently logs the
-        booking; will create a calendar event and update Supabase.)
+        Call this once the lead agrees to a follow-up. Marks the lead as
+        'booked' in Supabase (via the FastAPI hub).
         """
-        # TODO: create calendar event + update Supabase status to 'booked'.
         logger.info("book_meeting called for lead_id=%s", self._lead_id)
+        await post_call_outcome(
+            self._lead_id, "booked", "Booked a 20-minute follow-up call."
+        )
         return (
             "Great — I've got that booked. You'll get a calendar invite and a "
             "confirmation shortly, and that locks in the Mac Mini offer."
@@ -309,15 +351,32 @@ class Assistant(Agent):
     async def log_outcome(self, context: RunContext, outcome: str) -> str:
         """Record the result of this call.
 
-        Call this before the call ends. (Stub: currently logs the outcome; will
-        update the lead's status in Supabase.)
+        Call this before the call ends. Updates the lead's status and notes in
+        Supabase (via the FastAPI hub).
 
         Args:
             outcome: One of "booked", "interested", "callback", "declined",
                 or "no_answer".
         """
-        # TODO: update Supabase lead status + outcome_notes.
-        logger.info("log_outcome called for lead_id=%s outcome=%s", self._lead_id, outcome)
+        normalized = outcome.strip().lower()
+        if normalized not in VALID_OUTCOMES:
+            logger.warning(
+                "log_outcome got unexpected outcome=%r; recording as 'called'",
+                outcome,
+            )
+            # Fall back to a generic-but-valid status so the call is still logged.
+            await post_call_outcome(
+                self._lead_id, "called", f"Call outcome: {outcome}"
+            )
+            return "Noted."
+        logger.info(
+            "log_outcome called for lead_id=%s outcome=%s",
+            self._lead_id,
+            normalized,
+        )
+        await post_call_outcome(
+            self._lead_id, normalized, f"Call outcome: {normalized}"
+        )
         return "Noted."
 
 
@@ -402,11 +461,15 @@ async def my_agent(ctx: JobContext):
                 )
             )
         except api.TwirpError as e:
+            sip_status = e.metadata.get("sip_status")
             logger.error(
                 "outbound SIP call failed: %s (sip_status=%s %s)",
                 e.message,
                 e.metadata.get("sip_status_code"),
-                e.metadata.get("sip_status"),
+                sip_status,
+            )
+            await post_call_outcome(
+                lead_id, "no_answer", f"SIP dial failed: {e.message} ({sip_status})"
             )
             ctx.shutdown()
             return

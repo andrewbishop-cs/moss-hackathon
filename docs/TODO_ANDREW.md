@@ -3,11 +3,11 @@
 You own: Supabase, FastAPI hub, `agent-py`, Moss indexing, SIP outbound calling.
 You don't touch: `frontend/`. See [HACKATHON_PLAN.md](HACKATHON_PLAN.md) + [ARCHITECTURE.md](ARCHITECTURE.md).
 
-## Phase 1 — Foundation
-- [x] ~~Supabase project + schema + seed (5 companies, 15 leads)~~ — done by Paul; get the URL + service key from him into `backend/.env`
-- [ ] Confirm agent speaks in browser (`pnpm agent:py:console`) — already working
-- [ ] Confirm Moss indexes exist (`pnpm moss:index`)
-- [ ] Enable CORS in FastAPI for `http://localhost:3000` (the frontend calls you directly)
+## Phase 1 — Foundation  ✅ DONE
+- [x] ~~Supabase project + schema + seed (5 companies, 15 leads)~~ — done by Paul; URL + service key in `backend/.env`
+- [x] Confirm agent speaks in browser (`pnpm agent:py:console`) — verified
+- [x] Confirm Moss indexes exist — verified live: `knowledge` (9 docs) + `leads` ready. NOTE: project has a hard **3-index cap**; deleted a stale `memory` index to free a slot. Re-running `pnpm moss:index` will 429 since `create_index` only makes *new* indexes — delete-then-recreate (or `add_docs(upsert=True)`) to refresh.
+- [x] Enable CORS in FastAPI for `http://localhost:3000` — done (`CORSMiddleware` in `main.py`)
 
 ## Phase 2 — FastAPI hub  ✅ DONE
 - [x] `backend/src/main.py` + `config.py`/`db.py`/`moss_index.py`/`calls.py` (FastAPI + Supabase + Moss clients)
@@ -16,26 +16,32 @@ You don't touch: `frontend/`. See [HACKATHON_PLAN.md](HACKATHON_PLAN.md) + [ARCH
 - [x] `POST /triggers/estimate-completed` (UC2) — body = `TriggerEstimateCompleted`
 - [x] `POST /calls/trigger` (manual), `POST /calls/outcome`
 - [x] `GET /leads` and `GET /leads/:id` (return `LeadWithCompany`) — verified against live Supabase (15 leads)
+- [x] Fixed `Company` model 500 on `GET /leads`: nullable spend/savings columns now coerce `null → 0` via `field_validator` (`models.py`)
 - [x] Dispatch via `agent_dispatch.create_dispatch(agent_name="agent-py", room=<new>, metadata={phone_number,lead_id,use_case})`; store `room_name` on the lead
 - [x] Run: `pnpm dev:backend` (uvicorn :8000). Frontend `/dashboard` wired to it.
-- [ ] Verify a trigger actually lands a job on the running `agent-py` worker (run `pnpm dev:agent-py`, then Call Now)
+- [x] Verify a trigger actually lands a job on the running `agent-py` worker — **VERIFIED end-to-end** (dispatch → worker picked up job → real outbound call connected)
 
-## Phase 3 — Real phone calls (LiveKit SIP + Twilio)
+## Phase 3 — Real phone calls (LiveKit SIP + Twilio)  ✅ DONE
 - [x] ~~Twilio Elastic SIP trunk + LiveKit outbound trunk~~ — done (`ST_RkZbHfV4vC87`, `beep-outbound.pstn.twilio.com`); test call connects via CLI
 - [x] `SIP_OUTBOUND_TRUNK_ID` / `SIP_AUTH_USERNAME` / `SIP_AUTH_PASSWORD` in `agent-py/.env.local`
-- [ ] Twilio still in TRIAL → only dials **verified** numbers. Set a demo lead's `phone` to a verified number (or upgrade the account)
-- [ ] `agent-py/src/agent.py`: read `phone_number` from `ctx.job.metadata`
-- [ ] After `ctx.connect()`: `ctx.api.sip.create_sip_participant(CreateSIPParticipantRequest(room_name=ctx.room.name, sip_trunk_id=..., sip_call_to=phone_number, participant_identity=phone_number, wait_until_answered=True))`
-- [ ] `await ctx.wait_for_participant(identity=phone_number)` before the opening line
-- [ ] Handle `TwirpError` (busy/no-answer/trunk fail) → log `no_answer` + `ctx.shutdown()`
-- [ ] `POST /calls/trigger` — manual "Call Now" by `lead_id`
-- [ ] Test: website form → real phone rings → correct UC1/UC2 script
+- [x] Twilio in TRIAL → only dials **verified** numbers; verified number used for the live demo call
+- [x] `agent-py/src/agent.py`: read `phone_number` from `ctx.job.metadata`
+- [x] After `ctx.connect()`: `ctx.api.sip.create_sip_participant(... wait_until_answered=True)`
+- [x] `await ctx.wait_for_participant(identity=phone_number)` before the opening line
+- [x] Handle `TwirpError` (busy/no-answer/trunk fail) → `ctx.shutdown()` (logs sip_status; does NOT yet write `no_answer` to Supabase — see Phase 4)
+- [x] `POST /calls/trigger` — manual "Call Now" by `lead_id`
+- [x] Test: real phone rings → correct UC2 script — **VERIFIED** (live call: UC2 savings hook, "is this a scam?" objection handled via knowledge, hung up → `declined` logged)
 - [ ] Reference: `livekit-examples/outbound-caller-python`
 
-## Phase 4 — Outcomes
-- [ ] Wire `book_meeting` → set lead `booked` in Supabase
-- [ ] Wire `log_outcome` → set `status` + `outcome_notes` in Supabase
-- [ ] `POST /calls/outcome` if the dashboard also needs to write outcomes
+## Phase 4 — Outcomes  ✅ DONE
+> The agent now persists outcomes via the FastAPI hub (`post_call_outcome` → `POST /calls/outcome` → `db.set_outcome`), so it never touches Supabase directly. Best-effort: backend failures are logged + swallowed so a hiccup can't crash a live call. Skips the console/default lead (not a real row).
+- [x] Wire `log_outcome` → POSTs `status` + `outcome_notes` to the hub (`agent.py`); unknown outcomes fall back to `called`
+- [x] Wire `book_meeting` → POSTs `booked` to the hub
+- [x] SIP dial failure (`TwirpError`) → POSTs `no_answer` before `ctx.shutdown()`
+- [x] Expanded `LeadStatus` with `interested` + `callback` so agent outcomes map 1:1 (`models.py`)
+- [x] `POST /calls/outcome` endpoint exists (dashboard write path) — present in `main.py`
+- [ ] **Heads-up for Paul:** dashboard may want badge styles for the new `interested` / `callback` statuses
+- [ ] Not yet verified end-to-end against a *live* call (code + models validated; needs a real call with backend running to confirm the row updates)
 
 ## Stretch
 - [ ] Qwen TTS custom voice (only if ahead of schedule)

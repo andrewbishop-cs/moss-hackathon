@@ -10,7 +10,14 @@ from uuid import UUID
 UseCase = Literal["uc1_new_signup", "uc2_estimate_completed"]
 
 LeadStatus = Literal[
-    "pending", "calling", "called", "booked", "no_answer", "declined"
+    "pending",
+    "calling",
+    "called",
+    "booked",
+    "interested",
+    "callback",
+    "no_answer",
+    "declined",
 ]
 
 # ============================================================
