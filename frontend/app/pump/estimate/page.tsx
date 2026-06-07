@@ -1,11 +1,10 @@
 'use client';
 
-import Link from 'next/link';
 import { Suspense, useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
   ArrowRightIcon,
-  CheckCircleIcon,
   CloudIcon,
   PlugsConnectedIcon,
   SparkleIcon,
@@ -25,7 +24,10 @@ const COLLECT_DELAY_MS = 4_000;
 const COLLECT_SECONDS = COLLECT_DELAY_MS / 1000;
 const SERVICES = ['Compute', 'Storage', 'AI inference'] as const;
 
-type DataMode = 'collecting' | 'ready' | 'none';
+// intro: show the TOS gate + Run estimate button (no numbers yet)
+// running: the "collecting your cloud data" animation (kicks off after Run)
+// result: reveal the spend + savings, call is on its way
+type Phase = 'intro' | 'running' | 'result';
 
 function SignupPrompt() {
   return (
@@ -68,25 +70,22 @@ function EstimateCalculator() {
 
 function EstimateWithLead({ leadId }: { leadId: string }) {
   const [resolvedSpend, setResolvedSpend] = useState<number | null>(null);
-  const [dataMode, setDataMode] = useState<DataMode>('collecting');
-  const [spend, setSpend] = useState<number>(SAMPLE_SPEND);
+  const [phase, setPhase] = useState<Phase>('intro');
   const [services] = useState<string[]>(['Compute', 'AI inference']);
-  const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
   const [demoNote, setDemoNote] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [elapsedSec, setElapsedSec] = useState(0);
   const [agreedTos, setAgreedTos] = useState(false);
 
-  const sampleSpend = useMemo(() => {
+  const spend = useMemo(() => {
     if (resolvedSpend && resolvedSpend > 0) return resolvedSpend;
     const fixture = fixtureLeadById(leadId)?.company?.spend_total;
     return fixture && fixture > 0 ? fixture : SAMPLE_SPEND;
   }, [leadId, resolvedSpend]);
 
   const savings = useMemo(() => Math.round(spend * SAVINGS_RATE), [spend]);
-  const ready = dataMode === 'ready';
 
+  // Prefetch the lead's real monthly spend so the revealed estimate is accurate.
   useEffect(() => {
     let active = true;
     getLead(leadId).then(({ lead }) => {
@@ -100,38 +99,33 @@ function EstimateWithLead({ leadId }: { leadId: string }) {
     };
   }, [leadId]);
 
+  // The "collecting your cloud data" animation only runs once the user has
+  // agreed to the TOS and pressed Run estimate — not on page load.
   useEffect(() => {
-    setDataMode('collecting');
+    if (phase !== 'running') return;
     setElapsedSec(0);
-
     const tick = setInterval(() => setElapsedSec((s) => s + 1), 1000);
-    const finish = setTimeout(() => {
-      setSpend(sampleSpend);
-      setDataMode('ready');
-    }, COLLECT_DELAY_MS);
-
+    const finish = setTimeout(() => setPhase('result'), COLLECT_DELAY_MS);
     return () => {
       clearInterval(tick);
       clearTimeout(finish);
     };
-  }, [sampleSpend]);
+  }, [phase]);
 
-  const onGetPlan = async () => {
+  const onRunEstimate = async () => {
     setError(null);
     setDemoNote(false);
-    setSubmitting(true);
+    // Kick off the collecting animation immediately, then fire the trigger
+    // (which marks the estimate complete and starts the outbound call).
+    setPhase('running');
     try {
       await triggerEstimateCompleted({ lead_id: leadId, savings_total: savings });
-      setDone(true);
     } catch (err) {
       if (!(err instanceof ApiError)) {
         setDemoNote(true);
-        setDone(true);
       } else {
         setError(err.message || 'Could not submit your estimate.');
       }
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -139,6 +133,13 @@ function EstimateWithLead({ leadId }: { leadId: string }) {
     elapsedSec < 2
       ? 'Connecting to your cloud accounts…'
       : 'Pulling your monthly cloud + AI spend…';
+
+  const subtitle =
+    phase === 'result'
+      ? 'Your cloud data is in — here is what Pump found.'
+      : phase === 'running'
+        ? 'We are pulling your cloud spend now. This takes a few seconds.'
+        : 'Connect your cloud and we will calculate exactly what you could save.';
 
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-14">
@@ -149,29 +150,58 @@ function EstimateWithLead({ leadId }: { leadId: string }) {
       <h1 className="mt-4 text-4xl font-extrabold tracking-tight">
         See what you&apos;re leaving on the table
       </h1>
-      <p className="text-muted-foreground mt-3 text-lg">
-        {ready
-          ? 'Your cloud data is in — here is what Pump found.'
-          : 'We are pulling your cloud spend now. This takes a few seconds.'}
-      </p>
+      <p className="text-muted-foreground mt-3 text-lg">{subtitle}</p>
 
       <div className="border-border bg-card text-card-foreground shadow-primary/5 mt-8 rounded-3xl border p-6 shadow-xl">
-        {done ? (
-          <div className="flex flex-col items-center py-8 text-center">
-            <CheckCircleIcon weight="fill" className="text-primary size-12" />
-            <h2 className="mt-4 text-xl font-bold">Your estimate is ready.</h2>
-            <p className="text-muted-foreground mt-1">
-              You could save{' '}
-              <span className="text-foreground font-semibold">{formatUsd(savings)}</span>/month.
-            </p>
-            <p className="mt-3 text-sm">We&apos;ll call you shortly.</p>
-            {demoNote && (
-              <p className="mt-4 rounded-md bg-amber-500/15 px-3 py-1.5 text-xs text-amber-600 dark:text-amber-400">
-                Demo mode: backend offline, estimate not actually sent.
+        {phase === 'intro' ? (
+          <>
+            <div className="border-border flex flex-col items-center rounded-2xl border border-dashed px-6 py-10 text-center">
+              <CloudIcon weight="duotone" className="text-primary size-10" />
+              <p className="mt-3 font-medium">Connect your cloud to run your estimate</p>
+              <p className="text-muted-foreground mt-1 max-w-sm text-sm">
+                We securely pull your AWS, GCP, and AI spend to calculate your savings. It only
+                takes a few seconds.
               </p>
-            )}
+            </div>
+
+            <label className="mt-6 flex items-start gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={agreedTos}
+                onChange={(e) => setAgreedTos(e.target.checked)}
+                className="accent-primary mt-0.5 size-4 shrink-0 rounded"
+              />
+              <span className="text-muted-foreground">
+                I agree to the{' '}
+                <a href="#" className="text-primary underline underline-offset-2">
+                  Terms of Service
+                </a>
+                .
+              </span>
+            </label>
+
+            <Button
+              className="mt-3 w-full rounded-full"
+              disabled={!agreedTos}
+              onClick={onRunEstimate}
+            >
+              Run estimate
+            </Button>
+            <p className="text-muted-foreground mt-3 text-center text-xs">
+              No contracts, no credit cards. You only pay a percentage of what you save.
+            </p>
+          </>
+        ) : phase === 'running' ? (
+          <div className="flex flex-col items-center rounded-2xl border border-dashed px-6 py-12 text-center">
+            <CloudIcon weight="duotone" className="text-muted-foreground size-10" />
+            <p className="mt-3 font-medium">Collecting your cloud data</p>
+            <p className="text-muted-foreground mt-1 max-w-sm text-sm">{collectMessage}</p>
+            <SpinnerGapIcon className="text-primary mt-5 size-8 animate-spin" weight="bold" />
+            <p className="text-muted-foreground mt-4 text-xs tabular-nums">
+              {Math.min(elapsedSec, COLLECT_SECONDS)}s / ~{COLLECT_SECONDS}s
+            </p>
           </div>
-        ) : ready ? (
+        ) : (
           <>
             <div className="border-border flex items-center justify-between rounded-xl border px-4 py-3">
               <span className="text-muted-foreground inline-flex items-center gap-2 text-sm">
@@ -215,59 +245,19 @@ function EstimateWithLead({ leadId }: { leadId: string }) {
               </p>
             </div>
 
+            <p className="mt-6 text-center text-sm font-medium">We&apos;ll call you shortly.</p>
+
             {error && (
               <div className="border-destructive/30 bg-destructive/10 text-destructive mt-4 rounded-lg border px-3 py-2 text-sm">
                 {error}
               </div>
             )}
-
-            <label className="mt-6 flex items-start gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={agreedTos}
-                onChange={(e) => setAgreedTos(e.target.checked)}
-                className="accent-primary mt-0.5 size-4 shrink-0 rounded"
-              />
-              <span className="text-muted-foreground">
-                I agree to the{' '}
-                <a href="#" className="text-primary underline underline-offset-2">
-                  Terms of Service
-                </a>
-                .
-              </span>
-            </label>
-
-            <Button
-              className="mt-3 w-full rounded-full"
-              disabled={submitting || !agreedTos}
-              onClick={onGetPlan}
-            >
-              {submitting ? (
-                <>
-                  <SpinnerGapIcon className="animate-spin" weight="bold" />
-                  Getting your plan…
-                </>
-              ) : (
-                'Run estimate'
-              )}
-            </Button>
-            <p className="text-muted-foreground mt-3 text-center text-xs">
-              No contracts, no credit cards. You only pay a percentage of what you save.
-            </p>
+            {demoNote && (
+              <p className="mt-4 rounded-md bg-amber-500/15 px-3 py-1.5 text-center text-xs text-amber-600 dark:text-amber-400">
+                Demo mode: backend offline, estimate not actually sent.
+              </p>
+            )}
           </>
-        ) : (
-          <div className="flex flex-col items-center rounded-2xl border border-dashed px-6 py-12 text-center">
-            <CloudIcon weight="duotone" className="text-muted-foreground size-10" />
-            <p className="mt-3 font-medium">Collecting your cloud data</p>
-            <p className="text-muted-foreground mt-1 max-w-sm text-sm">{collectMessage}</p>
-            <SpinnerGapIcon
-              className="text-primary mt-5 size-8 animate-spin"
-              weight="bold"
-            />
-            <p className="text-muted-foreground mt-4 text-xs tabular-nums">
-              {Math.min(elapsedSec, COLLECT_SECONDS)}s / ~{COLLECT_SECONDS}s
-            </p>
-          </div>
         )}
       </div>
     </main>
