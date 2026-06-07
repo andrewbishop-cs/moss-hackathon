@@ -52,6 +52,10 @@ def _to_lead_with_company(row: dict) -> LeadWithCompany:
     return LeadWithCompany(**row, company=Company(**company))
 
 
+# Pin this company's lead to the top of the queue (demo ordering).
+_PINNED_COMPANY_ID = "a1b2c3d4-0008-0000-0000-000000000008"
+
+
 def list_leads() -> list[LeadWithCompany]:
     res = (
         supabase.table("leads")
@@ -59,7 +63,9 @@ def list_leads() -> list[LeadWithCompany]:
         .order("created_at", desc=False)
         .execute()
     )
-    return [_to_lead_with_company(r) for r in res.data]
+    leads = [_to_lead_with_company(r) for r in res.data]
+    leads.sort(key=lambda lead: str(lead.company_id) != _PINNED_COMPANY_ID)
+    return leads
 
 
 def get_lead(lead_id: str | UUID) -> LeadWithCompany:
