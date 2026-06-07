@@ -50,6 +50,42 @@ logger = logging.getLogger("agent")
 load_dotenv(".env.local")
 
 
+def _setup_file_logging() -> None:
+    """Write all logs to a file straight from this process.
+
+    LiveKit runs each call in a forked job subprocess whose stdout/stderr never
+    make it back through `concurrently`'s pipes — so terminal-level capture
+    (tee/script) silently drops every per-call line we actually care about
+    (latency[...], interruptions, outcomes). Attaching a FileHandler here, in the
+    module that BOTH the worker and each job subprocess import, guarantees those
+    logs land on disk no matter the pipe/pty plumbing.
+
+    The path comes from AGENT_LOG_FILE (set by scripts/lib/dev-agent.sh) so the
+    worker and all its job subprocesses, which inherit the env var, append to one
+    shared file. Level defaults to INFO (covers latency + warnings/errors);
+    override with AGENT_LOG_LEVEL=DEBUG for full turn-detection detail.
+    """
+    path = os.getenv("AGENT_LOG_FILE")
+    if not path:
+        return
+    root = logging.getLogger()
+    if any(getattr(h, "_agent_file_log", False) for h in root.handlers):
+        return
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    handler = logging.FileHandler(path, mode="a")
+    handler._agent_file_log = True  # type: ignore[attr-defined]
+    handler.setFormatter(
+        logging.Formatter("%(asctime)s %(levelname)-7s [pid:%(process)d] %(name)s %(message)s")
+    )
+    root.addHandler(handler)
+    level = getattr(logging, os.getenv("AGENT_LOG_LEVEL", "INFO").upper(), logging.INFO)
+    if root.level == logging.NOTSET or root.level > level:
+        root.setLevel(level)
+
+
+_setup_file_logging()
+
+
 # moss_core's native (Rust) static destructors abort with SIGABRT during the C
 # runtime's __cxa_finalize at normal interpreter exit (a mutex lock on an
 # already-torn-down runtime). This fires on every clean shutdown — and in `dev`

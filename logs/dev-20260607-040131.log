@@ -1,0 +1,348 @@
+
+> moss-hacker-starter@1.0.0 dev /Users/andrewbishop/moss-hackathon/moss-hackathon
+> pnpm kill:agents && pnpm reset:leads && concurrently -n agent-py,backend,frontend -c cyan,green,magenta "pnpm dev:agent-py" "pnpm dev:backend" "pnpm dev:frontend"
+
+
+> moss-hacker-starter@1.0.0 kill:agents /Users/andrewbishop/moss-hackathon/moss-hackathon
+> bash scripts/kill-stray-agents.sh
+
+[predev] no stray dev processes — clean start.
+
+> moss-hacker-starter@1.0.0 reset:leads /Users/andrewbishop/moss-hackathon/moss-hackathon
+> bash scripts/lib/backend-run.sh -m src.reset
+
+[reset] leads reset to pending: 23 (call history preserved)
+[36m[agent-py][39m 
+[36m[agent-py][39m > moss-hacker-starter@1.0.0 dev:agent-py /Users/andrewbishop/moss-hackathon/moss-hackathon
+[36m[agent-py][39m > bash scripts/lib/dev-agent.sh
+[36m[agent-py][39m 
+[35m[frontend][39m 
+[35m[frontend][39m > moss-hacker-starter@1.0.0 dev:frontend /Users/andrewbishop/moss-hackathon/moss-hackathon
+[35m[frontend][39m > pnpm --dir frontend dev
+[35m[frontend][39m 
+[32m[backend][39m 
+[32m[backend][39m > moss-hacker-starter@1.0.0 dev:backend /Users/andrewbishop/moss-hackathon/moss-hackathon
+[32m[backend][39m > bash scripts/lib/dev-backend.sh
+[32m[backend][39m 
+[35m[frontend][39m 
+[35m[frontend][39m > agent-starter-react@0.1.0 dev /Users/andrewbishop/moss-hackathon/moss-hackathon/frontend
+[35m[frontend][39m > next dev --turbopack
+[35m[frontend][39m 
+[32m[backend][39m INFO:     Started server process [21732]
+[32m[backend][39m INFO:     Waiting for application startup.
+[32m[backend][39m INFO:     Application startup complete.
+[32m[backend][39m INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+[35m[frontend][39m  [33m[1m⚠[22m[39m Warning: Next.js inferred your workspace root, but it may not be correct.
+[35m[frontend][39m  We detected multiple lockfiles and selected the directory of /Users/andrewbishop/moss-hackathon/moss-hackathon/pnpm-lock.yaml as the root directory.
+[35m[frontend][39m  To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+[35m[frontend][39m    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+[35m[frontend][39m  Detected additional lockfiles: 
+[35m[frontend][39m    * /Users/andrewbishop/moss-hackathon/moss-hackathon/frontend/pnpm-lock.yaml
+[35m[frontend][39m 
+[36m[agent-py][39m     [2;36m04:01:34.690[0m[2;36m [0m[36mDEBUG   [0m asyncio            Using selector: KqueueSelector [2m [0m
+[36m[agent-py][39m     [2;36m04:01:34.691[0m[2;36m [0m[34mDEV     [0m livekit.agents     Watching                          [2m [0m
+[36m[agent-py][39m     [2;36m             [0m                            /Users/andrewbishop/moss-hackath... [2m [0m
+[35m[frontend][39m    [1m[38;2;173;127;168m▲ Next.js 15.5.18[39m[22m (Turbopack)
+[35m[frontend][39m    - Local:        http://localhost:3000
+[35m[frontend][39m    - Network:      http://172.17.22.35:3000
+[35m[frontend][39m    - Environments: .env.local
+[35m[frontend][39m 
+[35m[frontend][39m  [32m[1m✓[22m[39m Starting...
+[36m[agent-py][39m     [2;36m04:01:35.200[0m[2;36m [0m[36mDEBUG   [0m asyncio            Using selector: KqueueSelector [2m [0m
+[36m[agent-py][39m     [2;36m04:01:35.203[0m[2;36m [0m[32mINFO    [0m livekit.agents     starting worker [2m [0m
+[36m[agent-py][39m [2m                                         {"version": "1.5.16", "rtc-version": [0m
+[36m[agent-py][39m [2m"1.1.8"}[0m
+[36m[agent-py][39m     [2;36m            [0m[2;36m [0m[32mINFO    [0m livekit.agents     plugin registered [2m [0m
+[36m[agent-py][39m [2m                                         {"plugin": [0m
+[36m[agent-py][39m [2m"livekit.plugins.ai_coustics", "version": "0.2.15"}[0m
+[36m[agent-py][39m     [2;36m04:01:35.204[0m[2;36m [0m[32mINFO    [0m livekit.agents     plugin registered [2m [0m
+[36m[agent-py][39m [2m                                         {"plugin": "livekit.plugins.silero", [0m
+[36m[agent-py][39m [2m"version": "1.5.16"}[0m
+[36m[agent-py][39m     [2;36m            [0m[2;36m [0m[32mINFO    [0m livekit.agents     plugin registered [2m [0m
+[36m[agent-py][39m [2m                                         {"plugin": [0m
+[36m[agent-py][39m [2m"livekit.plugins.turn_detector.base", "version": "1.5.16"}[0m
+[36m[agent-py][39m     [2;36m            [0m[2;36m [0m[32mINFO    [0m livekit.agents     plugin registered [2m [0m
+[36m[agent-py][39m [2m                                         {"plugin": [0m
+[36m[agent-py][39m [2m"livekit.plugins.turn_detector.base", "version": "1.5.16"}[0m
+[36m[agent-py][39m     [2;36m04:01:35.205[0m[2;36m [0m[32mINFO    [0m livekit.agents     starting inference executor [2m [0m
+[36m[agent-py][39m     [2;36m04:01:35.210[0m[2;36m [0m[32mINFO    [0m livekit.agents     initializing process [2m [0m
+[36m[agent-py][39m [2m                                         {"pid": 21781, "inference": true}[0m
+[35m[frontend][39m  [32m[1m✓[22m[39m Ready in 652ms
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[36m[agent-py][39m [transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[36m[agent-py][39m     [2;36m04:01:37.490[0m[2;36m [0m[32mINFO    [0m livekit.agents     process initialized [2m [0m
+[36m[agent-py][39m [2m                                         {"pid": 21781, "inference": true, [0m
+[36m[agent-py][39m [2m"elapsed_time": 2.28}[0m
+[36m[agent-py][39m     [2;36m04:01:37.493[0m[2;36m [0m[32mINFO    [0m livekit.agents     HTTP server listening on :61175 [2m [0m
+[36m[agent-py][39m     [2;36m04:01:37.617[0m[2;36m [0m[32mINFO    [0m livekit.agents     registered worker [2m [0m
+[36m[agent-py][39m [2m                                         {"agent_name": "agent-py", [0m
+[36m[agent-py][39m [2m"deployment": "", "id": "AW_BzAUTPnSBxrw", "url": [0m
+[36m[agent-py][39m [2m"wss://moss-hackathon-5w6viydl.livekit.cloud", "region": "US West B", [0m
+[36m[agent-py][39m [2m"protocol": 17}[0m
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[35m[frontend][39m  [37m[1m○[22m[39m Compiling /dashboard ...
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[35m[frontend][39m  [32m[1m✓[22m[39m Compiled /dashboard in 1548ms
+[32m[backend][39m INFO:     127.0.0.1:61200 - "GET /leads HTTP/1.1" 200 OK
+[35m[frontend][39m  GET /dashboard [32m200[39m in 1971ms
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /calls/trigger HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61221 - "OPTIONS /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61223 - "GET /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "POST /calls/trigger HTTP/1.1" 200 OK
+[35m[frontend][39m  [37m[1m○[22m[39m Compiling /dashboard/calls/[id] ...
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61223 - "GET /leads HTTP/1.1" 200 OK
+[35m[frontend][39m  [32m[1m✓[22m[39m Compiled /dashboard/calls/[id] in 2.9s
+[32m[backend][39m INFO:     127.0.0.1:61227 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[35m[frontend][39m  GET /dashboard/calls/b1000000-0001-0000-0000-000000000001 [32m200[39m in 3376ms
+[32m[backend][39m INFO:     127.0.0.1:61223 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61223 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[35m[frontend][39m  [32m[1m✓[22m[39m Compiled /api/viewer-token in 316ms
+[35m[frontend][39m  POST /api/viewer-token [32m200[39m in 597ms
+[35m[frontend][39m  POST /api/viewer-token [32m200[39m in 231ms
+[35m[frontend][39m  POST /api/viewer-token [32m200[39m in 238ms
+[35m[frontend][39m  POST /api/viewer-token [32m200[39m in 249ms
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61300 - "POST /calls/outcome HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61307 - "POST /calls/transcript HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61372 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61374 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61377 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61379 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[36m[agent-py][39m     [2;36m04:06:54.195[0m[2;36m [0m[33mWARNING [0m livekit.agents     unexpected message type: 258 [2m [0m
+[36m[agent-py][39m [2m                                         {"type": "ERROR", "ws_data": "No PONG [0m
+[36m[agent-py][39m [2mreceived after 15.0 seconds"}[0m
+[36m[agent-py][39m     [2;36m04:06:54.200[0m[2;36m [0m[33mWARNING [0m livekit.agents     failed to connect to livekit,     [2m [0m
+[36m[agent-py][39m     [2;36m             [0m                            retrying in 0s                    [2m [0m
+[36m[agent-py][39m [2m                                         {"retry_count": 1, "max_retry": 16, [0m
+[36m[agent-py][39m [2m"error": "message='worker connection closed unexpectedly', status_code=1006, [0m
+[36m[agent-py][39m [2mretryable=True, body=msg.data=None msg.extra=None"}[0m
+[36m[agent-py][39m     [2;36m04:06:54.341[0m[2;36m [0m[32mINFO    [0m livekit.agents     registered worker [2m [0m
+[36m[agent-py][39m [2m                                         {"agent_name": "agent-py", [0m
+[36m[agent-py][39m [2m"deployment": "", "id": "AW_AGumV2TeVB34", "url": [0m
+[36m[agent-py][39m [2m"wss://moss-hackathon-5w6viydl.livekit.cloud", "region": "US West B", [0m
+[36m[agent-py][39m [2m"protocol": 17}[0m
+[32m[backend][39m INFO:     127.0.0.1:61379 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61446 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61446 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61446 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61446 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61446 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61446 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61446 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61446 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61374 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61171 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61372 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61377 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61173 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61446 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61451 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61453 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61452 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61454 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61456 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61451 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61446 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61451 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61446 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61446 - "OPTIONS /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+[32m[backend][39m INFO:     127.0.0.1:61451 - "GET /leads/b1000000-0001-0000-0000-000000000001 HTTP/1.1" 200 OK
+^C[36m[agent-py][39m     [2;36m04:07:19.109[0m[2;36m [0m[32mINFO    [0m livekit.agents     shutting down worker [2m [0m
+[36m[agent-py][39m [2m                                         {"id": "AW_AGumV2TeVB34"}[0m
+[36m[agent-py][39m     [2;36m04:07:19.117[0m[2;36m [0m[32mINFO    [0m livekit.agents     process exiting [2m [0m
+[36m[agent-py][39m [2m                                         {"reason": "", "pid": 21781, [0m
+[36m[agent-py][39m [2m"inference": true}[0m
+[32m[backend][39m INFO:     Shutting down
+[35m[frontend][39m [?25h
+[32m[backend][39m INFO:     Waiting for application shutdown.
+[32m[backend][39m INFO:     Application shutdown complete.
+[32m[backend][39m INFO:     Finished server process [21732]
+[35m[frontend][39m [0mpnpm dev:frontend exited with code 0[0m
+[36m[agent-py][39m [0mpnpm dev:agent-py exited with code 0[0m
+[32m[backend][39m [41m[30m ELIFECYCLE [39m[49m [31mCommand failed with exit code 130.[39m
+[32m[backend][39m [0mpnpm dev:backend exited with code 130[0m
