@@ -25,13 +25,19 @@ def build_lead_document(
     name = f"{lead.first_name} {lead.last_name}"
 
     if lead.use_case == "uc2_estimate_completed":
+        # Spend stays monthly (tiers qualify on monthly spend). Savings is given
+        # both monthly AND pre-computed annual (monthly x 12) so the agent can read
+        # the annual figure directly for the UC2 hook instead of doing fragile
+        # seven-figure mental math live on the call. See _instructions_for() in
+        # agent-py/src/agent.py ("quote ANNUAL savings").
+        annual_savings = company.savings_total * 12
         text = (
             f"{name} from {company.name} ({company.company_size} employees) ran a "
             f"savings estimate on the Pump website showing about "
-            f"{_money(company.spend_total)} per month in cloud spend, and Pump "
-            f"projected they could save around {_money(company.savings_total)} per "
-            f"month. They completed the estimate but did not start a trial. "
-            f"Use case: UC2 (estimate completed, no trial)."
+            f"{_money(company.spend_total)} per month in cloud spend. Pump projected "
+            f"they could save about {_money(company.savings_total)} per month — that "
+            f"is {_money(annual_savings)} per year. They completed the estimate but "
+            f"did not start a trial. Use case: UC2 (estimate completed, no trial)."
         )
     else:
         similar_text = ""
