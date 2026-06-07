@@ -1,0 +1,168 @@
+import type { Company, LeadWithCompany } from '@/lib/leads';
+
+// Fake JSON shaped like models.py, used to render the UI before Andrew's
+// FastAPI hub is running (Phase 1: "build UI against fake JSON"). The real data
+// comes from GET /leads once the backend is up.
+
+function company(partial: Partial<Company> & Pick<Company, 'id' | 'name'>): Company {
+  return {
+    company_size: '201-500',
+    cloud_provider: 'aws',
+    spend_aws: 0,
+    spend_gcp: 0,
+    spend_azure: 0,
+    spend_openai: 0,
+    spend_anthropic: 0,
+    spend_total: 0,
+    savings_aws: 0,
+    savings_gcp: 0,
+    savings_azure: 0,
+    savings_openai: 0,
+    savings_anthropic: 0,
+    savings_total: 0,
+    created_at: '2026-06-01T10:00:00Z',
+    ...partial,
+  };
+}
+
+const CURSOR = company({
+  id: 'a1b2c3d4-0001-0000-0000-000000000001',
+  name: 'Cursor',
+  company_size: '201-500',
+  cloud_provider: 'aws',
+  spend_aws: 2800000,
+  spend_openai: 1200000,
+  spend_anthropic: 4500000,
+  spend_total: 8500000,
+  savings_aws: 728000,
+  savings_openai: 180000,
+  savings_anthropic: 675000,
+  savings_total: 1583000,
+});
+
+const PERPLEXITY = company({
+  id: 'a1b2c3d4-0004-0000-0000-000000000004',
+  name: 'Perplexity',
+  company_size: '201-500',
+  cloud_provider: 'gcp',
+  spend_gcp: 3200000,
+  spend_openai: 1400000,
+  spend_anthropic: 900000,
+  spend_total: 5500000,
+  savings_gcp: 832000,
+  savings_openai: 210000,
+  savings_anthropic: 135000,
+  savings_total: 1177000,
+});
+
+const CLAY = company({
+  id: 'a1b2c3d4-0002-0000-0000-000000000002',
+  name: 'Clay',
+  company_size: '51-200',
+  cloud_provider: 'gcp',
+  spend_gcp: 1400000,
+  spend_openai: 650000,
+  spend_anthropic: 480000,
+  spend_total: 2530000,
+  savings_gcp: 364000,
+  savings_openai: 97500,
+  savings_anthropic: 72000,
+  savings_total: 533500,
+});
+
+export const FIXTURE_LEADS: LeadWithCompany[] = [
+  {
+    id: 'b1000000-0001-0000-0000-000000000001',
+    company_id: CURSOR.id,
+    first_name: 'Michael',
+    last_name: 'Truell',
+    email: 'michael@cursor.sh',
+    phone: '+14155550101',
+    timezone: 'America/Los_Angeles',
+    use_case: 'uc2_estimate_completed',
+    status: 'pending',
+    created_at: '2026-06-05T14:00:00Z',
+    called_at: null,
+    outcome_notes: null,
+    company: CURSOR,
+  },
+  {
+    id: 'b1000000-0002-0000-0000-000000000002',
+    company_id: CURSOR.id,
+    first_name: 'Sualeh',
+    last_name: 'Asif',
+    email: 'sualeh@cursor.sh',
+    phone: '+14155550102',
+    timezone: 'America/Los_Angeles',
+    use_case: 'uc1_new_signup',
+    status: 'pending',
+    created_at: '2026-06-05T14:10:00Z',
+    called_at: null,
+    outcome_notes: null,
+    company: CURSOR,
+  },
+  {
+    id: 'b1000000-0010-0000-0000-000000000010',
+    company_id: PERPLEXITY.id,
+    first_name: 'Aravind',
+    last_name: 'Srinivas',
+    email: 'aravind@perplexity.ai',
+    phone: '+12125550110',
+    timezone: 'America/Los_Angeles',
+    use_case: 'uc2_estimate_completed',
+    status: 'booked',
+    created_at: '2026-06-05T17:00:00Z',
+    called_at: '2026-06-05T17:05:00Z',
+    outcome_notes: 'Booked a 20-min walkthrough.',
+    company: PERPLEXITY,
+  },
+  {
+    id: 'b1000000-0011-0000-0000-000000000011',
+    company_id: PERPLEXITY.id,
+    first_name: 'Denis',
+    last_name: 'Yarats',
+    email: 'denis@perplexity.ai',
+    phone: '+12125550111',
+    timezone: 'America/New_York',
+    use_case: 'uc1_new_signup',
+    status: 'no_answer',
+    created_at: '2026-06-05T17:10:00Z',
+    called_at: '2026-06-05T17:12:00Z',
+    outcome_notes: null,
+    company: PERPLEXITY,
+  },
+  {
+    id: 'b1000000-0004-0000-0000-000000000004',
+    company_id: CLAY.id,
+    first_name: 'Kareem',
+    last_name: 'Amin',
+    email: 'kareem@clay.com',
+    phone: '+16175550104',
+    timezone: 'America/New_York',
+    use_case: 'uc2_estimate_completed',
+    status: 'calling',
+    created_at: '2026-06-05T15:00:00Z',
+    called_at: '2026-06-05T15:30:00Z',
+    outcome_notes: null,
+    company: CLAY,
+  },
+  {
+    id: 'b1000000-0005-0000-0000-000000000005',
+    company_id: CLAY.id,
+    first_name: 'Nicolae',
+    last_name: 'Rusan',
+    email: 'nico@clay.com',
+    phone: '+16175550105',
+    timezone: 'America/New_York',
+    use_case: 'uc1_new_signup',
+    status: 'pending',
+    created_at: '2026-06-05T15:10:00Z',
+    called_at: null,
+    outcome_notes: null,
+    company: CLAY,
+  },
+];
+
+export function fixtureLeadById(id: string): LeadWithCompany | undefined {
+  return FIXTURE_LEADS.find((lead) => lead.id === id);
+}
