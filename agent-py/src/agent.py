@@ -21,7 +21,7 @@ from livekit.agents import (
     room_io,
 )
 from livekit.plugins import ai_coustics, silero
-from livekit.plugins.turn_detector.multilingual import MultilingualModel
+from livekit.plugins.turn_detector.english import EnglishModel
 from moss import MossClient, QueryOptions
 
 logger = logging.getLogger("agent")
@@ -38,6 +38,10 @@ LEADS_INDEX = os.getenv("MOSS_LEADS_INDEX_NAME", "leads")
 # Use-case identifiers (match `use_case` in Supabase / leads.json).
 UC1_NEW_SIGNUP = "uc1_new_signup"
 UC2_ESTIMATE_COMPLETED = "uc2_estimate_completed"
+
+# Fixed query used to fetch a lead's profile from the `leads` index (the actual
+# scoping is the lead_id metadata filter, not the text).
+_LEAD_QUERY = "lead profile and context for this outbound call"
 
 # Outbound SIP trunk (Twilio, via LiveKit). When dispatch metadata carries a
 # `phone_number`, the agent dials it through this trunk; otherwise it runs the
@@ -122,10 +126,11 @@ def _instructions_for(use_case: str) -> str:
 
         {hook}
 
-        At the very start of the call, call `get_lead_context` to pull what we
-        know about this specific lead (their name, company, AWS spend, and
-        estimated savings), and use it to personalize your opening. Greet them by
-        first name.
+        What we know about this specific lead (name, company, AWS spend, and
+        estimated savings) is provided in the "This specific lead" section below.
+        Use it to personalize your opening and greet them by first name. Only call
+        `get_lead_context` if that section is missing or you need to re-check a
+        detail mid-call.
 
         # Your goal (in order)
 
@@ -177,21 +182,26 @@ def _instructions_for(use_case: str) -> str:
 
 
 def _opening_for(use_case: str) -> str:
-    """Instructions for the agent's first spoken turn, by use case."""
+    """Instructions for the agent's first spoken turn, by use case.
+
+    Lead details are injected into the system prompt before this runs (see
+    Assistant.on_enter), so the opening needs no tool call — it speaks
+    immediately instead of paying a round-trip first.
+    """
     if use_case == UC1_NEW_SIGNUP:
         return (
-            "Start the call. First call get_lead_context to get this lead's "
-            "details, then greet them warmly by first name, introduce yourself as "
-            "Alex from Pump, and reference that they signed up recently plus what "
-            "companies like theirs typically save. Keep it to one or two sentences "
-            "and ask if you caught them at an okay time."
+            "Start the call now. Using the lead details you already have, greet "
+            "them warmly by first name, introduce yourself as Alex from Pump, and "
+            "reference that they signed up recently plus what companies like theirs "
+            "typically save. Keep it to one or two sentences and ask if you caught "
+            "them at an okay time."
         )
     return (
-        "Start the call. First call get_lead_context to get this lead's details, "
-        "then greet them warmly by first name, introduce yourself as Alex from "
-        "Pump, and reference the savings estimate they ran and the specific amount "
-        "they could save per month. Keep it to one or two sentences and ask if you "
-        "caught them at an okay time."
+        "Start the call now. Using the lead details you already have, greet them "
+        "warmly by first name, introduce yourself as Alex from Pump, and reference "
+        "the savings estimate they ran and the specific amount they could save per "
+        "month. Keep it to one or two sentences and ask if you caught them at an "
+        "okay time."
     )
 
 
@@ -209,8 +219,10 @@ class Assistant(Agent):
         super().__init__(
             # The LLM (the agent's brain) runs on LiveKit Inference — no provider
             # API key required. STT/TTS are configured on the AgentSession below.
+            # Fast, low-TTFT model: the call is grounded by Moss RAG, so we don't
+            # need a heavyweight reasoning model and a slow one dominates latency.
             # See https://docs.livekit.io/agents/models/llm/
-            llm=inference.LLM(model="openai/gpt-5.2-chat-latest"),
+            llm=inference.LLM(model="google/gemini-2.5-flash-lite"),
             instructions=_instructions_for(use_case),
         )
         self._room = room
@@ -240,6 +252,24 @@ class Assistant(Agent):
                 )
             except Exception:
                 logger.exception("Failed to preload Moss indexes; will retry on use")
+
+        # Latency: pull this lead's profile once and bake it into the system
+        # prompt so the opening line can be spoken immediately, instead of the LLM
+        # having to call get_lead_context first (a full extra round-trip at the
+        # worst possible moment). On failure we leave the tool as the fallback.
+        try:
+            result = await self._query_lead()
+            await self._publish_moss_context(_LEAD_QUERY, result)
+            profile = self._profile_text(result)
+            if profile:
+                await self.update_instructions(
+                    _instructions_for(self._use_case)
+                    + "\n\n# This specific lead\n\n"
+                    + profile
+                )
+                logger.info("Injected lead context into prompt for lead_id=%s", self._lead_id)
+        except Exception:
+            logger.exception("Failed to inject lead context; falling back to tool")
 
     async def _publish_moss_context(self, query: str, result) -> None:
         """Publish a `moss_context` data message for the frontend panel.
@@ -278,18 +308,11 @@ class Assistant(Agent):
         except Exception:
             logger.exception("Failed to publish moss_context data")
 
-    @function_tool()
-    async def get_lead_context(self, context: RunContext) -> str:
-        """Fetch what we know about the lead you're currently calling.
-
-        Call this at the very start of the call (and any time you need their
-        details) to personalize your pitch. Returns the lead's name, company, AWS
-        spend, and estimated savings as plain text.
-        """
-        query = "lead profile and context for this outbound call"
-        result = await self._moss.query(
+    async def _query_lead(self):
+        """Query the leads index for this call's lead, pinned by lead_id."""
+        return await self._moss.query(
             LEADS_INDEX,
-            query,
+            _LEAD_QUERY,
             QueryOptions(
                 top_k=1,
                 filter={
@@ -298,17 +321,31 @@ class Assistant(Agent):
                 },
             ),
         )
-        await self._publish_moss_context(query, result)
 
+    @staticmethod
+    def _profile_text(result) -> str:
+        """Join the lead doc(s) from a query result into plain text."""
         docs = getattr(result, "docs", None) or []
         profile = [(getattr(d, "text", "") or "").strip() for d in docs]
-        profile = [p for p in profile if p]
+        return "\n".join(p for p in profile if p)
+
+    @function_tool()
+    async def get_lead_context(self, context: RunContext) -> str:
+        """Fetch what we know about the lead you're currently calling.
+
+        Lead details are normally injected into your prompt at call start, so you
+        only need this if they're missing or you want to re-check a detail mid-call.
+        Returns the lead's name, company, AWS spend, and estimated savings.
+        """
+        result = await self._query_lead()
+        await self._publish_moss_context(_LEAD_QUERY, result)
+        profile = self._profile_text(result)
         if not profile:
             return (
                 "I don't have any saved details for this lead. Keep the opening "
                 "generic and friendly."
             )
-        return "\n".join(profile)
+        return profile
 
     @function_tool()
     async def search_knowledge(self, context: RunContext, query: str) -> str:
@@ -420,18 +457,25 @@ async def my_agent(ctx: JobContext):
 
     # Set up a voice AI pipeline using LiveKit Inference and the LiveKit turn detector
     session = AgentSession(
-        # Speech-to-text (STT): the agent's ears.
+        # Speech-to-text (STT): the agent's ears. English-only: the dedicated
+        # English model finalizes faster (and more accurately) than "multi".
         # See all available models at https://docs.livekit.io/agents/models/stt/
-        stt=inference.STT(model="deepgram/nova-3", language="multi"),
+        stt=inference.STT(model="deepgram/nova-3", language="en"),
         # Text-to-speech (TTS): the agent's voice.
         # See all available models and voices at https://docs.livekit.io/agents/models/tts/
         tts=inference.TTS(
             model="cartesia/sonic-3", voice="9626c31c-bec5-4cca-baa8-f8ba9e84c8bc"
         ),
-        # VAD and turn detection determine when the user is speaking.
+        # VAD and turn detection determine when the user is speaking. English turn
+        # detector pairs with the English STT above.
         # See more at https://docs.livekit.io/agents/build/turns
-        turn_detection=MultilingualModel(),
+        turn_detection=EnglishModel(),
         vad=ctx.proc.userdata["vad"],
+        # Latency: close the user's turn faster once they stop speaking. Default
+        # min is 0.5s; 0.2s shaves ~300ms off every reply. max caps the wait for
+        # slow/hesitant talkers. See docs/agents/logic/turns/tuning.
+        min_endpointing_delay=0.2,
+        max_endpointing_delay=3.0,
         # Let the LLM generate a response while waiting for the end of turn.
         preemptive_generation=True,
     )
