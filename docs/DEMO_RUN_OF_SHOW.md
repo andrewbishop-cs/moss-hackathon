@@ -97,9 +97,4 @@ pnpm moss:index   # after knowledge.json edits
 
 Ping Andrew when [agent-py/knowledge.json](../agent-py/knowledge.json) changes.
 
----
-
-## Pending code (switch to Agent mode to apply)
-
-- Add `interested` + `callback` to [frontend/lib/leads.ts](../frontend/lib/leads.ts), badges, analytics, call queue
-- Add UC1/UC2 opening + scam objection entries to knowledge.json (draft ready in sprint plan)
+**Solo progress + joint session handoff:** [ANDREW_DEMO_SESSION.md](ANDREW_DEMO_SESSION.md)
