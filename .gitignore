@@ -29,3 +29,8 @@ Thumbs.db
 .idea/
 
 .pnpm-store/
+
+# Accidental local artifacts (train-call redirects, npm noise, agent logs)
+agent.log
+/bash
+moss-hacker-starter@*
