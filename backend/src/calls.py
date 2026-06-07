@@ -54,6 +54,10 @@ async def start_call(lead_id: str | UUID, *, is_retry: bool = False) -> str:
             # session.say) without waiting on a Moss lead lookup — shaves a few
             # seconds off the time-to-first-word.
             "first_name": lead.first_name,
+            # Full lead profile, injected straight into the agent's system prompt.
+            # The agent no longer queries the Moss leads index for this (that path
+            # was slow + flaky with 503s); Moss is reserved for knowledge RAG.
+            "lead_profile": moss_index.lead_profile_text(lead),
         }
     )
 

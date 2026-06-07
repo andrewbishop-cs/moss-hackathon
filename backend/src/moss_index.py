@@ -78,9 +78,20 @@ def build_lead_document(
     )
 
 
-async def upsert_lead(lead: LeadWithCompany) -> None:
-    similar = None
+def _similar_for(lead: LeadWithCompany) -> Company | None:
     if lead.use_case == "uc1_new_signup":
-        similar = db.get_similar_company(lead.company.company_size, lead.company.id)
-    doc = build_lead_document(lead, similar)
+        return db.get_similar_company(lead.company.company_size, lead.company.id)
+    return None
+
+
+def lead_profile_text(lead: LeadWithCompany) -> str:
+    """The lead's profile as plain text — same content the agent used to fetch from
+    the Moss leads index. We now pass this straight to the agent via dispatch
+    metadata so it never has to query Moss for per-lead context (that path was
+    slow, filter-only-on-local-index, and flaky with 503s)."""
+    return build_lead_document(lead, _similar_for(lead)).text
+
+
+async def upsert_lead(lead: LeadWithCompany) -> None:
+    doc = build_lead_document(lead, _similar_for(lead))
     await moss.add_docs(LEADS_INDEX, [doc], MutationOptions(upsert=True))

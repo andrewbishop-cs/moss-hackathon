@@ -1,0 +1,110 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780823716",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "agent",
+      "text": "Hey, this is Alex, an AI customer success manager calling from pump.co. I'm just calling because I saw you ran an estimate. Are there any questions that I could answer for you about pump?",
+      "timestamp": "2026-06-07T09:15:42.944291+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I",
+      "timestamp": "2026-06-07T09:15:44.575707+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I mean,",
+      "timestamp": "2026-06-07T09:15:45.568252+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I mean,",
+      "timestamp": "2026-06-07T09:15:45.619974+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I guess,",
+      "timestamp": "2026-06-07T09:15:46.628191+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "lead",
+      "text": "I guess, like, how much savings could",
+      "timestamp": "2026-06-07T09:15:47.623658+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I guess, like, how much savings could I get",
+      "timestamp": "2026-06-07T09:15:48.125279+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Based on the estimate you ran, Pump is projecting roughly a twenty‑percent reduction in your cloud spend—that works out to about fifteen thousand dollars in savings each year. It’s a fully automated setup with no code changes, and we can get you started on a free trial in under thirty‑five minutes. Would you like to schedule a quick demo so we can walk through how you’d capture those savings?",
+      "timestamp": "2026-06-07T09:16:14.564225+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "k. I",
+      "timestamp": "2026-06-07T09:16:17.068087+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Sure. Let's do it.",
+      "timestamp": "2026-06-07T09:16:17.730173+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "agent",
+      "text": "Awesome! It’s a quick twenty‑minute demo where we’ll walk through the estimate, show the automation steps, and confirm that you can lock in those fifteen‑thousand‑dollar‑a‑year savings. What day and time this week works best for you?",
+      "timestamp": "2026-06-07T09:16:33.618971+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Thursday,",
+      "timestamp": "2026-06-07T09:16:36.133900+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Thursday.",
+      "timestamp": "2026-06-07T09:16:36.666951+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Three.",
+      "timestamp": "2026-06-07T09:16:37.523983+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Looking forward to it, and thanks for your time!",
+      "timestamp": "2026-06-07T09:16:43.352655+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Thanks.",
+      "timestamp": "2026-06-07T09:16:47.516205+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Talk soon!",
+      "timestamp": "2026-06-07T09:16:49.820476+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T09:17:20.360665+00:00"
+}

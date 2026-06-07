@@ -339,9 +339,11 @@ def _instructions_for(use_case: str) -> str:
         Notes: if they ask to speak to a human, treat it as "interested" (flag in
         notes that they want a human). When unsure between "interested" and
         "declined" on ambiguous cases only (e.g. vague "maybe later"), prefer
-        "interested". NEVER prefer "interested" when they say not interested,
-        no thanks, stop calling, or take me off the list — log "declined"
-        immediately.
+        "interested". NEVER prefer "interested" when they clearly reject the
+        outreach — "not interested", "stop calling", "take me off the list" —
+        log "declined" immediately. (A "no thanks"/"not really" that merely
+        answers your opener's "any questions?" is not a rejection — see "Handling
+        skepticism and rejection".)
 
         # Knowledge retrieval — when to call `search_knowledge`
 
@@ -379,12 +381,19 @@ def _instructions_for(use_case: str) -> str:
           hundred companies including Deel and Supabase; free to customers, paid
           by the providers), then the savings reason. Use only approved facts
           from knowledge — never invent partners, certifications, or investors.
+        - Answering your opener is NOT a rejection. Your opener ends by inviting
+          questions, so "no", "no thanks", "not really", or "nope" right after it
+          just means they have no questions yet. Do NOT log "declined" and do NOT
+          hang up. Briefly acknowledge and pivot to your one-line reason for
+          calling / savings hook, then keep the conversation going. The phrases
+          below are hard stops only when they clearly reject the outreach itself
+          (said unprompted or repeated after you continue value), not when they
+          answer a question you just asked.
         - Hard stops are respected IMMEDIATELY — one brief goodbye sentence,
           then silently call `log_outcome` with "declined" and stop. Hard stops
-          include bare "I'm not interested", "not interested", "no thanks",
-          "take me off the list", "do not call me again", "stop calling", and
-          "not down" (e.g. not down for a spam call). Do NOT recover or pitch
-          after a hard stop.
+          include bare "I'm not interested", "not interested", "take me off the
+          list", "do not call me again", "stop calling", and "not down" (e.g. not
+          down for a spam call). Do NOT recover or pitch after a hard stop.
         - Terminal language ends the call: if they clearly signal they're done —
           "done", "we're done", "that's all", "goodbye", "bye", "I need to go",
           "end the call" — give a brief warm close, silently call `log_outcome`,
@@ -493,7 +502,14 @@ class Assistant(Agent):
         job_ctx: JobContext | None = None,
         lead_id: str = DEFAULT_LEAD_ID,
         use_case: str = DEFAULT_USE_CASE,
+        lead_profile: str | None = None,
     ) -> None:
+        # Lead context comes from dispatch metadata (built by the backend) and is
+        # baked into the system prompt up front, so the agent never needs a Moss
+        # lead lookup to know who it's calling.
+        instructions = _instructions_for(use_case)
+        if lead_profile:
+            instructions += "\n\n# This specific lead\n\n" + lead_profile
         super().__init__(
             # The LLM (the agent's brain) runs on LiveKit Inference — no provider
             # API key required. STT/TTS are configured on the AgentSession below.
@@ -503,7 +519,7 @@ class Assistant(Agent):
             # To revert: model="google/gemini-2.5-flash-lite" (drop provider).
             # See https://docs.livekit.io/agents/models/llm/
             llm=inference.LLM(model="openai/gpt-oss-120b", provider="groq"),
-            instructions=_instructions_for(use_case),
+            instructions=instructions,
         )
         self._room = room
         # Job context, used to hang up the call immediately on voicemail.
@@ -512,9 +528,13 @@ class Assistant(Agent):
         self._use_case = use_case
         self._booking_coaching_hint: str | None = None
         self._coaching_tasks: list[asyncio.Task[None]] = []
-        self._lead_profile: str | None = None
-        self._moss = MossClient(
-            os.getenv("MOSS_PROJECT_ID"), os.getenv("MOSS_PROJECT_KEY")
+        self._lead_profile: str | None = lead_profile
+        # Reuse the MossClient prewarmed at worker startup (it has the knowledge
+        # index loaded locally, which is required for fast/filterable queries).
+        # Falls back to a fresh client for console mode / if prewarm was skipped.
+        self._moss = (
+            (job_ctx.proc.userdata.get("moss_client") if job_ctx else None)
+            or MossClient(os.getenv("MOSS_PROJECT_ID"), os.getenv("MOSS_PROJECT_KEY"))
         )
         self._indexes_loaded = False
         # Background warm-up (Moss preload + lead-context injection). Kept off the
@@ -544,48 +564,35 @@ class Assistant(Agent):
         self._context_task = asyncio.create_task(self._prepare_context())
 
     async def _prepare_context(self) -> None:
-        # Preload both Moss indexes so the first query is fast. Guarded: log and
-        # continue on failure so the tools can still retry the load on use.
+        # search_knowledge needs the KNOWLEDGE index loaded locally on our client
+        # for fast, filterable queries. The common path reuses the prewarmed
+        # client (already loaded), so this only does real work for a fresh
+        # fallback client. Guarded so a Moss hiccup never blocks the call.
         if not self._indexes_loaded:
-            preloaded = (
+            shared = (
                 self._job_ctx is not None
-                and self._job_ctx.proc.userdata.get("moss_indexes_loaded", False)
+                and self._job_ctx.proc.userdata.get("moss_client") is not None
             )
-            if preloaded:
+            if shared:
                 self._indexes_loaded = True
-                logger.info(
-                    "Using Moss indexes preloaded at worker startup ('%s', '%s')",
-                    KNOWLEDGE_INDEX,
-                    LEADS_INDEX,
-                )
+                logger.info("Reusing prewarmed Moss client (knowledge index loaded)")
             else:
                 try:
                     async with _timed("moss.load_index"):
                         await self._moss.load_index(KNOWLEDGE_INDEX)
-                        await self._moss.load_index(LEADS_INDEX)
                     self._indexes_loaded = True
-                    logger.info(
-                        "Loaded Moss indexes '%s' and '%s'",
-                        KNOWLEDGE_INDEX,
-                        LEADS_INDEX,
-                    )
+                    logger.info("Loaded Moss knowledge index '%s'", KNOWLEDGE_INDEX)
                 except Exception:
-                    logger.exception("Failed to preload Moss indexes; will retry on use")
+                    logger.exception(
+                        "Failed to load Moss knowledge index; will retry on use"
+                    )
 
-        # Latency: pull this lead's profile once and bake it into the system
-        # prompt so the opening line can be spoken immediately, instead of the LLM
-        # having to call get_lead_context first (a full extra round-trip at the
-        # worst possible moment). On failure we leave the tool as the fallback.
-        try:
-            result = await self._query_lead()
-            await self._publish_moss_context(_LEAD_QUERY, result)
-            profile = self._profile_text(result)
-            if profile:
-                self._lead_profile = profile
-                await self._sync_instructions()
-                logger.info("Injected lead context into prompt for lead_id=%s", self._lead_id)
-        except Exception:
-            logger.exception("Failed to inject lead context; falling back to tool")
+        # Lead context is already baked into the system prompt from dispatch
+        # metadata (see __init__) — no leads-index query needed. Mirror it to the
+        # dashboard's "what the agent knows" panel.
+        if self._lead_profile:
+            await self._publish_text_context(_LEAD_QUERY, self._lead_profile)
+            logger.info("Lead context (from metadata) ready for lead_id=%s", self._lead_id)
 
     async def _sync_instructions(self) -> None:
         instructions = _instructions_for(self._use_case)
@@ -639,27 +646,27 @@ class Assistant(Agent):
         except Exception:
             logger.exception("Failed to publish moss_context data")
 
-    async def _query_lead(self):
-        """Query the leads index for this call's lead, pinned by lead_id."""
-        async with _timed("moss.query leads"):
-            return await self._moss.query(
-                LEADS_INDEX,
-                _LEAD_QUERY,
-                QueryOptions(
-                    top_k=1,
-                    filter={
-                        "field": "lead_id",
-                        "condition": {"$eq": self._lead_id},
-                    },
-                ),
+    async def _publish_text_context(self, query: str, text: str) -> None:
+        """Publish a single block of plain text (e.g. the injected lead profile)
+        to the dashboard panel, matching the `moss_context` payload shape."""
+        if self._room is None:
+            return
+        try:
+            payload = {
+                "type": "moss_context",
+                "data": {
+                    "query": query,
+                    "matches": [{"text": text.strip()}],
+                    "time_taken_ms": None,
+                    "timestamp": datetime.now(timezone.utc).timestamp(),
+                },
+            }
+            encoded = json.dumps(payload, default=str).encode("utf-8")
+            await self._room.local_participant.publish_data(
+                payload=encoded, reliable=True
             )
-
-    @staticmethod
-    def _profile_text(result) -> str:
-        """Join the lead doc(s) from a query result into plain text."""
-        docs = getattr(result, "docs", None) or []
-        profile = [(getattr(d, "text", "") or "").strip() for d in docs]
-        return "\n".join(p for p in profile if p)
+        except Exception:
+            logger.exception("Failed to publish lead context")
 
     @function_tool()
     async def get_lead_context(self, context: RunContext) -> str:
@@ -669,15 +676,14 @@ class Assistant(Agent):
         only need this if they're missing or you want to re-check a detail mid-call.
         Returns the lead's name, company, AWS spend, and estimated savings.
         """
-        result = await self._query_lead()
-        await self._publish_moss_context(_LEAD_QUERY, result)
-        profile = self._profile_text(result)
-        if not profile:
+        # The profile is injected from dispatch metadata at construction, so this
+        # is an in-memory read — no network round-trip, and it never raises.
+        if not self._lead_profile:
             return (
                 "I don't have any saved details for this lead. Keep the opening "
                 "generic and friendly."
             )
-        return profile
+        return self._lead_profile
 
     @function_tool()
     async def search_knowledge(self, context: RunContext, query: str) -> str:
@@ -690,9 +696,19 @@ class Assistant(Agent):
         Args:
             query: The lead's question or the objection/topic to look up.
         """
-        async with _timed("moss.query knowledge"):
-            result = await self._moss.query(
-                KNOWLEDGE_INDEX, query, QueryOptions(top_k=5)
+        # Moss cloud can be flaky (intermittent 503s). A raised exception here
+        # turns into a retry storm inside the LLM tool loop (seconds of dead air),
+        # so swallow failures and let the model answer from its grounded prompt.
+        try:
+            async with _timed("moss.query knowledge"):
+                result = await self._moss.query(
+                    KNOWLEDGE_INDEX, query, QueryOptions(top_k=5)
+                )
+        except Exception:
+            logger.exception("search_knowledge query failed; answering from prompt")
+            return (
+                "Knowledge lookup is temporarily unavailable. Answer from what you "
+                "already know about Pump and keep it brief; do not invent specifics."
             )
         await self._publish_moss_context(query, result)
 
@@ -733,11 +749,17 @@ class Assistant(Agent):
         )
         self._outcome_logged = True
         await post_call_outcome(self._lead_id, "booked", notes, self._room_name)
-        return (
-            "Great — I've got that booked. I'm sending the calendar invite now. "
-            "Just a heads up: the offer is for people who show up and start a "
-            "trial this month, so keep an eye out for it."
+        # Speak the confirmation, then end the call. The booking is the goal, so
+        # once it's confirmed there's no reason to keep the line open — leaving it
+        # open just creates awkward dead air (the bug we saw: agent never hung up
+        # after a booking).
+        await self._say_and_hangup(
+            "Perfect, you're all set — I've got that booked and I'm sending the "
+            "calendar invite now. Just a heads up: the offer is for people who "
+            "show up and start a trial this month, so keep an eye out for it. "
+            "Talk soon!"
         )
+        return "Meeting booked, confirmation delivered, and the call has ended."
 
     @function_tool()
     async def log_outcome(
@@ -799,6 +821,24 @@ class Assistant(Agent):
             )
         except Exception:
             logger.exception("failed to hang up call")
+
+    async def _say_and_hangup(self, text: str) -> None:
+        """Speak a final line to completion, then end the call.
+
+        For terminal turns (e.g. a booked meeting) we want the caller to actually
+        hear the closing line and then have the call hang up cleanly, instead of
+        leaving dead air for the human to end. Best-effort: never raises.
+        """
+        try:
+            session = self.session
+        except Exception:
+            session = None
+        if session is not None:
+            try:
+                await session.say(text)
+            except Exception:
+                logger.exception("failed to speak closing line before hangup")
+        await self._hangup()
 
 
 def _ms(value: float | None) -> float:
@@ -962,28 +1002,30 @@ server = AgentServer()
 
 def prewarm(proc: JobProcess):
     proc.userdata["vad"] = silero.VAD.load()
-    proc.userdata["moss_indexes_loaded"] = False
+    # The prewarmed client is shared with every Assistant in this worker process.
+    # CRITICAL: load_index state lives on the client INSTANCE, so the agent must
+    # reuse THIS client — a fresh MossClient would have no local index and fall
+    # back to (flaky, unfilterable) cloud queries.
+    proc.userdata["moss_client"] = None
     project_id = os.getenv("MOSS_PROJECT_ID")
     project_key = os.getenv("MOSS_PROJECT_KEY")
     if not project_id or not project_key:
         logger.info("Moss credentials not set; skipping index prewarm")
         return
 
+    moss = MossClient(project_id, project_key)
+
     async def _load_moss_indexes() -> None:
-        moss = MossClient(project_id, project_key)
+        # Only the knowledge index is needed at runtime now (lead context comes
+        # from dispatch metadata, not a Moss leads query).
         await moss.load_index(KNOWLEDGE_INDEX)
-        await moss.load_index(LEADS_INDEX)
-        logger.info(
-            "Prewarmed Moss indexes '%s' and '%s'",
-            KNOWLEDGE_INDEX,
-            LEADS_INDEX,
-        )
+        logger.info("Prewarmed Moss knowledge index '%s'", KNOWLEDGE_INDEX)
 
     try:
         asyncio.run(_load_moss_indexes())
-        proc.userdata["moss_indexes_loaded"] = True
+        proc.userdata["moss_client"] = moss
     except Exception:
-        logger.exception("Failed to prewarm Moss indexes")
+        logger.exception("Failed to prewarm Moss knowledge index")
 
 
 server.setup_fnc = prewarm
@@ -1008,6 +1050,9 @@ async def my_agent(ctx: JobContext):
     phone_number = None
     # first_name lets us speak the opener immediately without a Moss round-trip.
     first_name = None
+    # lead_profile is the lead's context, prebuilt by the backend. Injecting it
+    # directly removes the per-call Moss leads query (slow + 503-prone).
+    lead_profile = None
     if ctx.job.metadata:
         try:
             meta = json.loads(ctx.job.metadata)
@@ -1015,6 +1060,7 @@ async def my_agent(ctx: JobContext):
             use_case = meta.get("use_case", DEFAULT_USE_CASE)
             phone_number = meta.get("phone_number")
             first_name = meta.get("first_name")
+            lead_profile = meta.get("lead_profile")
         except json.JSONDecodeError:
             logger.warning(
                 "ctx.job.metadata was not valid JSON; using default lead_id/use_case"
@@ -1049,8 +1095,10 @@ async def my_agent(ctx: JobContext):
             # English turn detector pairs with the English STT above.
             "turn_detection": EnglishModel(),
             # Close the user's turn faster once they stop talking. min 0.2s shaves
-            # ~300ms off every reply; max caps the wait for slow/hesitant talkers.
-            "endpointing": {"min_delay": 0.2, "max_delay": 3.0},
+            # ~300ms off every reply; max 2.0s caps the wait for slow/hesitant
+            # talkers (down from 3.0 — call logs showed turns regularly hitting
+            # the old cap, adding ~1s of dead air on every pause).
+            "endpointing": {"min_delay": 0.2, "max_delay": 2.0},
             # Speculatively run BOTH the LLM and the TTS before the turn is
             # confirmed, so audio is ready the instant the user stops speaking
             # (hides most of the TTS time-to-first-byte). Costs some wasted compute
@@ -1120,7 +1168,11 @@ async def my_agent(ctx: JobContext):
         )
 
     assistant = Assistant(
-        room=ctx.room, job_ctx=ctx, lead_id=lead_id, use_case=use_case
+        room=ctx.room,
+        job_ctx=ctx,
+        lead_id=lead_id,
+        use_case=use_case,
+        lead_profile=lead_profile,
     )
     transcript = _setup_transcript_and_signals(
         session,

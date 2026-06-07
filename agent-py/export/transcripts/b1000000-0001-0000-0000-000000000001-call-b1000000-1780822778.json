@@ -1,0 +1,68 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780822778",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "agent",
+      "text": "Hey, this is Alex, an AI customer success manager calling from pump.co. I'm just calling because I saw you ran an estimate. Are there any questions that I could answer for you about pump?",
+      "timestamp": "2026-06-07T09:00:00.737724+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "No.",
+      "timestamp": "2026-06-07T09:00:03.033015+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Got it. To make sure we can see how much you could save, could you tell me roughly how much you spend on cloud services each month? Does that sound okay?",
+      "timestamp": "2026-06-07T09:00:14.563206+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "No. I'm not comfortable",
+      "timestamp": "2026-06-07T09:00:16.717373+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. I'm not comfortable with that.",
+      "timestamp": "2026-06-07T09:00:17.103564+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "You also have my",
+      "timestamp": "2026-06-07T09:00:20.101513+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "You also have my data already.",
+      "timestamp": "2026-06-07T09:00:21.095860+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "You also have my data already.",
+      "timestamp": "2026-06-07T09:00:21.204128+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I completely",
+      "timestamp": "2026-06-07T09:00:21.209088+00:00",
+      "signal": null
+    },
+    {
+      "role": "agent",
+      "text": "I understand—your privacy is important. I can email you the estimate you ran so you can review the potential savings whenever it works for you; would you like me to send that over?",
+      "timestamp": "2026-06-07T09:00:31.808704+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T09:01:10.641207+00:00"
+}

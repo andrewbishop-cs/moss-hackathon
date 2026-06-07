@@ -1,0 +1,104 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780822872",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "agent",
+      "text": "Hey, this is Alex, an AI customer success manager calling from pump.co. I'm just calling because I saw you ran an estimate. Are there any questions that I could answer for you about pump?",
+      "timestamp": "2026-06-07T09:01:36.588472+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "How'd you get",
+      "timestamp": "2026-06-07T09:01:39.490388+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "How'd you get",
+      "timestamp": "2026-06-07T09:01:40.087692+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I got your contact info from the estimate you ran on our website, which gave us a way to follow up and help answer any questions you might have. Does that clarify things for you?",
+      "timestamp": "2026-06-07T09:01:51.695563+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. But I don't",
+      "timestamp": "2026-06-07T09:01:54.500767+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. But I don't really take cold",
+      "timestamp": "2026-06-07T09:01:55.538508+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. But I don't really take cold calls.",
+      "timestamp": "2026-06-07T09:01:56.340618+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I hear you—cold calls can be annoying. Just so you know, Pump is trusted by more than fourteen‑hundred companies, including Deel and Supabase, and we only reach out when someone’s already shown interest by running an estimate. Does that help, and would you be open to hearing how much you could save each year?",
+      "timestamp": "2026-06-07T09:02:14.077286+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Already ran the estimate",
+      "timestamp": "2026-06-07T09:02:16.793060+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Already ran the estimate. I already know. I don't know",
+      "timestamp": "2026-06-07T09:02:17.840522+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Already ran the estimate. I already know. I don't know why you're calling me.",
+      "timestamp": "2026-06-07T09:02:18.878218+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Already ran the estimate. I already know. I don't know why you're calling me.",
+      "timestamp": "2026-06-07T09:02:18.921604+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I’m reaching out because you recently ran a Pump savings estimate, and my role is to see if you have any follow‑up questions or need help confirming the potential savings. We don’t sell anything on the call—just want to make sure you can validate the numbers you saw. Could you share roughly what your monthly cloud spend is so I can see if you qualify for our free optimization program?",
+      "timestamp": "2026-06-07T09:02:38.341533+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "You know what my",
+      "timestamp": "2026-06-07T09:02:40.332497+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "You know what my spend is?",
+      "timestamp": "2026-06-07T09:02:41.285539+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Got it—my system only knows you ran an estimate, but I don’t have the exact spend figure. Could you let me know roughly how much you’re spending on cloud each month?",
+      "timestamp": "2026-06-07T09:02:51.546797+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T09:14:56.735226+00:00"
+}

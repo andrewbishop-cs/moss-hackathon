@@ -127,45 +127,29 @@ async def test_search_knowledge_returns_joined_text_and_publishes_context(
     assert matches[0]["metadata"] == {"category": "product"}
 
 
-async def test_get_lead_context_filters_by_lead_id(stub_moss) -> None:
-    """get_lead_context scopes the leads query to this call's lead_id."""
-    room = _FakeRoom()
-    assistant = Assistant(room=room, lead_id=LEAD_ID)
-    assistant._moss.query_result = _FakeSearchResult(
-        [
-            _FakeDoc(
-                "Sarah Chen ran an estimate showing $13,240/month in savings.",
-                metadata={"lead_id": LEAD_ID, "name": "Sarah Chen"},
-            ),
-        ]
-    )
+async def test_get_lead_context_returns_injected_profile(stub_moss) -> None:
+    """get_lead_context returns the profile injected from dispatch metadata, with
+    no Moss query (lead context no longer comes from the leads index — it's passed
+    inline by the backend, which is faster and avoids the flaky cloud path)."""
+    profile = "Sarah Chen ran an estimate showing $13,240/month in savings."
+    assistant = Assistant(lead_id=LEAD_ID, lead_profile=profile)
 
     result = await assistant.get_lead_context(None)
 
-    # Returns the lead's profile text.
     assert "Sarah Chen" in result
     assert "13,240" in result
-
-    # Queried the leads index, pinned to this lead via a metadata filter.
-    assert len(assistant._moss.query_calls) == 1
-    index, _query, options = assistant._moss.query_calls[0]
-    assert index == agent_module.LEADS_INDEX
-    assert options.filter == {
-        "field": "lead_id",
-        "condition": {"$eq": LEAD_ID},
-    }
-
-    # Surfaces context to the frontend panel.
-    assert len(room.local_participant.published) == 1
+    # No leads-index query is made anymore.
+    assert len(assistant._moss.query_calls) == 0
 
 
 async def test_get_lead_context_handles_missing_lead(stub_moss) -> None:
-    """With no matching lead doc, get_lead_context returns a graceful message."""
+    """With no injected profile, get_lead_context returns a graceful message and
+    still makes no Moss query."""
     assistant = Assistant(lead_id="lead-does-not-exist")
-    assistant._moss.query_result = _FakeSearchResult([])
 
     result = await assistant.get_lead_context(None)
     assert isinstance(result, str) and result
+    assert len(assistant._moss.query_calls) == 0
 
 
 async def test_book_meeting_returns_confirmation(stub_moss) -> None:
