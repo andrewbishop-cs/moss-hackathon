@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional, Literal
 from datetime import datetime
 from uuid import UUID
@@ -36,6 +36,17 @@ class Company(BaseModel):
     savings_anthropic: float = 0
     savings_total: float = 0
     created_at: datetime
+
+    # DB columns are nullable; treat missing spend/savings as 0 instead of erroring.
+    @field_validator(
+        "spend_aws", "spend_gcp", "spend_azure", "spend_openai",
+        "spend_anthropic", "spend_total", "savings_aws", "savings_gcp",
+        "savings_azure", "savings_openai", "savings_anthropic", "savings_total",
+        mode="before",
+    )
+    @classmethod
+    def _null_to_zero(cls, v: object) -> object:
+        return 0 if v is None else v
 
 
 # ============================================================
