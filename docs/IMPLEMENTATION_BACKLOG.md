@@ -25,6 +25,10 @@ Translates [BEHAVIORAL_PRINCIPLES.md](BEHAVIORAL_PRINCIPLES.md) into code, promp
 | P2 | Rebuild cycle counter | Runtime counter for 3 full rebuild+schedule cycles (today: prompt-only) | `agent.py` | Cursor | open |
 | P2 | LLM-judged behavior evals | Judge tests for incentive-as-nudge and no tier language in speech | `test_agent.py` | Cursor | open |
 | P2 | Training export sync | Regenerate export corpus after kb offer script changes | `agent-py/export/` | Cursor | open |
+| P1 | Estimate-aware UC2 qualify | UC-specific qualify in prompt; rewrite `kb-flow-uc2-qualify`; no spend re-ask on UC2 | `agent.py`, `knowledge.json`, `AGENT_SCRIPT.md` | Cursor | implemented |
+| P1 | Lead context enrichment | Internal spend vs spoken savings in `moss_index.build_lead_document` + `leads.json` | `backend/src/moss_index.py`, `leads.json` | Cursor | implemented |
+| P1 | Direct-answer + demo bridge | Update why-calling example; same-turn bridge rule; `kb-behavior-direct-answering` + new kb entries | `agent.py`, `knowledge.json`, `BEHAVIORAL_PRINCIPLES.md` | Cursor | implemented |
+| P1 | Estimate-aware tests | KB guardrails + LLM-judged evals for no spend re-ask, demo bridge, same-turn product Q | `test_behavior_knowledge.py`, `test_agent.py` | Cursor | implemented |
 
 ---
 

@@ -27,7 +27,19 @@ BEHAVIOR_ENTRY_IDS = {
     "kb-behavior-direct-answering",
     "kb-behavior-hard-stop-exit",
     "kb-behavior-four-sentence-cap",
+    "kb-behavior-estimate-aware-qualify",
+    "kb-behavior-savings-not-spend",
+    "kb-behavior-same-turn-demo-bridge",
 }
+
+UC2_SPEND_ASK_BANNED_PHRASES = (
+    "what are you spending",
+    "roughly what",
+    "how much you spend",
+    "how much do you spend",
+    "tell me your monthly spend",
+    "share roughly how much",
+)
 
 OPENING_ENTRY_IDS = {
     "kb-uc1-opening",
@@ -114,3 +126,46 @@ def test_uc2_opening_example_matches_canonical() -> None:
     text = entries["kb-uc2-opening"]["text"]
     assert UC2_CANONICAL_OPENER in text
     assert text.index("Alex") < text.index("ran an estimate")
+
+
+def test_uc2_qualify_does_not_ask_spend() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-flow-uc2-qualify"]["text"].lower()
+    violations = [phrase for phrase in UC2_SPEND_ASK_BANNED_PHRASES if phrase in text]
+    assert not violations, f"UC2 qualify must not ask spend: {violations}"
+
+
+def test_uc2_qualify_skips_spend_question() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-flow-uc2-qualify"]["text"].lower()
+    assert "never ask" in text or "do not ask" in text or "skip" in text
+
+
+def test_savings_not_spend_entry_bans_verbalizing_spend() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-behavior-savings-not-spend"]["text"].lower()
+    assert "never" in text
+    assert "spend" in text
+    assert "annual savings" in text or "savings" in text
+
+
+def test_direct_answering_mentions_demo_and_free_trial() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-behavior-direct-answering"]["text"].lower()
+    assert "demo" in text
+    assert "free trial" in text
+
+
+def test_estimate_aware_qualify_entry_covers_uc1_and_uc2() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-behavior-estimate-aware-qualify"]["text"].lower()
+    assert "uc2" in text or "estimate" in text
+    assert "uc1" in text or "signup" in text or "account" in text
+    assert "never ask" in text or "do not ask" in text
+
+
+def test_same_turn_demo_bridge_entry_exists() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-behavior-same-turn-demo-bridge"]["text"].lower()
+    assert "same" in text or "same turn" in text
+    assert "demo" in text

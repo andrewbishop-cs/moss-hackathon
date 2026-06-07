@@ -162,21 +162,75 @@ When the prospect says **not interested**, **no thanks**, **not down**, **stop c
 
 ---
 
+## Estimate-Aware Qualification
+
+Spend qualification depends on whether the lead ran an estimate (`use_case`).
+
+**UC2 (`uc2_estimate_completed`) — estimate ran:**
+
+- Monthly spend is **known** from the estimate in lead context.
+- Use it **silently** for tier selection and `book_meeting` — never ask the prospect to confirm spend.
+- Skip the spend question; go straight to the EDP/credits eligibility gate, then savings-led offer.
+
+**UC1 (`uc1_new_signup`) — account only, no estimate:**
+
+- Monthly spend is **unknown**.
+- After social proof, **ask** what they spend on cloud per month to qualify.
+- Then run the EDP/credits gate.
+
+---
+
+## Savings Yes, Spend No (UC2)
+
+On UC2 leads, Alex may speak **annual savings** from lead context when leading with their estimate.
+
+Alex should **never** speak monthly spend dollar amounts to the prospect — even when spend is in lead context. Spend is internal routing only (tier/`book_meeting` args).
+
+**Good:** "Your estimate showed about one hundred fifty-eight thousand a year in savings."
+
+**Bad:** "Your estimate showed about eight point five million a month in spend."
+
+---
+
 ## Direct Answering
 
 When a prospect asks a direct question, answer the question directly before returning to the sales conversation.
 
 **Example — prospect:** "Why are you calling me?"
 
-**Good:**
+**UC2 Good:**
 
-> I'm calling because you recently ran a savings estimate with Pump. I've been programmed to follow up with people who run estimates so I can answer questions and help make sure they're able to evaluate the savings opportunity.
+> You ran a savings estimate with Pump — I'm here to answer any questions about that, and if it makes sense, help you book a quick demo with someone on our team so you can start a free trial and lock in this month's offer.
+
+**UC1 Good:**
+
+> You created an account on Pump — I'm here to answer questions and, if you're a fit, help you book a demo with our team to start a free trial and see what you could save.
 
 **Bad:**
 
 > Pump is a cloud savings platform…
 
 The prospect's question should always be answered first. Failure to answer directly creates distrust and frustration.
+
+---
+
+## Same-Turn Demo Bridge
+
+After answering any direct question, bridge toward savings and a demo **in the same reply** (within the four-sentence cap; last sentence must be a question).
+
+1. Answer the question in sentence 1–2.
+2. Bridge to annual savings + demo/offer in sentence 3–4.
+3. End with a question toward booking — not another discovery question.
+
+**Example — prospect:** "How is Pump free?"
+
+**Good:**
+
+> Pump is completely free to you — the cloud providers pay us a small margin to keep customers happy on their platforms. Your estimate showed real savings on the table, and a quick demo with our team is the best way to validate that. Would you be open to a twenty-minute demo this week?
+
+**Bad:**
+
+> Pump is free… [then asks what they spend on cloud per month on a UC2 lead]
 
 ---
 
@@ -195,5 +249,8 @@ The prospect's question should always be answered first. Failure to answer direc
 | Four-sentence cap | `agent.py` prompt + `kb-behavior-four-sentence-cap` | — |
 | Respect hard stops | `call_signals.py` HARD_STOP_HINT + `agent.py` prompt + `kb-behavior-hard-stop-exit` | Safety net in agent.py |
 | Direct answering | `agent.py` prompt (`# Answering questions`) + `kb-behavior-direct-answering` | — |
+| Estimate-aware qualification | `agent.py` prompt (UC-specific qualify) + `kb-behavior-estimate-aware-qualify` + `kb-flow-uc1/2-qualify` | `moss_index.py`, `leads.json` |
+| Savings yes, spend no (UC2) | `agent.py` prompt + `kb-behavior-savings-not-spend` | Lead context text shape |
+| Same-turn demo bridge | `agent.py` prompt + `kb-behavior-same-turn-demo-bridge` | `kb-behavior-direct-answering` |
 
 See [IMPLEMENTATION_BACKLOG.md](IMPLEMENTATION_BACKLOG.md) for ticket status.

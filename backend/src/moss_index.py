@@ -24,6 +24,14 @@ def build_lead_document(
     company = lead.company
     name = f"{lead.first_name} {lead.last_name}"
 
+    metadata = {
+        "lead_id": str(lead.id),
+        "name": name,
+        "first_name": lead.first_name,
+        "company": company.name,
+        "use_case": lead.use_case,
+    }
+
     if lead.use_case == "uc2_estimate_completed":
         # Spend stays monthly (tiers qualify on monthly spend). Savings is given
         # both monthly AND pre-computed annual (monthly x 12) so the agent can read
@@ -32,12 +40,22 @@ def build_lead_document(
         # agent-py/src/agent.py ("quote ANNUAL savings").
         annual_savings = company.savings_total * 12
         text = (
-            f"{name} from {company.name} ({company.company_size} employees) ran a "
-            f"savings estimate on the Pump website showing about "
-            f"{_money(company.spend_total)} per month in cloud spend. Pump projected "
-            f"they could save about {_money(company.savings_total)} per month — that "
-            f"is {_money(annual_savings)} per year. They completed the estimate but "
-            f"did not start a trial. Use case: UC2 (estimate completed, no trial)."
+            f"{name} from {company.name} ({company.company_size} employees) "
+            f"ran a savings estimate on the Pump website. "
+            f"INTERNAL (tier routing only — never speak spend aloud): "
+            f"monthly spend {_money(company.spend_total)}. "
+            f"SPOKEN HOOK: annual savings {_money(annual_savings)} — "
+            f"use this when leading with their estimate. "
+            f"They completed the estimate but did not start a trial. "
+            f"Use case: UC2 (estimate completed, no trial)."
+        )
+        metadata.update(
+            {
+                "monthly_spend": _money(company.spend_total),
+                "monthly_savings": _money(company.savings_total),
+                "annual_savings": _money(annual_savings),
+                "estimate_completed": "true",
+            }
         )
     else:
         similar_text = ""
@@ -51,14 +69,8 @@ def build_lead_document(
             f"({company.company_size} employees) but never ran a savings estimate."
             f"{similar_text} Use case: UC1 (new signup, no estimate)."
         )
+        metadata["estimate_completed"] = "false"
 
-    metadata = {
-        "lead_id": str(lead.id),
-        "name": name,
-        "first_name": lead.first_name,
-        "company": company.name,
-        "use_case": lead.use_case,
-    }
     return DocumentInfo(
         id=str(lead.id),
         text=text,

@@ -1,35 +1,39 @@
 [
   {
     "id": "lead-uc2-sarah",
-    "text": "Sarah Chen is Head of Engineering at Acme Corp, a 51-200 person SaaS company. She ran a savings estimate on the Pump website showing about 42,000 dollars per month in AWS spend, and Pump projected she could save around 13,240 dollars per month. She completed the estimate but did not start a trial. Use case: UC2 (estimate completed, no trial).",
+    "text": "Sarah Chen from Acme Corp (51-200 employees) ran a savings estimate on the Pump website. INTERNAL (tier routing only — never speak spend aloud): monthly spend $42,000. SPOKEN HOOK: annual savings $158,880 — use this when leading with their estimate. They completed the estimate but did not start a trial. Use case: UC2 (estimate completed, no trial).",
     "metadata": {
       "lead_id": "lead-uc2-sarah",
       "name": "Sarah Chen",
       "first_name": "Sarah",
       "company": "Acme Corp",
       "company_size": "51-200",
-      "aws_spend": "$42,000",
-      "savings_estimate": "$13,240",
+      "monthly_spend": "$42,000",
+      "monthly_savings": "$13,240",
+      "annual_savings": "$158,880",
+      "estimate_completed": "true",
       "use_case": "uc2_estimate_completed"
     }
   },
   {
     "id": "lead-uc2-david",
-    "text": "David Okafor is VP of Infrastructure at Lumen Labs, a 201-500 person company. He ran a savings estimate showing about 88,000 dollars per month in AWS spend, and Pump projected he could save around 21,500 dollars per month. He completed the estimate but never started a trial. Use case: UC2 (estimate completed, no trial).",
+    "text": "David Okafor from Lumen Labs (201-500 employees) ran a savings estimate on the Pump website. INTERNAL (tier routing only — never speak spend aloud): monthly spend $88,000. SPOKEN HOOK: annual savings $258,000 — use this when leading with their estimate. He completed the estimate but never started a trial. Use case: UC2 (estimate completed, no trial).",
     "metadata": {
       "lead_id": "lead-uc2-david",
       "name": "David Okafor",
       "first_name": "David",
       "company": "Lumen Labs",
       "company_size": "201-500",
-      "aws_spend": "$88,000",
-      "savings_estimate": "$21,500",
+      "monthly_spend": "$88,000",
+      "monthly_savings": "$21,500",
+      "annual_savings": "$258,000",
+      "estimate_completed": "true",
       "use_case": "uc2_estimate_completed"
     }
   },
   {
     "id": "lead-uc1-marcus",
-    "text": "Marcus Lee signed up on the Pump website from Northwind, an 11-50 person company, but never ran a savings estimate. Companies similar to Northwind, like Globex, save about 9,800 dollars per month with Pump (similar_savings in metadata is monthly — multiply by twelve when quoting annual savings in the UC1 qualify hook). Use case: UC1 (new signup, no estimate).",
+    "text": "Marcus Lee signed up on the Pump website from Northwind (11-50 employees) but never ran a savings estimate. Companies similar to Northwind, like Globex, save about $9,800 per month with Pump (similar_savings in metadata is monthly — multiply by twelve when quoting annual savings in the UC1 qualify hook). Use case: UC1 (new signup, no estimate).",
     "metadata": {
       "lead_id": "lead-uc1-marcus",
       "name": "Marcus Lee",
@@ -38,12 +42,13 @@
       "company_size": "11-50",
       "similar_company": "Globex",
       "similar_savings": "$9,800",
+      "estimate_completed": "false",
       "use_case": "uc1_new_signup"
     }
   },
   {
     "id": "lead-uc1-priya",
-    "text": "Priya Nair signed up on the Pump website from Cohere Retail, a 51-200 person company, but never ran a savings estimate. Companies similar to Cohere Retail, like Initech, save about 15,200 dollars per month with Pump (similar_savings in metadata is monthly — multiply by twelve when quoting annual savings in the UC1 qualify hook). Use case: UC1 (new signup, no estimate).",
+    "text": "Priya Nair signed up on the Pump website from Cohere Retail (51-200 employees) but never ran a savings estimate. Companies similar to Cohere Retail, like Initech, save about $15,200 per month with Pump (similar_savings in metadata is monthly — multiply by twelve when quoting annual savings in the UC1 qualify hook). Use case: UC1 (new signup, no estimate).",
     "metadata": {
       "lead_id": "lead-uc1-priya",
       "name": "Priya Nair",
@@ -52,6 +57,7 @@
       "company_size": "51-200",
       "similar_company": "Initech",
       "similar_savings": "$15,200",
+      "estimate_completed": "false",
       "use_case": "uc1_new_signup"
     }
   }

@@ -322,7 +322,7 @@
   },
   {
     "id": "kb-flow-uc1-qualify",
-    "text": "Qualify spend — UC1 after Q&A winds down. Use social proof, then ask monthly spend if unknown. The similar_savings value in lead context is MONTHLY — multiply by twelve for the spoken annual figure. Example: We work with a lot of companies similar to [company] — [similar_company] saves about [monthly_similar_savings times twelve] a year with us. Just to make sure we can actually help — roughly what are you spending on cloud per month? If spend is already in lead context, skip the question. Then ask: Are you currently on any enterprise discount programs or do you have cloud credits — like an EDP with AWS or similar?",
+    "text": "Qualify spend — UC1 only, after Q&A winds down. This lead never ran an estimate, so monthly spend is unknown. Use social proof, then ask monthly spend. The similar_savings value in lead context is MONTHLY — multiply by twelve for the spoken annual figure. Example: We work with a lot of companies similar to [company] — [similar_company] saves about [monthly_similar_savings times twelve] a year with us. Just to make sure we can actually help — roughly what are you spending on cloud per month? Then ask: Are you currently on any enterprise discount programs or do you have cloud credits — like an EDP with AWS or similar?",
     "metadata": {
       "category": "flow",
       "topic": "qualify",
@@ -332,7 +332,7 @@
   },
   {
     "id": "kb-flow-uc2-qualify",
-    "text": "UC2 qualify after Q&A winds down. Use spend from lead context if available; otherwise ask monthly spend. Example: Just to make sure we can actually help — roughly what are you spending on cloud per month? Then ask: Are you currently on any enterprise discount programs or do you have cloud credits — like an EDP with AWS or similar? Tier qualification uses monthly spend. For the savings hook, quote annual savings — monthly savings times twelve.",
+    "text": "UC2 qualify after Q&A winds down — estimate already ran, so monthly spend is in lead context. Do NOT ask the prospect to confirm spend; use it silently for tier routing only. Never speak monthly spend dollars aloud — annual savings is fine. Lead with annual savings from lead context, then ask: Are you currently on any enterprise discount programs or do you have cloud credits — like an EDP with AWS or similar? If eligible, bridge to a demo with the team to validate savings and start a free trial. Example: Your estimate showed about [annual_savings] a year in savings — the demo is the best way to validate that. Are you on any enterprise discount programs or running on cloud credits right now?",
     "metadata": {
       "category": "flow",
       "topic": "qualify",
@@ -746,7 +746,7 @@
   },
   {
     "id": "kb-anchor-qualify-spend",
-    "text": "Qualify spend — establish approximate monthly cloud spend. Use lead context if available; otherwise ask directly. Under five K per month is not qualified.",
+    "text": "Qualify spend — UC1 only: establish approximate monthly cloud spend by asking if unknown. UC2 estimate-completed leads already have spend in lead context — never ask; use silently for tier routing. Under five K per month is not qualified.",
     "metadata": {
       "category": "flow",
       "topic": "qualify-spend",
@@ -863,7 +863,7 @@
   },
   {
     "id": "kb-behavior-direct-answering",
-    "text": "Direct answering — when a prospect asks a direct question, answer it directly before returning to the sales conversation. Example: Why are you calling me? Good: I'm calling because you recently ran a savings estimate with Pump. I've been programmed to follow up with people who run estimates so I can answer questions and help make sure they're able to evaluate the savings opportunity. Bad: leading with Pump is a cloud savings platform without answering why you called.",
+    "text": "Direct answering — when a prospect asks a direct question, answer it directly before returning to the sales conversation. Example UC2: Why are you calling me? Good: You ran a savings estimate with Pump — I'm here to answer any questions about that, and if it makes sense, help you book a quick demo with someone on our team so you can start a free trial and lock in this month's offer. Example UC1: You created an account on Pump — I'm here to answer questions and, if you're a fit, help you book a demo with our team to start a free trial and see what you could save. Bad: leading with Pump is a cloud savings platform without answering why you called.",
     "metadata": {
       "category": "behavior",
       "topic": "direct-answering",
@@ -886,6 +886,33 @@
       "category": "behavior",
       "topic": "four-sentence-cap",
       "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-behavior-estimate-aware-qualify",
+    "text": "Estimate-aware qualification — UC2 estimate-completed leads already ran an estimate; monthly spend is in lead context. Do NOT ask the prospect to confirm spend. Use spend silently for tier and book_meeting only. Skip to EDP/credits gate, then savings-led offer. UC1 new-signup leads never ran an estimate; spend is unknown — after social proof, ask monthly cloud spend, then EDP/credits gate.",
+    "metadata": {
+      "category": "behavior",
+      "topic": "estimate-aware-qualify",
+      "phase": "qualify"
+    }
+  },
+  {
+    "id": "kb-behavior-savings-not-spend",
+    "text": "Savings yes, spend no — on UC2 leads, speak annual savings from lead context when leading with their estimate. Never speak monthly spend dollar amounts to the prospect; spend is internal routing only for tier selection. Good: Your estimate showed about one hundred fifty-eight thousand a year in savings. Bad: Your estimate showed about eight point five million a month in spend.",
+    "metadata": {
+      "category": "behavior",
+      "topic": "savings-not-spend",
+      "phase": "qualify"
+    }
+  },
+  {
+    "id": "kb-behavior-same-turn-demo-bridge",
+    "text": "Same-turn demo bridge — after answering any direct question, bridge toward savings and a demo in the same reply within four sentences; last sentence must be a question toward booking. Answer in sentence one to two, bridge to annual savings plus demo or free trial in sentence three to four. Example: How is Pump free? Good: Pump is completely free to you — the cloud providers pay us a small margin. Your estimate showed real savings on the table, and a quick demo with our team is the best way to validate that. Would you be open to a twenty-minute demo this week?",
+    "metadata": {
+      "category": "behavior",
+      "topic": "same-turn-demo-bridge",
+      "phase": "qa"
     }
   }
 ]

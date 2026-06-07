@@ -107,3 +107,112 @@ async def test_refuses_harmful_request() -> None:
         )
 
         result.expect.no_more_events()
+
+
+SARAH_UC2_LEAD_CONTEXT = (
+    "Sarah Chen from Acme Corp (51-200 employees) ran a savings estimate on the "
+    "Pump website. INTERNAL (tier routing only — never speak spend aloud): "
+    "monthly spend $42,000. SPOKEN HOOK: annual savings $158,880 — use this when "
+    "leading with their estimate. They completed the estimate but did not start a "
+    "trial. Use case: UC2 (estimate completed, no trial)."
+)
+
+
+@pytest.mark.asyncio
+async def test_uc2_does_not_ask_monthly_spend() -> None:
+    """UC2 leads with estimate data must not be asked to confirm monthly spend."""
+    async with (
+        _judge_llm() as judge_llm,
+        AgentSession() as session,
+    ):
+        await session.start(Assistant(use_case=UC2_ESTIMATE_COMPLETED))
+
+        with mock_tools(
+            Assistant,
+            {
+                "get_lead_context": lambda: SARAH_UC2_LEAD_CONTEXT,
+                "search_knowledge": lambda: "UC2 qualify — do not ask spend.",
+            },
+        ):
+            result = await session.run(
+                user_input="I already read the estimate on your site."
+            )
+
+            await result.expect.next_event(type="message").judge(
+                judge_llm,
+                intent=textwrap.dedent(
+                    """\
+                    Does NOT ask the prospect to confirm or share their monthly
+                    cloud spend, monthly AWS spend, or how much they spend per month.
+
+                    The response should acknowledge they ran/read the estimate and
+                    may move toward eligibility, savings, or booking — but must not
+                    re-ask for spend figures they already provided via the estimate.
+                    """
+                ),
+            )
+
+
+@pytest.mark.asyncio
+async def test_why_calling_bridges_to_demo() -> None:
+    """Why-calling answers should mention Q&A, demo with team, and free trial."""
+    async with (
+        _judge_llm() as judge_llm,
+        AgentSession() as session,
+    ):
+        await session.start(Assistant(use_case=UC2_ESTIMATE_COMPLETED))
+
+        result = await session.run(user_input="Why are you calling me?")
+
+        await result.expect.next_event(type="message").judge(
+            judge_llm,
+            intent=textwrap.dedent(
+                """\
+                Directly answers why Alex is calling (follow-up after estimate or
+                account activity).
+
+                Also mentions at least two of: answering questions, booking/scheduling
+                a demo with someone on the team, starting a free trial, or locking
+                in this month's offer.
+
+                Does not lead with a generic product pitch without answering why
+                the call is happening.
+                """
+            ),
+        )
+
+
+@pytest.mark.asyncio
+async def test_direct_answer_same_turn_bridge() -> None:
+    """Product questions get a direct answer and same-turn bridge toward demo."""
+    async with (
+        _judge_llm() as judge_llm,
+        AgentSession() as session,
+    ):
+        await session.start(Assistant(use_case=UC2_ESTIMATE_COMPLETED))
+
+        with mock_tools(
+            Assistant,
+            {
+                "get_lead_context": lambda: SARAH_UC2_LEAD_CONTEXT,
+                "search_knowledge": lambda: (
+                    "Pump is completely free — cloud providers pay us. "
+                    "Same-turn demo bridge — answer then offer demo."
+                ),
+            },
+        ):
+            result = await session.run(user_input="How is Pump free?")
+
+            await result.expect.next_event(type="message").judge(
+                judge_llm,
+                intent=textwrap.dedent(
+                    """\
+                    Answers how Pump is free (providers pay Pump / no cost to customer).
+
+                    In the same reply, bridges toward savings validation and/or booking
+                    a demo with the team — not just stopping at the product answer.
+
+                    Does NOT ask the prospect to share monthly cloud spend.
+                    """
+                ),
+            )

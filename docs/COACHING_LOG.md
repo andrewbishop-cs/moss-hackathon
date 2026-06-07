@@ -12,6 +12,9 @@ Raw call-review observations. Paul + ChatGPT promote validated observations into
 | 2026-06-07 | Multiple calls | When prospect asks a direct question (e.g. "Why are you calling me?"), Alex sometimes pivots to product pitch instead of answering first. | High — creates distrust and frustration | See Direct Answering in BEHAVIORAL_PRINCIPLES.md | promoted |
 | 2026-06-07 | Multiple calls | Alex continues after "not interested"; sometimes writes log_outcome in speech instead of calling the tool — call stays open. | High — feels like spam; prospect keeps saying hello | See Respect Hard Stops in BEHAVIORAL_PRINCIPLES.md | promoted |
 | 2026-06-07 | Train call | Alex opens hook-first ("Hey, I saw you ran an estimate") without identity intro; rambles past 3 sentences. | High — robocall feel; loses prospect attention | Canonical pump.co opener + four-sentence cap | promoted |
+| 2026-06-07 | Michael / UC2 | Alex re-asks monthly spend after prospect ran estimate / read results. Prospect: "I thought you had my estimate data." | High — breaks trust; contradicts estimate flow | See Estimate-Aware Qualification in BEHAVIORAL_PRINCIPLES.md | implemented |
+| 2026-06-07 | Michael / UC2 | "Why are you calling?" answers stop at Q&A + evaluate savings — no demo/AE/free-trial bridge; feels circular. | High — no clear path to offer | See Direct Answering + Same-Turn Demo Bridge in BEHAVIORAL_PRINCIPLES.md | implemented |
+| 2026-06-07 | Multiple calls | After direct questions, Alex loops back to discovery instead of bridging same-turn to savings + demo/offer. | Medium — call stalls without moving toward booking | See Same-Turn Demo Bridge in BEHAVIORAL_PRINCIPLES.md | implemented |
 
 ---
 
