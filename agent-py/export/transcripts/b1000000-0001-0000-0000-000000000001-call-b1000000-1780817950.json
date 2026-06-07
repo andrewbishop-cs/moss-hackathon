@@ -1,0 +1,122 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780817950",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T07:39:24.965278+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Hey Michael, this is Alex, an AI customer success manager from Pump. I saw your estimate shows you could be saving about one point five eight three million dollars each month—roughly nineteen million a year. I have a quick offer to share. Do you have any questions about Pump before we dive in?",
+      "timestamp": "2026-06-07T07:39:42.007974+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "So",
+      "timestamp": "2026-06-07T07:39:43.495975+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. Sorry.",
+      "timestamp": "2026-06-07T07:39:44.489485+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. Sorry. Why is it why",
+      "timestamp": "2026-06-07T07:39:45.521478+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. Sorry. Why is it why are you calling me? Who told you",
+      "timestamp": "2026-06-07T07:39:46.468452+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. Sorry. Why is it why are you calling me? Who told you to call me?",
+      "timestamp": "2026-06-07T07:39:47.178644+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "How do how do you",
+      "timestamp": "2026-06-07T07:39:58.116686+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "How do you how do you get my phone number?",
+      "timestamp": "2026-06-07T07:39:59.059308+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "How do you how do you get my phone number, though?",
+      "timestamp": "2026-06-07T07:39:59.809845+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I’m reaching out because you recently ran a Pump savings estimate that showed a potential $1.58 million in monthly cloud‑spend reductions for Cursor. I thought it’d be worth a quick chat to see if we can",
+      "timestamp": "2026-06-07T07:39:59.815615+00:00",
+      "signal": null
+    },
+    {
+      "role": "agent",
+      "text": "I got your number from the contact info you entered when you ran the estimate on our site—our system uses that to follow up on the savings you saw. Does that sound okay to keep chatting about how we could lock in those reductions?",
+      "timestamp": "2026-06-07T07:40:12.169651+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "I mean,",
+      "timestamp": "2026-06-07T07:40:14.091202+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I mean, I don't know really.",
+      "timestamp": "2026-06-07T07:40:14.966720+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Got it—thanks for clarifying. Just to confirm, are you currently using any enterprise discount programs or cloud credits for your AWS/GCP spend? This helps us see if we can move forward with the savings plan.",
+      "timestamp": "2026-06-07T07:40:28.534893+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "No.",
+      "timestamp": "2026-06-07T07:40:28.535560+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No.",
+      "timestamp": "2026-06-07T07:40:28.535706+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "So",
+      "timestamp": "2026-06-07T07:40:29.849324+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No.",
+      "timestamp": "2026-06-07T07:40:30.301154+00:00",
+      "signal": "none"
+    }
+  ],
+  "saved_at": "2026-06-07T07:40:34.571233+00:00"
+}

@@ -132,32 +132,6 @@ async def post_call_outcome(
         logger.exception("failed to POST call outcome to backend")
 
 
-async def post_transcript(lead_id: str, room_name: str | None, transcript: object) -> None:
-    """Persist the full call transcript to Supabase via the FastAPI hub.
-
-    Best-effort like post_call_outcome: failures are logged and swallowed, and the
-    non-persistent console lead is skipped. `transcript` is LiveKit's
-    `session.history.to_dict()` payload, already JSON-sanitized by the caller.
-    """
-    if not lead_id or lead_id == DEFAULT_LEAD_ID:
-        logger.info("skipping transcript write for non-persistent lead_id=%s", lead_id)
-        return
-    payload = {"lead_id": lead_id, "room_name": room_name, "transcript": transcript}
-    try:
-        timeout = aiohttp.ClientTimeout(total=10)
-        async with (
-            aiohttp.ClientSession(timeout=timeout) as session,
-            session.post(f"{BACKEND_URL}/calls/transcript", json=payload) as resp,
-        ):
-            if resp.status >= 400:
-                body = await resp.text()
-                logger.error("transcript write failed: HTTP %s %s", resp.status, body)
-            else:
-                logger.info("persisted transcript for lead_id=%s", lead_id)
-    except Exception:
-        logger.exception("failed to POST call transcript to backend")
-
-
 # Fallbacks used only when ctx.job.metadata is absent (e.g. `console` mode). The
 # frontend provides a real lead_id + use_case via agent dispatch metadata.
 DEFAULT_LEAD_ID = "lead-uc2-sarah"
@@ -416,6 +390,10 @@ class Assistant(Agent):
             os.getenv("MOSS_PROJECT_ID"), os.getenv("MOSS_PROJECT_KEY")
         )
         self._indexes_loaded = False
+        # True once book_meeting or log_outcome has recorded a terminal status.
+        # Lets the shutdown path fall back to "called" if the human hangs up
+        # before the agent logs an outcome, so the call never stays on "calling".
+        self._outcome_logged = False
 
     @property
     def _room_name(self) -> str | None:
@@ -602,6 +580,7 @@ class Assistant(Agent):
         notes = "Booked a 20-minute demo." + (
             " " + "; ".join(details) if details else ""
         )
+        self._outcome_logged = True
         await post_call_outcome(self._lead_id, "booked", notes, self._room_name)
         return (
             "Great — I've got that booked. I'm sending the calendar invite now. "
@@ -631,6 +610,7 @@ class Assistant(Agent):
                 outcome,
             )
             # Fall back to a generic-but-valid status so the call is still logged.
+            self._outcome_logged = True
             await post_call_outcome(
                 self._lead_id,
                 "called",
@@ -643,6 +623,7 @@ class Assistant(Agent):
             self._lead_id,
             normalized,
         )
+        self._outcome_logged = True
         await post_call_outcome(self._lead_id, normalized, detail, self._room_name)
         # Outcomes that get one instant automatic callback (backend re-dispatches
         # when the POST above lands). Hang up now so call #1 tears down before the
@@ -872,22 +853,6 @@ async def my_agent(ctx: JobContext):
 
     ctx.add_shutdown_callback(_log_usage_summary)
 
-    async def _persist_transcript():
-        # At shutdown the voice pipeline has closed and session.history is final.
-        # Dump the full conversation and store it on the lead via the hub. JSON-
-        # roundtrip with default=str guarantees the payload is serializable (e.g.
-        # any datetimes/enums become strings) before it hits aiohttp.
-        try:
-            history = getattr(session, "history", None)
-            if history is None or not hasattr(history, "to_dict"):
-                return
-            data = json.loads(json.dumps(history.to_dict(), default=str))
-            await post_transcript(lead_id, ctx.room.name, data)
-        except Exception:
-            logger.exception("failed to persist transcript")
-
-    ctx.add_shutdown_callback(_persist_transcript)
-
     # Join the room first so we can place the outbound call into it.
     await ctx.connect()
 
@@ -947,6 +912,15 @@ async def my_agent(ctx: JobContext):
         path = save_transcript_local(transcript)
         logger.info("saved transcript to %s (%d turns)", path, len(transcript.turns))
         await post_transcript_to_backend(transcript, BACKEND_URL)
+        # If the call had real conversation but the agent never logged a terminal
+        # outcome (e.g. the human hung up — AgentSession auto-closes on SIP
+        # disconnect, which skips the log_outcome tool), record "called" so the
+        # row leaves "calling". "called" isn't a retry outcome, so this never
+        # triggers an auto-callback.
+        if not assistant._outcome_logged:
+            await post_call_outcome(
+                lead_id, "called", "Call ended without a logged outcome.", ctx.room.name
+            )
 
     ctx.add_shutdown_callback(_persist_transcript)
 

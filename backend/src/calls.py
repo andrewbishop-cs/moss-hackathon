@@ -53,6 +53,17 @@ async def start_call(lead_id: str | UUID, *, is_retry: bool = False) -> str:
         }
     )
 
+    # Record this attempt in the calls table BEFORE dispatching. The agent's
+    # outcome + transcript writes correlate back by room_name, and a fast SIP
+    # failure (e.g. Twilio "trial accounts can only call verified caller IDs")
+    # makes the agent post its no_answer outcome within milliseconds. If the row
+    # didn't exist yet, those room_name-keyed updates would hit zero rows and the
+    # call would be stuck on `calling` with a null transcript forever.
+    db.create_call(lead.id, room_name, lead.use_case, is_retry)
+    # Lead keeps a denormalized snapshot of the latest call for the table view.
+    db.mark_calling(lead.id, room_name)
+    _call_was_retry[str(lead.id)] = is_retry
+
     lkapi = api.LiveKitAPI()
     try:
         await lkapi.agent_dispatch.create_dispatch(
@@ -65,10 +76,4 @@ async def start_call(lead_id: str | UUID, *, is_retry: bool = False) -> str:
     finally:
         await lkapi.aclose()
 
-    # Record this attempt in the calls table (history + transcript live there).
-    # The agent's later outcome/transcript writes correlate back by room_name.
-    db.create_call(lead.id, room_name, lead.use_case, is_retry)
-    # Lead keeps a denormalized snapshot of the latest call for the table view.
-    db.mark_calling(lead.id, room_name)
-    _call_was_retry[str(lead.id)] = is_retry
     return room_name
