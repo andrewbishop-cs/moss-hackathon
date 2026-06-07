@@ -363,11 +363,12 @@ def _instructions_for(use_case: str) -> str:
 
 
 def _opening_for(use_case: str) -> str:
-    """Instructions for the agent's first spoken turn, by use case.
+    """Instructions for an LLM-generated first turn, by use case.
 
-    Lead details are injected into the system prompt before this runs (see
-    Assistant.on_enter), so the opening needs no tool call — it speaks
-    immediately instead of paying a round-trip first.
+    NOTE: the live opener is now spoken verbatim via `_spoken_opening` (a fixed
+    session.say) to cut the time-to-first-word — edit THAT for opener wording.
+    This function is kept as the LLM-driven fallback / reference; the example
+    lines below should stay in sync with `_spoken_opening`.
     """
     if use_case == UC1_NEW_SIGNUP:
         return (
@@ -391,6 +392,28 @@ def _opening_for(use_case: str) -> str:
         "or two short sentences. Do NOT mention any offer, gift, or promotion, "
         "and do NOT ask whether they have questions about Pump. After the "
         "greeting, stop and let them respond."
+    )
+
+
+def _spoken_opening(use_case: str, first_name: str | None) -> str:
+    """The exact words for the agent's first turn.
+
+    Spoken via session.say (not an LLM round-trip), so the agent talks the
+    instant the pipeline is warm — no waiting on time-to-first-token or the
+    Moss lead lookup. Keep it to the deterministic short opener: greet, disclose
+    we're an AI customer success agent at Pump, one-line reason, then stop.
+    """
+    name = (first_name or "").strip() or "there"
+    if use_case == UC1_NEW_SIGNUP:
+        return (
+            f"Hello? Hey {name}, this is Alex, the AI customer success agent at "
+            "Pump. I saw you created an account with us, and I wanted to quickly "
+            "follow up."
+        )
+    return (
+        f"Hello? Hey {name}, this is Alex, the AI customer success agent at "
+        "Pump. You ran a savings estimate with us, and I wanted to quickly "
+        "follow up."
     )
 
 
@@ -429,6 +452,10 @@ class Assistant(Agent):
             os.getenv("MOSS_PROJECT_ID"), os.getenv("MOSS_PROJECT_KEY")
         )
         self._indexes_loaded = False
+        # Background warm-up (Moss preload + lead-context injection). Kept off the
+        # opening's critical path so the first words play immediately; held as a
+        # reference so it isn't garbage-collected mid-flight.
+        self._context_task: asyncio.Task[None] | None = None
         # True once book_meeting or log_outcome has recorded a terminal status.
         # Lets the shutdown path fall back to "called" if the human hangs up
         # before the agent logs an outcome, so the call never stays on "calling".
@@ -445,12 +472,15 @@ class Assistant(Agent):
         return None
 
     async def on_enter(self) -> None:
+        # Warm Moss + inject this lead's profile in the BACKGROUND. These are
+        # network round-trips (~2s) and must not gate the opening line, which is
+        # spoken from the entrypoint with the lead's name from dispatch metadata.
+        # Until the injection lands, get_lead_context is the fallback for tools.
+        self._context_task = asyncio.create_task(self._prepare_context())
+
+    async def _prepare_context(self) -> None:
         # Preload both Moss indexes so the first query is fast. Guarded: log and
         # continue on failure so the tools can still retry the load on use.
-        #
-        # The spoken opening is triggered from the entrypoint (after
-        # session.start / ctx.connect) rather than here, per the documented
-        # LiveKit pattern, keeping on_enter side-effect-free for speech.
         if not self._indexes_loaded:
             try:
                 await self._moss.load_index(KNOWLEDGE_INDEX)
@@ -834,12 +864,15 @@ async def my_agent(ctx: JobContext):
     # phone_number is only present for real outbound calls (set by the backend).
     # When absent (console/browser), we skip dialing and run the in-room flow.
     phone_number = None
+    # first_name lets us speak the opener immediately without a Moss round-trip.
+    first_name = None
     if ctx.job.metadata:
         try:
             meta = json.loads(ctx.job.metadata)
             lead_id = meta.get("lead_id", DEFAULT_LEAD_ID)
             use_case = meta.get("use_case", DEFAULT_USE_CASE)
             phone_number = meta.get("phone_number")
+            first_name = meta.get("first_name")
         except json.JSONDecodeError:
             logger.warning(
                 "ctx.job.metadata was not valid JSON; using default lead_id/use_case"
@@ -976,9 +1009,14 @@ async def my_agent(ctx: JobContext):
         ),
     )
 
-    # Trigger the opening line once connected (not in Agent.on_enter) per the
-    # documented LiveKit pattern, so it runs against a connected room.
-    await session.generate_reply(instructions=_opening_for(use_case))
+    # Speak the opener as a fixed line (session.say) instead of asking the LLM to
+    # generate it. This removes the LLM time-to-first-token from the first turn
+    # and, with the Moss warm-up moved off the critical path (see
+    # Assistant.on_enter), gets the agent talking as soon as the pipeline is warm
+    # — a few seconds faster than generate_reply. The opener is deterministic by
+    # design (short greeting + AI disclosure + one-line reason), so nothing is
+    # lost by not routing it through the model.
+    await session.say(_spoken_opening(use_case, first_name))
 
 
 if __name__ == "__main__":

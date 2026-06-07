@@ -1,0 +1,188 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780820980",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:29:55.508889+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Hey Michael, I’m Alex, an AI customer success manager at Pump, and I’m reaching out because our estimate shows you could be leaving about fifteen‑hundred‑thousand dollars a month on the table.",
+      "timestamp": "2026-06-07T08:30:06.351167+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Sorry. What what is",
+      "timestamp": "2026-06-07T08:30:09.224419+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Sorry. What what is this?",
+      "timestamp": "2026-06-07T08:30:09.465596+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Sorry. What what is this?",
+      "timestamp": "2026-06-07T08:30:09.983002+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Sure thing, Michael—I’m Alex, an AI‑powered customer success manager at Pump. We ran a quick estimate on your cloud spend and it shows you could be saving about one‑point‑five‑million dollars every month, which is roughly nineteen million dollars a year.  \n\nDoes that line up with what you saw on the site?",
+      "timestamp": "2026-06-07T08:30:26.030186+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Sorry. I thought you said",
+      "timestamp": "2026-06-07T08:30:29.522771+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Sorry. I thought you said fifteen thousand",
+      "timestamp": "2026-06-07T08:30:30.524595+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Sorry. I thought you said fifteen thousand dollars.",
+      "timestamp": "2026-06-07T08:30:31.077144+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Apologies for the mix‑up—I meant about one‑point‑five million dollars a month, which works out to roughly nineteen million dollars a year. That’s the savings our estimate flagged for Cursor. Does that sound right based on what you saw?",
+      "timestamp": "2026-06-07T08:30:43.284357+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I mean,",
+      "timestamp": "2026-06-07T08:30:45.421680+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I mean, that's right. So",
+      "timestamp": "2026-06-07T08:30:46.423893+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I mean, that's right.",
+      "timestamp": "2026-06-07T08:30:47.125837+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Got it. Quick check—are you currently on an enterprise discount program with any cloud provider, or using any cloud credits for your workloads?",
+      "timestamp": "2026-06-07T08:30:56.083659+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:31:04.869509+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:31:05.927755+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:31:06.889335+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:31:07.522260+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:31:08.523815+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:31:08.974652+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:31:09.989672+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:31:10.528574+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello.",
+      "timestamp": "2026-06-07T08:31:11.527311+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello.",
+      "timestamp": "2026-06-07T08:31:11.920922+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello.",
+      "timestamp": "2026-06-07T08:31:12.964656+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello.",
+      "timestamp": "2026-06-07T08:31:13.376845+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello.",
+      "timestamp": "2026-06-07T08:31:15.329221+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello.",
+      "timestamp": "2026-06-07T08:31:15.571238+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello.",
+      "timestamp": "2026-06-07T08:31:16.571044+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:31:17.170966+00:00",
+      "signal": "none"
+    }
+  ],
+  "saved_at": "2026-06-07T08:31:41.162599+00:00"
+}

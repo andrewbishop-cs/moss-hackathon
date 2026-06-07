@@ -1,0 +1,74 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780821218",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "lead",
+      "text": "Been forwarded forwarded",
+      "timestamp": "2026-06-07T08:34:05.587426+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Been forwarded to voice mail.",
+      "timestamp": "2026-06-07T08:34:06.077207+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "The person you're trying",
+      "timestamp": "2026-06-07T08:34:06.843909+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "The person you're trying to reach is not available.",
+      "timestamp": "2026-06-07T08:34:07.655539+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "The person you're trying to reach is not available.",
+      "timestamp": "2026-06-07T08:34:07.930930+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "At the tone,",
+      "timestamp": "2026-06-07T08:34:08.659461+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "please record your",
+      "timestamp": "2026-06-07T08:34:09.460324+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "please record your message.",
+      "timestamp": "2026-06-07T08:34:09.898547+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "When you have finished",
+      "timestamp": "2026-06-07T08:34:10.648078+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "When you have finished recording, you may hang up.",
+      "timestamp": "2026-06-07T08:34:11.470588+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "When you have finished recording, you may hang up.",
+      "timestamp": "2026-06-07T08:34:11.911877+00:00",
+      "signal": "none"
+    }
+  ],
+  "saved_at": "2026-06-07T08:34:12.149163+00:00"
+}

@@ -50,6 +50,10 @@ async def start_call(lead_id: str | UUID, *, is_retry: bool = False) -> str:
             "phone_number": lead.phone,
             "lead_id": str(lead.id),
             "use_case": lead.use_case,
+            # First name lets the agent speak the opener immediately (a fixed
+            # session.say) without waiting on a Moss lead lookup — shaves a few
+            # seconds off the time-to-first-word.
+            "first_name": lead.first_name,
         }
     )
 
