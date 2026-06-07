@@ -1,0 +1,98 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780830878",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T11:14:52.673811+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T11:14:52.915514+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Hi Michael, this is Alex, an AI customer success manager at Pump. I’m calling because you recently ran a savings estimate on our platform, and I’d like to answer any questions you might have about it. Do you have a moment to talk?",
+      "timestamp": "2026-06-07T11:15:07.604726+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. I do.",
+      "timestamp": "2026-06-07T11:15:09.952546+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Great, thanks for taking a moment. Based on the data you provided, Pump estimates you could save about eighteen million nine hundred ninety‑six thousand dollars annually on your cloud spend. The platform works at the billing layer—no code changes, free to start, and we’ve helped companies like Deel and Supabase capture seventy to eighty percent of their projected savings. What questions do you have about how that could work for Cursor?",
+      "timestamp": "2026-06-07T11:15:33.369193+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "We already have",
+      "timestamp": "2026-06-07T11:15:35.143552+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "We already have Dylan managing our",
+      "timestamp": "2026-06-07T11:15:36.151689+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "We already have billing managing our cloud costs.",
+      "timestamp": "2026-06-07T11:15:37.145184+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I hear you—our solution complements existing billing tools by automatically identifying unused resources, rightsizing workloads, and negotiating provider discounts across AWS, GCP, Azure, OpenAI and Anthropic, all without any code changes or additional licensing fees. It’s designed to surface savings that typical billing dashboards miss, and many of our customers see 70‑80 % of the projected reduction. Are you currently participating in any enterprise discount programs or using cloud credits that we should be aware of?",
+      "timestamp": "2026-06-07T11:16:03.051853+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yeah.",
+      "timestamp": "2026-06-07T11:16:05.245888+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. That makes sense.",
+      "timestamp": "2026-06-07T11:16:06.245276+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. That makes sense.",
+      "timestamp": "2026-06-07T11:16:06.794779+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Sure.",
+      "timestamp": "2026-06-07T11:16:08.163333+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "lead",
+      "text": "Sure.",
+      "timestamp": "2026-06-07T11:16:08.751311+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "agent",
+      "text": "I’m sorry, but we can’t move forward while you’re on an active enterprise discount program or cloud credits. I’ll make a note to check back in when that changes. Take care, Michael.",
+      "timestamp": "2026-06-07T11:16:20.845524+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T11:17:31.175626+00:00"
+}

@@ -112,6 +112,8 @@ Click path and setup: [DEMO_RUN_OF_SHOW.md](DEMO_RUN_OF_SHOW.md) · Context for 
 
 Use when you're running long or only have one clean PSTN window.
 
+**One-minute prospect script (what to say on the phone):** [DEMO_ONE_MIN_CALL.md](DEMO_ONE_MIN_CALL.md)
+
 | Segment | Time | Script |
 |---------|------|--------|
 | Problem | 12s | Same as full, trimmed: stop after "Nobody calls them." |

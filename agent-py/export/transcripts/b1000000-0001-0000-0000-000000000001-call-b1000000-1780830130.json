@@ -1,0 +1,212 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780830130",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T11:02:23.791253+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T11:02:24.220058+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Hi, this is Alex, an AI customer success manager at Pump.co. I’m following up because you ran a savings estimate on our site, and I wanted to see if you have any questions about the results. What questions can I answer for you?",
+      "timestamp": "2026-06-07T11:02:38.876468+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "One",
+      "timestamp": "2026-06-07T11:02:40.798419+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Why are you calling me?",
+      "timestamp": "2026-06-07T11:02:41.820980+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Why are you calling me?",
+      "timestamp": "2026-06-07T11:02:42.104726+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "You ran a savings estimate with Pump, and I’m an AI programmed to follow up and help you understand the results. Our analysis shows you could save about nineteen million dollars annually on your cloud spend. I can walk you through how the platform works, set up a free trial, and show you how we capture those savings. Would you be open to a quick demo to see the details?",
+      "timestamp": "2026-06-07T11:03:02.595754+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "I don't wanna",
+      "timestamp": "2026-06-07T11:03:04.304525+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I don't wanna deal with the robot.",
+      "timestamp": "2026-06-07T11:03:05.255551+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Totally understand—I'm an AI designed to make the follow‑up quick and informative. Pump powers cost‑saving for over fourteen hundred companies, including Deel and Supabase, and the service is free to start with no lock‑in. Would you like a brief demo so you can see exactly how that nineteen‑million‑dollar annual saving could be realized?",
+      "timestamp": "2026-06-07T11:03:23.467904+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "We already have",
+      "timestamp": "2026-06-07T11:03:26.352292+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "We already have the one managing our",
+      "timestamp": "2026-06-07T11:03:27.350818+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "We already have the one managing our cloud cost",
+      "timestamp": "2026-06-07T11:03:28.111598+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I hear you already have someone handling cloud costs—that’s great. Pump is built to work alongside existing teams, automatically surfacing savings at the billing layer without any code changes, and most customers capture 70‑80 % of the estimated reduction. It’s free to start and has helped companies like Deel unlock tens of millions in savings. Would you be open to a quick look at how it could complement your current process?",
+      "timestamp": "2026-06-07T11:03:52.531782+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "I don't know. We're pretty",
+      "timestamp": "2026-06-07T11:03:56.154081+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "lead",
+      "text": "I don't know. We're pretty busy right now.",
+      "timestamp": "2026-06-07T11:03:57.158496+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I get that you’re swamped—many of our customers felt the same before seeing how little effort the integration actually requires. Pump plugs directly into your billing data, surfaces savings automatically, and most teams capture around seventy to eighty percent of the projected reduction without changing any code. Companies like Deel and Supabase have added Pump on top of their existing cost‑management processes and unlocked tens of millions in extra savings. Would you be open to a brief demo whenever you have a few minutes to see how it could complement your current setup?",
+      "timestamp": "2026-06-07T11:04:26.144233+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Sure.",
+      "timestamp": "2026-06-07T11:04:27.805602+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "lead",
+      "text": "Mean, maybe that",
+      "timestamp": "2026-06-07T11:04:28.804277+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Mean, maybe don't mind.",
+      "timestamp": "2026-06-07T11:04:29.353951+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Great! A quick walkthrough will let you see exactly how Pump can layer on top of your existing cost‑management and capture a large portion of that nineteen‑million‑dollar annual opportunity with virtually no code changes. As part of our evaluation program this month, we’re also offering a Mac Mini for participants at your scale. When would be a convenient time for a short demo?",
+      "timestamp": "2026-06-07T11:04:50.485936+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "When",
+      "timestamp": "2026-06-07T11:04:53.053229+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Whenever works.",
+      "timestamp": "2026-06-07T11:04:54.048488+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Whatever works.",
+      "timestamp": "2026-06-07T11:04:54.311709+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Perfect, I’ll set up a short demo to walk through the estimate and how Pump can capture those savings. It’s a quick twenty‑minute session and we can also discuss the Mac Mini incentive we have for participants at your scale. What day and time work best for you?",
+      "timestamp": "2026-06-07T11:05:09.876539+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "You tell me.",
+      "timestamp": "2026-06-07T11:05:12.703240+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Great, the demo is just twenty minutes and will walk through how we can capture the estimated nineteen‑million‑dollar annual savings. As part of the evaluation we’ll also discuss the Mac Mini incentive for participants at your scale. What day and time would work best for you?",
+      "timestamp": "2026-06-07T11:05:27.873851+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "You tell me",
+      "timestamp": "2026-06-07T11:05:29.505579+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Can you tell me?",
+      "timestamp": "2026-06-07T11:05:30.154694+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Would Tuesday at 2 pm work for a quick twenty‑minute demo?",
+      "timestamp": "2026-06-07T11:05:36.267474+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yes.",
+      "timestamp": "2026-06-07T11:05:38.157045+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. That works.",
+      "timestamp": "2026-06-07T11:05:39.165016+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. That works.",
+      "timestamp": "2026-06-07T11:05:39.299609+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Perfect, you're all set — I've got that booked and I'm sending the calendar invite now. Just a heads up: the offer is for people who show up and start a trial this month, so keep an eye out for it. Talk soon!",
+      "timestamp": "2026-06-07T11:05:52.203382+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T11:05:53.112390+00:00"
+}

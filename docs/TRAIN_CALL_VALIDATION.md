@@ -2,6 +2,8 @@
 
 Manual validation for wolf persistence, talk-over yield, and active listening. Run after agent worker restart (`pnpm dev` or restart `dev:agent-py`).
 
+**One-minute demo rehearsal (prospect lines, booked call):** [DEMO_ONE_MIN_CALL.md](DEMO_ONE_MIN_CALL.md)
+
 ## Setup
 
 ```bash

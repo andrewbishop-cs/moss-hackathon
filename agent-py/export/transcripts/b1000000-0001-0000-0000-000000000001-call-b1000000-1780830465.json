@@ -1,0 +1,158 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780830465",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "lead",
+      "text": "Hello.",
+      "timestamp": "2026-06-07T11:07:58.287162+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T11:07:58.487090+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Hi Michael, this is Alex, an AI customer success manager at Pump. I’m reaching out because you ran a savings estimate on our site. Do you have any questions about the estimate or how Pump works?",
+      "timestamp": "2026-06-07T11:08:10.593870+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "No. Not",
+      "timestamp": "2026-06-07T11:08:13.102105+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. Not really. I was just browsing",
+      "timestamp": "2026-06-07T11:08:14.104772+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. On",
+      "timestamp": "2026-06-07T11:08:14.780870+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "really. I was just browsing, honestly.",
+      "timestamp": "2026-06-07T11:08:14.791884+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "really. I was just browsing, honestly.",
+      "timestamp": "2026-06-07T11:08:15.252474+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Totally get it—sometimes you just want to see what’s out there. Your estimate shows potential annual savings of about nineteen million dollars. Pump sits on your cloud bills, requires no code changes, and is free to you, with most customers capturing seventy to eighty percent of that estimate. Would you be open to a quick walkthrough to see how we could unlock those savings for Cursor?",
+      "timestamp": "2026-06-07T11:08:37.544749+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "I mean, like, he",
+      "timestamp": "2026-06-07T11:08:41.599156+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I mean, like, can you just send me an email at, like,",
+      "timestamp": "2026-06-07T11:08:42.609896+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I mean, like, can you just send me an email? Like, I'm really, really busy.",
+      "timestamp": "2026-06-07T11:08:43.611238+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I mean, like, can you just send me an email? Like, I'm really, really busy.",
+      "timestamp": "2026-06-07T11:08:43.861790+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Sure thing—Pump works directly on your cloud bills, so there’s no code to change, no lock‑in contracts, and it’s free for you while most users capture seventy to eighty percent of their estimated savings. It’s essentially a billing‑layer optimizer that automatically reduces spend across AWS, GCP, Azure, and AI providers. Does that give you a clearer picture of how we could unlock those nineteen‑million‑dollar savings for Cursor?",
+      "timestamp": "2026-06-07T11:09:09.055450+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Oh, yeah. You",
+      "timestamp": "2026-06-07T11:09:11.050273+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "So, yeah, you can put more info",
+      "timestamp": "2026-06-07T11:09:12.050397+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "So, yeah, you can put more info in the email. That's good.",
+      "timestamp": "2026-06-07T11:09:13.106178+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "So, yeah, you can put more info in the email. That's good.",
+      "timestamp": "2026-06-07T11:09:13.357721+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Absolutely—I can email you a quick overview that explains how Pump sits on your cloud bills, requires no code changes, is free to you, and how most customers capture seventy‑to‑eighty percent of the estimated nineteen‑million‑dollar savings. Just let me know the best address to send it to, and I’ll include a link you can use whenever you have a moment to explore further. Does that work for you?",
+      "timestamp": "2026-06-07T11:09:37.696116+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Sure.",
+      "timestamp": "2026-06-07T11:09:39.598028+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "agent",
+      "text": "Great, could you share the email address you’d like me to send the details to?",
+      "timestamp": "2026-06-07T11:09:45.227962+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yep.",
+      "timestamp": "2026-06-07T11:09:47.098004+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. Paul at pawn jack.",
+      "timestamp": "2026-06-07T11:09:48.100280+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. Paul at paul dot co works.",
+      "timestamp": "2026-06-07T11:09:48.759126+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Thanks, I’ll send the overview to paul@paul.co right away. If any questions come up after you review it, feel free to reach out—I’m here to help. Have a great day, Michael!",
+      "timestamp": "2026-06-07T11:10:02.224371+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T11:10:30.753970+00:00"
+}

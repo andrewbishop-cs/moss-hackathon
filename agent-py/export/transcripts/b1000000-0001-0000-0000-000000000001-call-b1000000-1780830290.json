@@ -1,0 +1,146 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780830290",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "lead",
+      "text": "Telephone",
+      "timestamp": "2026-06-07T11:05:20.354084+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Telephone number,",
+      "timestamp": "2026-06-07T11:05:20.955431+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "nine one",
+      "timestamp": "2026-06-07T11:05:21.755787+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "nine one four",
+      "timestamp": "2026-06-07T11:05:22.706374+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "nine one four five five",
+      "timestamp": "2026-06-07T11:05:23.715000+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "nine one four five five nine",
+      "timestamp": "2026-06-07T11:05:24.717930+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "nine one four five five nine eight",
+      "timestamp": "2026-06-07T11:05:25.746986+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "four two.",
+      "timestamp": "2026-06-07T11:05:26.354906+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "four two six.",
+      "timestamp": "2026-06-07T11:05:27.355884+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "four two six.",
+      "timestamp": "2026-06-07T11:05:27.455870+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Can't take your call.",
+      "timestamp": "2026-06-07T11:05:28.458050+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Can't take your call now.",
+      "timestamp": "2026-06-07T11:05:29.059377+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "At the tone,",
+      "timestamp": "2026-06-07T11:05:31.056756+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "At the tone, please record your",
+      "timestamp": "2026-06-07T11:05:32.073812+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "At the tone, please record your message. When you",
+      "timestamp": "2026-06-07T11:05:33.076313+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "At the tone, please record your message.",
+      "timestamp": "2026-06-07T11:05:34.064360+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "When you've finished recording,",
+      "timestamp": "2026-06-07T11:05:34.094740+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "When you've finished recording, simply hang",
+      "timestamp": "2026-06-07T11:05:35.063288+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "When you've finished recording, simply hang up or press",
+      "timestamp": "2026-06-07T11:05:36.076500+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "When you've finished recording, simply hang up or press pound for further",
+      "timestamp": "2026-06-07T11:05:37.072031+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "When you've finished recording, simply hang up or press",
+      "timestamp": "2026-06-07T11:05:37.674129+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "pound for further options.",
+      "timestamp": "2026-06-07T11:05:37.693133+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "pound for further options.",
+      "timestamp": "2026-06-07T11:05:38.014432+00:00",
+      "signal": "none"
+    }
+  ],
+  "saved_at": "2026-06-07T11:05:42.326428+00:00"
+}
