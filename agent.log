@@ -1,0 +1,400 @@
+
+> moss-hacker-starter@1.0.0 dev /Users/paulrusso/moss-hackathon
+> pnpm kill:agents && pnpm reset:leads && concurrently -n agent-py,backend,frontend -c cyan,green,magenta "pnpm dev:agent-py" "pnpm dev:backend" "pnpm dev:frontend"
+
+
+> moss-hacker-starter@1.0.0 kill:agents /Users/paulrusso/moss-hackathon
+> bash scripts/kill-stray-agents.sh
+
+[predev] no stray dev processes — clean start.
+
+> moss-hacker-starter@1.0.0 reset:leads /Users/paulrusso/moss-hackathon
+> bash scripts/lib/backend-run.sh -m src.reset
+
+[reset] leads reset to pending: 22 (call history preserved)
+[backend] 
+[backend] > moss-hacker-starter@1.0.0 dev:backend /Users/paulrusso/moss-hackathon
+[backend] > bash scripts/lib/dev-backend.sh
+[backend] 
+[agent-py] 
+[agent-py] > moss-hacker-starter@1.0.0 dev:agent-py /Users/paulrusso/moss-hackathon
+[agent-py] > bash scripts/lib/dev-agent.sh
+[agent-py] 
+[frontend] 
+[frontend] > moss-hacker-starter@1.0.0 dev:frontend /Users/paulrusso/moss-hackathon
+[frontend] > pnpm --dir frontend dev
+[frontend] 
+[frontend] 
+[frontend] > agent-starter-react@0.1.0 dev /Users/paulrusso/moss-hackathon/frontend
+[frontend] > next dev --turbopack
+[frontend] 
+[backend] INFO:     Started server process [5486]
+[backend] INFO:     Waiting for application startup.
+[backend] INFO:     Application startup complete.
+[backend] INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+[frontend]  ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+[frontend]  We detected multiple lockfiles and selected the directory of /Users/paulrusso/moss-hackathon/pnpm-lock.yaml as the root directory.
+[frontend]  To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+[frontend]    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+[frontend]  Detected additional lockfiles: 
+[frontend]    * /Users/paulrusso/moss-hackathon/frontend/pnpm-lock.yaml
+[frontend] 
+[agent-py]     01:58:32.375 DEBUG    asyncio            Using selector: KqueueSelector  
+[agent-py]     01:58:32.376 DEV      livekit.agents     Watching                           
+[agent-py]                                              /Users/paulrusso/moss-hackathon/...  
+[frontend]    ▲ Next.js 15.5.18 (Turbopack)
+[frontend]    - Local:        http://localhost:3000
+[frontend]    - Network:      http://172.17.21.176:3000
+[frontend]    - Environments: .env.local
+[frontend] 
+[frontend]  ✓ Starting...
+[agent-py]     01:58:32.925 DEBUG    asyncio            Using selector: KqueueSelector  
+[agent-py]     01:58:32.928 INFO     livekit.agents     starting worker  
+[agent-py]                                          {"version": "1.5.16", "rtc-version": 
+[agent-py] "1.1.8"}
+[agent-py]                  INFO     livekit.agents     plugin registered  
+[agent-py]                                          {"plugin": 
+[agent-py] "livekit.plugins.ai_coustics", "version": "0.2.15"}
+[agent-py]                  INFO     livekit.agents     plugin registered  
+[agent-py]                                          {"plugin": "livekit.plugins.silero", 
+[agent-py] "version": "1.5.16"}
+[agent-py]     01:58:32.929 INFO     livekit.agents     plugin registered  
+[agent-py]                                          {"plugin": 
+[agent-py] "livekit.plugins.turn_detector.base", "version": "1.5.16"}
+[agent-py]                  INFO     livekit.agents     plugin registered  
+[agent-py]                                          {"plugin": 
+[agent-py] "livekit.plugins.turn_detector.base", "version": "1.5.16"}
+[agent-py]                  INFO     livekit.agents     starting inference executor  
+[agent-py]     01:58:32.934 INFO     livekit.agents     initializing process  
+[agent-py]                                          {"pid": 5533, "inference": true}
+[frontend]  ✓ Ready in 753ms
+[agent-py] [transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+[agent-py]     01:58:35.240 INFO     livekit.agents     process initialized  
+[agent-py]                                          {"pid": 5533, "inference": true, 
+[agent-py] "elapsed_time": 2.3}
+[agent-py]     01:58:35.243 INFO     livekit.agents     HTTP server listening on :52277  
+[agent-py]     01:58:35.379 INFO     livekit.agents     registered worker  
+[agent-py]                                          {"agent_name": "agent-py", 
+[agent-py] "deployment": "", "id": "AW_m2UDnbwcgrnK", "url": 
+[agent-py] "wss://moss-hackathon-5w6viydl.livekit.cloud", "region": "US West B", 
+[agent-py] "protocol": 17}
+[backend] INFO:     127.0.0.1:52283 - "GET /health HTTP/1.1" 200 OK
+[backend] INFO:     127.0.0.1:52285 - "POST /calls/trigger HTTP/1.1" 200 OK
+[agent-py]     01:58:41.480 INFO     livekit.agents     received job request  
+[agent-py]                                          {"job_id": "AJ_WEhReMnZGo57", 
+[agent-py] "dispatch_id": "AD_Sz22CJFXXNTz", "room": "call-b1000000-1780822720", "room_id":
+[agent-py] "RM_e9fLuuMcbFFc", "agent_name": "agent-py", "resuming": false, 
+[agent-py] "enable_recording": false}
+[agent-py]     01:58:41.509 DEBUG    livekit.agents     received assignment  
+[agent-py]                                          {"agent_name": "agent-py", "room_id": 
+[agent-py] "RM_e9fLuuMcbFFc", "room": "call-b1000000-1780822720", "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "dispatch_id": "AD_Sz22CJFXXNTz", "enable_recording": false}
+[agent-py]                  WARNING  livekit.agents     no warmed process available for    
+[agent-py]                                              job, waiting for one to be         
+[agent-py]                                              created                            
+[agent-py]                                          {"job_id": "AJ_WEhReMnZGo57"}
+[agent-py]     01:58:41.513 INFO     livekit.agents     initializing process {"pid": 5634}
+[agent-py]     01:58:42.051 DEBUG    asyncio            Using selector: KqueueSelector  
+[agent-py]                                   {"pid": 5634}
+[agent-py]     01:58:43.818 INFO     agent              Prewarmed Moss indexes             
+[agent-py]                                              'knowledge' and 'leads'            
+[agent-py]                                 {"pid": 5634}
+[agent-py]     01:58:44.085 INFO     livekit.agents     process initialized  
+[agent-py]                                          {"pid": 5634, "elapsed_time": 2.57}
+[agent-py]                  DEBUG    asyncio            Using selector: KqueueSelector  
+[agent-py]                                   {"pid": 5634}
+[agent-py]     01:58:44.086 WARNING  livekit.agents     process memory usage is high  
+[agent-py]                                          {"memory_usage_mb": 523.1875, 
+[agent-py] "memory_warn_mb": 500, "memory_limit_mb": 0, "pid": 5634}
+[agent-py]     01:58:44.125 WARNING  livekit.agents     metrics_collected is deprecated.   
+[agent-py]                                              Use session_usage_updated for      
+[agent-py]                                              usage tracking and                 
+[agent-py]                                              ChatMessage.metrics for per-turn   
+[agent-py]                                              latency.                           
+[agent-py]                                          {"room": "call-b1000000-1780822720", 
+[agent-py] "pid": 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:58:44.689 INFO     agent              startup phase=connect              
+[agent-py]                                              elapsed_ms=564                     
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:58:44.690 DEBUG    livekit.agents     http_session(): creating a new     
+[agent-py]                                              httpclient ctx                     
+[agent-py]                                          {"room": "call-b1000000-1780822720", 
+[agent-py] "pid": 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:58:49.088 WARNING  livekit.agents     process memory usage is high  
+[agent-py]                                          {"memory_usage_mb": 539.390625, 
+[agent-py] "memory_warn_mb": 500, "memory_limit_mb": 0, "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:58:54.091 WARNING  livekit.agents     process memory usage is high  
+[agent-py]                                          {"memory_usage_mb": 539.4375, 
+[agent-py] "memory_warn_mb": 500, "memory_limit_mb": 0, "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:58:59.096 WARNING  livekit.agents     process memory usage is high  
+[agent-py]                                          {"memory_usage_mb": 539.421875, 
+[agent-py] "memory_warn_mb": 500, "memory_limit_mb": 0, "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:04.100 WARNING  livekit.agents     process memory usage is high  
+[agent-py]                                          {"memory_usage_mb": 539.421875, 
+[agent-py] "memory_warn_mb": 500, "memory_limit_mb": 0, "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:09.104 WARNING  livekit.agents     process memory usage is high  
+[agent-py]                                          {"memory_usage_mb": 539.421875, 
+[agent-py] "memory_warn_mb": 500, "memory_limit_mb": 0, "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:14.108 WARNING  livekit.agents     process memory usage is high  
+[agent-py]                                          {"memory_usage_mb": 539.484375, 
+[agent-py] "memory_warn_mb": 500, "memory_limit_mb": 0, "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:15.383 INFO     agent              startup phase=sip_answered         
+[agent-py]                                              elapsed_ms=31258                   
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:15.412 DEBUG    livekit.agents     input stream attached  
+[agent-py]                                          {"participant": null, "source": 
+[agent-py] "SOURCE_UNKNOWN", "accepted_sources": ["SOURCE_MICROPHONE"], "room": 
+[agent-py] "call-b1000000-1780822720", "pid": 5634, "job_id": "AJ_WEhReMnZGo57", "room_id":
+[agent-py] "RM_e9fLuuMcbFFc"}
+[agent-py]                  INFO     livekit.agents     adaptive interruption detector     
+[agent-py]                                              initialized                        
+[agent-py]                                          {"base_url": 
+[agent-py] "https://agent-gateway.livekit.cloud/v1", "detection_interval": 0.1, 
+[agent-py] "audio_prefix_duration": 1.0, "max_audio_duration": 3, "min_frames": 2, 
+[agent-py] "threshold": 0.5, "inference_timeout": 0.7, "use_proxy": true, "room": 
+[agent-py] "call-b1000000-1780822720", "pid": 5634, "job_id": "AJ_WEhReMnZGo57", "room_id":
+[agent-py] "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:15.414 DEBUG    livekit.agents     start reading stream  
+[agent-py]                                          {"participant": "+19145598426", 
+[agent-py] "source": "SOURCE_MICROPHONE", "room": "call-b1000000-1780822720", "pid": 5634, 
+[agent-py] "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:15.416 INFO     agent              Using Moss indexes preloaded at    
+[agent-py]                                              worker startup ('knowledge',       
+[agent-py]                                              'leads')                           
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]                  WARNING  moss.cli...ss_client Metadata filter ignored:           
+[agent-py]                                              filtering is only supported for    
+[agent-py]                                              locally loaded indexes. Call       
+[agent-py]                                              load_index('leads') first.         
+[agent-py]                                            {"room": "call-b1000000-1780822720", 
+[agent-py] "pid": 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:15.422 DEBUG    livekit.agents     using audio io: `RoomIO` ->        
+[agent-py]                                              `AgentSession` ->                  
+[agent-py]                                              `TranscriptSynchronizer` ->        
+[agent-py]                                              `RoomIO`                           
+[agent-py]                                          {"room": "call-b1000000-1780822720", 
+[agent-py] "pid": 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]                  DEBUG    livekit.agents     using transcript io:               
+[agent-py]                                              `AgentSession` ->                  
+[agent-py]                                              `TranscriptSynchronizer` ->        
+[agent-py]                                              `RoomIO`                           
+[agent-py]                                          {"room": "call-b1000000-1780822720", 
+[agent-py] "pid": 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]                  INFO     agent              startup phase=session_start        
+[agent-py]                                              elapsed_ms=11 total_ms=31297       
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:15.716 ERROR    agent              Failed to inject lead context;     
+[agent-py]                                              falling back to tool               
+[agent-py]                                              Traceback (most recent call        
+[agent-py]                                              last):                             
+[agent-py]                                                File                             
+[agent-py]                                              "/Users/paulrusso/moss-hackathon...  
+[agent-py]                                              line 525, in _prepare_context      
+[agent-py]                                                  result = await                 
+[agent-py]                                              self._query_lead()                 
+[agent-py]                                                           ^^^^^^^^^^^^^^^^^^^...  
+[agent-py]                                                File                             
+[agent-py]                                              "/Users/paulrusso/moss-hackathon...  
+[agent-py]                                              line 589, in _query_lead           
+[agent-py]                                                  return await                   
+[agent-py]                                              self._moss.query(                  
+[agent-py]                                                         ^^^^^^^^^^^^^^^^^^^^^...  
+[agent-py]                                                  ...<9 lines>...                
+[agent-py]                                                  )                              
+[agent-py]                                                  ^                              
+[agent-py]                                                File                             
+[agent-py]                                              "/Users/paulrusso/moss-hackathon...  
+[agent-py]                                              line 271, in query                 
+[agent-py]                                                  return await                   
+[agent-py]                                              self._query_cloud(name, query,     
+[agent-py]                                              options)                           
+[agent-py]                                                         ^^^^^^^^^^^^^^^^^^^^^...  
+[agent-py]                                                File                             
+[agent-py]                                              "/Users/paulrusso/moss-hackathon...  
+[agent-py]                                              line 455, in _query_cloud          
+[agent-py]                                                  raise Exception(f"HTTP error!  
+[agent-py]                                              status: {response.status_code}")   
+[agent-py]                                              Exception: HTTP error! status:     
+[agent-py]                                              503                                
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py] Traceback (most recent call last):
+[agent-py]   File "/Users/paulrusso/moss-hackathon/agent-py/src/agent.py", line 525, in 
+[agent-py] _prepare_context
+[agent-py]     result = await self._query_lead()
+[agent-py]              ^^^^^^^^^^^^^^^^^^^^^^^^
+[agent-py]   File "/Users/paulrusso/moss-hackathon/agent-py/src/agent.py", line 589, in 
+[agent-py] _query_lead
+[agent-py]     return await self._moss.query(
+[agent-py]            ^^^^^^^^^^^^^^^^^^^^^^^
+[agent-py]     ...<9 lines>...
+[agent-py]     )
+[agent-py]     ^
+[agent-py]   File 
+[agent-py] "/Users/paulrusso/moss-hackathon/agent-py/.venv/lib/python3.14/site-packages/mos
+[agent-py] s/client/moss_client.py", line 271, in query
+[agent-py]     return await self._query_cloud(name, query, options)
+[agent-py]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[agent-py]   File 
+[agent-py] "/Users/paulrusso/moss-hackathon/agent-py/.venv/lib/python3.14/site-packages/mos
+[agent-py] s/client/moss_client.py", line 455, in _query_cloud
+[agent-py]     raise Exception(f"HTTP error! status: {response.status_code}")
+[agent-py] Exception: HTTP error! status: 503
+[agent-py]     01:59:16.195 DEBUG    livekit.agents     aec warmup active, disabling       
+[agent-py]                                              interruptions for 3.00s            
+[agent-py]                                          {"room": "call-b1000000-1780822720", 
+[agent-py] "pid": 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:16.533 DEBUG    livekit.agents     interruption detected  
+[agent-py]                                          {"total_duration": 0.06845675, 
+[agent-py] "prediction_duration": 0.009234457, "detection_delay": 0.2205817699432373, 
+[agent-py] "probability": 0.5114185214042664, "room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:18.624 INFO     agent              latency[TTS] ttfb=387ms            
+[agent-py]                                              duration=2817ms                    
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]                  INFO     agent              latency[RESPONSE] ~387ms (eou=0 +  
+[agent-py]                                              llm_ttft=0 + tts_ttfb=387)         
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:19.112 WARNING  livekit.agents     process memory usage is high  
+[agent-py]                                          {"memory_usage_mb": 565.4375, 
+[agent-py] "memory_warn_mb": 500, "memory_limit_mb": 0, "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:19.197 DEBUG    livekit.agents     aec warmup expired, re-enabling    
+[agent-py]                                              interruptions                      
+[agent-py]                                          {"room": "call-b1000000-1780822720", 
+[agent-py] "pid": 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:23.872 DEBUG    livekit.agents     received user transcript  
+[agent-py]                                          {"user_transcript": "Five five nine 
+[agent-py] eight four two six", "language": "en", "transcript_delay": 0.008752822875976562,
+[agent-py] "room": "call-b1000000-1780822720", "pid": 5634, "job_id": "AJ_WEhReMnZGo57", 
+[agent-py] "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:23.877 INFO     agent              startup phase=opening_say          
+[agent-py]                                              elapsed_ms=8455 total_ms=39751     
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:24.115 WARNING  livekit.agents     process memory usage is high  
+[agent-py]                                          {"memory_usage_mb": 565.515625, 
+[agent-py] "memory_warn_mb": 500, "memory_limit_mb": 0, "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:25.677 DEBUG    livekit.agents     received user transcript  
+[agent-py]                                          {"user_transcript": "can't take your 
+[agent-py] call now.", "language": "en", "transcript_delay": 0.20922493934631348, "room": 
+[agent-py] "call-b1000000-1780822720", "pid": 5634, "job_id": "AJ_WEhReMnZGo57", "room_id":
+[agent-py] "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:26.023 DEBUG    livekit...._detector eou prediction  
+[agent-py]                                            {"eou_probability": 
+[agent-py] 0.42582038044929504, "duration": 0.01, "input": "<|im_start|><|assistant|>Hey, 
+[agent-py] this is Alex, an AI customer success manager calling from 
+[agent-py] pump.co.<|im_end|><|im_start|><|user|>Five five nine eight four two six can't 
+[agent-py] take your call now.", "room": "call-b1000000-1780822720", "pid": 5634, "job_id":
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]                  DEBUG    livekit.agents     using preemptive generation  
+[agent-py]                                          {"preemptive_lead_time": 
+[agent-py] 0.34599804878234863, "room": "call-b1000000-1780822720", "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:26.024 INFO     agent              latency[EOU] eou_delay=556ms       
+[agent-py]                                              transcription_delay=209ms          
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:26.771 INFO     agent              latency[LLM] ttft=682ms            
+[agent-py]                                              duration=1089ms tok/s=184          
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:27.888 INFO     agent              latency[TTS] ttfb=388ms            
+[agent-py]                                              duration=1116ms                    
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]                  INFO     agent              latency[RESPONSE] ~1626ms          
+[agent-py]                                              (eou=556 + llm_ttft=682 +          
+[agent-py]                                              tts_ttfb=388)                      
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:29.117 WARNING  livekit.agents     process memory usage is high  
+[agent-py]                                          {"memory_usage_mb": 581.0, 
+[agent-py] "memory_warn_mb": 500, "memory_limit_mb": 0, "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:30.637 DEBUG    livekit.agents     received user transcript  
+[agent-py]                                          {"user_transcript": "At the tone, 
+[agent-py] please record your message.", "language": "en", "transcript_delay": 
+[agent-py] 0.02130722999572754, "room": "call-b1000000-1780822720", "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:34.120 WARNING  livekit.agents     process memory usage is high  
+[agent-py]                                          {"memory_usage_mb": 581.09375, 
+[agent-py] "memory_warn_mb": 500, "memory_limit_mb": 0, "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:34.233 DEBUG    livekit.agents     received user transcript  
+[agent-py]                                          {"user_transcript": "When you've 
+[agent-py] finished recording, simply hang up or press", "language": "en", 
+[agent-py] "transcript_delay": 0.016357898712158203, "room": "call-b1000000-1780822720", 
+[agent-py] "pid": 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:34.631 DEBUG    livekit.agents     received user transcript  
+[agent-py]                                          {"user_transcript": "pound for further 
+[agent-py] options.", "language": "en", "transcript_delay": 0.26463794708251953, "room": 
+[agent-py] "call-b1000000-1780822720", "pid": 5634, "job_id": "AJ_WEhReMnZGo57", "room_id":
+[agent-py] "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:34.933 DEBUG    livekit...._detector eou prediction  
+[agent-py]                                            {"eou_probability": 
+[agent-py] 0.7996708750724792, "duration": 0.012, "input": "<|im_start|><|assistant|>Hey, 
+[agent-py] this is Alex, an AI customer success manager calling from 
+[agent-py] pump.co.<|im_end|><|im_start|><|user|>Five five nine eight four two six can't 
+[agent-py] take your call now. At the tone, please record your message. When you've 
+[agent-py] finished recording, simply hang up or press pound for further options.", "room":
+[agent-py] "call-b1000000-1780822720", "pid": 5634, "job_id": "AJ_WEhReMnZGo57", "room_id":
+[agent-py] "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:34.934 DEBUG    livekit.agents     using preemptive generation  
+[agent-py]                                          {"preemptive_lead_time": 
+[agent-py] 0.3027048110961914, "room": "call-b1000000-1780822720", "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]                  INFO     agent              latency[EOU] eou_delay=568ms       
+[agent-py]                                              transcription_delay=265ms          
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:35.643 DEBUG    livekit.agents     executing tool  
+[agent-py]                                          {"function": "log_outcome", 
+[agent-py] "arguments": "{\"notes\": null, \"outcome\": \"no_answer\"}", "speech_id": 
+[agent-py] "speech_5abbbec77261", "room": "call-b1000000-1780822720", "pid": 5634, 
+[agent-py] "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]                  INFO     agent              log_outcome called for             
+[agent-py]                                              lead_id=b1000000-0001-0000-0000-...  
+[agent-py]                                              outcome=no_answer                  
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:35.644 INFO     agent              latency[LLM] ttft=664ms            
+[agent-py]                                              duration=1008ms tok/s=99           
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:39.123 WARNING  livekit.agents     process memory usage is high  
+[agent-py]                                          {"memory_usage_mb": 581.515625, 
+[agent-py] "memory_warn_mb": 500, "memory_limit_mb": 0, "pid": 5634, "job_id": 
+[agent-py] "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[backend] INFO:     127.0.0.1:52327 - "POST /calls/outcome HTTP/1.1" 200 OK
+[agent-py]     01:59:40.113 INFO     agent              persisted outcome 'no_answer' for  
+[agent-py]                                              lead_id=b1000000-0001-0000-0000-...  
+[agent-py]                                 {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:40.605 WARNING  livekit            livekit_api::signal_client:530:l...  
+[agent-py]                                              - dropping pass-through signal —   
+[agent-py]                                              no stream available                
+[agent-py]                                   {"room": "call-b1000000-1780822720", "pid": 
+[agent-py] 5634, "job_id": "AJ_WEhReMnZGo57", "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:40.865 DEBUG    livekit.agents     tools execution completed  
+[agent-py]                                          {"speech_id": "speech_5abbbec77261", 
+[agent-py] "room": "call-b1000000-1780822720", "pid": 5634, "job_id": "AJ_WEhReMnZGo57", 
+[agent-py] "room_id": "RM_e9fLuuMcbFFc"}
+[agent-py]     01:59:40.879 DEBUG    livekit.agents     input stream detached  
+[agent-py]                                          {"participant": "+19145598426", 
+[agent-py] "source": "SOURCE_MICROPHONE", "accepted_sources": ["SOURCE_MICROPHONE"], 
+[agent-py] "room": "call-b1000000-1780822720", "pid": 5634, "job_id": "AJ_WEhReMnZGo57", 
+[agent-py] "room_id": "RM_e9fLuuMcbFFc"}
