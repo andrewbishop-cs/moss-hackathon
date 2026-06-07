@@ -97,18 +97,24 @@ VALID_OUTCOMES = {
 
 
 async def post_call_outcome(
-    lead_id: str, status: str, notes: str | None = None
+    lead_id: str, status: str, notes: str | None = None, room_name: str | None = None
 ) -> None:
     """Persist a call outcome to Supabase via the FastAPI hub.
 
     Best-effort: a backend hiccup must never crash an in-progress call, so all
     failures are logged and swallowed. Skips the default/console lead, which is
-    not a real Supabase row.
+    not a real Supabase row. `room_name` lets the hub stamp the exact attempt in
+    the `calls` table (the lead snapshot is updated regardless).
     """
     if not lead_id or lead_id == DEFAULT_LEAD_ID:
         logger.info("skipping outcome write for non-persistent lead_id=%s", lead_id)
         return
-    payload = {"lead_id": lead_id, "status": status, "outcome_notes": notes}
+    payload = {
+        "lead_id": lead_id,
+        "status": status,
+        "outcome_notes": notes,
+        "room_name": room_name,
+    }
     try:
         timeout = aiohttp.ClientTimeout(total=5)
         async with (
@@ -124,6 +130,33 @@ async def post_call_outcome(
                 )
     except Exception:
         logger.exception("failed to POST call outcome to backend")
+
+
+async def post_transcript(lead_id: str, room_name: str | None, transcript: object) -> None:
+    """Persist the full call transcript to Supabase via the FastAPI hub.
+
+    Best-effort like post_call_outcome: failures are logged and swallowed, and the
+    non-persistent console lead is skipped. `transcript` is LiveKit's
+    `session.history.to_dict()` payload, already JSON-sanitized by the caller.
+    """
+    if not lead_id or lead_id == DEFAULT_LEAD_ID:
+        logger.info("skipping transcript write for non-persistent lead_id=%s", lead_id)
+        return
+    payload = {"lead_id": lead_id, "room_name": room_name, "transcript": transcript}
+    try:
+        timeout = aiohttp.ClientTimeout(total=10)
+        async with (
+            aiohttp.ClientSession(timeout=timeout) as session,
+            session.post(f"{BACKEND_URL}/calls/transcript", json=payload) as resp,
+        ):
+            if resp.status >= 400:
+                body = await resp.text()
+                logger.error("transcript write failed: HTTP %s %s", resp.status, body)
+            else:
+                logger.info("persisted transcript for lead_id=%s", lead_id)
+    except Exception:
+        logger.exception("failed to POST call transcript to backend")
+
 
 # Fallbacks used only when ctx.job.metadata is absent (e.g. `console` mode). The
 # frontend provides a real lead_id + use_case via agent dispatch metadata.
@@ -363,10 +396,12 @@ class Assistant(Agent):
         super().__init__(
             # The LLM (the agent's brain) runs on LiveKit Inference — no provider
             # API key required. STT/TTS are configured on the AgentSession below.
-            # Fast, low-TTFT model: the call is grounded by Moss RAG, so we don't
-            # need a heavyweight reasoning model and a slow one dominates latency.
+            # GPT-OSS-120B served by Groq for very low time-to-first-token (the
+            # dominant latency stage in our call logs) and high tok/s. The call is
+            # grounded by Moss RAG, so we don't need a heavyweight reasoning model.
+            # To revert: model="google/gemini-2.5-flash-lite" (drop provider).
             # See https://docs.livekit.io/agents/models/llm/
-            llm=inference.LLM(model="google/gemini-2.5-flash-lite"),
+            llm=inference.LLM(model="openai/gpt-oss-120b", provider="groq"),
             instructions=_instructions_for(use_case),
         )
         self._room = room
@@ -381,6 +416,16 @@ class Assistant(Agent):
             os.getenv("MOSS_PROJECT_ID"), os.getenv("MOSS_PROJECT_KEY")
         )
         self._indexes_loaded = False
+
+    @property
+    def _room_name(self) -> str | None:
+        """LiveKit room for this call — the key the hub uses to stamp the matching
+        row in the `calls` table."""
+        if self._room is not None:
+            return self._room.name
+        if self._job_ctx is not None:
+            return self._job_ctx.room.name
+        return None
 
     async def on_enter(self) -> None:
         # Preload both Moss indexes so the first query is fast. Guarded: log and
@@ -557,7 +602,7 @@ class Assistant(Agent):
         notes = "Booked a 20-minute demo." + (
             " " + "; ".join(details) if details else ""
         )
-        await post_call_outcome(self._lead_id, "booked", notes)
+        await post_call_outcome(self._lead_id, "booked", notes, self._room_name)
         return (
             "Great — I've got that booked. I'm sending the calendar invite now. "
             "Just a heads up: the offer is for people who show up and start a "
@@ -587,7 +632,10 @@ class Assistant(Agent):
             )
             # Fall back to a generic-but-valid status so the call is still logged.
             await post_call_outcome(
-                self._lead_id, "called", f"Call outcome: {outcome}. {notes}".strip()
+                self._lead_id,
+                "called",
+                f"Call outcome: {outcome}. {notes}".strip(),
+                self._room_name,
             )
             return "Noted."
         logger.info(
@@ -595,7 +643,7 @@ class Assistant(Agent):
             self._lead_id,
             normalized,
         )
-        await post_call_outcome(self._lead_id, normalized, detail)
+        await post_call_outcome(self._lead_id, normalized, detail, self._room_name)
         # Outcomes that get one instant automatic callback (backend re-dispatches
         # when the POST above lands). Hang up now so call #1 tears down before the
         # retry rings:
@@ -795,18 +843,25 @@ async def my_agent(ctx: JobContext):
             # 1.3x speaking rate for a snappier, less drawn-out delivery.
             extra_kwargs={"speaking_rate": 1.3},
         ),
-        # VAD and turn detection determine when the user is speaking. English turn
-        # detector pairs with the English STT above.
-        # See more at https://docs.livekit.io/agents/build/turns
-        turn_detection=EnglishModel(),
+        # VAD detects when the user is speaking. (Still a direct kwarg.)
         vad=ctx.proc.userdata["vad"],
-        # Latency: close the user's turn faster once they stop speaking. Default
-        # min is 0.5s; 0.2s shaves ~300ms off every reply. max caps the wait for
-        # slow/hesitant talkers. See docs/agents/logic/turns/tuning.
-        min_endpointing_delay=0.2,
-        max_endpointing_delay=3.0,
-        # Let the LLM generate a response while waiting for the end of turn.
-        preemptive_generation=True,
+        # Turn-taking + latency tuning via the modern turn_handling API. This
+        # replaces the deprecated turn_detection / min_endpointing_delay /
+        # max_endpointing_delay / preemptive_generation kwargs (one source of the
+        # deprecation warnings in the worker logs).
+        # See https://docs.livekit.io/reference/agents/turn-handling-options/
+        turn_handling={
+            # English turn detector pairs with the English STT above.
+            "turn_detection": EnglishModel(),
+            # Close the user's turn faster once they stop talking. min 0.2s shaves
+            # ~300ms off every reply; max caps the wait for slow/hesitant talkers.
+            "endpointing": {"min_delay": 0.2, "max_delay": 3.0},
+            # Speculatively run BOTH the LLM and the TTS before the turn is
+            # confirmed, so audio is ready the instant the user stops speaking
+            # (hides most of the TTS time-to-first-byte). Costs some wasted compute
+            # on discarded turns — a good trade for a low-latency live demo.
+            "preemptive_generation": {"enabled": True, "preemptive_tts": True},
+        },
     )
 
     # Per-stage latency logging (EOU -> LLM -> TTS) for the next test call.
@@ -816,6 +871,22 @@ async def my_agent(ctx: JobContext):
         logger.info("session usage summary: %s", usage.get_summary())
 
     ctx.add_shutdown_callback(_log_usage_summary)
+
+    async def _persist_transcript():
+        # At shutdown the voice pipeline has closed and session.history is final.
+        # Dump the full conversation and store it on the lead via the hub. JSON-
+        # roundtrip with default=str guarantees the payload is serializable (e.g.
+        # any datetimes/enums become strings) before it hits aiohttp.
+        try:
+            history = getattr(session, "history", None)
+            if history is None or not hasattr(history, "to_dict"):
+                return
+            data = json.loads(json.dumps(history.to_dict(), default=str))
+            await post_transcript(lead_id, ctx.room.name, data)
+        except Exception:
+            logger.exception("failed to persist transcript")
+
+    ctx.add_shutdown_callback(_persist_transcript)
 
     # Join the room first so we can place the outbound call into it.
     await ctx.connect()
@@ -850,7 +921,10 @@ async def my_agent(ctx: JobContext):
                 sip_status,
             )
             await post_call_outcome(
-                lead_id, "no_answer", f"SIP dial failed: {e.message} ({sip_status})"
+                lead_id,
+                "no_answer",
+                f"SIP dial failed: {e.message} ({sip_status})",
+                ctx.room.name,
             )
             ctx.shutdown()
             return

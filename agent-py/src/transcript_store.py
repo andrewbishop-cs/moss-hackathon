@@ -70,7 +70,13 @@ async def post_transcript_to_backend(
     transcript: CallTranscript, backend_url: str
 ) -> bool:
     """Best-effort POST to FastAPI hub. Failures are logged, never raised."""
-    payload = transcript.to_dict()
+    body = transcript.to_dict()
+    # Backend SaveTranscript expects lead_id, room_name, and transcript (jsonb).
+    payload = {
+        "lead_id": body["lead_id"],
+        "room_name": body["room_name"],
+        "transcript": body,
+    }
     try:
         timeout = aiohttp.ClientTimeout(total=5)
         async with (
