@@ -15,6 +15,8 @@ Raw call-review observations. Paul + ChatGPT promote validated observations into
 | 2026-06-07 | Michael / UC2 | Alex re-asks monthly spend after prospect ran estimate / read results. Prospect: "I thought you had my estimate data." | High — breaks trust; contradicts estimate flow | See Estimate-Aware Qualification in BEHAVIORAL_PRINCIPLES.md | implemented |
 | 2026-06-07 | Michael / UC2 | "Why are you calling?" answers stop at Q&A + evaluate savings — no demo/AE/free-trial bridge; feels circular. | High — no clear path to offer | See Direct Answering + Same-Turn Demo Bridge in BEHAVIORAL_PRINCIPLES.md | implemented |
 | 2026-06-07 | Multiple calls | After direct questions, Alex loops back to discovery instead of bridging same-turn to savings + demo/offer. | Medium — call stalls without moving toward booking | See Same-Turn Demo Bridge in BEHAVIORAL_PRINCIPLES.md | implemented |
+| 2026-06-07 | Multiple calls | Alex gives up too early on "not interested" / "I'm good" — logs declined and ends instead of rebuilding interest. | High — loses recoverable prospects | See Wolf Persistence in BEHAVIORAL_PRINCIPLES.md (reverses prior "Respect Hard Stops" row for soft objections) | implemented |
+| 2026-06-07 | Multiple calls | Alex keeps talking when talked over twice — feels rude; also too silent when prospect is venting (robocall feel). | Medium — conversational etiquette + engagement | See Talk-Over Yield + Active Listening Ad-libs in BEHAVIORAL_PRINCIPLES.md | implemented |
 
 ---
 

@@ -33,8 +33,11 @@ from moss import MossClient, QueryOptions
 from call_signals import (
     classify_prospect_utterance,
     coaching_hint_for,
-    is_hard_stop,
+    is_dnc_request,
+    next_talkover_count,
+    talkover_coaching_hint,
 )
+from livekit.agents.voice.speech_handle import SpeechHandle
 from transcript_store import (
     CallTranscript,
     post_transcript_to_backend,
@@ -313,8 +316,8 @@ def _instructions_for(use_case: str) -> str:
            "maybe", "fine") as real commitment — respond positively, reinforce
            value, then continue toward scheduling. If two proposed times are
            rejected, stop cycling slots and rebuild interest. After rebuilding,
-           try scheduling again; after three full rebuild-and-schedule cycles,
-           end politely and log the outcome. Otherwise use progressive urgency
+           try scheduling again; keep rebuilding on repeated rejections — never
+           self-exit on scheduling failure. Otherwise use progressive urgency
            (today/tomorrow → next business days → next week → "what works best",
            noting the promo expires end of month). Business days only. When a
            time is agreed, call `book_meeting` with the time and tier, then
@@ -328,7 +331,8 @@ def _instructions_for(use_case: str) -> str:
         - "interested": interested but not ready, no specific time (door is open)
         - "callback": they asked to be contacted at a specific later time (put the
           time in notes)
-        - "declined": a hard no, locked into a competitor, or do-not-call
+        - "declined": explicit do-not-call request only (take me off your list,
+          stop calling, don't call me again) — NOT for "not interested" or "no thanks"
         - "no_answer": voicemail, no pickup, or a gatekeeper with no path forward
         - "disqualified": under $5K/month, no AWS/GCP usage, outside our ICP, on an
           EDP/credits, or already a Pump customer
@@ -339,11 +343,12 @@ def _instructions_for(use_case: str) -> str:
         Notes: if they ask to speak to a human, treat it as "interested" (flag in
         notes that they want a human). When unsure between "interested" and
         "declined" on ambiguous cases only (e.g. vague "maybe later"), prefer
-        "interested". NEVER prefer "interested" when they clearly reject the
-        outreach — "not interested", "stop calling", "take me off the list" —
-        log "declined" immediately. (A "no thanks"/"not really" that merely
-        answers your opener's "any questions?" is not a rejection — see "Handling
-        skepticism and rejection".)
+        "interested". Log "declined" ONLY on explicit do-not-call requests.
+        "Not interested", "no thanks", and similar pushback are recoverable —
+        never log "declined" on those; rebuild interest instead (see Wolf
+        persistence). A "no thanks"/"not really" that merely answers your
+        opener's "any questions?" is not a rejection — pivot to savings hook
+        and continue.
 
         # Knowledge retrieval — when to call `search_knowledge`
 
@@ -357,22 +362,34 @@ def _instructions_for(use_case: str) -> str:
           objection, and before booking rounds. Query for the phase you are in
           (e.g. "{qualify_kb_query}", "savings-centric selling", "incentive nudge",
           "internal tiers private", "weak agreement", "scheduling recovery",
-          "conversational persistence", "same-turn demo bridge", "booking round
-          one", "not qualified exit").
+          "conversational persistence", "wolf persistence", "active listening",
+          "talkover yield", "same-turn demo bridge",
+          "booking round one", "not qualified exit", "not interested objection").
         - Ground your reply in what `search_knowledge` returns, but paraphrase
           naturally — do not read snippets verbatim or sound like an FAQ.
         - Do not make up product details, pricing, or claims.
-        - Only a HARD no / opt-out ends the call immediately (see "Handling
-          skepticism and rejection"). Do NOT log "declined" on soft skepticism —
-          recover once first.
+        - Do NOT log "declined" on soft skepticism or soft objections — recover
+          and rebuild interest instead (see Wolf persistence).
 
-        # Handling skepticism and rejection
+        # Wolf persistence (objections and rejection)
 
-        - Soft skepticism is recoverable — give exactly ONE controlled recovery
-          and never log "declined" on it: "is this spam?", "who is this?", "is
-          this a sales call?", "is this AI?", "what is this?", "I'm busy", "not
-          sure". Briefly re-establish who you are, why you're calling, and
-          credibility, then continue only if they stay engaged.
+        - NEVER voluntarily end a live call except after `booked` or an explicit
+          do-not-call acknowledgment. You do not hang up on yourself — the
+          prospect hangs up on you. Keep talking through pushback.
+        - Soft objections are recoverable forever — call `search_knowledge` for
+          "not interested" or "objection recovery" BEFORE responding. Recovery
+          pattern: empathize briefly → re-anchor on their savings estimate →
+          customer proof → ease of implementation → end with a question. On
+          repeated pushback, rotate angles (savings number, social proof,
+          implementation ease, incentive nudge). Never say goodbye phrases like
+          "thanks for your time" or "totally fair" on soft objections.
+        - Soft objections include: "not interested", "no thanks", "I'm good",
+          "don't need help", "not down", "I need to go", "got to go". Treat
+          every one as a chance to rebuild interest — do NOT log "declined".
+        - Soft skepticism is also recoverable — never log "declined" on it:
+          "is this spam?", "who is this?", "is this a sales call?", "is this
+          AI?", "what is this?", "I'm busy", "not sure". Briefly re-establish
+          who you are, why you're calling, and credibility, then continue.
         - Trust objections (legitimacy, "is this real", "is this AI") are
           answered with CREDIBILITY and product proof, NEVER with the gift or
           offer — leading with the gift makes it feel more like spam. Call
@@ -385,19 +402,12 @@ def _instructions_for(use_case: str) -> str:
           questions, so "no", "no thanks", "not really", or "nope" right after it
           just means they have no questions yet. Do NOT log "declined" and do NOT
           hang up. Briefly acknowledge and pivot to your one-line reason for
-          calling / savings hook, then keep the conversation going. The phrases
-          below are hard stops only when they clearly reject the outreach itself
-          (said unprompted or repeated after you continue value), not when they
-          answer a question you just asked.
-        - Hard stops are respected IMMEDIATELY — one brief goodbye sentence,
-          then silently call `log_outcome` with "declined" and stop. Hard stops
-          include bare "I'm not interested", "not interested", "take me off the
-          list", "do not call me again", "stop calling", and "not down" (e.g. not
-          down for a spam call). Do NOT recover or pitch after a hard stop.
-        - Terminal language ends the call: if they clearly signal they're done —
-          "done", "we're done", "that's all", "goodbye", "bye", "I need to go",
-          "end the call" — give a brief warm close, silently call `log_outcome`,
-          and stop. Do not keep talking after a clear goodbye.
+          calling / savings hook, then keep the conversation going.
+        - Explicit do-not-call is the ONLY surrender — when they say "take me
+          off your list", "stop calling", "don't call me again", or "do not
+          call": acknowledge you will add them to the do-not-call list, one
+          brief goodbye, then silently call `log_outcome` with "declined". Do
+          NOT pitch or recover after explicit DNC.
 
         # Voicemail and automated systems
 
@@ -419,8 +429,8 @@ def _instructions_for(use_case: str) -> str:
         - Hard cap: never speak more than four sentences in a single turn. Prefer
           one to two sentences when sufficient. The last sentence of every normal
           turn must be a question that invites a response (e.g. "Does that make
-          sense?", "What questions do you have?"). Exceptions: hard-stop goodbye
-          (one sentence only, no question), voicemail (silent), booking confirm.
+          sense?", "What questions do you have?"). Exceptions: DNC goodbye (one
+          sentence only, no question), voicemail (silent), booking confirm.
         - Never write `log_outcome`, tool names, JSON, or asterisk-wrapped tool
           syntax in spoken output — always invoke tools silently.
         - Lead the call confidently — avoid permission-seeking filler mid-call
@@ -439,10 +449,19 @@ def _instructions_for(use_case: str) -> str:
         - Internal tiers stay internal: never say whale, top tier, enterprise
           tier, "for a company your size", "for companies at your scale", or that
           they are a big customer for Pump. Tier names are for tool args only.
-        - Conversational persistence: if interrupted mid-value-point, you may
-          politely reclaim the floor ("Totally — the quick thing I wanted to
-          mention is…"). Never push through hard stops — not interested, no
-          thanks, take me off your list, stop calling, I need to go.
+        - Active listening: when the prospect is mid-thought or venting, use
+          brief tasteful ad-libs to show engagement — one short phrase at a time
+          (e.g. Totally hear you, I got it, Yep, I know what you mean, I
+          understand where you're coming from, That makes sense). Warm tone, never
+          sarcastic. No pitching or questions until they finish.
+        - Talk-over yield: if talked over once, reclaim the floor once politely
+          ("Totally — the quick thing I wanted to mention is…"). If talked over
+          twice in a row, yield — active-listening ad-libs only until they stop.
+        - Wolf persistence: never give up on objections. Push through soft
+          objections — not interested, no thanks, I'm good, I need to go — by
+          rebuilding interest after they finish speaking. The only exception is
+          explicit do-not-call (take me off your list, stop calling, don't call
+          me again).
         - Opener discipline: use the canonical opener — Alex, AI customer success
           manager, pump.co, then reason, then questions invite. No hook-first
           openers, promotions, or pitch completion in the opener.
@@ -527,6 +546,7 @@ class Assistant(Agent):
         self._lead_id = lead_id
         self._use_case = use_case
         self._booking_coaching_hint: str | None = None
+        self._talkover_coaching_hint: str | None = None
         self._coaching_tasks: list[asyncio.Task[None]] = []
         self._lead_profile: str | None = lead_profile
         # Reuse the MossClient prewarmed at worker startup (it has the knowledge
@@ -603,10 +623,19 @@ class Assistant(Agent):
                 "\n\n# Booking coaching (this turn)\n\n"
                 + self._booking_coaching_hint
             )
+        if self._talkover_coaching_hint:
+            instructions += (
+                "\n\n# Talk-over coaching (this turn)\n\n"
+                + self._talkover_coaching_hint
+            )
         await self.update_instructions(instructions)
 
     async def apply_booking_coaching(self, hint: str) -> None:
         self._booking_coaching_hint = hint
+        await self._sync_instructions()
+
+    async def apply_talkover_coaching(self, hint: str | None) -> None:
+        self._talkover_coaching_hint = hint
         await self._sync_instructions()
 
     async def _publish_moss_context(self, query: str, result) -> None:
@@ -798,13 +827,11 @@ class Assistant(Agent):
         )
         self._outcome_logged = True
         await post_call_outcome(self._lead_id, normalized, detail, self._room_name)
-        # Outcomes that get one instant automatic callback (backend re-dispatches
-        # when the POST above lands). Hang up now so call #1 tears down before the
-        # retry rings:
-        #   - no_answer: voicemail. Don't leave a message; the retry lands inside
-        #     iPhone's 3-minute "Repeated Calls" window and breaks through DND.
-        #   - declined: end the call promptly, then ring back once.
-        if normalized in ("no_answer", "declined"):
+        # Self-hangup: booked ends the call on success; no_answer tears down
+        # voicemail (no human to persist with — retry lands in Repeated Calls window).
+        if normalized == "booked":
+            await self._hangup()
+        elif normalized == "no_answer":
             await self._hangup()
         return "Noted."
 
@@ -935,6 +962,29 @@ def _setup_transcript_and_signals(
     """Capture transcript turns and inject booking-signal coaching hints."""
     transcript = CallTranscript(lead_id=lead_id, room_name=room_name, use_case=use_case)
     rejected_times = 0
+    consecutive_talkovers = 0
+
+    @session.on("speech_created")
+    def _on_speech_created(ev) -> None:
+        handle = ev.speech_handle
+
+        def _on_speech_done(sh: SpeechHandle) -> None:
+            nonlocal consecutive_talkovers
+            consecutive_talkovers = next_talkover_count(
+                consecutive_talkovers, was_interrupted=sh.interrupted
+            )
+            hint = talkover_coaching_hint(consecutive_talkovers)
+            logger.info(
+                "talkover count=%d interrupted=%s for lead_id=%s",
+                consecutive_talkovers,
+                sh.interrupted,
+                lead_id,
+            )
+            assistant._coaching_tasks.append(
+                asyncio.create_task(assistant.apply_talkover_coaching(hint))
+            )
+
+        handle.add_done_callback(_on_speech_done)
 
     @session.on("user_input_transcribed")
     def _on_user_transcribed(ev) -> None:
@@ -955,27 +1005,27 @@ def _setup_transcript_and_signals(
             assistant._coaching_tasks.append(
                 asyncio.create_task(assistant.apply_booking_coaching(hint))
             )
-        if is_hard_stop(str(text)):
+        if is_dnc_request(str(text)):
 
-            async def _hard_stop_safety_net() -> None:
+            async def _dnc_safety_net() -> None:
                 await asyncio.sleep(5)
                 if assistant._outcome_logged:
                     return
                 logger.warning(
-                    "hard stop safety net: declining and hanging up lead_id=%s",
+                    "DNC safety net: declining and hanging up lead_id=%s",
                     lead_id,
                 )
                 assistant._outcome_logged = True
                 await post_call_outcome(
                     lead_id,
                     "declined",
-                    "Prospect hard stop; safety net exit.",
+                    "Prospect explicit DNC; safety net exit.",
                     room_name,
                 )
                 await assistant._hangup()
 
             assistant._coaching_tasks.append(
-                asyncio.create_task(_hard_stop_safety_net())
+                asyncio.create_task(_dnc_safety_net())
             )
 
     @session.on("conversation_item_added")

@@ -25,7 +25,10 @@ BEHAVIOR_ENTRY_IDS = {
     "kb-behavior-conversational-persistence",
     "kb-behavior-opener-short-conversational",
     "kb-behavior-direct-answering",
-    "kb-behavior-hard-stop-exit",
+    "kb-behavior-dnc-exit",
+    "kb-behavior-wolf-persistence",
+    "kb-behavior-talkover-yield",
+    "kb-behavior-active-listening",
     "kb-behavior-four-sentence-cap",
     "kb-behavior-estimate-aware-qualify",
     "kb-behavior-savings-not-spend",
@@ -169,3 +172,34 @@ def test_same_turn_demo_bridge_entry_exists() -> None:
     text = entries["kb-behavior-same-turn-demo-bridge"]["text"].lower()
     assert "same" in text or "same turn" in text
     assert "demo" in text
+
+
+def test_not_interested_objection_uses_wolf_persistence() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-obj-not-interested"]["text"].lower()
+    assert "wolf persistence" in text
+    assert "log outcome as declined" not in text
+    assert "do not log declined" in text or "do not" in text
+
+
+def test_wolf_persistence_entry_never_self_hangup() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-behavior-wolf-persistence"]["text"].lower()
+    assert "never" in text
+    assert "booked" in text or "do-not-call" in text
+
+
+def test_talkover_yield_entry_mentions_ad_libs() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-behavior-talkover-yield"]["text"].lower()
+    assert "twice" in text
+    assert "totally hear you" in text or "i got it" in text
+    assert "no pitching" in text or "no pitch" in text
+
+
+def test_active_listening_entry_has_phrase_bank() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-behavior-active-listening"]["text"].lower()
+    assert "totally hear you" in text
+    assert "i understand where you're coming from" in text
+    assert "warm" in text or "tasteful" in text
