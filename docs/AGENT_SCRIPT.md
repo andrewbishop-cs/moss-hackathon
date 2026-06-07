@@ -6,6 +6,18 @@
 - **Framing**: "I'm reaching out from Pump" — not "I'm an AI" unless asked
 - **Tone**: Knowledgeable, not pushy. Always references something specific about them.
 
+> **Where this script lives:** the *flow* (this doc's structure) is encoded in the agent's
+> system prompt (`agent-py/src/agent.py`, Andrew). The *content* the agent looks up mid-call —
+> objection rebuttals, product/pricing/offer facts, per-use-case talking points — lives in the
+> Moss `knowledge` index, authored by **Paul** in `agent-py/knowledge.json` as
+> `{ "id", "text", "metadata": { "category", "topic" } }` entries, retrieved via
+> `search_knowledge`. Tune wording there, not in code. The objection table below is the seed
+> for those entries.
+>
+> **Product framing:** Pump cuts **cloud (AWS/GCP/Azure) and AI (OpenAI/Anthropic)** spend —
+> not AWS alone. The seed leads are AI companies (Cursor, ElevenLabs, Perplexity…) whose
+> biggest line items are inference bills, so lean on "cloud *and* AI" savings.
+
 ---
 
 # UC1 — New Signup Script
@@ -27,8 +39,8 @@ Given your setup, I'd guess you're in a similar range."
 
 ### Value Statement
 ```
-"What we do is automatically optimize your AWS spend — 
-you connect your account, we show you exactly what you'd save, 
+"What we do is automatically optimize your cloud and AI spend — 
+you connect your accounts, we show you exactly what you'd save, 
 takes about 10 minutes and there's no commitment."
 ```
 
@@ -68,7 +80,7 @@ That's [annual_savings] a year."
 ### Value Statement
 ```
 "Claiming it is actually pretty simple — 
-you connect your AWS account, we handle the optimization automatically. 
+you connect your cloud and AI accounts, we handle the optimization automatically. 
 Most customers are live within a day."
 ```
 
@@ -90,7 +102,7 @@ gets a Mac Mini on us. So there's really no downside."
 
 | Objection | Response |
 |---|---|
-| "We already have someone managing AWS costs" | "That's great — most of our customers use us alongside their existing setup. We find savings they haven't caught. Worth a 20-min look?" |
+| "We already have someone managing cloud costs" | "That's great — most of our customers use us alongside their existing setup. We find savings they haven't caught, especially on the AI/inference side. Worth a 20-min look?" |
 | "We're not focused on this right now" | "Makes sense. When do you think it comes back up? I can circle back then." |
 | "Is this an AI?" | "Yes, I'm an AI assistant from Pump. Want me to connect you with a human instead, or I can just send the calendar link?" |
 | "How'd you get my number?" | "You provided it when you signed up / ran your estimate. Want me to remove it from our list?" |
@@ -109,20 +121,29 @@ answered → opening → hook → value → offer → book → close
 
 ## Moss Context Schema (indexed per lead before call)
 
+The `leads` index holds one document per lead, derived from `LeadWithCompany` (the lead +
+its joined company). Spend/savings are **cloud + AI**, matching the Supabase `companies`
+table. Example (ElevenLabs lead):
+
 ```json
 {
   "lead_id": "uuid",
-  "name": "Sarah Chen",
-  "company": "Acme Corp",
-  "company_size": "51-200 employees",
-  "aws_spend": "$42,000/month",
-  "use_case": "uc2_estimate_completed",
-  "savings_estimate": "$13,240/month",
-  "similar_company": "DataFlow Inc",
-  "similar_savings": "$18,000/month",
-  "days_since_trigger": 0
+  "first_name": "Mati",
+  "company": "ElevenLabs",
+  "company_size": "51-200",
+  "cloud_provider": "aws",
+  "spend_total": "$4.02M/month",
+  "savings_total": "$999K/month",
+  "spend_breakdown": "AWS $3.6M, OpenAI $420K",
+  "savings_breakdown": "AWS $936K, OpenAI $63K",
+  "use_case": "uc2_estimate_completed"
 }
 ```
 
-Agent queries Moss mid-call: `"What savings did this lead find and what's a similar customer reference?"`
-Moss returns in <10ms — agent speaks it naturally without breaking cadence.
+- The `text` field of the indexed doc is a natural-language blurb of the above (what the
+  agent reads/speaks); `metadata.lead_id` is the filter key for `get_lead_context`.
+- **UC1 social-proof reference** (`similar_company` / `similar_savings`) is *derived* by the
+  backend at index time (pick a comparable seed company), not a column on the lead.
+
+Agent queries Moss mid-call via `get_lead_context` (filtered by `lead_id`) — returns in
+<10ms, agent speaks it naturally without breaking cadence.

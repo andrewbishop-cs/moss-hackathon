@@ -1,7 +1,10 @@
 # Paul's To-Do — Frontend / Website
 
-You own: the fake Pump website + the dashboard (all in `frontend/`).
-You don't touch: `backend/`, `agent-py/`. Code against the REST contract in
+You own: the fake Pump website + dashboard (all in `frontend/`), **plus all script + lead
+content**: `agent-py/knowledge.json` (the agent's sales playbook in Moss — see AGENT_SCRIPT.md
+for the entry shape), `agent-py/leads.json` (dev lead data), and `backend/seed/seed_data.json`
+(companies + leads). You don't touch *code* in `backend/`/`agent-py/` or the Supabase
+schema/migrations — just those content/data files. Code the UI against the REST contract in
 `backend/src/models.py`. See [HACKATHON_PLAN.md](HACKATHON_PLAN.md) + [ARCHITECTURE.md](ARCHITECTURE.md).
 
 > Done: Supabase project + schema + 15 seeded leads (Paul). Andrew owns the backend from here.
@@ -14,7 +17,7 @@ You don't touch: `backend/`, `agent-py/`. Code against the REST contract in
 ## Phase 2 — Fake Pump website
 - [ ] UC1 signup form (name, email, company, phone, cloud provider) → `POST /triggers/new-signup`
   - Show "Account created! You'll hear from us shortly."
-- [ ] UC2 estimate calculator (AWS spend → savings result) → `POST /triggers/estimate-completed`
+- [ ] UC2 estimate calculator (cloud + AI spend → savings result) → `POST /triggers/estimate-completed`
   - Show "You could save $X/month." then "We'll call you shortly."
 - [ ] Style like a real SaaS landing page (logo, hero, pricing-ish)
 
@@ -30,6 +33,14 @@ You don't touch: `backend/`, `agent-py/`. Code against the REST contract in
 - [ ] Analytics (`/dashboard/analytics`): funnel triggered → called → booked (counts from `GET /leads`)
 - [ ] Supabase realtime (or polling) so status updates without refresh
 - [ ] Demo polish: clean visuals, obvious UC1 vs UC2 distinction
+
+## Content — the agent's words (do alongside the UI)
+- [ ] Author the agent playbook in `agent-py/knowledge.json`: product / pricing / offer FAQ +
+      objection rebuttals + per-use-case talking points, as
+      `{ id, text, metadata: { category, topic } }` entries (seed from the objection table in
+      AGENT_SCRIPT.md). Frame around **cloud + AI** savings.
+- [ ] (Optional) tweak dev lead blurbs in `agent-py/leads.json` for the demo
+- [ ] After editing either file, ping Andrew to re-run `pnpm moss:index` (re-indexes Moss)
 
 ## Phase 5 — Demo prep (joint with Andrew)
 - [ ] Dry-run UC1 + UC2 from the website end-to-end
@@ -107,7 +118,7 @@ Shared response objects:
 ### 1. UC1 signup page
 ```
 Create a Next.js page at frontend/app/pump/page.tsx for a fake SaaS product called "Pump"
-that cuts AWS bills. Hero + a signup form collecting: first_name, last_name, email,
+that cuts cloud and AI bills. Hero + a signup form collecting: first_name, last_name, email,
 phone (E.164, default +1), company_name, company_size (select: 1-10, 11-50, 51-200,
 201-500, 500+), cloud_provider (select: aws, gcp, azure). Default timezone to
 "America/New_York". On submit, POST the JSON to http://localhost:8000/triggers/new-signup,
@@ -117,9 +128,9 @@ shadcn/ui components in the repo. Handle loading and error states.
 
 ### 2. UC2 estimate calculator page
 ```
-Create a Next.js page at frontend/app/pump/estimate/page.tsx: an "AWS savings estimate"
-calculator. Read lead_id from the query string. Inputs: monthly AWS spend (number) and a
-few checkboxes (EC2, S3, RDS). Compute savings_total = spend * 0.23 and show
+Create a Next.js page at frontend/app/pump/estimate/page.tsx: a "cloud + AI savings estimate"
+calculator. Read lead_id from the query string. Inputs: monthly cloud + AI spend (number) and a
+few checkboxes (Compute, Storage, AI inference). Compute savings_total = spend * 0.23 and show
 "You could save $X/month" with a big number. On "Get my plan", POST
 { lead_id, savings_total } to http://localhost:8000/triggers/estimate-completed, then show
 "We'll call you shortly." Match the Pump styling from app/pump/page.tsx.
@@ -129,7 +140,7 @@ few checkboxes (EC2, S3, RDS). Compute savings_total = spend * 0.23 and show
 ```
 Create frontend/app/dashboard/page.tsx: fetch GET http://localhost:8000/leads (returns
 LeadWithCompany[]). Render a table: lead name, company.name, a UC1/UC2 badge from
-use_case, status badge, and AWS spend (company.spend_total). Add a "Call Now" button per
+use_case, status badge, and total spend (company.spend_total). Add a "Call Now" button per
 row that POSTs { lead_id: lead.id } to http://localhost:8000/calls/trigger and, on success,
 routes to /dashboard/calls/[lead_id]. Poll the list every 3s so statuses update.
 ```
@@ -141,7 +152,7 @@ http://localhost:8000/leads/:id to get the lead + company + room_name. Connect t
 LiveKit room as a read-only viewer using a token from the existing /api/token route, render
 the live transcript, and show a Moss context side panel by reusing
 hooks/useMossContextEvents.ts and components/app/moss-results-panel.tsx. Show a header with
-the lead name, UC1/UC2 label, AWS spend, and savings_total.
+the lead name, UC1/UC2 label, total spend (company.spend_total), and savings_total.
 ```
 
 ### 5. Analytics funnel

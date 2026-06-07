@@ -42,14 +42,14 @@ Cloud). Website/dashboard → FastAPI → (Supabase + Moss + LiveKit dispatch) �
 
 Two interactive flows that trigger calls:
 
-**UC1 flow**: Simple signup form (name, email, company, phone, AWS spend range)
+**UC1 flow**: Simple signup form (first/last name, email, phone, company, cloud provider)
 
 - On submit → `POST /triggers/new-signup`
 - Shows "Account created! You'll hear from us shortly."
 
 **UC2 flow**: Savings estimate tool
 
-- Inputs: monthly AWS spend, main services used (EC2, S3, RDS etc.)
+- Inputs: monthly cloud spend (AWS/GCP/Azure) + AI spend (OpenAI/Anthropic)
 - Shows a result: "You could save **$13,240/month**"
 - On result shown → `POST /triggers/estimate-completed`
 - Shows "Your estimate is ready. We'll call you shortly."
@@ -154,9 +154,14 @@ contract the frontend codes against.
 The agent is **agent-initiated outbound**: the backend dispatches the agent into a fresh
 room with the metadata above, and the agent places the real phone call from inside the job.
 
-- **Outbound trunk**: created once from the Moss-provided number via
-  `lk sip outbound create`; find the id with `lk sip outbound list` (`ST_xxxx`). Store
-  `SIP_OUTBOUND_TRUNK_ID` (+ any `SIP_*` creds) in `agent-py/.env.local`.
+- **Carrier (Twilio)**: outbound PSTN runs over a **Twilio Elastic SIP Trunk** — LiveKit's
+  own phone numbers are inbound-only, so agent-dialed outbound needs a third-party trunk.
+  One-time Twilio setup: buy a number, create an Elastic SIP Trunk, note its termination URI
+  (`<name>.pstn.twilio.com`) + SIP credentials.
+- **Outbound trunk**: register that Twilio trunk with LiveKit once via `lk sip outbound create`
+  (pass the `<name>.pstn.twilio.com` address + the Twilio number); find the id with
+  `lk sip outbound list` (`ST_xxxx`). Store `SIP_OUTBOUND_TRUNK_ID`, `SIP_AUTH_USERNAME`,
+  `SIP_AUTH_PASSWORD` in `agent-py/.env.local`.
 - **Dialing** (in the agent entrypoint, after `ctx.connect()`):
   `ctx.api.sip.create_sip_participant(CreateSIPParticipantRequest(room_name=ctx.room.name,
   sip_trunk_id=..., sip_call_to=phone_number, participant_identity=phone_number,
@@ -178,6 +183,28 @@ room with the metadata above, and the agent places the real phone call from insi
 
 ---
 
+## What Lives Where (the agent's brain)
+
+Keeping these layers distinct is why the agent stays fast *and* its playbook is editable
+without redeploying code.
+
+| Layer | Holds | Edited by |
+|---|---|---|
+| **System prompt** (`agent-py/src/agent.py`) | Persona + call FLOW (open → hook → value → offer → qualify → book → close) | Andrew (code) |
+| **Moss `knowledge` index** (`agent-py/knowledge.json`) | Script CONTENT: product/pricing/offer FAQ, objection rebuttals, per-use-case talking points. Retrieved mid-call via `search_knowledge`. | Paul (content) |
+| **Moss `leads` index** (`agent-py/leads.json` dev / Supabase→Moss prod) | Per-lead facts (`LeadWithCompany`: name + company cloud/AI spend & savings). Fetched via `get_lead_context`, filtered by `lead_id`. | Paul (data) / Andrew (indexing) |
+| **Supabase** (`backend/`) | Source of truth: companies, leads, status, outcomes | Andrew (schema) / Paul (seed) |
+
+**Yes — the agent's scripts live in Moss.** The *flow* stays in the prompt for low latency
+and reliability; the *content* (what to say about pricing, how to answer "is this an AI?",
+the talking points per use case) lives in the Moss `knowledge` index, so it can be tuned
+without touching agent code and is retrieved in <10ms mid-sentence.
+
+> Ownership carve-out: `knowledge.json` (script) and `leads.json` (dev lead data) are the two
+> *content* files under `agent-py/` that **Paul** owns; everything else in `agent-py/` is code (Andrew).
+
+---
+
 ## Sponsor Integration Map
 
 
@@ -188,7 +215,9 @@ room with the metadata above, and the agent places the real phone call from insi
 | Qwen     | Optional: voice cloning / TTS for a custom agent persona (stretch)                    |
 | Minimax  | Optional: alternate LLM, selectable via LiveKit Inference                             |
 | AWS      | Hosting                                                                               |
-| Unsiloed | Optional: parse uploaded AWS bills to generate real estimates                         |
+| Unsiloed | Optional: parse uploaded cloud/AI bills to generate real estimates                    |
+
+> Twilio (Elastic SIP Trunking) is the PSTN carrier *under* LiveKit SIP for outbound — infrastructure, not a sponsor.
 
 
 ---
@@ -200,4 +229,6 @@ room with the metadata above, and the agent places the real phone call from insi
 - **Why Moss?** Agent needs to recall "$13,240/month" or "similar to Acme Corp" mid-sentence without lag. Moss indexes this per-lead and returns it in <10ms.
 - **Why LiveKit Inference for the LLM (no TrueFoundry)?** LiveKit Inference is a managed gateway that serves STT, LLM, and TTS with zero provider keys and is covered by our LiveKit credits — fastest, free, lowest-risk path to a working call. A separate gateway (e.g. TrueFoundry) would add governance/observability but requires bringing our own provider key and extra setup; not worth it for the demo. Noted as a production consideration only.
 - **Why Qwen is optional?** A custom cloned voice makes the agent feel like a real SDR, which helps the demo land emotionally — but DashScope/Qwen TTS isn't OpenAI-compatible and has no official LiveKit plugin, so wiring it means a custom TTS plugin. We default to LiveKit Inference TTS and treat Qwen as a stretch swap if we're ahead of schedule.
+- **Why Twilio for outbound (not a LiveKit number)?** LiveKit is the media/agent layer, not a carrier. Its first-party phone numbers are inbound-only (outbound is roadmap-only), so agent-dialed outbound needs a third-party SIP trunk *underneath* LiveKit SIP — we use Twilio Elastic SIP Trunking. Cost ≈ 2–3¢/min all-in (LiveKit agent + SIP minutes + Twilio origination + ~$1.15/mo number); trial credits cover the demo. (Twilio trial accounts only dial *verified* numbers — verify the demo phones early.)
+- **Why the script content lives in Moss?** Keeps the system prompt lean (lower latency), lets us tune objection handling and talking points without redeploying the agent, and gives a strong Moss story: the sales playbook is retrieved in <10ms mid-call. Flow stays in the prompt; content lives in the `knowledge` index.
 

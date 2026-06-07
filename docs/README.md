@@ -3,6 +3,8 @@
 ## One-liner
 A voice AI agent that calls warm PLG leads the moment they drop off — with two distinct triggers and scripts depending on where they are in the funnel.
 
+> **Product:** Pump is a tool that cuts companies' **cloud (AWS/GCP/Azure) and AI (OpenAI/Anthropic)** bills. Our agent calls leads who dropped off the Pump funnel.
+
 ## Problem
 Most PLG companies lose 80–95% of visitors before signup. These aren't cold leads — they expressed intent. Nobody calls them. Email drip is ignored. Voice AI can reach them in real-time with a personalized, context-aware pitch.
 
@@ -40,7 +42,8 @@ Prospect runs a savings estimate (e.g. finds $13,000/month in savings) but doesn
 
 ## Stack
 - **Voice infra**: LiveKit Agents (Python)
-- **Retrieval / memory**: Moss (sub-10ms semantic search for lead context mid-call)
+- **Telephony**: LiveKit SIP outbound over a **Twilio Elastic SIP trunk** (real PSTN calls)
+- **Retrieval / memory**: Moss (sub-10ms semantic search for lead context + script content mid-call)
 - **Frontend**: Next.js + React (dashboard + fake Pump website)
 - **Backend**: Python (FastAPI)
 - **Database**: Supabase

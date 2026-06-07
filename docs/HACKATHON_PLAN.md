@@ -2,7 +2,7 @@
 
 ## Time Budget: ~24 hours (June 6–7)
 ## Two Demo Targets: UC1 (new signup) + UC2 (estimate completed)
-## Calls: real PSTN outbound via LiveKit SIP (Moss-provided number). Triggered both by the fake website AND a manual "Call Now" backend endpoint.
+## Calls: real PSTN outbound via LiveKit SIP over a Twilio Elastic SIP trunk. Triggered both by the fake website AND a manual "Call Now" backend endpoint.
 
 ---
 
@@ -29,8 +29,8 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for the diagram and the dispatch-metadata
 
 | Who | Owns | Never touches |
 |---|---|---|
-| **Andrew** | Backend/data/model: Supabase schema + seed, FastAPI hub, agent.py (SIP dialing + tools), Moss indexing, SIP trunk | `frontend/` website + dashboard UI |
-| **Paul** | Frontend: fake Pump website (UC1/UC2 flows), dashboard (queue, live call view, analytics) | `backend/`, `agent-py/`, Supabase schema |
+| **Andrew** | Backend/infra/**code**: Supabase schema + migrations, FastAPI hub, agent.py (SIP dialing + tools), Moss indexing, Twilio + SIP trunk | `frontend/`; script/lead *content* files |
+| **Paul** | Frontend: fake Pump website (UC1/UC2 flows) + dashboard; **all script + lead content**: `agent-py/knowledge.json` (playbook), `agent-py/leads.json` (dev leads), `backend/seed/seed_data.json` | `backend/`/`agent-py/` *code*, Supabase schema/migrations |
 
 **The seam (agree in first 30 min, then work independently):**
 1. **REST contract** = Pydantic models in `backend/src/models.py` (`TriggerNewSignup`, `TriggerEstimateCompleted`, `LogOutcome`, `Lead`, `LeadWithCompany`, `Company`). Andrew owns, Paul consumes.
@@ -48,6 +48,7 @@ While Andrew builds the real endpoints, Paul codes the UI against fake JSON matc
 - [ ] Supabase project + run `backend/seed/migrate_companies.sql` then `migrate_leads.sql`
 - [ ] Load `backend/seed/seed_data.json` (5 companies, 15 leads)
 - [ ] Confirm agent speaks in browser (`pnpm agent:py:console` already works)
+- [ ] Twilio: create account, buy a number (~$1.15/mo), create an Elastic SIP trunk; capture termination URI (`<name>.pstn.twilio.com`) + SIP creds. **Verify the demo phone numbers** (trial accounts only dial verified numbers) — do this early, it's the long pole.
 
 **Paul:**
 - [ ] Scaffold `frontend` routes: `/pump` (fake website) and `/dashboard`
@@ -77,7 +78,7 @@ While Andrew builds the real endpoints, Paul codes the UI against fake JSON matc
 ## Phase 3 — Real Phone Calls + Dashboard (Hours 7–12)
 
 **Andrew:**
-- [ ] Create outbound SIP trunk from Moss number (`lk sip outbound create` → get `ST_xxxx` via `lk sip outbound list`); add to `agent-py/.env.local`
+- [ ] Register the Twilio trunk with LiveKit (`lk sip outbound create` with the `<name>.pstn.twilio.com` address + Twilio number → get `ST_xxxx` via `lk sip outbound list`); add `SIP_OUTBOUND_TRUNK_ID` + `SIP_AUTH_USERNAME`/`SIP_AUTH_PASSWORD` to `agent-py/.env.local`
 - [ ] Modify `agent-py/src/agent.py`: read `phone_number` from metadata → `ctx.api.sip.create_sip_participant(... wait_until_answered=True)` → `ctx.wait_for_participant(...)` before opening; handle `TwirpError` / `ctx.shutdown()` on no-answer
 - [ ] `POST /calls/trigger` (manual "Call Now") + store `room_name` on the lead
 

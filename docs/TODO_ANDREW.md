@@ -18,9 +18,10 @@ You don't touch: `frontend/`. See [HACKATHON_PLAN.md](HACKATHON_PLAN.md) + [ARCH
 - [ ] Dispatch via `agent_dispatch.create_dispatch(agent_name="agent-py", room=<new>, metadata=json)`; store `room_name` on the lead
 - [ ] Prove the path in-browser first (no SIP): trigger → agent joins with right `lead_id`/`use_case`
 
-## Phase 3 — Real phone calls (LiveKit SIP)
-- [ ] Create outbound trunk from the Moss number: `lk sip outbound create`
-- [ ] Get trunk id: `lk sip outbound list` → `ST_xxxx`; add `SIP_OUTBOUND_TRUNK_ID` (+ `SIP_*` creds) to `agent-py/.env.local`
+## Phase 3 — Real phone calls (LiveKit SIP + Twilio)
+- [ ] Twilio: create account, buy a number, create an Elastic SIP trunk; capture termination URI (`<name>.pstn.twilio.com`) + SIP creds; **verify demo phone numbers** (trial accounts only dial verified numbers)
+- [ ] Register the Twilio trunk with LiveKit: `lk sip outbound create` (pass `<name>.pstn.twilio.com` address + Twilio number)
+- [ ] Get trunk id: `lk sip outbound list` → `ST_xxxx`; add `SIP_OUTBOUND_TRUNK_ID` + `SIP_AUTH_USERNAME`/`SIP_AUTH_PASSWORD` to `agent-py/.env.local`
 - [ ] `agent-py/src/agent.py`: read `phone_number` from `ctx.job.metadata`
 - [ ] After `ctx.connect()`: `ctx.api.sip.create_sip_participant(CreateSIPParticipantRequest(room_name=ctx.room.name, sip_trunk_id=..., sip_call_to=phone_number, participant_identity=phone_number, wait_until_answered=True))`
 - [ ] `await ctx.wait_for_participant(identity=phone_number)` before the opening line
