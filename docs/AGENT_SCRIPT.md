@@ -1,6 +1,7 @@
 # Agent Script & Conversation Design
 
-> **Behavioral principles:** [BEHAVIORAL_PRINCIPLES.md](BEHAVIORAL_PRINCIPLES.md) · **Coaching loop:** [COACHING_LOG.md](COACHING_LOG.md) → [IMPLEMENTATION_BACKLOG.md](IMPLEMENTATION_BACKLOG.md)
+> **Behavioral principles:** [BEHAVIORAL_PRINCIPLES.md](BEHAVIORAL_PRINCIPLES.md) · **Coaching loop:** [COACHING_LOG.md](COACHING_LOG.md) → [IMPLEMENTATION_BACKLOG.md](IMPLEMENTATION_BACKLOG.md)  
+> **Runtime layers:** behavior rules → `agent.py` + `call_signals.py`; speakable scripts → `knowledge.json` (RAG)
 
 ## Agent Persona
 - **Name**: Alex

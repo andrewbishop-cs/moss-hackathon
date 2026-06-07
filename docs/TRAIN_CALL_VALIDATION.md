@@ -36,4 +36,8 @@ pnpm train:call          # or pnpm train:call:smb
 pnpm test:agent-py
 ```
 
-Covers signal hints, knowledge guardrails, and LLM-judged wolf/DNC evals in `test_agent.py`.
+Fast deterministic layers: `test_behavior_knowledge.py` (product/objection/offer guardrails), `test_call_signals.py` (runtime hints).
+
+LLM-judged high-risk scenarios in `test_agent.py` (7 tests): AI identity, grounding, harmful refusal, UC2 spend, email deferral, wolf persistence, DNC exit.
+
+Behavior rules live in `agent.py` + `call_signals.py` — not `knowledge.json` (RAG is product facts, objections, and offer scripts only).

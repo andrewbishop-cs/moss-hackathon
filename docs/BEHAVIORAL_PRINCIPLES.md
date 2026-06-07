@@ -363,28 +363,31 @@ After answering any direct question, bridge toward savings and a demo **in the s
 
 ## Principle → implementation map
 
-| Principle | Primary layer | Also |
-|-----------|---------------|------|
-| Savings-centric selling | `agent.py` prompt + `kb-behavior-savings-centric-selling` | AGENT_SCRIPT.md |
-| Incentive nudges | `agent.py` prompt + `kb-behavior-incentive-nudge` | Offer scripts in knowledge.json |
-| Internal tiers private | `agent.py` prompt (guardrail) + `kb-behavior-internal-tiers-private` | Fix offer kb entries |
-| Early soft meeting | `call_signals.py` + `kb-behavior-*` / existing flow entries | Coaching hints |
-| Weak agreement | `call_signals.py` + `kb-behavior-weak-agreement` | Tests |
-| Scheduling recovery | `agent.py` prompt + `call_signals.py` (2x reject hint) | `kb-behavior-scheduling-recovery` |
-| Conversational persistence | `agent.py` prompt + `kb-behavior-conversational-persistence` | Talk-over yield |
-| Talk-over yield | `call_signals.py` TALKOVER_*_HINT + `speech_created` callback in `agent.py` + `kb-behavior-talkover-yield` | — |
-| Active listening ad-libs | `agent.py` prompt + `kb-behavior-active-listening` | `ACTIVE_LISTENING_PHRASES` in call_signals.py |
-| Opener (short and conversational) | `agent.py` `_spoken_opening()` + `kb-uc1-opening` / `kb-uc2-opening` + `kb-behavior-opener-short-conversational` | AGENT_SCRIPT.md |
-| Four-sentence cap | `agent.py` prompt + `kb-behavior-four-sentence-cap` | — |
-| Wolf persistence | `call_signals.py` OBJECTION_RECOVERY_HINT + `agent.py` prompt + `kb-behavior-wolf-persistence` | `kb-obj-not-interested` |
-| DNC exit | `call_signals.py` DNC_EXIT_HINT + `agent.py` prompt + `kb-behavior-dnc-exit` | DNC safety net in agent.py |
-| Direct answering | `agent.py` prompt (`# Answering questions`) + `kb-behavior-direct-answering` | — |
-| Estimate-aware qualification | `agent.py` prompt (UC-specific qualify) + `kb-behavior-estimate-aware-qualify` + `kb-flow-uc1/2-qualify` | `moss_index.py`, `leads.json` |
-| Savings yes, spend no (UC2) | `agent.py` prompt + `kb-behavior-savings-not-spend` | Lead context text shape |
-| Same-turn demo bridge | `agent.py` prompt + `kb-behavior-same-turn-demo-bridge` | `kb-behavior-direct-answering` |
-| AI identity philosophy | `agent.py` prompt (`# AI identity philosophy`) + `kb-behavior-ai-identity-philosophy` | `kb-obj-is-ai`, `kb-obj-is-this-ai` |
-| Meeting value selling | `agent.py` prompt + `call_signals.py` MEETING_VALUE_HINT + `kb-behavior-meeting-value-selling` | `kb-obj-send-email`, `kb-obj-research-myself` |
-| Interest threshold | `call_signals.py` interest ledger + `agent.py` prompt + `kb-behavior-interest-threshold` | Runtime coaching hints |
-| Educate before re-ask | `agent.py` prompt + `kb-behavior-educate-before-reask` | Meeting value selling |
+> **Layer split (latency):** Behavioral rules live in `agent.py` and `call_signals.py` only.
+> `knowledge.json` holds speakable product facts, objection scripts, offer wording, and qualify/booking phrasing — not `kb-behavior-*` duplicates.
+
+| Principle | Primary layer | RAG / kb (speakable content only) |
+|-----------|---------------|-----------------------------------|
+| Savings-centric selling | `agent.py` prompt | `kb-offer-as-closing-aid`, offer scripts |
+| Incentive nudges | `agent.py` prompt | `kb-offer-tiers`, tier offer entries |
+| Internal tiers private | `agent.py` prompt (guardrail) | `kb-tier-bands`, offer scripts |
+| Early soft meeting | `call_signals.py` coaching hints | — |
+| Weak agreement | `call_signals.py` | — |
+| Scheduling recovery | `agent.py` prompt + `call_signals.py` (2x reject hint) | — |
+| Conversational persistence | `agent.py` prompt | Talk-over yield |
+| Talk-over yield | `call_signals.py` TALKOVER_*_HINT + `agent.py` | — |
+| Active listening ad-libs | `agent.py` prompt | `ACTIVE_LISTENING_PHRASES` in call_signals.py |
+| Opener (short and conversational) | `agent.py` `_spoken_opening()` | `kb-uc1-opening`, `kb-uc2-opening` |
+| Four-sentence cap | `agent.py` prompt | — |
+| Wolf persistence | `call_signals.py` OBJECTION_RECOVERY_HINT + `agent.py` prompt | `kb-obj-not-interested` |
+| DNC exit | `call_signals.py` DNC_EXIT_HINT + `agent.py` prompt | DNC safety net in agent.py |
+| Direct answering | `agent.py` prompt (`# Answering questions`) | — |
+| Estimate-aware qualification | `agent.py` prompt (UC-specific qualify) | `kb-flow-uc1-qualify`, `kb-flow-uc2-qualify` |
+| Savings yes, spend no (UC2) | `agent.py` prompt | `kb-flow-uc2-qualify` |
+| Same-turn demo bridge | `agent.py` prompt | — |
+| AI identity philosophy | `agent.py` prompt (`# AI identity philosophy`) | `kb-obj-is-ai`, `kb-obj-is-this-ai` |
+| Meeting value selling | `agent.py` prompt + `call_signals.py` MEETING_VALUE_HINT | `kb-obj-send-email`, `kb-obj-research-myself` |
+| Interest threshold | `call_signals.py` interest ledger + `agent.py` prompt | — |
+| Educate before re-ask | `agent.py` prompt | Meeting-value objection entries |
 
 See [IMPLEMENTATION_BACKLOG.md](IMPLEMENTATION_BACKLOG.md) for ticket status.

@@ -315,8 +315,8 @@ def _instructions_for(use_case: str) -> str:
         - Disclose AI identity in the canonical opener — own it plainly.
         - When asked why an AI is calling or if you are a bot: explain WHY the
           call exists AND why an AI is doing it (programmed to follow up on
-          meaningful savings opportunities). Call `search_knowledge` for "AI
-          identity philosophy" or "is this AI" before responding.
+          meaningful savings opportunities). Use the rules above — only call
+          `search_knowledge` for "is this AI" if you need objection wording.
         - Objections to speaking with AI: do not get defensive — reinforce
           purpose and offer to connect a human if appropriate.
         - Forbidden: pretending to be human, hiding AI nature, sounding deceptive.
@@ -328,8 +328,9 @@ def _instructions_for(use_case: str) -> str:
         # Interest threshold
 
         Track prospect engagement before asking for a meeting. Yes signals build
-        interest; no signals and deferrals lower it. Call `search_knowledge` for
-        "interest threshold" when unsure.
+        interest; no signals and deferrals lower it. Follow the levels below —
+        do not call `search_knowledge` for interest gating (coaching hints
+        handle this at runtime).
         - **cold** (low score): educate and answer product questions — forbidden:
           proposing specific times, "would Thursday work?", or hard calendar close
         - **warming** (moderate score): soft bridge only — "open to a quick
@@ -343,8 +344,8 @@ def _instructions_for(use_case: str) -> str:
 
         When the prospect defers to email, self-research, privacy discomfort, or
         AI weirdness — listen and educate first. Do NOT loop bare calendar asks.
-        Call `search_knowledge` for "meeting value selling", "educate before reask",
-        or "send email objection" BEFORE responding.
+        Follow the rules below; call `search_knowledge` only for product facts or
+        the "send email objection" script if you need speakable wording.
         - **First deferral:** acknowledge → product info (how Pump works, savings,
           free, no lock-in) → soft product question — NOT a calendar close
         - **Repeat deferral** + interest ready: rotate meeting-value pillars
@@ -449,21 +450,22 @@ def _instructions_for(use_case: str) -> str:
 
         # Knowledge retrieval — when to call `search_knowledge`
 
-        - For ANY question about Pump — what it is, how it works, pricing, the
-          promo/tiers, qualification, or a pushback/objection — call
-          `search_knowledge` BEFORE you answer.
-        - Also call `search_knowledge` at phase transitions: when Q&A winds down
-          (before qualifying), when building interest, before making the tier
-          offer, when you hear weak agreement or positive curiosity, when booking
-          momentum slows, when two meeting times are rejected, when you hear an
-          objection, and before booking rounds. Query for the phase you are in
-          (e.g. "{qualify_kb_query}", "savings-centric selling", "incentive nudge",
-          "internal tiers private", "weak agreement", "scheduling recovery",
-          "conversational persistence", "wolf persistence", "active listening",
-          "talkover yield", "AI identity philosophy", "meeting value selling",
-          "interest threshold", "educate before reask",
-          "same-turn demo bridge",
-          "booking round one", "not qualified exit", "not interested objection").
+        **Required** — call BEFORE answering:
+        - Product questions (what Pump is, how it works, savings, providers, setup)
+        - Pricing and promo/gift wording
+        - Objection rebuttals and trust/scam scripts (e.g. "not interested",
+          "is this spam", "send email", "is this AI")
+        - EDP/credits eligibility gate scripts when unsure of wording
+
+        **Optional** — call only if you need speakable phrasing:
+        - Phase transitions: "{qualify_kb_query}", "booking progression",
+          "incentive nudge", tier-specific offer scripts
+
+        **Do NOT call** for rules already in this prompt or runtime coaching hints:
+        wolf persistence, DNC exit, interest threshold, talk-over yield, active
+        listening, four-sentence cap, meeting-value pillars, educate-before-reask
+        logic, or same-turn demo bridge structure.
+
         - Ground your reply in what `search_knowledge` returns, but paraphrase
           naturally — do not read snippets verbatim or sound like an FAQ.
         - Do not make up product details, pricing, or claims.
@@ -475,8 +477,9 @@ def _instructions_for(use_case: str) -> str:
         - NEVER voluntarily end a live call except after `booked` or an explicit
           do-not-call acknowledgment. You do not hang up on yourself — the
           prospect hangs up on you. Keep talking through pushback.
-        - Soft objections are recoverable forever — call `search_knowledge` for
-          "not interested" or "objection recovery" BEFORE responding. Recovery
+        - Soft objections are recoverable forever — follow the recovery pattern
+          below (call `search_knowledge` for "not interested" only if you need
+          speakable rebuttal wording). Recovery
           pattern: empathize briefly → re-anchor on their savings estimate →
           customer proof → ease of implementation → end with a question. On
           repeated pushback, rotate angles (savings number, social proof,
@@ -830,7 +833,7 @@ class Assistant(Agent):
         try:
             async with _timed("moss.query knowledge"):
                 result = await self._moss.query(
-                    KNOWLEDGE_INDEX, query, QueryOptions(top_k=5)
+                    KNOWLEDGE_INDEX, query, QueryOptions(top_k=2)
                 )
         except Exception:
             logger.exception("search_knowledge query failed; answering from prompt")

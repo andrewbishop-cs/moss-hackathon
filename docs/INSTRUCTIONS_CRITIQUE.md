@@ -96,6 +96,10 @@ AGENTS.md is now organized around Alex:
 
 ## knowledge.json critique
 
+### Consolidation (109 → 58 entries, latency pass)
+
+Behavior rules (`kb-behavior-*`), phase anchors (`kb-anchor-*`), outcomes, exits, telephony, and spoken examples were removed from the Moss index. They duplicated `agent.py` / `call_signals.py` and forced redundant `search_knowledge` round-trips. The corpus now holds product facts, objections, offers, qualification, and trimmed flow scripts (UC qualify, booking progression, openers). Re-index after edits: `pnpm moss:index`.
+
 ### What was working (52 entries → now 84)
 
 - Product overview, four products, pricing, savings, providers, permissions, safety
@@ -161,7 +165,7 @@ phase:     open | qualify | offer | book | close | exit | objection | qa
 use_case:  uc1_new_signup | uc2_estimate_completed  (when UC-specific)
 ```
 
-**Open question:** Moss semantic search doesn't have `search_aliases` in metadata today. Phase-transition anchor entries duplicate short phrases the system prompt uses (`"qualify spend"`, `"booking round one"`) so retrieval is reliable. If Moss adds metadata-boosted retrieval later, we could collapse some duplicates.
+**Resolved:** Anchor entries were collapsed into flow scripts (e.g. `kb-flow-booking-progression`). Behavior anchors are no longer in the index — the prompt owns control rules; RAG owns speakable scripts only.
 
 ---
 
@@ -172,7 +176,7 @@ Not in AGENTS.md or knowledge.json, but **the strongest layer**. Key rules only 
 - Voicemail: no speech, `log_outcome("no_answer")`, auto hangup
 - Phase order: OPEN → Q&A → QUALIFY (spend, then EDP/credits) → BUILD INTEREST → OFFER → BOOK → CLOSE
 - When to call `search_knowledge` (every Pump question + phase transitions)
-- Output rules: plain text, 1–3 sentences, spell out numbers, no tool names
+- Output rules: plain text, at most four sentences (prefer one to two), spell out numbers, no tool names
 - Prefer `interested` over `declined` when unsure
 
 **Reason with Chad:** How much should move from prompt → knowledge?

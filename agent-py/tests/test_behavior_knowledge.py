@@ -1,4 +1,4 @@
-"""Guardrails for behavioral knowledge entries and offer scripts."""
+"""Guardrails for product/objection knowledge entries and offer scripts."""
 
 from __future__ import annotations
 
@@ -15,29 +15,6 @@ BANNED_SPOKEN_PHRASES = (
     "top tier",
     "big customer for us",
 )
-
-BEHAVIOR_ENTRY_IDS = {
-    "kb-behavior-savings-centric-selling",
-    "kb-behavior-incentive-nudge",
-    "kb-behavior-internal-tiers-private",
-    "kb-behavior-weak-agreement",
-    "kb-behavior-scheduling-recovery",
-    "kb-behavior-conversational-persistence",
-    "kb-behavior-opener-short-conversational",
-    "kb-behavior-direct-answering",
-    "kb-behavior-dnc-exit",
-    "kb-behavior-wolf-persistence",
-    "kb-behavior-talkover-yield",
-    "kb-behavior-active-listening",
-    "kb-behavior-ai-identity-philosophy",
-    "kb-behavior-meeting-value-selling",
-    "kb-behavior-interest-threshold",
-    "kb-behavior-educate-before-reask",
-    "kb-behavior-four-sentence-cap",
-    "kb-behavior-estimate-aware-qualify",
-    "kb-behavior-savings-not-spend",
-    "kb-behavior-same-turn-demo-bridge",
-}
 
 UC2_SPEND_ASK_BANNED_PHRASES = (
     "what are you spending",
@@ -62,12 +39,10 @@ BANNED_OPENER_PHRASES = (
     "special offer",
 )
 
-# Offer/spoken entries updated for internal-tiers principle.
 SPOKEN_OFFER_IDS = {
     "kb-offer-uc1-enterprise",
     "kb-offer-uc1-whale",
     "kb-offer-uc2-whale",
-    "kb-spoken-michael-whale",
 }
 
 
@@ -76,10 +51,12 @@ def _load_knowledge() -> list[dict]:
         return json.load(handle)
 
 
-def test_behavior_entries_exist() -> None:
-    entries = {e["id"]: e for e in _load_knowledge()}
-    missing = BEHAVIOR_ENTRY_IDS - entries.keys()
-    assert not missing, f"Missing kb-behavior entries: {missing}"
+def test_no_behavior_entries_in_knowledge() -> None:
+    """Behavior rules live in agent.py and call_signals.py, not the RAG corpus."""
+    behavior_ids = [
+        e["id"] for e in _load_knowledge() if e["id"].startswith("kb-behavior-")
+    ]
+    assert not behavior_ids, f"Remove behavior entries from knowledge.json: {behavior_ids}"
 
 
 def test_spoken_offers_avoid_banned_tier_language() -> None:
@@ -93,11 +70,11 @@ def test_spoken_offers_avoid_banned_tier_language() -> None:
     assert not violations, f"Banned spoken phrases found: {violations}"
 
 
-def test_internal_tiers_entry_documents_evaluation_framing() -> None:
+def test_tier_bands_documents_internal_routing() -> None:
     entries = {e["id"]: e for e in _load_knowledge()}
-    text = entries["kb-behavior-internal-tiers-private"]["text"].lower()
-    assert "evaluation" in text
-    assert "whale" in text  # documents what not to say
+    text = entries["kb-tier-bands"]["text"].lower()
+    assert "internal" in text or "routing" in text
+    assert "never spoken" in text or "never" in text
 
 
 def test_opening_entries_avoid_banned_phrases() -> None:
@@ -148,34 +125,10 @@ def test_uc2_qualify_skips_spend_question() -> None:
     assert "never ask" in text or "do not ask" in text or "skip" in text
 
 
-def test_savings_not_spend_entry_bans_verbalizing_spend() -> None:
+def test_uc1_qualify_asks_spend() -> None:
     entries = {e["id"]: e for e in _load_knowledge()}
-    text = entries["kb-behavior-savings-not-spend"]["text"].lower()
-    assert "never" in text
-    assert "spend" in text
-    assert "annual savings" in text or "savings" in text
-
-
-def test_direct_answering_mentions_demo_and_free_trial() -> None:
-    entries = {e["id"]: e for e in _load_knowledge()}
-    text = entries["kb-behavior-direct-answering"]["text"].lower()
-    assert "demo" in text
-    assert "free trial" in text
-
-
-def test_estimate_aware_qualify_entry_covers_uc1_and_uc2() -> None:
-    entries = {e["id"]: e for e in _load_knowledge()}
-    text = entries["kb-behavior-estimate-aware-qualify"]["text"].lower()
-    assert "uc2" in text or "estimate" in text
-    assert "uc1" in text or "signup" in text or "account" in text
-    assert "never ask" in text or "do not ask" in text
-
-
-def test_same_turn_demo_bridge_entry_exists() -> None:
-    entries = {e["id"]: e for e in _load_knowledge()}
-    text = entries["kb-behavior-same-turn-demo-bridge"]["text"].lower()
-    assert "same" in text or "same turn" in text
-    assert "demo" in text
+    text = entries["kb-flow-uc1-qualify"]["text"].lower()
+    assert "monthly" in text and "spend" in text
 
 
 def test_not_interested_objection_uses_wolf_persistence() -> None:
@@ -186,71 +139,12 @@ def test_not_interested_objection_uses_wolf_persistence() -> None:
     assert "do not log declined" in text or "do not" in text
 
 
-def test_wolf_persistence_entry_never_self_hangup() -> None:
-    entries = {e["id"]: e for e in _load_knowledge()}
-    text = entries["kb-behavior-wolf-persistence"]["text"].lower()
-    assert "never" in text
-    assert "booked" in text or "do-not-call" in text
-
-
-def test_talkover_yield_entry_mentions_ad_libs() -> None:
-    entries = {e["id"]: e for e in _load_knowledge()}
-    text = entries["kb-behavior-talkover-yield"]["text"].lower()
-    assert "twice" in text
-    assert "totally hear you" in text or "i got it" in text
-    assert "no pitching" in text or "no pitch" in text
-
-
-def test_active_listening_entry_has_phrase_bank() -> None:
-    entries = {e["id"]: e for e in _load_knowledge()}
-    text = entries["kb-behavior-active-listening"]["text"].lower()
-    assert "totally hear you" in text
-    assert "i understand where you're coming from" in text
-    assert "warm" in text or "tasteful" in text
-
-
-def test_ai_identity_philosophy_forbids_human_mimicry() -> None:
-    entries = {e["id"]: e for e in _load_knowledge()}
-    text = entries["kb-behavior-ai-identity-philosophy"]["text"].lower()
-    assert "never" in text
-    assert "pretend" in text or "human" in text
-    assert "programmed" in text or "follow-up" in text or "follow up" in text
-    assert "defensive" in text
-
-
 def test_is_ai_objection_includes_purpose_framing() -> None:
     entries = {e["id"]: e for e in _load_knowledge()}
     text = entries["kb-obj-is-ai"]["text"].lower()
     assert "programmed" in text
     assert "savings" in text
     assert "totally fair" in text
-
-
-def test_meeting_value_selling_entry_covers_pillars() -> None:
-    entries = {e["id"]: e for e in _load_knowledge()}
-    text = entries["kb-behavior-meeting-value-selling"]["text"].lower()
-    assert "educate" in text
-    assert "product" in text
-    assert "efficiency" in text or "10 min" in text
-    assert "enforcing" in text
-    assert "savings" in text
-
-
-def test_interest_threshold_entry_defines_levels() -> None:
-    entries = {e["id"]: e for e in _load_knowledge()}
-    text = entries["kb-behavior-interest-threshold"]["text"].lower()
-    assert "cold" in text
-    assert "warming" in text
-    assert "ready" in text
-    assert "calendar" in text
-
-
-def test_educate_before_reask_entry_requires_product_info() -> None:
-    entries = {e["id"]: e for e in _load_knowledge()}
-    text = entries["kb-behavior-educate-before-reask"]["text"].lower()
-    assert "search_knowledge" in text or "product" in text
-    assert "thursday" in text or "calendar" in text
-    assert "forbidden" in text or "do not" in text
 
 
 def test_send_email_objection_does_not_lead_with_happy_to_send() -> None:
@@ -261,3 +155,10 @@ def test_send_email_objection_does_not_lead_with_happy_to_send() -> None:
     example = text.split("UC2 example:", 1)[-1] if "UC2 example:" in text else text
     assert "happy to send something over" not in example.lower()
     assert "10" in lower or "ten" in lower
+
+
+def test_booking_progression_entry_exists() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-flow-booking-progression"]["text"].lower()
+    assert "progressive urgency" in text
+    assert "today or tomorrow" in text

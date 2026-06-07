@@ -67,7 +67,7 @@ Paul + ChatGPT own sales coaching; Cursor implements promoted rules.
 | [docs/BEHAVIORAL_PRINCIPLES.md](../docs/BEHAVIORAL_PRINCIPLES.md) | Canonical behavior rules |
 | [docs/IMPLEMENTATION_BACKLOG.md](../docs/IMPLEMENTATION_BACKLOG.md) | Tickets → code/prompt/kb/tests |
 
-Behavioral anchors in `knowledge.json` use ids `kb-behavior-*`. Always-on rules (voicemail, tier privacy, wolf persistence, DNC exit, talk-over yield, active listening) live in `agent.py`. Signal detection and coaching hints live in `call_signals.py`.
+Behavioral rules live in `agent.py` (system prompt) and `call_signals.py` (runtime hints) — not in `knowledge.json`. The RAG corpus holds speakable product facts, objection scripts, offer wording, and qualify/booking phrasing only. Re-index after kb edits: `pnpm moss:index`.
 
 ## Backend integration
 
