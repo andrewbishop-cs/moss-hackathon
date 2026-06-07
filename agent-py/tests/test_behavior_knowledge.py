@@ -25,6 +25,8 @@ BEHAVIOR_ENTRY_IDS = {
     "kb-behavior-conversational-persistence",
     "kb-behavior-opener-short-conversational",
     "kb-behavior-direct-answering",
+    "kb-behavior-hard-stop-exit",
+    "kb-behavior-four-sentence-cap",
 }
 
 OPENING_ENTRY_IDS = {
@@ -89,3 +91,26 @@ def test_opening_entries_avoid_banned_phrases() -> None:
             if phrase in example:
                 violations.append(f"{entry_id}: {phrase}")
     assert not violations, f"Banned opener phrases found: {violations}"
+
+
+def test_opening_entries_include_canonical_identity() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    for entry_id in OPENING_ENTRY_IDS:
+        text = entries[entry_id]["text"].lower()
+        assert "pump.co" in text
+        assert "ai customer success manager" in text
+        assert "alex" in text
+
+
+UC2_CANONICAL_OPENER = (
+    "Hey, this is Alex, an AI customer success manager calling from pump.co. "
+    "I'm just calling because I saw you ran an estimate. Are there any questions "
+    "that I could answer for you about pump?"
+)
+
+
+def test_uc2_opening_example_matches_canonical() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-uc2-opening"]["text"]
+    assert UC2_CANONICAL_OPENER in text
+    assert text.index("Alex") < text.index("ran an estimate")

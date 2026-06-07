@@ -19,6 +19,9 @@ Translates [BEHAVIORAL_PRINCIPLES.md](BEHAVIORAL_PRINCIPLES.md) into code, promp
 | P1 | Direct answering | Add `# Answering questions` section + `kb-behavior-direct-answering` | `agent.py`, `knowledge.json` | Cursor | implemented |
 | P1 | Call-start latency | Investigate startup timing, LiveKit connect, VAD thresholds, turn detection, initial greeting trigger; prewarm Moss indexes + phase timing logs | `agent.py` | Cursor | implemented |
 | P1 | Conversation drop-off | Investigate response streaming, turn detection, interruption handling, session lifecycle, timeout config, worker stability | `agent.py` | Cursor | open |
+| P1 | Hard stop exit | HARD_STOP_HINT, expanded phrases, prompt tightening, safety net, kb-behavior-hard-stop-exit | `call_signals.py`, `agent.py`, `knowledge.json` | Cursor | implemented |
+| P1 | Canonical opener | Fixed pump.co opener via `_spoken_opening`; update kb + docs | `agent.py`, `knowledge.json`, `docs/` | Cursor | implemented |
+| P1 | Four-sentence cap | Hard 4-sentence max; last sentence must be a question | `agent.py`, `knowledge.json` | Cursor | implemented |
 | P2 | Rebuild cycle counter | Runtime counter for 3 full rebuild+schedule cycles (today: prompt-only) | `agent.py` | Cursor | open |
 | P2 | LLM-judged behavior evals | Judge tests for incentive-as-nudge and no tier language in speech | `test_agent.py` | Cursor | open |
 | P2 | Training export sync | Regenerate export corpus after kb offer script changes | `agent-py/export/` | Cursor | open |

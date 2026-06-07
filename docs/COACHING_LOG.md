@@ -10,7 +10,8 @@ Raw call-review observations. Paul + ChatGPT promote validated observations into
 | 2026-06-07 | Michael / UC2 | Opener should be short, direct, conversational — identify caller, explain why calling, start conversation. UC2 may include monthly savings from lead context. Soft "any questions about Pump?" invite OK. No promotions, incentives, Mac Mini, qualification questions, or pitch completion in opener. | High — first impression; repeated bad openers feel like spam | See Opener (Short and Conversational) in BEHAVIORAL_PRINCIPLES.md | promoted |
 | 2026-06-07 | Multiple calls | Prospect says "Hello?" repeatedly before Alex speaks — call feels like robocall/spam before conversation begins. | High — trust destroyed before pitch starts | Engineering: call startup timing, LiveKit connect, VAD, turn detection, greeting trigger | promoted |
 | 2026-06-07 | Multiple calls | When prospect asks a direct question (e.g. "Why are you calling me?"), Alex sometimes pivots to product pitch instead of answering first. | High — creates distrust and frustration | See Direct Answering in BEHAVIORAL_PRINCIPLES.md | promoted |
-| 2026-06-07 | Multiple calls | Alex sometimes stops speaking unexpectedly — long pauses, incomplete responses, abrupt termination, mid-call drop-offs. | High — conversation feels abandoned | Engineering: response streaming, turn detection, interruption handling, session lifecycle, timeouts, worker stability | promoted |
+| 2026-06-07 | Multiple calls | Alex continues after "not interested"; sometimes writes log_outcome in speech instead of calling the tool — call stays open. | High — feels like spam; prospect keeps saying hello | See Respect Hard Stops in BEHAVIORAL_PRINCIPLES.md | promoted |
+| 2026-06-07 | Train call | Alex opens hook-first ("Hey, I saw you ran an estimate") without identity intro; rambles past 3 sentences. | High — robocall feel; loses prospect attention | Canonical pump.co opener + four-sentence cap | promoted |
 
 ---
 

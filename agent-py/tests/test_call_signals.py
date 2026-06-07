@@ -1,4 +1,5 @@
 from call_signals import (
+    HARD_STOP_HINT,
     REBUILD_INTEREST_HINT,
     classify_prospect_utterance,
     coaching_hint_for,
@@ -46,13 +47,18 @@ def test_neutral() -> None:
     assert coaching_hint_for("We're busy this quarter.") is None
 
 
-def test_hard_stop_suppresses_signals() -> None:
+def test_hard_stop_injects_exit_hint() -> None:
     assert is_hard_stop("I'm not interested, thanks.")
     assert is_hard_stop("Take me off your list")
     assert is_hard_stop("Stop calling me")
     assert is_hard_stop("I need to go")
+    assert is_hard_stop("I'm not down for a spam call")
+    assert is_hard_stop("No thanks")
     assert classify_prospect_utterance("I'm not interested") == "none"
-    assert coaching_hint_for("I'm not interested") is None
+    hint = coaching_hint_for("I'm not interested")
+    assert hint == HARD_STOP_HINT
+    assert "declined" in hint.lower()
+    assert "do not pitch" in hint.lower()
 
 
 def test_rejected_times_triggers_rebuild_hint() -> None:

@@ -69,9 +69,18 @@ HARD_STOP_PHRASES = (
     "stop calling",
     "don't call",
     "do not call",
+    "don't call me",
     "i need to go",
     "got to go",
     "have to go",
+    "not down",
+    "leave me alone",
+)
+
+HARD_STOP_HINT = (
+    "HARD STOP — prospect opted out. Say ONE brief goodbye (e.g. Totally fair — "
+    "thanks for your time.). Immediately call log_outcome with declined. Do NOT "
+    "pitch, recover, ask questions, or write tool names or JSON in speech."
 )
 
 COACHING_HINTS: dict[SignalKind, str] = {
@@ -112,7 +121,15 @@ def is_hard_stop(text: str) -> bool:
     normalized = _normalize(text)
     if not normalized:
         return False
-    return any(phrase in normalized for phrase in HARD_STOP_PHRASES)
+    if any(phrase in normalized for phrase in HARD_STOP_PHRASES):
+        return True
+    tokens = normalized.rstrip(".!?").split()
+    if len(tokens) <= 4 and any(
+        normalized == phrase or normalized.startswith(f"{phrase} ")
+        for phrase in ("no thanks", "no thank you")
+    ):
+        return True
+    return False
 
 
 def classify_prospect_utterance(text: str) -> SignalKind:
@@ -141,7 +158,7 @@ def classify_prospect_utterance(text: str) -> SignalKind:
 def coaching_hint_for(text: str, *, rejected_times: int = 0) -> str | None:
     """Return a one-line coaching hint to inject into the agent prompt, if any."""
     if is_hard_stop(text):
-        return None
+        return HARD_STOP_HINT
     if rejected_times >= 2:
         return REBUILD_INTEREST_HINT
     kind = classify_prospect_utterance(text)
