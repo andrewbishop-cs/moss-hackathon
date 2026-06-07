@@ -56,10 +56,11 @@ ON CONFLICT (id) DO UPDATE SET
   timezone = EXCLUDED.timezone,
   use_case = EXCLUDED.use_case;
 
--- Whale hero (Michael Truell @ Cursor) — same verified phone for live PSTN calls.
+-- Hero leads — same verified phone for live PSTN calls.
 UPDATE leads
 SET phone = '+19145598426'
 WHERE id IN (
+  'b1000000-0018-0000-0000-000000000018',
   'b1000000-0001-0000-0000-000000000001',
   'b1000000-0016-0000-0000-000000000016'
 );
