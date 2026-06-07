@@ -1,0 +1,260 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780827577",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T10:19:50.825497+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T10:19:50.908119+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Totally, the quick thing I wanted to mention is I’m Alex, an AI customer‑success manager at Pump. I’m calling because you ran a savings estimate on our site and I’m here to answer any questions you might have about it. Do you have any questions for me right now?",
+      "timestamp": "2026-06-07T10:20:05.541251+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "No.",
+      "timestamp": "2026-06-07T10:20:08.025227+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No.",
+      "timestamp": "2026-06-07T10:20:08.183005+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Great—based on the estimate, you could save about nineteen million dollars per year by optimizing your cloud spend with Pump. The platform is free to use, requires no code changes, and we can set it up in under thirty‑five minutes. I’d love to walk you through how that works in a quick twenty‑minute demo. Does Tuesday afternoon or Thursday morning work better for you?",
+      "timestamp": "2026-06-07T10:20:27.763597+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "I'm sorry. I don't really",
+      "timestamp": "2026-06-07T10:20:30.638188+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I'm sorry. I don't really understand, like, what",
+      "timestamp": "2026-06-07T10:20:31.675763+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I'm sorry. I don't really understand, like, what we would be doing in the",
+      "timestamp": "2026-06-07T10:20:32.646316+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I'm sorry. I don't really understand, like, what we would be doing in the demo, so I don't wanna",
+      "timestamp": "2026-06-07T10:20:33.663014+00:00",
+      "signal": "strong_intent"
+    },
+    {
+      "role": "lead",
+      "text": "I'm sorry. I don't really understand, like, what we would be doing in the demo",
+      "timestamp": "2026-06-07T10:20:34.655744+00:00",
+      "signal": "strong_intent"
+    },
+    {
+      "role": "lead",
+      "text": "I don't wanna commit to anything right now.",
+      "timestamp": "2026-06-07T10:20:34.672119+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "so I don't wanna commit to anything right now. Can you send me an",
+      "timestamp": "2026-06-07T10:20:35.659920+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "so I don't wanna commit to anything right now. Can you send me an email, the nineteen",
+      "timestamp": "2026-06-07T10:20:36.655679+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I don't wanna commit to anything right now. Can you send me an email, the nineteen billion dollars",
+      "timestamp": "2026-06-07T10:20:37.681956+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I don't wanna commit to anything right now. Can you send me an email, the nineteen billion dollars",
+      "timestamp": "2026-06-07T10:20:37.907983+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "is impressive.",
+      "timestamp": "2026-06-07T10:20:38.841017+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "is impressive, but, like, I don't",
+      "timestamp": "2026-06-07T10:20:39.846342+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "is impressive, but, like, I don't wanna",
+      "timestamp": "2026-06-07T10:20:40.348663+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "like, go on",
+      "timestamp": "2026-06-07T10:20:41.794360+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "like, go on a call.",
+      "timestamp": "2026-06-07T10:20:42.544926+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Go on.",
+      "timestamp": "2026-06-07T10:20:58.650759+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "In a quick twenty‑minute demo we’ll show exactly how Pump discovers hidden savings, walks you through the automated commitment setup, and demonstrates the no‑code, under‑35‑minute onboarding you’d experience. The platform is free and can help you capture the estimated",
+      "timestamp": "2026-06-07T10:20:58.661802+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Don't wanna go to my",
+      "timestamp": "2026-06-07T10:20:59.185918+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Don't wanna go to my call.",
+      "timestamp": "2026-06-07T10:20:59.640860+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T10:21:00.098322+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Not hear",
+      "timestamp": "2026-06-07T10:21:01.104759+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Not hear me? I don't wanna go",
+      "timestamp": "2026-06-07T10:21:02.096054+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Can I hear me? I don't wanna go on that call.",
+      "timestamp": "2026-06-07T10:21:02.699201+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Can you just",
+      "timestamp": "2026-06-07T10:21:03.644554+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Can you just",
+      "timestamp": "2026-06-07T10:21:03.749163+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "like, send",
+      "timestamp": "2026-06-07T10:21:04.743902+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "like, send an email?",
+      "timestamp": "2026-06-07T10:21:05.446362+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Sure thing—I can email you a summary of your estimate, a brief overview of how the demo works, and a link you can use to schedule a call whenever it’s convenient. I’ll send it from sales at pump dot co. Does that sound good?",
+      "timestamp": "2026-06-07T10:21:18.738137+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yep. That's",
+      "timestamp": "2026-06-07T10:21:21.385844+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yep. That sounds good.",
+      "timestamp": "2026-06-07T10:21:21.787163+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yep. That sounds good.",
+      "timestamp": "2026-06-07T10:21:21.987529+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I’ll fire off a concise summary of your estimate, how the demo works, and a link you can use to lock in a quick twenty‑minute walkthrough whenever it fits your schedule. You’ll get it from sales at pump dot co in just a few minutes. Does that work for you, and would you like me to include a few suggested times in the email?",
+      "timestamp": "2026-06-07T10:21:38.907563+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "That's fine.",
+      "timestamp": "2026-06-07T10:21:41.880059+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "All set—I’m sending the email now. If you have any questions after reviewing it, just let me know. Have a great day, Michael!",
+      "timestamp": "2026-06-07T10:21:51.814507+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Thanks. Bye.",
+      "timestamp": "2026-06-07T10:21:55.652149+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "You’re welcome! Take care, Michael.",
+      "timestamp": "2026-06-07T10:21:59.057457+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T10:35:06.743818+00:00"
+}

@@ -1,0 +1,134 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780825556",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "agent",
+      "text": "Hey, this is Alex, an AI customer success manager calling from pump.co. I'm just calling because I saw you ran an estimate. Are there any questions that I could answer for you about pump?",
+      "timestamp": "2026-06-07T09:46:21.220608+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "So",
+      "timestamp": "2026-06-07T09:46:22.783273+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. Not really. Why",
+      "timestamp": "2026-06-07T09:46:24.679000+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. Not really. Why are you calling me?",
+      "timestamp": "2026-06-07T09:46:25.581819+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I’m calling because you recently completed a savings estimate on our site, and I’m here to help with any questions you might have. Based on that estimate, you could see around nineteen million dollars in savings over the next year. We can walk through how Pump would deliver those savings with a quick, no‑commitment demo. Would you have time this week for a short meeting?",
+      "timestamp": "2026-06-07T09:46:44.209277+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "I don't really",
+      "timestamp": "2026-06-07T09:46:46.826356+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I don't really wanna take a demo, but I",
+      "timestamp": "2026-06-07T09:46:47.842596+00:00",
+      "signal": "strong_intent"
+    },
+    {
+      "role": "lead",
+      "text": "I don't really wanna take a demo. Nineteen million is a lot.",
+      "timestamp": "2026-06-07T09:46:48.911414+00:00",
+      "signal": "strong_intent"
+    },
+    {
+      "role": "lead",
+      "text": "Maybe you could just send me an",
+      "timestamp": "2026-06-07T09:46:49.793613+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Maybe you could just send me an email.",
+      "timestamp": "2026-06-07T09:46:50.666694+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I can definitely follow up with an email that includes the estimate details and next steps. Before we do that, could you let me know if you’re currently on an enterprise discount program or using any cloud credits?",
+      "timestamp": "2026-06-07T09:47:03.380599+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yeah.",
+      "timestamp": "2026-06-07T09:47:05.124901+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. On AWS, we're",
+      "timestamp": "2026-06-07T09:47:06.129383+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah. On AWS, we're on that.",
+      "timestamp": "2026-06-07T09:47:06.677774+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "EVP.",
+      "timestamp": "2026-06-07T09:47:07.681134+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "EVP.",
+      "timestamp": "2026-06-07T09:47:08.133069+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "On Azure,",
+      "timestamp": "2026-06-07T09:47:09.137392+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "On Azure, we're not. And then",
+      "timestamp": "2026-06-07T09:47:10.133698+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "On Azure, we're not. And then on Google, we are too.",
+      "timestamp": "2026-06-07T09:47:11.141849+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "On Azure, we're not. And then on Google, we are too.",
+      "timestamp": "2026-06-07T09:47:11.441357+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Got it, Michael — since you have active enterprise discount programs and credits right now, we can’t move forward with Pump at this moment. I’ll note your interest and we can revisit once those are no longer in place. Have a great day!",
+      "timestamp": "2026-06-07T09:47:24.792315+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T09:48:41.655698+00:00"
+}
