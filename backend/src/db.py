@@ -21,9 +21,33 @@ from src.models import (
 # Embed the related company row under the alias `company` for LeadWithCompany.
 _LEAD_SELECT = "*, company:companies(*)"
 
+# New UC1 signups insert companies without spend rows; Supabase returns nulls.
+_COMPANY_NUMERIC = (
+    "spend_aws",
+    "spend_gcp",
+    "spend_azure",
+    "spend_openai",
+    "spend_anthropic",
+    "spend_total",
+    "savings_aws",
+    "savings_gcp",
+    "savings_azure",
+    "savings_openai",
+    "savings_anthropic",
+    "savings_total",
+)
+
+
+def _normalize_company(row: dict) -> dict:
+    normalized = dict(row)
+    for key in _COMPANY_NUMERIC:
+        if normalized.get(key) is None:
+            normalized[key] = 0
+    return normalized
+
 
 def _to_lead_with_company(row: dict) -> LeadWithCompany:
-    company = row.pop("company")
+    company = _normalize_company(row.pop("company"))
     return LeadWithCompany(**row, company=Company(**company))
 
 
@@ -125,4 +149,4 @@ def get_similar_company(
         .limit(1)
         .execute()
     )
-    return Company(**res.data[0]) if res.data else None
+    return Company(**_normalize_company(res.data[0])) if res.data else None

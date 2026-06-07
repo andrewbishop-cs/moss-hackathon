@@ -10,9 +10,9 @@ schema/migrations — just those content/data files. Code the UI against the RES
 > Done: Supabase project + schema + 15 seeded leads (Paul). Andrew owns the backend from here.
 
 ## Phase 1 — Scaffold (don't wait on Andrew)
-- [ ] Add routes: `/pump` (fake website) and `/dashboard`
-- [ ] Build UI against fake JSON shaped like `models.py` (`LeadWithCompany`, `Company`)
-- [ ] Confirm the existing voice starter still runs (`pnpm dev:frontend`)
+- [x] Add routes: `/pump` (fake website) and `/dashboard`
+- [x] Build UI against fake JSON shaped like `models.py` (`LeadWithCompany`, `Company`)
+- [x] Confirm the existing voice starter still runs (`pnpm dev:frontend`)
 
 ## Phase 2 — Fake Pump website
 - [ ] UC1 signup form (name, email, company, phone, cloud provider) → `POST /triggers/new-signup`

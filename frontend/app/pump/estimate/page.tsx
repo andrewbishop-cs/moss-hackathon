@@ -1,8 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
+  ArrowRightIcon,
   CheckCircleIcon,
   CloudIcon,
   PlugsConnectedIcon,
@@ -11,31 +13,63 @@ import {
 } from '@phosphor-icons/react/dist/ssr';
 import { PumpShell } from '@/components/pump/pump-shell';
 import { Button } from '@/components/ui/button';
-import { ApiError, triggerEstimateCompleted } from '@/lib/api';
-import { FIXTURE_LEADS, fixtureLeadById } from '@/lib/fixtures';
+import { ApiError, getLead, triggerEstimateCompleted } from '@/lib/api';
+import { fixtureLeadById } from '@/lib/fixtures';
 import { formatUsd } from '@/lib/leads';
 import { cn } from '@/lib/shadcn/utils';
 
 const SAVINGS_RATE = 0.23;
 const SAMPLE_SPEND = 42000;
-// Simulates Pump pulling cloud billing data after signup — ~1 min in the demo.
-const COLLECT_DELAY_MS = 60_000;
+// Simulates Pump pulling cloud billing data after signup — a few seconds for the demo.
+const COLLECT_DELAY_MS = 4_000;
+const COLLECT_SECONDS = COLLECT_DELAY_MS / 1000;
 const SERVICES = ['Compute', 'Storage', 'AI inference'] as const;
 
 type DataMode = 'collecting' | 'ready' | 'none';
 
+function SignupPrompt() {
+  return (
+    <main className="mx-auto w-full max-w-2xl px-6 py-14">
+      <span className="border-primary/20 bg-primary/10 text-primary inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold tracking-wide uppercase">
+        <SparkleIcon weight="fill" className="size-3.5" />
+        Cloud + AI savings estimate
+      </span>
+      <h1 className="mt-4 text-4xl font-extrabold tracking-tight">Start with a free account</h1>
+      <p className="text-muted-foreground mt-3 text-lg">
+        Create your Pump account first so we can connect to your cloud and calculate savings.
+      </p>
+      <div className="border-border bg-card shadow-primary/5 mt-8 rounded-3xl border p-8 text-center shadow-xl">
+        <CloudIcon weight="duotone" className="text-primary mx-auto size-12" />
+        <p className="mt-4 font-medium">Sign up takes under a minute</p>
+        <p className="text-muted-foreground mt-2 text-sm">
+          After signup you&apos;ll connect your cloud accounts and see your personalized estimate.
+        </p>
+        <Button asChild className="mt-6 w-full rounded-full">
+          <Link href="/pump">
+            Create free account
+            <ArrowRightIcon weight="bold" />
+          </Link>
+        </Button>
+      </div>
+    </main>
+  );
+}
+
 function EstimateCalculator() {
   const searchParams = useSearchParams();
   const leadIdFromQuery = searchParams.get('lead_id');
-  const leadId = leadIdFromQuery ?? FIXTURE_LEADS[0].id;
 
-  const sampleSpend = useMemo(() => {
-    const company = leadId ? fixtureLeadById(leadId)?.company : undefined;
-    return company?.spend_total && company.spend_total > 0 ? company.spend_total : SAMPLE_SPEND;
-  }, [leadId]);
+  if (!leadIdFromQuery) {
+    return <SignupPrompt />;
+  }
 
+  return <EstimateWithLead leadId={leadIdFromQuery} />;
+}
+
+function EstimateWithLead({ leadId }: { leadId: string }) {
+  const [resolvedSpend, setResolvedSpend] = useState<number | null>(null);
   const [dataMode, setDataMode] = useState<DataMode>('collecting');
-  const [spend, setSpend] = useState<number>(sampleSpend);
+  const [spend, setSpend] = useState<number>(SAMPLE_SPEND);
   const [services] = useState<string[]>(['Compute', 'AI inference']);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
@@ -43,11 +77,28 @@ function EstimateCalculator() {
   const [error, setError] = useState<string | null>(null);
   const [elapsedSec, setElapsedSec] = useState(0);
 
+  const sampleSpend = useMemo(() => {
+    if (resolvedSpend && resolvedSpend > 0) return resolvedSpend;
+    const fixture = fixtureLeadById(leadId)?.company?.spend_total;
+    return fixture && fixture > 0 ? fixture : SAMPLE_SPEND;
+  }, [leadId, resolvedSpend]);
+
   const savings = useMemo(() => Math.round(spend * SAVINGS_RATE), [spend]);
   const ready = dataMode === 'ready';
 
-  // Auto-collect: stand in for Pump's read-only cloud connect. After ~1 minute
-  // we either have estimate data (demo always succeeds) or stay in no-data state.
+  useEffect(() => {
+    let active = true;
+    getLead(leadId).then(({ lead }) => {
+      if (!active || !lead?.company?.spend_total) return;
+      if (lead.company.spend_total > 0) {
+        setResolvedSpend(lead.company.spend_total);
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, [leadId]);
+
   useEffect(() => {
     setDataMode('collecting');
     setElapsedSec(0);
@@ -67,10 +118,6 @@ function EstimateCalculator() {
   const onGetPlan = async () => {
     setError(null);
     setDemoNote(false);
-    if (!leadId) {
-      setError('Missing lead_id. Open this page from a lead, e.g. /pump/estimate?lead_id=…');
-      return;
-    }
     setSubmitting(true);
     try {
       await triggerEstimateCompleted({ lead_id: leadId, savings_total: savings });
@@ -88,11 +135,9 @@ function EstimateCalculator() {
   };
 
   const collectMessage =
-    elapsedSec < 15
+    elapsedSec < 2
       ? 'Connecting to your cloud accounts…'
-      : elapsedSec < 45
-        ? 'Pulling your monthly cloud + AI spend…'
-        : 'Crunching your savings estimate…';
+      : 'Pulling your monthly cloud + AI spend…';
 
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-14">
@@ -106,7 +151,7 @@ function EstimateCalculator() {
       <p className="text-muted-foreground mt-3 text-lg">
         {ready
           ? 'Your cloud data is in — here is what Pump found.'
-          : 'We are pulling your cloud spend now. Results in about a minute.'}
+          : 'We are pulling your cloud spend now. This takes a few seconds.'}
       </p>
 
       <div className="border-border bg-card text-card-foreground shadow-primary/5 mt-8 rounded-3xl border p-6 shadow-xl">
@@ -199,7 +244,7 @@ function EstimateCalculator() {
               weight="bold"
             />
             <p className="text-muted-foreground mt-4 text-xs tabular-nums">
-              {Math.min(elapsedSec, 60)}s / ~60s
+              {Math.min(elapsedSec, COLLECT_SECONDS)}s / ~{COLLECT_SECONDS}s
             </p>
           </div>
         )}

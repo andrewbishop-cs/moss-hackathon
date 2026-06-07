@@ -1,4 +1,4 @@
-import { Plus_Jakarta_Sans, Public_Sans } from 'next/font/google';
+import { Inter, Plus_Jakarta_Sans, Public_Sans } from 'next/font/google';
 import localFont from 'next/font/local';
 import { headers } from 'next/headers';
 import { SiteChrome } from '@/components/app/site-chrome';
@@ -12,7 +12,14 @@ const publicSans = Public_Sans({
   subsets: ['latin'],
 });
 
-// Brand display font for the Pump marketing site + dashboard (scoped via .pump-brand).
+// Ramp-style UI sans for Beep dashboard (Lausanne → Inter: 400 body, 500 emphasis).
+const beepUi = Inter({
+  variable: '--font-beep-ui',
+  subsets: ['latin'],
+  weight: ['400', '500'],
+});
+
+// Brand display font for the Pump marketing site (scoped via .pump-brand).
 const pumpSans = Plus_Jakarta_Sans({
   variable: '--font-pump',
   subsets: ['latin'],
@@ -63,6 +70,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       className={cn(
         publicSans.variable,
         pumpSans.variable,
+        beepUi.variable,
         commitMono.variable,
         'scroll-smooth font-sans antialiased'
       )}

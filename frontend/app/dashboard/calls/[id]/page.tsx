@@ -10,7 +10,7 @@ export default async function CallPage({ params }: { params: Promise<{ id: strin
 
   if (!lead) {
     return (
-      <main className="pump-brand bg-background text-foreground mx-auto flex min-h-svh w-full max-w-3xl flex-col items-center justify-center px-4 text-center">
+      <main className="beep-brand bg-background text-foreground mx-auto flex min-h-svh w-full max-w-3xl flex-col items-center justify-center px-4 text-center">
         <h1 className="text-xl font-semibold">Lead not found</h1>
         <p className="text-muted-foreground mt-2 text-sm">
           No lead with id <code>{id}</code>.
@@ -23,7 +23,7 @@ export default async function CallPage({ params }: { params: Promise<{ id: strin
   }
 
   return (
-    <div className="pump-brand bg-background text-foreground min-h-svh">
+    <div className="beep-brand bg-background text-foreground min-h-svh">
       <LiveCallView lead={lead} roomName={lead.room_name ?? null} isDemo={isDemo} />
     </div>
   );
