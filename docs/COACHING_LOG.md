@@ -21,6 +21,8 @@ Raw call-review observations. Paul + ChatGPT promote validated observations into
 | 2026-06-07 | Multiple calls | When asked "are you a bot?" Alex should explain why the AI exists (programmed follow-up on savings opportunities), not dodge or mimic human. | High — trust on AI disclosure | See AI Identity Philosophy in BEHAVIORAL_PRINCIPLES.md | implemented |
 | 2026-06-07 | Michael / `call-b1000000-1780819582` | Scam skepticism → Alex proactively offers email (*"send more details by email"*). AI discomfort (*"weird sales tactic… back and forth in AI"*) → capitulates: *"What's the best email?"* | High — loses whale on deferral instead of selling meeting | See Meeting Value Selling in BEHAVIORAL_PRINCIPLES.md | implemented |
 | 2026-06-07 | Michael / `call-b1000000-1780822778` | Privacy pushback (*"not comfortable… you have my data"*) → immediate email offer instead of 10-min meeting argument | High — email escape hatch before prospect even asked | See Meeting Value Selling in BEHAVIORAL_PRINCIPLES.md | implemented |
+| 2026-06-07 | Multiple calls | On call deferral, Alex loops calendar asks without educating — doesn't give product info when prospect says no to meeting | High — feels like robocall, not helpful CSM | See Educate Before Re-Ask + Interest Threshold in BEHAVIORAL_PRINCIPLES.md | implemented |
+| 2026-06-07 | Multiple calls | Alex asks for meeting before interest threshold met — premature calendar close on cold prospects | High — erodes trust on early nos | See Interest Threshold Framework in BEHAVIORAL_PRINCIPLES.md | implemented |
 
 ---
 

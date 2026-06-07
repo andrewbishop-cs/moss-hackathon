@@ -33,6 +33,7 @@ from moss import MossClient, QueryOptions
 from call_signals import (
     classify_prospect_utterance,
     coaching_hint_for,
+    interest_delta_for,
     is_dnc_request,
     next_talkover_count,
     talkover_coaching_hint,
@@ -243,20 +244,19 @@ _AI_PURPOSE_EXAMPLES = {
 _MEETING_VALUE_EXAMPLES = {
     UC2_ESTIMATE_COMPLETED: """\
         Example — prospect: "Just send me an email" / AI discomfort / privacy pushback
-        Good: "Totally fair. A ten-minute call with our team is faster than spending
-        thirty minutes researching on your own — and it forces a real decision on
-        whether nineteen million a year in savings is worth capturing. As part of
-        the evaluation, we even have a thank-you gift if you show up — what do you
-        have to lose? Would Thursday at 3 work?"
-        Bad: "Happy to send something over — what's the best email?" or offering
-        email before the prospect asks.""",
+        Good (first deferral, educate): "Totally fair. Pump works at the billing
+        layer — no code changes, completely free, and most customers capture seventy
+        to eighty percent of their estimated savings. What part of the estimate
+        would you want to understand first?"
+        Good (repeat deferral + interest ready): meeting-value pillars + soft time ask.
+        Bad: Would Thursday at 3 work without product info, or happy to send
+        something over and ask for an email address on first deferral.""",
     UC1_NEW_SIGNUP: """\
         Example — prospect: "Just send me an email" / "I'll research it myself"
-        Good: "Makes sense. A ten-minute call is still faster than piecing this
-        together online — and talking to people who built the tool gets you direct
-        answers you won't find in a blog post. We can evaluate whether Pump is a
-        fit in one short session. Would you be open to a quick demo this week?"
-        Bad: "Happy to send something over — what's the best email?" on first deferral.""",
+        Good: "Makes sense. Pump works at the billing layer across AWS, GCP, and
+        Azure — no code changes and usually under thirty-five minutes to connect.
+        What would you want to know before deciding if it's worth a look?"
+        Bad: "Happy to send something over" or bare calendar ask on first deferral.""",
 }
 
 
@@ -325,27 +325,34 @@ def _instructions_for(use_case: str) -> str:
 
         {ai_purpose}
 
+        # Interest threshold
+
+        Track prospect engagement before asking for a meeting. Yes signals build
+        interest; no signals and deferrals lower it. Call `search_knowledge` for
+        "interest threshold" when unsure.
+        - **cold** (low score): educate and answer product questions — forbidden:
+          proposing specific times, "would Thursday work?", or hard calendar close
+        - **warming** (moderate score): soft bridge only — "open to a quick
+          walkthrough?" — no specific times yet
+        - **ready** (high score) or strong_intent: meeting-value pillars and
+          scheduling permitted
+        Weak agreement alone is not enough for a calendar ask — keep educating.
+        On deferral, educate first regardless of score (see Meeting value selling).
+
         # Meeting value selling
 
         When the prospect defers to email, self-research, privacy discomfort, or
-        AI weirdness — argue for a short meeting. Do NOT capitulate to email on
-        the first push. Call `search_knowledge` for "meeting value selling" or
-        "send email objection" BEFORE responding.
-        Five pillars (rotate across turns; max four sentences, last = question):
-        1. Efficiency — ~10-minute call vs ~30 minutes researching alone
-        2. Enforcing function — calendar slot forces a real decision; email gets
-           deprioritized and never happens
-        3. Savings magnitude — personalize annual savings from lead context
-        4. Offer urgency — evaluation-program gift; "what do you have to lose —
-           we're paying you to take the call"
-        5. Thought leadership — direct answers from people who built the tool vs
-           generic online research
-        Email fallback: only after second explicit insistence on email-only —
-        "I can send a summary, but a ten-minute call is still the fastest way to
-        know if [annual_savings] is real. Would [day] work?" Never ask for an
-        email address before making the meeting case once.
-        Forbidden: leading with "Happy to send something over", "What's the best
-        email?", or treating privacy discomfort as an email request.
+        AI weirdness — listen and educate first. Do NOT loop bare calendar asks.
+        Call `search_knowledge` for "meeting value selling", "educate before reask",
+        or "send email objection" BEFORE responding.
+        - **First deferral:** acknowledge → product info (how Pump works, savings,
+          free, no lock-in) → soft product question — NOT a calendar close
+        - **Repeat deferral** + interest ready: rotate meeting-value pillars
+          (efficiency, enforcing function, savings magnitude, offer urgency,
+          thought leadership) → ask for a time
+        Email fallback: only after second explicit insistence on email-only.
+        Forbidden: looping "can we do a call?" without new product info; leading
+        with "Happy to send something over" or asking for an email address first.
 
         {meeting_value}
 
@@ -383,8 +390,8 @@ def _instructions_for(use_case: str) -> str:
            setup, and social proof. The meeting is how they validate whether the
            savings estimate is achievable — sell the meeting through savings,
            efficiency, and enforcing function (see Meeting value selling), not
-           through the gift. When prospect defers to email or self-research,
-           use meeting value pillars — do not offer email-first.
+           through the gift.            When prospect defers to email or self-research, educate with product
+           info first — do not offer email-first or bare calendar re-asks.
         5. OFFER (only if qualified + eligible): 80–90% savings, implementation,
            and proof; 10–20% incentive at most. Lead with savings and why a demo
            validates the estimate. Present thank-you gifts as part of the
@@ -400,17 +407,14 @@ def _instructions_for(use_case: str) -> str:
                the demo — do not mention spend tier or "company your size"
            For UC2, lead with annual savings (monthly times twelve), then ask if
            they'd like a demo with the team.
-        6. BOOK: at the first sign of positivity, move subtly toward a meeting —
-           reinforce savings and implementation first, do not hard-close into
-           calendar mode. Do not treat weak agreement ("sure", "okay", "I guess",
-           "maybe", "fine") as real commitment — respond positively, reinforce
-           value, then continue toward scheduling. If two proposed times are
-           rejected, stop cycling slots and rebuild interest using meeting value
-           pillars (efficiency, enforcing function, savings magnitude, offer
-           urgency, thought leadership). After rebuilding, try scheduling again;
-           keep rebuilding on repeated rejections — never self-exit on scheduling
-           failure. When prospect asks for email instead of a meeting, argue for
-           the meeting — do not capitulate on first push. Otherwise use progressive urgency
+        6. BOOK: only propose specific meeting times when interest is ready or the
+           prospect shows strong_intent. Below threshold: educate and build value.
+           At warming: soft bridges only. At the first sign of positivity, move
+           subtly toward a meeting — reinforce savings first, do not hard-close.
+           Do not treat weak agreement as real commitment. If two proposed times are
+           rejected, stop cycling slots and rebuild interest. On email/call
+           deferral, educate with product info before any meeting re-ask. Otherwise
+           use progressive urgency
            (today/tomorrow → next business days → next week → "what works best",
            noting the promo expires end of month). Business days only. When a
            time is agreed, call `book_meeting` with the time and tier, then
@@ -457,6 +461,7 @@ def _instructions_for(use_case: str) -> str:
           "internal tiers private", "weak agreement", "scheduling recovery",
           "conversational persistence", "wolf persistence", "active listening",
           "talkover yield", "AI identity philosophy", "meeting value selling",
+          "interest threshold", "educate before reask",
           "same-turn demo bridge",
           "booking round one", "not qualified exit", "not interested objection").
         - Ground your reply in what `search_knowledge` returns, but paraphrase
@@ -1059,6 +1064,7 @@ def _setup_transcript_and_signals(
     """Capture transcript turns and inject booking-signal coaching hints."""
     transcript = CallTranscript(lead_id=lead_id, room_name=room_name, use_case=use_case)
     rejected_times = 0
+    interest_score = 0
     consecutive_talkovers = 0
 
     @session.on("speech_created")
@@ -1085,18 +1091,24 @@ def _setup_transcript_and_signals(
 
     @session.on("user_input_transcribed")
     def _on_user_transcribed(ev) -> None:
-        nonlocal rejected_times
+        nonlocal rejected_times, interest_score
         text = getattr(ev, "transcript", None) or getattr(ev, "text", "") or ""
         if not str(text).strip():
             return
         signal = classify_prospect_utterance(str(text))
         transcript.add_turn("lead", str(text), signal=signal)
 
+        interest_score = max(0, interest_score + interest_delta_for(str(text)))
+
         normalized = str(text).strip().lower()
         if normalized in {"no", "nope", "not really", "can't", "cannot"}:
             rejected_times += 1
 
-        hint = coaching_hint_for(str(text), rejected_times=rejected_times)
+        hint = coaching_hint_for(
+            str(text),
+            rejected_times=rejected_times,
+            interest_score=interest_score,
+        )
         if hint:
             logger.info("booking signal=%s for lead_id=%s", signal, lead_id)
             assistant._coaching_tasks.append(

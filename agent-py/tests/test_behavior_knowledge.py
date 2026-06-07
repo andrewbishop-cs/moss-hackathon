@@ -31,6 +31,8 @@ BEHAVIOR_ENTRY_IDS = {
     "kb-behavior-active-listening",
     "kb-behavior-ai-identity-philosophy",
     "kb-behavior-meeting-value-selling",
+    "kb-behavior-interest-threshold",
+    "kb-behavior-educate-before-reask",
     "kb-behavior-four-sentence-cap",
     "kb-behavior-estimate-aware-qualify",
     "kb-behavior-savings-not-spend",
@@ -227,12 +229,28 @@ def test_is_ai_objection_includes_purpose_framing() -> None:
 def test_meeting_value_selling_entry_covers_pillars() -> None:
     entries = {e["id"]: e for e in _load_knowledge()}
     text = entries["kb-behavior-meeting-value-selling"]["text"].lower()
-    assert "10" in text or "ten" in text
-    assert "30" in text or "thirty" in text
+    assert "educate" in text
+    assert "product" in text
+    assert "efficiency" in text or "10 min" in text
     assert "enforcing" in text
     assert "savings" in text
-    assert "what do you have to lose" in text or "pay" in text
-    assert "thought leadership" in text or "built the tool" in text
+
+
+def test_interest_threshold_entry_defines_levels() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-behavior-interest-threshold"]["text"].lower()
+    assert "cold" in text
+    assert "warming" in text
+    assert "ready" in text
+    assert "calendar" in text
+
+
+def test_educate_before_reask_entry_requires_product_info() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-behavior-educate-before-reask"]["text"].lower()
+    assert "search_knowledge" in text or "product" in text
+    assert "thursday" in text or "calendar" in text
+    assert "forbidden" in text or "do not" in text
 
 
 def test_send_email_objection_does_not_lead_with_happy_to_send() -> None:

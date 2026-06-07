@@ -11,6 +11,17 @@ import re
 from typing import Literal
 
 SignalKind = Literal["weak_agreement", "strong_intent", "positive_curiosity", "none"]
+InterestLevel = Literal["cold", "warming", "ready"]
+
+INTEREST_COLD_MAX = 1
+INTEREST_READY_MIN = 4
+
+INTEREST_DELTA_STRONG_INTENT = 3
+INTEREST_DELTA_POSITIVE_CURIOSITY = 2
+INTEREST_DELTA_WEAK_AGREEMENT = 1
+INTEREST_DELTA_SOFT_OBJECTION = -2
+INTEREST_DELTA_MEETING_DEFERRAL = -2
+INTEREST_DELTA_TIME_REJECTION = -1
 
 WEAK_AGREEMENT_PHRASES = (
     "sure",
@@ -104,13 +115,40 @@ MEETING_DEFERRAL_PHRASES = (
     "weird sales",
     "back and forth in ai",
     "go back and forth in ai",
+    "don't want a call",
+    "do not want a call",
+    "don't want to do a call",
+    "not doing a demo",
+    "no meeting",
+    "no call",
 )
 
 MEETING_VALUE_HINT = (
-    "MEETING VALUE — prospect deferred to email/self-research/privacy. "
-    "Do NOT offer email on first push. Argue 10-min call vs 30-min research, "
-    "enforcing function, savings magnitude, offer urgency, thought leadership. "
-    "Call search_knowledge for meeting value selling first."
+    "MEETING VALUE — prospect deferred from a call. Listen first. "
+    "Do NOT loop calendar asks. Call search_knowledge for product info "
+    "(how Pump works, savings, free, no lock-in) and give 1-2 substantive "
+    "sentences before any meeting bridge. Soft product question last — not "
+    "hard calendar close on first deferral."
+)
+
+INTEREST_COLD_HINT = (
+    "INTEREST COLD — score too low for a meeting ask. Educate and answer "
+    "product questions via search_knowledge. Forbidden: proposing specific "
+    "times, would Thursday work, or hard calendar close."
+)
+
+INTEREST_WARMING_HINT = (
+    "INTEREST WARMING — soft bridge only. Open to a walkthrough or quick "
+    "look is OK — no specific times or hard calendar close yet."
+)
+
+INTEREST_READY_HINT = (
+    "INTEREST READY — threshold met. Meeting-value pillars and scheduling "
+    "are permitted if appropriate."
+)
+
+_TIME_REJECTION_PHRASES = frozenset(
+    {"no", "nope", "not really", "can't", "cannot"}
 )
 
 OBJECTION_RECOVERY_HINT = (
@@ -225,6 +263,50 @@ def is_hard_stop(text: str) -> bool:
     return is_dnc_request(text)
 
 
+def interest_delta_for(text: str) -> int:
+    """Return the interest score change for a prospect utterance."""
+    if is_dnc_request(text):
+        return 0
+    if is_meeting_deferral(text):
+        return INTEREST_DELTA_MEETING_DEFERRAL
+    if is_soft_objection(text):
+        return INTEREST_DELTA_SOFT_OBJECTION
+    normalized = _normalize(text)
+    if normalized.rstrip(".!?") in _TIME_REJECTION_PHRASES:
+        return INTEREST_DELTA_TIME_REJECTION
+    kind = classify_prospect_utterance(text)
+    if kind == "strong_intent":
+        return INTEREST_DELTA_STRONG_INTENT
+    if kind == "positive_curiosity":
+        return INTEREST_DELTA_POSITIVE_CURIOSITY
+    if kind == "weak_agreement":
+        return INTEREST_DELTA_WEAK_AGREEMENT
+    return 0
+
+
+def interest_level(score: int) -> InterestLevel:
+    """Map cumulative interest score to cold / warming / ready."""
+    if score >= INTEREST_READY_MIN:
+        return "ready"
+    if score > INTEREST_COLD_MAX:
+        return "warming"
+    return "cold"
+
+
+def interest_coaching_hint(
+    score: int, *, utterance_kind: SignalKind = "none"
+) -> str | None:
+    """Return interest-threshold coaching based on cumulative score."""
+    if utterance_kind == "strong_intent":
+        return INTEREST_READY_HINT
+    level = interest_level(score)
+    if level == "cold":
+        return INTEREST_COLD_HINT
+    if level == "warming":
+        return INTEREST_WARMING_HINT
+    return None
+
+
 def classify_prospect_utterance(text: str) -> SignalKind:
     """Return the strongest matching booking signal for a prospect utterance."""
     normalized = _normalize(text)
@@ -264,8 +346,15 @@ def talkover_coaching_hint(consecutive_talkovers: int) -> str | None:
     return None
 
 
-def coaching_hint_for(text: str, *, rejected_times: int = 0) -> str | None:
-    """Return a one-line coaching hint to inject into the agent prompt, if any."""
+def _combine_hints(*hints: str | None) -> str | None:
+    parts = [h for h in hints if h]
+    return " ".join(parts) if parts else None
+
+
+def coaching_hint_for(
+    text: str, *, rejected_times: int = 0, interest_score: int = 0
+) -> str | None:
+    """Return coaching hint(s) to inject into the agent prompt, if any."""
     if is_dnc_request(text):
         return DNC_EXIT_HINT
     if is_meeting_deferral(text):
@@ -274,6 +363,8 @@ def coaching_hint_for(text: str, *, rejected_times: int = 0) -> str | None:
         return OBJECTION_RECOVERY_HINT
     if rejected_times >= 2:
         return REBUILD_INTEREST_HINT
+
     kind = classify_prospect_utterance(text)
-    hint = COACHING_HINTS.get(kind, "")
-    return hint or None
+    signal_hint = COACHING_HINTS.get(kind, "") or None
+    threshold_hint = interest_coaching_hint(interest_score, utterance_kind=kind)
+    return _combine_hints(threshold_hint, signal_hint)

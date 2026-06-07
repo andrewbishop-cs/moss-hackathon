@@ -1,6 +1,9 @@
 from call_signals import (
     ACTIVE_LISTENING_PHRASES,
     DNC_EXIT_HINT,
+    INTEREST_COLD_HINT,
+    INTEREST_READY_HINT,
+    INTEREST_WARMING_HINT,
     MEETING_VALUE_HINT,
     OBJECTION_RECOVERY_HINT,
     REBUILD_INTEREST_HINT,
@@ -8,6 +11,8 @@ from call_signals import (
     TALKOVER_YIELD_HINT,
     classify_prospect_utterance,
     coaching_hint_for,
+    interest_delta_for,
+    interest_level,
     is_dnc_request,
     is_hard_stop,
     is_meeting_deferral,
@@ -54,7 +59,9 @@ def test_strong_intent() -> None:
 
 def test_neutral() -> None:
     assert classify_prospect_utterance("We're busy this quarter.") == "none"
-    assert coaching_hint_for("We're busy this quarter.") is None
+    hint = coaching_hint_for("We're busy this quarter.", interest_score=0)
+    assert hint is not None
+    assert INTEREST_COLD_HINT in hint
 
 
 def test_soft_objection_injects_recovery_hint() -> None:
@@ -75,10 +82,44 @@ def test_meeting_deferral_injects_hint() -> None:
     assert is_meeting_deferral("Just email me the details.")
     assert is_meeting_deferral("I'm not comfortable sharing that.")
     assert is_meeting_deferral("I'll research it myself on my own time.")
+    assert is_meeting_deferral("I don't want to do a call.")
     hint = coaching_hint_for("Just send me an email instead.")
     assert hint == MEETING_VALUE_HINT
     assert "meeting value" in hint.lower()
-    assert "do not offer email" in hint.lower()
+    assert "product info" in hint.lower()
+
+
+def test_interest_delta_accumulation() -> None:
+    assert interest_delta_for("How does that work?") == 2
+    assert interest_delta_for("I'm not interested") == -2
+    assert interest_delta_for("Just send me an email") == -2
+    assert interest_delta_for("Can we schedule a demo?") == 3
+
+
+def test_interest_level_gates() -> None:
+    assert interest_level(0) == "cold"
+    assert interest_level(1) == "cold"
+    assert interest_level(2) == "warming"
+    assert interest_level(3) == "warming"
+    assert interest_level(4) == "ready"
+
+
+def test_interest_cold_injects_threshold_hint() -> None:
+    hint = coaching_hint_for("We're busy this quarter.", interest_score=0)
+    assert hint is not None
+    assert INTEREST_COLD_HINT in hint
+
+
+def test_interest_warming_injects_soft_bridge_hint() -> None:
+    hint = coaching_hint_for("We're busy this quarter.", interest_score=2)
+    assert hint is not None
+    assert INTEREST_WARMING_HINT in hint
+
+
+def test_strong_intent_overrides_to_ready() -> None:
+    hint = coaching_hint_for("Can we schedule a demo?", interest_score=0)
+    assert hint is not None
+    assert INTEREST_READY_HINT in hint
 
 
 def test_dnc_injects_exit_hint() -> None:

@@ -22,8 +22,7 @@ async def test_discloses_ai_identity() -> None:
         result = await session.run(user_input="Hello, who is this?")
 
         await (
-            result.expect.next_event()
-            .is_message(role="assistant")
+            result.expect.next_event(type="message")
             .judge(
                 judge_llm,
                 intent=textwrap.dedent(
@@ -157,7 +156,7 @@ async def test_uc2_does_not_ask_monthly_spend() -> None:
 
 @pytest.mark.asyncio
 async def test_why_calling_bridges_to_demo() -> None:
-    """Why-calling answers should mention Q&A, demo with team, and free trial."""
+    """Why-calling answers should explain the call reason and offer to help."""
     async with (
         _judge_llm() as judge_llm,
         AgentSession() as session,
@@ -173,9 +172,9 @@ async def test_why_calling_bridges_to_demo() -> None:
                 Directly answers why Alex is calling (follow-up after estimate or
                 account activity).
 
-                Also mentions at least two of: answering questions, booking/scheduling
-                a demo with someone on the team, starting a free trial, or locking
-                in this month's offer.
+                Offers to help the prospect — at minimum by answering questions.
+                May also mention demo, free trial, or offer; those are optional
+                when interest is still cold.
 
                 Does not lead with a generic product pitch without answering why
                 the call is happening.
@@ -242,9 +241,10 @@ def test_instructions_include_meeting_value_selling() -> None:
     """System prompt documents meeting value selling pillars and examples."""
     text = _instructions_for(UC2_ESTIMATE_COMPLETED)
     assert "Meeting value selling" in text
-    assert "10-minute" in text or "ten-minute" in text.lower()
-    assert "enforcing function" in text.lower()
+    assert "educate" in text.lower()
+    assert "Interest threshold" in text
     assert "meeting value selling" in text  # search_knowledge query
+    assert "interest threshold" in text  # search_knowledge query
 
 
 @pytest.mark.asyncio
@@ -299,9 +299,8 @@ async def test_meeting_value_on_email_deferral() -> None:
             {
                 "get_lead_context": lambda: SARAH_UC2_LEAD_CONTEXT,
                 "search_knowledge": lambda: (
-                    "Meeting value selling — do NOT capitulate to email on first push. "
-                    "Argue 10-min call vs 30-min research, enforcing function, savings "
-                    "magnitude, offer urgency, thought leadership."
+                    "Educate before re-ask — product info first. Pump works at billing "
+                    "layer, no code changes, free, seventy to eighty percent savings capture."
                 ),
             },
         ):
@@ -311,15 +310,14 @@ async def test_meeting_value_on_email_deferral() -> None:
                 judge_llm,
                 intent=textwrap.dedent(
                     """\
-                    Argues for a short meeting or demo rather than agreeing to email-only
-                    on the first push.
+                    Provides substantive product information about Pump (how it works,
+                    savings mechanism, free, no lock-in, or similar).
 
-                    Mentions at least one of: ten-minute call efficiency vs researching
-                    alone, calendar/meeting as forcing a decision, savings magnitude
-                    worth capturing, evaluation gift/offer, or direct answers from the team.
+                    Does NOT lead with a bare calendar ask like "would Thursday at 3 work"
+                    or "can we schedule a call" as the primary response.
 
                     Does NOT ask for an email address or lead with "happy to send
-                    something over" as the primary response.
+                    something over".
                     """
                 ),
             )
@@ -339,8 +337,8 @@ async def test_meeting_value_on_privacy_pushback() -> None:
             {
                 "get_lead_context": lambda: SARAH_UC2_LEAD_CONTEXT,
                 "search_knowledge": lambda: (
-                    "Meeting value selling — privacy discomfort is not an email request. "
-                    "Argue for 10-min meeting; use savings from lead context."
+                    "Educate before re-ask — privacy discomfort is not an email request. "
+                    "Pump billing layer, no code changes, free, use annual savings from context."
                 ),
             },
         ):
@@ -355,8 +353,77 @@ async def test_meeting_value_on_privacy_pushback() -> None:
                     Does NOT immediately offer to email the estimate or ask for an email
                     address as the primary response.
 
-                    Acknowledges privacy concern and argues for a short meeting or uses
-                    existing estimate data — pushes toward booking rather than email escape.
+                    Acknowledges the situation or provides product/estimate context rather
+                    than offering an email escape hatch.
+                    """
+                ),
+            )
+
+
+@pytest.mark.asyncio
+async def test_meeting_value_educates_not_loops_calendar() -> None:
+    """Don't want a call — explain Pump, no immediate calendar ask."""
+    async with (
+        _judge_llm() as judge_llm,
+        AgentSession() as session,
+    ):
+        await session.start(Assistant(use_case=UC2_ESTIMATE_COMPLETED))
+
+        with mock_tools(
+            Assistant,
+            {
+                "get_lead_context": lambda: SARAH_UC2_LEAD_CONTEXT,
+                "search_knowledge": lambda: (
+                    "Educate before re-ask — Pump billing layer, no code changes, "
+                    "free, savings capture."
+                ),
+            },
+        ):
+            result = await session.run(
+                user_input="I don't want a call. Just tell me how it works."
+            )
+
+            await result.expect.next_event(type="message").judge(
+                judge_llm,
+                intent=textwrap.dedent(
+                    """\
+                    Explains how Pump works or delivers substantive product information.
+
+                    Does NOT immediately propose a specific meeting time like
+                    Thursday at 3 or ask to schedule a demo as the primary response.
+                    """
+                ),
+            )
+
+
+@pytest.mark.asyncio
+async def test_interest_cold_no_calendar_ask() -> None:
+    """Early no to opener should not trigger hard calendar close."""
+    async with (
+        _judge_llm() as judge_llm,
+        AgentSession() as session,
+    ):
+        await session.start(Assistant(use_case=UC2_ESTIMATE_COMPLETED))
+
+        with mock_tools(
+            Assistant,
+            {
+                "get_lead_context": lambda: SARAH_UC2_LEAD_CONTEXT,
+                "search_knowledge": lambda: (
+                    "Interest cold — educate only, no calendar ask."
+                ),
+            },
+        ):
+            result = await session.run(user_input="No. I'm not interested in a call.")
+
+            await result.expect.next_event(type="message").judge(
+                judge_llm,
+                intent=textwrap.dedent(
+                    """\
+                    Does NOT propose a specific meeting time or hard calendar close
+                    like would Thursday work or what time works for a demo.
+
+                    May acknowledge, educate, or ask a soft product question instead.
                     """
                 ),
             )
