@@ -1,29 +1,45 @@
 #!/usr/bin/env bash
-# Preflight for `pnpm dev`: kill any leftover agent workers so only ONE registers
-# with LiveKit as "agent-py".
+# Preflight for `pnpm dev`: kill leftover dev processes and free :8000 / :3000.
 #
-# Why: LiveKit Cloud load-balances explicit dispatches across EVERY worker that
-# registers the same agent name. A stray worker from a previous (Ctrl+C'd but not
-# fully reaped) `pnpm dev`, a `console` session, or a duplicate run will silently
-# swallow ~half your calls — the dispatch lands on the ghost, so the phone never
-# rings and no logs appear in the terminal you're watching. This kills them first.
+# Why agents: LiveKit load-balances across every worker registered as "agent-py".
+# A stray worker swallows dispatches — phone never rings, no logs in your terminal.
 #
-# Scoped to this project's processes only: it matches `src/agent.py` (this repo's
-# agent entry) and this repo's concurrently dev invocation. It will NOT touch
-# unrelated projects (e.g. anything running `uvicorn main:app`).
-#
-# Runs automatically via the `predev` npm script. Safe to run by hand anytime.
+# Why ports: killing concurrently does not always reap uvicorn/next children; the
+# next `pnpm dev` then fails with "address already in use" and train:call sees no
+# backend even though the agent started fine.
+
+set -euo pipefail
+
+free_port() {
+  local port="$1"
+  local pids
+  pids=$(lsof -ti :"$port" 2>/dev/null || true)
+  if [[ -z "$pids" ]]; then
+    return 0
+  fi
+  for pid in $pids; do
+    if kill "$pid" 2>/dev/null; then
+      echo "[predev] freed :$port (killed pid $pid)"
+    fi
+  done
+  sleep 0.5
+  pids=$(lsof -ti :"$port" 2>/dev/null || true)
+  for pid in $pids; do
+    kill -9 "$pid" 2>/dev/null && echo "[predev] force-freed :$port (killed pid $pid)"
+  done
+}
 
 # Patterns specific to this repo's dev processes.
 patterns=(
   "src/agent.py"                          # agent worker (dev/start) + console sessions
   "uv --directory agent-py run"           # the uv launcher wrapping the agent
-  "concurrently -n agent-py,backend,frontend"  # a leftover `pnpm dev` supervisor
+  "backend/.venv/bin/uvicorn src.main:app"  # backend without uv on PATH
+  "uv --directory backend run uvicorn"    # backend via uv
+  "concurrently -n agent-py,backend,frontend"  # leftover `pnpm dev` supervisor
 )
 
 killed=0
 for pat in "${patterns[@]}"; do
-  # pgrep -f matches against the full command line. Ignore our own PID.
   pids=$(pgrep -f "$pat" 2>/dev/null | grep -v "^$$\$" || true)
   for pid in $pids; do
     if kill "$pid" 2>/dev/null; then
@@ -33,8 +49,7 @@ for pat in "${patterns[@]}"; do
   done
 done
 
-# Give them a moment, then force-kill any that ignored SIGTERM.
-if [ "$killed" -gt 0 ]; then
+if [[ "$killed" -gt 0 ]]; then
   sleep 1
   for pat in "${patterns[@]}"; do
     pids=$(pgrep -f "$pat" 2>/dev/null | grep -v "^$$\$" || true)
@@ -42,10 +57,12 @@ if [ "$killed" -gt 0 ]; then
       kill -9 "$pid" 2>/dev/null && echo "[predev] force-killed $pid"
     done
   done
-  echo "[predev] cleared $killed stray agent process(es)."
+  echo "[predev] cleared $killed stray dev process(es)."
 else
-  echo "[predev] no stray agent processes — clean start."
+  echo "[predev] no stray dev processes — clean start."
 fi
 
-# Never fail the dev startup because cleanup found nothing to do.
+free_port 8000
+free_port 3000
+
 exit 0
