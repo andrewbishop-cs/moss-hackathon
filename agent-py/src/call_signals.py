@@ -88,6 +88,31 @@ SOFT_OBJECTION_PHRASES = (
     "have to go",
 )
 
+MEETING_DEFERRAL_PHRASES = (
+    "send me an email",
+    "just email",
+    "email me",
+    "send something over",
+    "send it over",
+    "send me info",
+    "send me the info",
+    "on my own time",
+    "research it myself",
+    "look into it",
+    "look into it myself",
+    "not comfortable",
+    "weird sales",
+    "back and forth in ai",
+    "go back and forth in ai",
+)
+
+MEETING_VALUE_HINT = (
+    "MEETING VALUE — prospect deferred to email/self-research/privacy. "
+    "Do NOT offer email on first push. Argue 10-min call vs 30-min research, "
+    "enforcing function, savings magnitude, offer urgency, thought leadership. "
+    "Call search_knowledge for meeting value selling first."
+)
+
 OBJECTION_RECOVERY_HINT = (
     "WOLF PERSISTENCE — prospect pushed back but did NOT opt out of all contact. "
     "Do NOT say goodbye, do NOT log declined, do NOT stop talking. "
@@ -177,6 +202,14 @@ def is_dnc_request(text: str) -> bool:
     return any(phrase in normalized for phrase in DNC_PHRASES)
 
 
+def is_meeting_deferral(text: str) -> bool:
+    """True when prospect defers to email, self-research, or privacy discomfort."""
+    normalized = _normalize(text)
+    if not normalized or is_dnc_request(text):
+        return False
+    return any(phrase in normalized for phrase in MEETING_DEFERRAL_PHRASES)
+
+
 def is_soft_objection(text: str) -> bool:
     """True when prospect pushes back but has not opted out of all contact."""
     normalized = _normalize(text)
@@ -235,6 +268,8 @@ def coaching_hint_for(text: str, *, rejected_times: int = 0) -> str | None:
     """Return a one-line coaching hint to inject into the agent prompt, if any."""
     if is_dnc_request(text):
         return DNC_EXIT_HINT
+    if is_meeting_deferral(text):
+        return MEETING_VALUE_HINT
     if is_soft_objection(text):
         return OBJECTION_RECOVERY_HINT
     if rejected_times >= 2:

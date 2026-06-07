@@ -238,6 +238,15 @@ def test_instructions_include_ai_identity_philosophy() -> None:
     assert "AI identity philosophy" in text  # search_knowledge query
 
 
+def test_instructions_include_meeting_value_selling() -> None:
+    """System prompt documents meeting value selling pillars and examples."""
+    text = _instructions_for(UC2_ESTIMATE_COMPLETED)
+    assert "Meeting value selling" in text
+    assert "10-minute" in text or "ten-minute" in text.lower()
+    assert "enforcing function" in text.lower()
+    assert "meeting value selling" in text  # search_knowledge query
+
+
 @pytest.mark.asyncio
 async def test_ai_identity_explains_purpose() -> None:
     """Are you a robot? should get purpose explanation without defensiveness."""
@@ -271,6 +280,83 @@ async def test_ai_identity_explains_purpose() -> None:
                     help evaluate savings opportunity).
 
                     Does NOT get defensive or argumentative about being AI.
+                    """
+                ),
+            )
+
+
+@pytest.mark.asyncio
+async def test_meeting_value_on_email_deferral() -> None:
+    """Just send me an email should trigger meeting-value argument, not email capitulation."""
+    async with (
+        _judge_llm() as judge_llm,
+        AgentSession() as session,
+    ):
+        await session.start(Assistant(use_case=UC2_ESTIMATE_COMPLETED))
+
+        with mock_tools(
+            Assistant,
+            {
+                "get_lead_context": lambda: SARAH_UC2_LEAD_CONTEXT,
+                "search_knowledge": lambda: (
+                    "Meeting value selling — do NOT capitulate to email on first push. "
+                    "Argue 10-min call vs 30-min research, enforcing function, savings "
+                    "magnitude, offer urgency, thought leadership."
+                ),
+            },
+        ):
+            result = await session.run(user_input="Just send me an email instead.")
+
+            await result.expect.next_event(type="message").judge(
+                judge_llm,
+                intent=textwrap.dedent(
+                    """\
+                    Argues for a short meeting or demo rather than agreeing to email-only
+                    on the first push.
+
+                    Mentions at least one of: ten-minute call efficiency vs researching
+                    alone, calendar/meeting as forcing a decision, savings magnitude
+                    worth capturing, evaluation gift/offer, or direct answers from the team.
+
+                    Does NOT ask for an email address or lead with "happy to send
+                    something over" as the primary response.
+                    """
+                ),
+            )
+
+
+@pytest.mark.asyncio
+async def test_meeting_value_on_privacy_pushback() -> None:
+    """Privacy discomfort should not trigger immediate email offer."""
+    async with (
+        _judge_llm() as judge_llm,
+        AgentSession() as session,
+    ):
+        await session.start(Assistant(use_case=UC2_ESTIMATE_COMPLETED))
+
+        with mock_tools(
+            Assistant,
+            {
+                "get_lead_context": lambda: SARAH_UC2_LEAD_CONTEXT,
+                "search_knowledge": lambda: (
+                    "Meeting value selling — privacy discomfort is not an email request. "
+                    "Argue for 10-min meeting; use savings from lead context."
+                ),
+            },
+        ):
+            result = await session.run(
+                user_input="I'm not comfortable sharing that. You already have my data."
+            )
+
+            await result.expect.next_event(type="message").judge(
+                judge_llm,
+                intent=textwrap.dedent(
+                    """\
+                    Does NOT immediately offer to email the estimate or ask for an email
+                    address as the primary response.
+
+                    Acknowledges privacy concern and argues for a short meeting or uses
+                    existing estimate data — pushes toward booking rather than email escape.
                     """
                 ),
             )

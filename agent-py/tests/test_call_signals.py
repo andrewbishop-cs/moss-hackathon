@@ -1,6 +1,7 @@
 from call_signals import (
     ACTIVE_LISTENING_PHRASES,
     DNC_EXIT_HINT,
+    MEETING_VALUE_HINT,
     OBJECTION_RECOVERY_HINT,
     REBUILD_INTEREST_HINT,
     TALKOVER_ONCE_HINT,
@@ -9,6 +10,7 @@ from call_signals import (
     coaching_hint_for,
     is_dnc_request,
     is_hard_stop,
+    is_meeting_deferral,
     is_soft_objection,
     next_talkover_count,
     talkover_coaching_hint,
@@ -67,6 +69,16 @@ def test_soft_objection_injects_recovery_hint() -> None:
     assert hint == OBJECTION_RECOVERY_HINT
     assert "wolf persistence" in hint.lower()
     assert "do not log declined" in hint.lower()
+
+
+def test_meeting_deferral_injects_hint() -> None:
+    assert is_meeting_deferral("Just email me the details.")
+    assert is_meeting_deferral("I'm not comfortable sharing that.")
+    assert is_meeting_deferral("I'll research it myself on my own time.")
+    hint = coaching_hint_for("Just send me an email instead.")
+    assert hint == MEETING_VALUE_HINT
+    assert "meeting value" in hint.lower()
+    assert "do not offer email" in hint.lower()
 
 
 def test_dnc_injects_exit_hint() -> None:

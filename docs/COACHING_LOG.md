@@ -19,6 +19,8 @@ Raw call-review observations. Paul + ChatGPT promote validated observations into
 | 2026-06-07 | Multiple calls | Alex keeps talking when talked over twice — feels rude; also too silent when prospect is venting (robocall feel). | Medium — conversational etiquette + engagement | See Talk-Over Yield + Active Listening Ad-libs in BEHAVIORAL_PRINCIPLES.md | implemented |
 | 2026-06-07 | — | Manual train-call validation for wolf / talk-over / DNC not yet run on live phone. | Medium — demo confidence | See [TRAIN_CALL_VALIDATION.md](TRAIN_CALL_VALIDATION.md) | open |
 | 2026-06-07 | Multiple calls | When asked "are you a bot?" Alex should explain why the AI exists (programmed follow-up on savings opportunities), not dodge or mimic human. | High — trust on AI disclosure | See AI Identity Philosophy in BEHAVIORAL_PRINCIPLES.md | implemented |
+| 2026-06-07 | Michael / `call-b1000000-1780819582` | Scam skepticism → Alex proactively offers email (*"send more details by email"*). AI discomfort (*"weird sales tactic… back and forth in AI"*) → capitulates: *"What's the best email?"* | High — loses whale on deferral instead of selling meeting | See Meeting Value Selling in BEHAVIORAL_PRINCIPLES.md | implemented |
+| 2026-06-07 | Michael / `call-b1000000-1780822778` | Privacy pushback (*"not comfortable… you have my data"*) → immediate email offer instead of 10-min meeting argument | High — email escape hatch before prospect even asked | See Meeting Value Selling in BEHAVIORAL_PRINCIPLES.md | implemented |
 
 ---
 

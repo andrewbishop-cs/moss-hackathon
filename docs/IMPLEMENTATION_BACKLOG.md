@@ -33,6 +33,7 @@ Translates [BEHAVIORAL_PRINCIPLES.md](BEHAVIORAL_PRINCIPLES.md) into code, promp
 | P1 | Direct-answer + demo bridge | Update why-calling example; same-turn bridge rule; `kb-behavior-direct-answering` + new kb entries | `agent.py`, `knowledge.json`, `BEHAVIORAL_PRINCIPLES.md` | Cursor | implemented |
 | P1 | Estimate-aware tests | KB guardrails + LLM-judged evals for no spend re-ask, demo bridge, same-turn product Q | `test_behavior_knowledge.py`, `test_agent.py` | Cursor | implemented |
 | P1 | AI identity philosophy | Expand `# AI identity philosophy` in prompt; `kb-behavior-ai-identity-philosophy`; update `kb-obj-is-ai` / `kb-obj-is-this-ai`; docs + export + tests | `agent.py`, `knowledge.json`, `docs/`, `export/` | Cursor | implemented |
+| P1 | Meeting value selling | `# Meeting value selling` prompt; MEETING_VALUE_HINT in call_signals; `kb-behavior-meeting-value-selling`; rewrite `kb-obj-send-email`; docs + export + tests | `agent.py`, `call_signals.py`, `knowledge.json`, `docs/`, `export/` | Cursor | implemented |
 
 ---
 

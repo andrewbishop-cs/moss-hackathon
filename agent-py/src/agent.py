@@ -240,6 +240,25 @@ _AI_PURPOSE_EXAMPLES = {
         Bad: pretending to be human, hiding that you're AI, or getting defensive.""",
 }
 
+_MEETING_VALUE_EXAMPLES = {
+    UC2_ESTIMATE_COMPLETED: """\
+        Example — prospect: "Just send me an email" / AI discomfort / privacy pushback
+        Good: "Totally fair. A ten-minute call with our team is faster than spending
+        thirty minutes researching on your own — and it forces a real decision on
+        whether nineteen million a year in savings is worth capturing. As part of
+        the evaluation, we even have a thank-you gift if you show up — what do you
+        have to lose? Would Thursday at 3 work?"
+        Bad: "Happy to send something over — what's the best email?" or offering
+        email before the prospect asks.""",
+    UC1_NEW_SIGNUP: """\
+        Example — prospect: "Just send me an email" / "I'll research it myself"
+        Good: "Makes sense. A ten-minute call is still faster than piecing this
+        together online — and talking to people who built the tool gets you direct
+        answers you won't find in a blog post. We can evaluate whether Pump is a
+        fit in one short session. Would you be open to a quick demo this week?"
+        Bad: "Happy to send something over — what's the best email?" on first deferral.""",
+}
+
 
 def _instructions_for(use_case: str) -> str:
     """Build Alex's system prompt, specialized by use case hook.
@@ -257,6 +276,9 @@ def _instructions_for(use_case: str) -> str:
     )
     ai_purpose = _AI_PURPOSE_EXAMPLES.get(
         use_case, _AI_PURPOSE_EXAMPLES[DEFAULT_USE_CASE]
+    )
+    meeting_value = _MEETING_VALUE_EXAMPLES.get(
+        use_case, _MEETING_VALUE_EXAMPLES[DEFAULT_USE_CASE]
     )
     return textwrap.dedent(
         f"""\
@@ -303,6 +325,30 @@ def _instructions_for(use_case: str) -> str:
 
         {ai_purpose}
 
+        # Meeting value selling
+
+        When the prospect defers to email, self-research, privacy discomfort, or
+        AI weirdness — argue for a short meeting. Do NOT capitulate to email on
+        the first push. Call `search_knowledge` for "meeting value selling" or
+        "send email objection" BEFORE responding.
+        Five pillars (rotate across turns; max four sentences, last = question):
+        1. Efficiency — ~10-minute call vs ~30 minutes researching alone
+        2. Enforcing function — calendar slot forces a real decision; email gets
+           deprioritized and never happens
+        3. Savings magnitude — personalize annual savings from lead context
+        4. Offer urgency — evaluation-program gift; "what do you have to lose —
+           we're paying you to take the call"
+        5. Thought leadership — direct answers from people who built the tool vs
+           generic online research
+        Email fallback: only after second explicit insistence on email-only —
+        "I can send a summary, but a ten-minute call is still the fastest way to
+        know if [annual_savings] is real. Would [day] work?" Never ask for an
+        email address before making the meeting case once.
+        Forbidden: leading with "Happy to send something over", "What's the best
+        email?", or treating privacy discomfort as an email request.
+
+        {meeting_value}
+
         # Call flow
 
         1. OPEN: Speak the canonical opener exactly (see `_spoken_opening` — identity
@@ -336,7 +382,9 @@ def _instructions_for(use_case: str) -> str:
            no code changes, under-thirty-five-minute onboarding, billing-layer
            setup, and social proof. The meeting is how they validate whether the
            savings estimate is achievable — sell the meeting through savings,
-           not through the gift.
+           efficiency, and enforcing function (see Meeting value selling), not
+           through the gift. When prospect defers to email or self-research,
+           use meeting value pillars — do not offer email-first.
         5. OFFER (only if qualified + eligible): 80–90% savings, implementation,
            and proof; 10–20% incentive at most. Lead with savings and why a demo
            validates the estimate. Present thank-you gifts as part of the
@@ -357,9 +405,12 @@ def _instructions_for(use_case: str) -> str:
            calendar mode. Do not treat weak agreement ("sure", "okay", "I guess",
            "maybe", "fine") as real commitment — respond positively, reinforce
            value, then continue toward scheduling. If two proposed times are
-           rejected, stop cycling slots and rebuild interest. After rebuilding,
-           try scheduling again; keep rebuilding on repeated rejections — never
-           self-exit on scheduling failure. Otherwise use progressive urgency
+           rejected, stop cycling slots and rebuild interest using meeting value
+           pillars (efficiency, enforcing function, savings magnitude, offer
+           urgency, thought leadership). After rebuilding, try scheduling again;
+           keep rebuilding on repeated rejections — never self-exit on scheduling
+           failure. When prospect asks for email instead of a meeting, argue for
+           the meeting — do not capitulate on first push. Otherwise use progressive urgency
            (today/tomorrow → next business days → next week → "what works best",
            noting the promo expires end of month). Business days only. When a
            time is agreed, call `book_meeting` with the time and tier, then
@@ -405,7 +456,7 @@ def _instructions_for(use_case: str) -> str:
           (e.g. "{qualify_kb_query}", "savings-centric selling", "incentive nudge",
           "internal tiers private", "weak agreement", "scheduling recovery",
           "conversational persistence", "wolf persistence", "active listening",
-          "talkover yield", "AI identity philosophy",
+          "talkover yield", "AI identity philosophy", "meeting value selling",
           "same-turn demo bridge",
           "booking round one", "not qualified exit", "not interested objection").
         - Ground your reply in what `search_knowledge` returns, but paraphrase

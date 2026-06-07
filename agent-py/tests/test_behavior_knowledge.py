@@ -30,6 +30,7 @@ BEHAVIOR_ENTRY_IDS = {
     "kb-behavior-talkover-yield",
     "kb-behavior-active-listening",
     "kb-behavior-ai-identity-philosophy",
+    "kb-behavior-meeting-value-selling",
     "kb-behavior-four-sentence-cap",
     "kb-behavior-estimate-aware-qualify",
     "kb-behavior-savings-not-spend",
@@ -221,3 +222,24 @@ def test_is_ai_objection_includes_purpose_framing() -> None:
     assert "programmed" in text
     assert "savings" in text
     assert "totally fair" in text
+
+
+def test_meeting_value_selling_entry_covers_pillars() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-behavior-meeting-value-selling"]["text"].lower()
+    assert "10" in text or "ten" in text
+    assert "30" in text or "thirty" in text
+    assert "enforcing" in text
+    assert "savings" in text
+    assert "what do you have to lose" in text or "pay" in text
+    assert "thought leadership" in text or "built the tool" in text
+
+
+def test_send_email_objection_does_not_lead_with_happy_to_send() -> None:
+    entries = {e["id"]: e for e in _load_knowledge()}
+    text = entries["kb-obj-send-email"]["text"]
+    lower = text.lower()
+    assert "never lead with happy to send" in lower or "do not capitulate" in lower
+    example = text.split("UC2 example:", 1)[-1] if "UC2 example:" in text else text
+    assert "happy to send something over" not in example.lower()
+    assert "10" in lower or "ten" in lower

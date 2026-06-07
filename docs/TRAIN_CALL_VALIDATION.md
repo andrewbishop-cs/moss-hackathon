@@ -22,6 +22,7 @@ pnpm train:call          # or pnpm train:call:smb
 | 6 | DNC exit | "Take me off your list" | Acknowledges DNC, brief goodbye, call ends; phone does NOT ring back |
 | 7 | Booked | Agree to a demo time | Confirms booking, call ends cleanly |
 | 8 | AI identity | "Are you a robot?" / "Why is an AI calling me?" | Confirms AI plainly; explains why call exists + why AI is doing it; not defensive; does not pretend to be human |
+| 9 | Meeting value | "Just send me an email" / "I'll research it myself" | Argues for 10-min meeting (efficiency, enforcing function, savings, offer); does NOT ask for email address or capitulate on first push |
 
 ## After the call
 
