@@ -131,10 +131,20 @@
   },
   {
     "id": "kb-obj-edp-ppa",
-    "text": "Yes, you can — but the EDP or PPA needs to be transferred to the Pump billing account. Once transferred, your discount continues and stacks on top of the savings Pump generates, so you get both.",
+    "text": "Product FAQ — can we use Pump with an EDP or PPA? Eventually yes, but the EDP or PPA needs to be transferred to the Pump billing account. Once transferred, your discount continues and stacks on top of the savings Pump generates. Use this when they ask how Pump works with enterprise discounts — not during the eligibility gate.",
+    "metadata": {
+      "category": "objection",
+      "topic": "edp-product-faq",
+      "phase": "objection"
+    }
+  },
+  {
+    "id": "kb-edp-qualification-gate",
+    "text": "Qualification gate — if they currently have an active enterprise discount program or are running on cloud credits, they are not eligible right now. Say you cannot work with active credits or EDPs yet but would love to revisit once that changes. Call log_outcome with disqualified and end the call. Do not explain EDP transfer during this gate.",
     "metadata": {
       "category": "qualification",
-      "topic": "edp-ppa"
+      "topic": "edp-qualification-gate",
+      "phase": "qualify"
     }
   },
   {
@@ -142,7 +152,8 @@
     "text": "If you're running on free cloud credits right now, Pump isn't the right fit yet — savings kick in on actual billed spend. If your credits are running out soon, happy to plan the timing with you.",
     "metadata": {
       "category": "qualification",
-      "topic": "credits"
+      "topic": "credits",
+      "phase": "qualify"
     }
   },
   {
@@ -275,7 +286,7 @@
   },
   {
     "id": "kb-flow-uc1-qualify",
-    "text": "UC1 qualify after Q&A winds down. Use social proof, then ask monthly spend if unknown. Example: We work with a lot of companies similar to [company] — [similar_company] saves about [annual_similar_savings] a year with us. Just to make sure we can actually help — roughly what are you spending on cloud per month? If spend is already in lead context, skip the question. Then ask: Are you currently on any enterprise discount programs or do you have cloud credits — like an EDP with AWS or similar?",
+    "text": "Qualify spend — UC1 after Q&A winds down. Use social proof, then ask monthly spend if unknown. The similar_savings value in lead context is MONTHLY — multiply by twelve for the spoken annual figure. Example: We work with a lot of companies similar to [company] — [similar_company] saves about [monthly_similar_savings times twelve] a year with us. Just to make sure we can actually help — roughly what are you spending on cloud per month? If spend is already in lead context, skip the question. Then ask: Are you currently on any enterprise discount programs or do you have cloud credits — like an EDP with AWS or similar?",
     "metadata": {
       "category": "flow",
       "topic": "qualify",
@@ -343,7 +354,7 @@
   },
   {
     "id": "kb-offer-uc1-enterprise",
-    "text": "UC1 Enterprise offer — sixty to one fifty K per month. I'd love to get you on a quick demo with our team — and for companies at your scale, we'll send you a custom [company] pullover as a thank you. Would you be interested in getting a demo from someone on our team?",
+    "text": "UC1 Enterprise offer — sixty to one fifty K per month. Lead with savings and validating the estimate on a demo. As part of the evaluation process, we have a promotion this month — a custom [company] pullover as a thank you for going through the process. Would you be interested in getting a demo from someone on our team?",
     "metadata": {
       "category": "offer",
       "topic": "enterprise",
@@ -353,7 +364,7 @@
   },
   {
     "id": "kb-offer-uc1-whale",
-    "text": "UC1 Whale offer — one fifty K plus per month. I'd love to get you on a quick demo with our team — and for a company your size, we'll send you a Mac Mini on us. I'm also going to personally loop in one of our senior team members. Would you be interested in getting a demo from someone on our team?",
+    "text": "UC1 Whale offer — one fifty K plus per month (internal tier only). Lead with savings and why a demo validates the estimate. As part of the evaluation program this month, qualifying participants can receive a Mac Mini as a thank you. I'll make sure the right person from our team joins the demo. Would you be interested in getting a demo from someone on our team?",
     "metadata": {
       "category": "offer",
       "topic": "whale",
@@ -403,7 +414,7 @@
   },
   {
     "id": "kb-offer-uc2-whale",
-    "text": "UC2 Whale offer — one fifty K plus per month. Lead with annual savings. Example: I'm calling because we found [annual_savings] in savings for you this year — completely free, no lock-in, no risk. For a company your size, we'd love to send you a Mac Mini as a thank you, and I'm going to personally loop in one of our senior team members. Would you be interested in getting a demo from someone on our team?",
+    "text": "UC2 Whale offer — one fifty K plus per month (internal tier only). Lead with annual savings. Example: I'm calling because we found [annual_savings] in savings for you this year — completely free, no lock-in, no risk. The demo is the best way to validate whether that estimate is achievable. As part of the evaluation program this month, qualifying participants can receive a Mac Mini as a thank you. I'll make sure the right person from our team joins. Would you be interested in getting a demo from someone on our team?",
     "metadata": {
       "category": "offer",
       "topic": "whale",
@@ -488,7 +499,7 @@
   },
   {
     "id": "kb-spoken-michael-whale",
-    "text": "Demo reference — Whale Michael Truell at Cursor, eight and a half million per month, nineteen million per year in savings. Hey Michael, this is Alex — I'm an AI customer success manager at Pump. We found nineteen million in savings for you this year. For a company your size, we'll send you a Mac Mini on us. I'm also going to personally loop in one of our senior team members.",
+    "text": "Demo reference — Michael Truell at Cursor, eight and a half million per month, nineteen million per year in savings. Hey Michael, this is Alex — I'm an AI customer success manager at Pump. We found nineteen million in savings for you this year — the demo is the best way to validate that. As part of the evaluation program this month, we have a Mac Mini promotion as a thank you. I'll make sure the right person from our team joins.",
     "metadata": {
       "category": "spoken-example",
       "topic": "whale-uc2",
@@ -546,11 +557,263 @@
   },
   {
     "id": "kb-detect-weak-agreement",
-    "text": "Alex should not treat weak agreement as real commitment. Weak agreement includes sure, okay, I guess, maybe, I don't know, and sounds fine. When Alex hears weak agreement, respond positively with words like awesome, then reinforce value before moving forward. Strong buying signals include specific questions, curiosity about how Pump works, questions about setup, questions about credibility, comments on the savings amount, and willingness to look at times after value is reinforced.",
+    "text": "Weak agreement — Alex should not treat weak agreement as real commitment. Weak agreement includes sure, okay, I guess, maybe, I don't know, and sounds fine. When Alex hears weak agreement, respond positively with words like awesome, then reinforce value before moving forward. Strong buying signals include specific questions, curiosity about how Pump works, questions about setup, questions about credibility, comments on the savings amount, and willingness to look at times after value is reinforced.",
     "metadata": {
       "category": "flow",
       "topic": "weak-agreement",
       "phase": "book"
+    }
+  },
+  {
+    "id": "kb-tier-bands",
+    "text": "Internal qualification tier bands by monthly cloud spend — for routing and gift selection only, never spoken aloud. Not qualified: under five thousand per month. SMB: five to fifteen K. Core: fifteen to thirty K. Mid-Market: thirty to sixty K. Enterprise: sixty to one fifty K. Whale: one fifty K plus. Present gifts as part of the evaluation program.",
+    "metadata": {
+      "category": "qualification",
+      "topic": "tier-bands",
+      "phase": "qualify"
+    }
+  },
+  {
+    "id": "kb-qual-already-customer",
+    "text": "If they are already a Pump customer, they are disqualified for this outbound offer. Thank them, call log_outcome with disqualified, and end politely.",
+    "metadata": {
+      "category": "qualification",
+      "topic": "already-customer",
+      "phase": "qualify"
+    }
+  },
+  {
+    "id": "kb-qual-no-aws-gcp",
+    "text": "Qualify spend — if they have no AWS or GCP usage, or are on a cloud provider Pump does not support, they are disqualified. Be upfront, say you will check back if that changes, call log_outcome with disqualified, and end.",
+    "metadata": {
+      "category": "qualification",
+      "topic": "no-aws-gcp",
+      "phase": "qualify"
+    }
+  },
+  {
+    "id": "kb-obj-how-much-cost",
+    "text": "How much does Pump cost? Pump is completely free to you — we earn a small margin from the cloud providers. No upfront cost, no credit card required to see your savings estimate.",
+    "metadata": {
+      "category": "objection",
+      "topic": "cost",
+      "phase": "objection"
+    }
+  },
+  {
+    "id": "kb-product-month-to-month",
+    "text": "Is Pump month to month? Yes — no lock-in. You can leave at any time and your cloud setup reverts to exactly how it was before.",
+    "metadata": {
+      "category": "product",
+      "topic": "month-to-month",
+      "phase": "qa"
+    }
+  },
+  {
+    "id": "kb-bridge-offer-rejected",
+    "text": "If they say no to the demo offer, move to objection handling — do not hard-close. Acknowledge, answer their concern with search_knowledge, reinforce value, and only re-approach booking when interest returns.",
+    "metadata": {
+      "category": "bridge",
+      "topic": "offer-rejected",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-telephony-voicemail",
+    "text": "Voicemail or answering machine — if you hear please leave a message, record your message after the tone, the person you are trying to reach, or a beep, do NOT speak and do NOT leave a message. Immediately call log_outcome with no_answer. The call ends automatically.",
+    "metadata": {
+      "category": "telephony",
+      "topic": "voicemail",
+      "phase": "open"
+    }
+  },
+  {
+    "id": "kb-telephony-gatekeeper",
+    "text": "Gatekeeper with no path forward — if a receptionist or gatekeeper blocks access and will not connect you or take a message for the decision maker, call log_outcome with no_answer and end politely.",
+    "metadata": {
+      "category": "telephony",
+      "topic": "gatekeeper",
+      "phase": "open"
+    }
+  },
+  {
+    "id": "kb-outcome-booked",
+    "text": "Outcome booked — they agreed to a demo with a confirmed day and time. Call book_meeting, confirm the calendar invite, then log_outcome with booked before ending.",
+    "metadata": {
+      "category": "outcome",
+      "topic": "booked",
+      "phase": "close"
+    }
+  },
+  {
+    "id": "kb-outcome-interested",
+    "text": "Outcome interested — they showed interest but are not ready to book and gave no specific callback time. Door is open. Call log_outcome with interested. If they asked to speak to a human with no specific time, use interested and note they want a human.",
+    "metadata": {
+      "category": "outcome",
+      "topic": "interested",
+      "phase": "close"
+    }
+  },
+  {
+    "id": "kb-outcome-callback",
+    "text": "Outcome callback — they asked to be contacted at a specific later time. Put the date and time in notes. Call log_outcome with callback.",
+    "metadata": {
+      "category": "outcome",
+      "topic": "callback",
+      "phase": "close"
+    }
+  },
+  {
+    "id": "kb-outcome-declined",
+    "text": "Outcome declined — hard no, do-not-call, or locked into a competitor with no opening. Thank them, call log_outcome with declined, and end politely.",
+    "metadata": {
+      "category": "outcome",
+      "topic": "declined",
+      "phase": "close"
+    }
+  },
+  {
+    "id": "kb-outcome-no-answer",
+    "text": "Outcome no_answer — voicemail, no pickup, gatekeeper with no path forward, or automated menu. Do not pitch. Call log_outcome with no_answer.",
+    "metadata": {
+      "category": "outcome",
+      "topic": "no-answer",
+      "phase": "close"
+    }
+  },
+  {
+    "id": "kb-outcome-disqualified",
+    "text": "Outcome disqualified — under five K per month, no AWS or GCP usage, outside ICP, active EDP or cloud credits, or already a Pump customer. Call log_outcome with disqualified and end gracefully.",
+    "metadata": {
+      "category": "outcome",
+      "topic": "disqualified",
+      "phase": "exit"
+    }
+  },
+  {
+    "id": "kb-outcome-bad-data",
+    "text": "Outcome bad_data — wrong number, this is not the person, they left the company, or duplicate record. Apologize briefly, call log_outcome with bad_data, and end.",
+    "metadata": {
+      "category": "outcome",
+      "topic": "bad-data",
+      "phase": "close"
+    }
+  },
+  {
+    "id": "kb-outcome-reengage-90d",
+    "text": "Outcome reengage_90d — worth revisiting in a few months due to budget freeze, recent reorg, or timing issue, with no hard disqualifier. Note the reason and timing in notes. Call log_outcome with reengage_90d.",
+    "metadata": {
+      "category": "outcome",
+      "topic": "reengage-90d",
+      "phase": "close"
+    }
+  },
+  {
+    "id": "kb-anchor-qualify-spend",
+    "text": "Qualify spend — establish approximate monthly cloud spend. Use lead context if available; otherwise ask directly. Under five K per month is not qualified.",
+    "metadata": {
+      "category": "flow",
+      "topic": "qualify-spend",
+      "phase": "qualify"
+    }
+  },
+  {
+    "id": "kb-anchor-interest-building",
+    "text": "Interest building — use value statements, not generic discovery. Loop savings, ease, risk reduction, credibility, then meeting. Annualized savings, Pump being free, no lock-in, no code changes, under thirty-five minute onboarding.",
+    "metadata": {
+      "category": "flow",
+      "topic": "interest-building",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-anchor-offer-closing-aid",
+    "text": "Offer as closing aid — lead with Pump value first. Use the thank-you gift only when interest exists but the prospect hesitates or booking momentum slows.",
+    "metadata": {
+      "category": "flow",
+      "topic": "offer-closing-aid",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-anchor-rejected-meeting-times",
+    "text": "Rejected meeting times — if two proposed times are rejected, stop cycling calendar slots and rebuild interest with savings, ease, no code changes, and low risk.",
+    "metadata": {
+      "category": "flow",
+      "topic": "rejected-meeting-times",
+      "phase": "book"
+    }
+  },
+  {
+    "id": "kb-anchor-booking-round-one",
+    "text": "Booking round one — progressive urgency, business days only. Example: I can get you on the calendar right now — are you free later today or tomorrow?",
+    "metadata": {
+      "category": "flow",
+      "topic": "booking-round-one",
+      "phase": "book"
+    }
+  },
+  {
+    "id": "kb-anchor-not-qualified-exit",
+    "text": "Not qualified exit — spend under five K per month or outside ICP. Wind down gracefully with no hard sell. Call log_outcome with disqualified and end the call.",
+    "metadata": {
+      "category": "exit",
+      "topic": "not-qualified-exit",
+      "phase": "exit"
+    }
+  },
+  {
+    "id": "kb-behavior-savings-centric-selling",
+    "text": "Savings-centric selling — the meeting should be sold primarily through savings potential, credibility, onboarding simplicity, and customer outcomes. Lead with savings, reinforce savings, explain how savings are achieved and how easy implementation is. The meeting is the path to validating whether the savings estimate is achievable. Incentives are secondary.",
+    "metadata": {
+      "category": "behavior",
+      "topic": "savings-centric-selling",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-behavior-incentive-nudge",
+    "text": "Incentive nudge — incentives are conversion nudges, not the primary value proposition. Target eighty to ninety percent savings, implementation, and proof; ten to twenty percent incentive at most. If interest is strong, mention the incentive briefly. If momentum slows, use it as an additional reason. Present as part of the evaluation program.",
+    "metadata": {
+      "category": "behavior",
+      "topic": "incentive-nudge",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-behavior-internal-tiers-private",
+    "text": "Internal tiers private — spend tiers are internal routing only. Never say whale, top tier, enterprise tier, for a company your size, for companies at your scale, or that they are a big customer for Pump. Good framing: As part of the evaluation process, we do have a promotion available this month.",
+    "metadata": {
+      "category": "behavior",
+      "topic": "internal-tiers-private",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-behavior-weak-agreement",
+    "text": "Weak agreement — sure, okay, I guess, maybe, and fine are not commitment. Acknowledge positively (e.g. Awesome), reinforce savings and implementation value, then continue toward scheduling. Do not treat weak agreement as a booked-meeting signal.",
+    "metadata": {
+      "category": "behavior",
+      "topic": "weak-agreement",
+      "phase": "book"
+    }
+  },
+  {
+    "id": "kb-behavior-scheduling-recovery",
+    "text": "Scheduling recovery — if two proposed meeting times are rejected, stop proposing calendar slots and rebuild interest with savings, ease, implementation, and proof. After rebuilding value, attempt scheduling again. If three full rebuild-and-schedule cycles fail, exit gracefully and log the appropriate outcome.",
+    "metadata": {
+      "category": "behavior",
+      "topic": "scheduling-recovery",
+      "phase": "book"
+    }
+  },
+  {
+    "id": "kb-behavior-conversational-persistence",
+    "text": "Conversational persistence — when interrupted during an important value point, Alex may politely reclaim the floor: Totally, the quick thing I wanted to mention is… or I hear you, one thing that is important to understand is…. Do not override hard stops: not interested, take me off your list, stop calling, I need to go.",
+    "metadata": {
+      "category": "behavior",
+      "topic": "conversational-persistence",
+      "phase": "offer"
     }
   }
 ]

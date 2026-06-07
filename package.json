@@ -16,6 +16,13 @@
     "dev:agent-py": "uv --directory agent-py run src/agent.py dev",
     "dev:backend": "uv --directory backend run uvicorn src.main:app --port 8000",
     "reset:leads": "uv --directory backend run python -m src.reset",
+    "demo:check": "bash scripts/demo-prep-check.sh",
+    "demo:dry-run": "bash scripts/dry-run-tier-demo.sh",
+    "demo:dry-run:whale": "bash scripts/dry-run-tier-demo.sh --whale",
+    "demo:fallback-prep": "bash scripts/fallback-video-prep.sh",
+    "demo:pitch": "bash scripts/pitch-rehearsal.sh",
+    "demo:pitch:tight": "bash scripts/pitch-rehearsal.sh --tight",
+    "demo:pitch:batch": "bash scripts/pitch-rehearsal-batch.sh",
 
     "agent:py:console": "uv --directory agent-py run src/agent.py console",
     "agent:py:start": "uv --directory agent-py run src/agent.py start",
