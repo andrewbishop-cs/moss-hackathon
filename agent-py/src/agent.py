@@ -6,6 +6,7 @@ import textwrap
 from datetime import datetime, timezone
 
 from dotenv import load_dotenv
+from livekit import api
 from livekit.agents import (
     Agent,
     AgentServer,
@@ -36,6 +37,11 @@ LEADS_INDEX = os.getenv("MOSS_LEADS_INDEX_NAME", "leads")
 # Use-case identifiers (match `use_case` in Supabase / leads.json).
 UC1_NEW_SIGNUP = "uc1_new_signup"
 UC2_ESTIMATE_COMPLETED = "uc2_estimate_completed"
+
+# Outbound SIP trunk (Twilio, via LiveKit). When dispatch metadata carries a
+# `phone_number`, the agent dials it through this trunk; otherwise it runs the
+# in-room/console flow. See agent-py/.env.local and docs/ARCHITECTURE.md.
+SIP_OUTBOUND_TRUNK_ID = os.getenv("SIP_OUTBOUND_TRUNK_ID")
 
 # Fallbacks used only when ctx.job.metadata is absent (e.g. `console` mode). The
 # frontend provides a real lead_id + use_case via agent dispatch metadata.
@@ -339,11 +345,15 @@ async def my_agent(ctx: JobContext):
     # Parsed before ctx.connect() to stay off the connection critical path.
     lead_id = DEFAULT_LEAD_ID
     use_case = DEFAULT_USE_CASE
+    # phone_number is only present for real outbound calls (set by the backend).
+    # When absent (console/browser), we skip dialing and run the in-room flow.
+    phone_number = None
     if ctx.job.metadata:
         try:
             meta = json.loads(ctx.job.metadata)
             lead_id = meta.get("lead_id", DEFAULT_LEAD_ID)
             use_case = meta.get("use_case", DEFAULT_USE_CASE)
+            phone_number = meta.get("phone_number")
         except json.JSONDecodeError:
             logger.warning(
                 "ctx.job.metadata was not valid JSON; using default lead_id/use_case"
@@ -367,6 +377,41 @@ async def my_agent(ctx: JobContext):
         preemptive_generation=True,
     )
 
+    # Join the room first so we can place the outbound call into it.
+    await ctx.connect()
+
+    # Outbound call: dial the lead's phone via the SIP trunk and wait for pickup
+    # before starting the session, so the opening line plays to a live person and
+    # not into a ringing void. Without a phone number we fall through to the
+    # in-room/console flow unchanged.
+    if phone_number:
+        if not SIP_OUTBOUND_TRUNK_ID:
+            logger.error(
+                "phone_number provided but SIP_OUTBOUND_TRUNK_ID is unset; cannot dial"
+            )
+            ctx.shutdown()
+            return
+        try:
+            await ctx.api.sip.create_sip_participant(
+                api.CreateSIPParticipantRequest(
+                    room_name=ctx.room.name,
+                    sip_trunk_id=SIP_OUTBOUND_TRUNK_ID,
+                    sip_call_to=phone_number,
+                    participant_identity=phone_number,
+                    wait_until_answered=True,
+                )
+            )
+        except api.TwirpError as e:
+            logger.error(
+                "outbound SIP call failed: %s (sip_status=%s %s)",
+                e.message,
+                e.metadata.get("sip_status_code"),
+                e.metadata.get("sip_status"),
+            )
+            ctx.shutdown()
+            return
+        await ctx.wait_for_participant(identity=phone_number)
+
     # Start the session, which initializes the voice pipeline and warms up the models
     await session.start(
         agent=Assistant(room=ctx.room, lead_id=lead_id, use_case=use_case),
@@ -379,9 +424,6 @@ async def my_agent(ctx: JobContext):
             ),
         ),
     )
-
-    # Join the room and connect to the user
-    await ctx.connect()
 
     # Trigger the opening line once connected (not in Agent.on_enter) per the
     # documented LiveKit pattern, so it runs against a connected room.
