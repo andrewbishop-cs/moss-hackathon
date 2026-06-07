@@ -13,22 +13,18 @@ Hey — ready for a joint PSTN dry run. Paul-side checks are green:
 - `/dashboard`, `/dashboard/analytics`, `/pump/estimate?lead_id=...`, live call page — all 200
 - `POST /triggers/estimate-completed` dispatches agent + sets `calling` + `room_name`
 
-**Blocked until we sync (need you + Paul in Supabase):**
+**Done (Paul, hour 9):**
+- Reset all leads to `pending` (`uv --directory backend run python -m src.reset` — 22 rows)
+- Hero phone set: Michael + Alex → `+19145598426`
+- Tier demo commits pushed to `main`
 
-1. **Reset stuck leads** — several seeds stuck on `calling` from earlier SIP tests:
-   ```sql
-   -- backend/seed/reset_demo_leads.sql
-   ```
+**Still need Andrew:**
 
-2. **Hero phone** — Michael Truell still on fake `+14155550101`. Paul runs:
-   ```sql
-   -- backend/seed/set_demo_phone.sql (replace with Paul's Twilio-verified E.164)
-   UPDATE leads SET phone = '+1PAUL_VERIFIED' WHERE id = 'b1000000-0001-0000-0000-000000000001';
-   ```
+1. **`pnpm moss:index`** — after latest `knowledge.json` tier edits
 
-3. **`pnpm moss:index`** — after latest `knowledge.json` edits
+2. **Joint PSTN dry run** — see [PING_ANDREW_DEMO.md](PING_ANDREW_DEMO.md) for copy-paste ping
 
-4. **Cat 5–7 statuses** (optional for demo, not blocking): add `disqualified`, `bad_data`, `reengage_90d` to `models.py` + `VALID_OUTCOMES` — see [PING_ANDREW_DISPOSITIONS.md](PING_ANDREW_DISPOSITIONS.md)
+3. **Cat 5–7 statuses** (optional for demo, not blocking): see [PING_ANDREW_DISPOSITIONS.md](PING_ANDREW_DISPOSITIONS.md)
 
 **Joint dry run (15 min):**
 1. Paul runs reset SQL + set phone SQL in Supabase
