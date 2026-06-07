@@ -13,7 +13,8 @@ import {
 } from '@phosphor-icons/react/dist/ssr';
 import { PumpShell } from '@/components/pump/pump-shell';
 import { Button } from '@/components/ui/button';
-import { ApiError, USE_FIXTURES, triggerNewSignup } from '@/lib/api';
+import { ApiError, triggerNewSignup } from '@/lib/api';
+import { FIXTURE_LEADS } from '@/lib/fixtures';
 import { CLOUD_PROVIDERS, COMPANY_SIZES, type TriggerNewSignup } from '@/lib/leads';
 
 const FIELD =
@@ -78,13 +79,13 @@ function SignupForm() {
       setLeadId(res?.lead?.id ?? null);
       setDone(true);
     } catch (err) {
-      if (!(err instanceof ApiError) && USE_FIXTURES) {
-        // Network error (backend offline) and demo mode is on — let it proceed.
+      if (!(err instanceof ApiError)) {
+        // Backend offline — let the hackathon demo proceed to the next screen.
+        setLeadId(FIXTURE_LEADS[0].id);
         setDemoNote(true);
         setDone(true);
       } else {
-        // Surface the real failure (backend error, or network error with no demo fallback).
-        setError(err instanceof Error ? err.message : 'Signup failed. Please try again.');
+        setError(err.message || 'Signup failed. Please try again.');
       }
     } finally {
       setSubmitting(false);
