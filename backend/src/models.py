@@ -9,12 +9,17 @@ from uuid import UUID
 
 UseCase = Literal["uc1_new_signup", "uc2_estimate_completed"]
 
+# Operational statuses ("pending", "calling", "called") plus the terminal call
+# outcomes from docs/AGENT_SCRIPT.md. "callback" = caller asked to be called back
+# later (details in outcome_notes).
 LeadStatus = Literal[
     "pending",
     "calling",
     "called",
     "booked",
-    "interested",
+    "not_qualified",
+    "not_eligible",
+    "requested_human",
     "callback",
     "no_answer",
     "declined",

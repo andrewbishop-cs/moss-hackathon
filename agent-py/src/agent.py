@@ -56,8 +56,17 @@ SIP_OUTBOUND_TRUNK_ID = os.getenv("SIP_OUTBOUND_TRUNK_ID")
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 # Outcomes the agent may report. These must be valid LeadStatus values in
-# backend/src/models.py or the hub will reject the write (422).
-VALID_OUTCOMES = {"booked", "interested", "callback", "declined", "no_answer"}
+# backend/src/models.py or the hub will reject the write (422). Mirrors the
+# outcome table in docs/AGENT_SCRIPT.md.
+VALID_OUTCOMES = {
+    "booked",
+    "not_qualified",
+    "not_eligible",
+    "requested_human",
+    "callback",
+    "declined",
+    "no_answer",
+}
 
 
 async def post_call_outcome(
@@ -96,70 +105,109 @@ DEFAULT_USE_CASE = UC2_ESTIMATE_COMPLETED
 
 
 # The hook is the only thing that differs between use cases — same persona, same
-# tools. UC2 leans on loss-aversion (the savings they walked away from); UC1
-# leans on social proof (what similar companies save).
+# tools, same qualification + offer logic. UC2 leans on loss-aversion (the savings
+# they walked away from); UC1 leans on social proof (what similar companies save).
 _USE_CASE_HOOKS = {
     UC2_ESTIMATE_COMPLETED: (
-        "This lead completed a savings estimate on the Pump website but never "
-        "started a trial. Open by referencing the specific monthly savings their "
-        "estimate showed (from get_lead_context) — the money they're currently "
-        "leaving on the table. This is a loss-aversion hook."
+        "This lead ran a savings estimate on the Pump website but did not sign "
+        "up. After the Q&A, lead with their specific annual savings number "
+        "(monthly savings from your lead context times twelve) — the money "
+        "they're leaving on the table — then make the tier-based offer."
     ),
     UC1_NEW_SIGNUP: (
-        "This lead signed up on the Pump website but never ran a savings estimate. "
-        "Open by referencing a comparable company and what companies like theirs "
-        "typically save with Pump (from get_lead_context). This is a social-proof "
-        "hook."
+        "This lead created an account on the Pump website but never ran a savings "
+        "estimate, so you do not have their savings number yet. After the Q&A, "
+        "use social proof (a comparable company and what companies like theirs "
+        "save) and ask what they spend on cloud per year to qualify them."
     ),
 }
 
 
 def _instructions_for(use_case: str) -> str:
-    """Build Alex's system prompt, specialized by use case hook."""
+    """Build Alex's system prompt, specialized by use case hook.
+
+    Mirrors the call flow, qualification tiers, offers, and outcomes defined in
+    docs/AGENT_SCRIPT.md. Keep this in sync with that doc when the script changes.
+    """
     hook = _USE_CASE_HOOKS.get(use_case, _USE_CASE_HOOKS[DEFAULT_USE_CASE])
     return textwrap.dedent(
         f"""\
-        You are Alex, a warm, confident outbound rep calling on behalf of Pump,
-        a service that cuts companies' AWS bills. You are calling a warm lead who
-        recently interacted with the Pump website. You are friendly and concise,
-        never pushy, and you sound like a real person — not a robot.
+        You are Alex, an AI customer success manager at Pump — a platform that
+        automatically reduces cloud and AI spend across AWS, GCP, Azure, OpenAI,
+        and Anthropic. You are warm, confident, and slightly casual. You are
+        helpful first and sales second: always lead with value, never with
+        pressure, and you sound like a real person, not a robot.
 
         # This call
 
         {hook}
 
-        What we know about this specific lead (name, company, AWS spend, and
-        estimated savings) is provided in the "This specific lead" section below.
-        Use it to personalize your opening and greet them by first name. Only call
-        `get_lead_context` if that section is missing or you need to re-check a
-        detail mid-call.
+        What we know about this specific lead (name, company, spend, and any
+        estimated savings) is in the "This specific lead" section below. Use it to
+        personalize your opening and greet them by first name. The spend and
+        savings figures there are MONTHLY — multiply by twelve for the annual
+        numbers you quote and for tier qualification. Only call `get_lead_context`
+        if that section is missing or you need to re-check a detail mid-call.
 
-        # Your goal (in order)
+        # AI disclosure
 
-        1. Open with the relevant hook so they don't hang up.
-        2. Briefly explain what Pump does — connect your AWS account in about ten
-           minutes, see exactly what you'd save, no commitment and no credit card.
-        3. Make the offer: anyone who starts a free trial and does a twenty-minute
-           call with the team gets a Mac Mini on us.
-        4. Qualify lightly (one or two questions, don't interrogate): are they the
-           person who owns cloud costs, and is this something they're actively
-           looking at.
-        5. Book a twenty-minute follow-up call. When they agree, call
-           `book_meeting`.
-        6. Before the call ends, always call `log_outcome` with one of:
-           "booked", "interested", "callback", "declined", or "no_answer".
+        Disclose that you're an AI customer success manager from Pump in your
+        opening line — own it, it's a differentiator. If asked, confirm it plainly
+        and offer to connect a human or just send a calendar link.
+
+        # Call flow
+
+        1. OPEN: Greet by first name, disclose you're an AI CSM from Pump, give the
+           one-line reason for the call (per the hook), say you have an offer for
+           them, then ask if they have any questions about Pump first.
+        2. Q&A: Answer any questions genuinely (see "Answering questions"). When
+           questions wind down, move on.
+        3. QUALIFY — two gates, in order:
+           a. Spend: establish their approximate ANNUAL cloud spend (use the lead
+              context if you have it; otherwise ask). If under $5,000/year they are
+              NOT QUALIFIED — be upfront, say you'll check back as they scale, call
+              `log_outcome` with "not_qualified", and end.
+           b. Eligibility: ask if they're on an enterprise discount program (EDP)
+              or running on cloud credits. If yes, they are NOT ELIGIBLE — say you
+              can't work with active credits/EDPs yet but would love to revisit,
+              call `log_outcome` with "not_eligible", and end.
+        4. OFFER (only if qualified + eligible): assign a tier from annual spend
+           and make the matching thank-you offer, tied to booking a demo and doing
+           a trial this month:
+             - $5K to $15K (SMB): a $20 DoorDash credit
+             - $15K to $30K (Core): $50 in AWS credits
+             - $30K to $60K (Mid-Market): a World Cup jersey
+             - $60K to $150K (Enterprise): a custom company-branded pullover
+             - $150K+ (Whale): a Mac Mini, and mention you'll loop in a senior
+               account exec
+           For UC2, pair the offer with their annual savings number. Then ask if
+           they'd like a demo with the team.
+        5. BOOK: if yes, use progressive urgency to lock a specific day + time
+           (today/tomorrow → next business days → next week → "what works best",
+           noting the promo expires end of month). Business days only. When a time
+           is agreed, call `book_meeting` with the time and tier, then confirm
+           you're sending the calendar invite and that the offer requires showing
+           up and starting a trial this month.
+        6. CLOSE: confirm everything's set, thank them by first name, and call
+           `log_outcome` with "booked".
+
+        # Outcomes — always call `log_outcome` before the call ends, with one of:
+        - "booked": they agreed to a meeting
+        - "not_qualified": under $5K/year spend
+        - "not_eligible": active EDP or cloud credits
+        - "callback": they asked to be contacted later (put the timing in notes)
+        - "requested_human": they want to talk to a person
+        - "declined": not interested / do-not-call
+        - "no_answer": voicemail or no pickup (handled below)
 
         # Answering questions
 
         - For ANY question about Pump — what it is, how it works, pricing, the
-          promo, or a pushback/objection — call `search_knowledge` BEFORE you
-          answer, and ground your reply in what it returns. Do not make up product
-          details, pricing, or claims.
-        - If asked whether you're an AI, be honest: you're an AI assistant
-          reaching out on behalf of Pump, and you can connect them with a human or
-          just send a calendar link.
-        - If they're not interested, respect it immediately, log the outcome as
-          "declined", and end politely.
+          promo/tiers, qualification, or a pushback/objection — call
+          `search_knowledge` BEFORE you answer, and ground your reply in what it
+          returns. Do not make up product details, pricing, or claims.
+        - If they're not interested, respect it immediately, call `log_outcome`
+          with "declined", and end politely.
 
         # Voicemail and automated systems
 
@@ -203,17 +251,19 @@ def _opening_for(use_case: str) -> str:
     if use_case == UC1_NEW_SIGNUP:
         return (
             "Start the call now. Using the lead details you already have, greet "
-            "them warmly by first name, introduce yourself as Alex from Pump, and "
-            "reference that they signed up recently plus what companies like theirs "
-            "typically save. Keep it to one or two sentences and ask if you caught "
-            "them at an okay time."
+            "them by first name and introduce yourself as Alex, an AI customer "
+            "success manager at Pump. Say you saw they just created an account, "
+            "you're reaching out personally because you have an offer for them, "
+            "and ask if they have any questions about Pump first. Keep it to two "
+            "or three sentences and sound warm and human."
         )
     return (
         "Start the call now. Using the lead details you already have, greet them "
-        "warmly by first name, introduce yourself as Alex from Pump, and reference "
-        "the savings estimate they ran and the specific amount they could save per "
-        "month. Keep it to one or two sentences and ask if you caught them at an "
-        "okay time."
+        "by first name and introduce yourself as Alex, an AI customer success "
+        "manager at Pump. Say they ran a savings estimate on the site, you're "
+        "following up personally because you have an offer for them, and ask if "
+        "they have any questions about Pump first. Keep it to two or three "
+        "sentences and sound warm and human."
     )
 
 
@@ -384,33 +434,56 @@ class Assistant(Agent):
         return "\n\n".join(snippets)
 
     @function_tool()
-    async def book_meeting(self, context: RunContext) -> str:
-        """Book a twenty-minute follow-up call for this lead.
+    async def book_meeting(
+        self, context: RunContext, when: str = "", tier: str = ""
+    ) -> str:
+        """Book a twenty-minute follow-up demo for this lead.
 
-        Call this once the lead agrees to a follow-up. Marks the lead as
-        'booked' in Supabase (via the FastAPI hub).
+        Call this once the lead agrees to a time. Marks the lead 'booked' in
+        Supabase (via the FastAPI hub).
+
+        Args:
+            when: The agreed day/time in the lead's words (e.g. "Tuesday at 2pm").
+            tier: The lead's spend tier if known (SMB, Core, Mid-Market,
+                Enterprise, or Whale).
         """
-        logger.info("book_meeting called for lead_id=%s", self._lead_id)
-        await post_call_outcome(
-            self._lead_id, "booked", "Booked a 20-minute follow-up call."
+        logger.info(
+            "book_meeting called for lead_id=%s when=%r tier=%r",
+            self._lead_id,
+            when,
+            tier,
         )
+        details = []
+        if when:
+            details.append(f"Time: {when}")
+        if tier:
+            details.append(f"Tier: {tier}")
+        notes = "Booked a 20-minute demo." + (
+            " " + "; ".join(details) if details else ""
+        )
+        await post_call_outcome(self._lead_id, "booked", notes)
         return (
-            "Great — I've got that booked. You'll get a calendar invite and a "
-            "confirmation shortly, and that locks in the Mac Mini offer."
+            "Great — I've got that booked. I'm sending the calendar invite now. "
+            "Just a heads up: the offer is for people who show up and start a "
+            "trial this month, so keep an eye out for it."
         )
 
     @function_tool()
-    async def log_outcome(self, context: RunContext, outcome: str) -> str:
+    async def log_outcome(
+        self, context: RunContext, outcome: str, notes: str = ""
+    ) -> str:
         """Record the result of this call.
 
         Call this before the call ends. Updates the lead's status and notes in
         Supabase (via the FastAPI hub).
 
         Args:
-            outcome: One of "booked", "interested", "callback", "declined",
-                or "no_answer".
+            outcome: One of "booked", "not_qualified", "not_eligible",
+                "callback", "requested_human", "declined", or "no_answer".
+            notes: Optional context, e.g. callback timing or why they declined.
         """
         normalized = outcome.strip().lower()
+        detail = notes.strip() or f"Call outcome: {normalized}"
         if normalized not in VALID_OUTCOMES:
             logger.warning(
                 "log_outcome got unexpected outcome=%r; recording as 'called'",
@@ -418,7 +491,7 @@ class Assistant(Agent):
             )
             # Fall back to a generic-but-valid status so the call is still logged.
             await post_call_outcome(
-                self._lead_id, "called", f"Call outcome: {outcome}"
+                self._lead_id, "called", f"Call outcome: {outcome}. {notes}".strip()
             )
             return "Noted."
         logger.info(
@@ -426,9 +499,7 @@ class Assistant(Agent):
             self._lead_id,
             normalized,
         )
-        await post_call_outcome(
-            self._lead_id, normalized, f"Call outcome: {normalized}"
-        )
+        await post_call_outcome(self._lead_id, normalized, detail)
         # Voicemail / no answer: don't leave a message. Hang up immediately so the
         # backend's single retry lands inside iPhone's 3-minute "Repeated Calls"
         # window and rings through Do Not Disturb.

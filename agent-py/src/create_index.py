@@ -101,6 +101,15 @@ async def build_indexes() -> None:
 
     client = MossClient(project_id, project_key)
 
+    # Moss caps the number of indexes per project, and create_index always makes a
+    # NEW index, so re-running would hit "Index limit reached". Delete first to make
+    # this script idempotent: each run rebuilds both indexes from the current JSON.
+    existing = {ix.name for ix in await client.list_indexes()}
+    for name in (knowledge_index, leads_index):
+        if name in existing:
+            print(f"Deleting existing index '{name}' before rebuild...")
+            await client.delete_index(name)
+
     print(
         f"Creating Moss knowledge index '{knowledge_index}' with "
         f"{len(knowledge_docs)} docs using model '{model_id}'..."
@@ -121,7 +130,7 @@ async def build_indexes() -> None:
         f"docs: {leads_result.doc_count})"
     )
 
-    print("Both Moss indexes created. Knowledge (RAG) and leads are ready for use.")
+    print("Both Moss indexes rebuilt. Knowledge (RAG) and leads are ready for use.")
 
 
 if __name__ == "__main__":
