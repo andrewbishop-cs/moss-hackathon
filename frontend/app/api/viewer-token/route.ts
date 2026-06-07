@@ -50,10 +50,7 @@ export async function POST(req: Request) {
   }
 }
 
-function createViewerToken(
-  userInfo: AccessTokenOptions,
-  roomName: string
-): Promise<string> {
+function createViewerToken(userInfo: AccessTokenOptions, roomName: string): Promise<string> {
   const at = new AccessToken(API_KEY, API_SECRET, { ...userInfo, ttl: '1h' });
   const grant: VideoGrant = {
     room: roomName,

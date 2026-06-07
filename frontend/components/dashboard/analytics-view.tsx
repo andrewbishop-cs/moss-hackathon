@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { DashboardNav } from '@/components/dashboard/dashboard-nav';
 import { getLeads } from '@/lib/api';
-import { STATUS_LABEL, type LeadStatus, type LeadWithCompany } from '@/lib/leads';
+import { type LeadStatus, type LeadWithCompany, STATUS_LABEL } from '@/lib/leads';
 import { cn } from '@/lib/shadcn/utils';
 
 interface AnalyticsViewProps {
@@ -29,17 +29,24 @@ function StatCard({
   label,
   value,
   hint,
+  accent,
 }: {
   label: string;
   value: number;
   hint?: string;
+  accent?: boolean;
 }) {
   return (
-    <div className="border-border bg-background rounded-xl border p-5">
-      <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-        {label}
+    <div
+      className={cn(
+        'rounded-xl border p-5',
+        accent ? 'border-primary/30 bg-primary/5' : 'border-border bg-card'
+      )}
+    >
+      <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">{label}</p>
+      <p className={cn('mt-2 text-3xl font-bold tabular-nums', accent && 'text-primary')}>
+        {value}
       </p>
-      <p className="mt-2 text-3xl font-bold tabular-nums">{value}</p>
       {hint && <p className="text-muted-foreground mt-1 text-xs">{hint}</p>}
     </div>
   );
@@ -88,7 +95,7 @@ export function AnalyticsView({ initialLeads, initialIsDemo }: AnalyticsViewProp
   ];
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-20 sm:px-6">
+    <div className="mx-auto w-full max-w-5xl px-4 pb-16 sm:px-6">
       <DashboardNav />
 
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
@@ -114,11 +121,12 @@ export function AnalyticsView({ initialLeads, initialIsDemo }: AnalyticsViewProp
           label="Booked"
           value={funnel.booked}
           hint={`${pct(funnel.booked)}% of triggered`}
+          accent
         />
       </div>
 
       <div className="border-border bg-background mt-6 rounded-xl border p-6">
-        <h2 className="mb-4 text-sm font-medium tracking-wide uppercase text-muted-foreground">
+        <h2 className="text-muted-foreground mb-4 text-sm font-medium tracking-wide uppercase">
           Funnel
         </h2>
         <div className="space-y-3">
@@ -144,7 +152,7 @@ export function AnalyticsView({ initialLeads, initialIsDemo }: AnalyticsViewProp
       </div>
 
       <div className="border-border bg-background mt-6 rounded-xl border p-6">
-        <h2 className="mb-4 text-sm font-medium tracking-wide uppercase text-muted-foreground">
+        <h2 className="text-muted-foreground mb-4 text-sm font-medium tracking-wide uppercase">
           By status
         </h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">

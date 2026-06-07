@@ -1,5 +1,5 @@
+import { type LeadStatus, STATUS_LABEL, USE_CASE_LABEL, type UseCase } from '@/lib/leads';
 import { cn } from '@/lib/shadcn/utils';
-import { STATUS_LABEL, USE_CASE_LABEL, type LeadStatus, type UseCase } from '@/lib/leads';
 
 const STATUS_STYLES: Record<LeadStatus, string> = {
   pending: 'bg-muted text-muted-foreground',

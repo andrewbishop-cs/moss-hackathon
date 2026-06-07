@@ -3,13 +3,7 @@
 
 export type UseCase = 'uc1_new_signup' | 'uc2_estimate_completed';
 
-export type LeadStatus =
-  | 'pending'
-  | 'calling'
-  | 'called'
-  | 'booked'
-  | 'no_answer'
-  | 'declined';
+export type LeadStatus = 'pending' | 'calling' | 'called' | 'booked' | 'no_answer' | 'declined';
 
 export type CompanySize = '1-10' | '11-50' | '51-200' | '201-500' | '500+';
 

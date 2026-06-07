@@ -1,16 +1,24 @@
+import { FIXTURE_LEADS, fixtureLeadById } from '@/lib/fixtures';
 import {
   type LeadWithCompany,
   type TriggerEstimateCompleted,
   type TriggerNewSignup,
 } from '@/lib/leads';
-import { FIXTURE_LEADS, fixtureLeadById } from '@/lib/fixtures';
 
 // The FastAPI backend is the hub. The frontend only talks to these REST
 // endpoints — never to LiveKit / Moss / Supabase directly. Base URL is
-// overridable so we can point at a deployed backend later.
+// overridable so we can point at a deployed backend later. Accept either env
+// name — Andrew's backend dashboard used NEXT_PUBLIC_BACKEND_URL.
 export const API_BASE_URL = (
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8000'
+  process.env.NEXT_PUBLIC_API_BASE_URL ??
+  process.env.NEXT_PUBLIC_BACKEND_URL ??
+  'http://localhost:8000'
 ).replace(/\/$/, '');
+
+// Opt-in demo mode. When off (default), backend failures surface instead of
+// silently falling back to the bundled fixtures. Set NEXT_PUBLIC_USE_FIXTURES=true
+// to render the UI offline against the demo fixtures.
+export const USE_FIXTURES = process.env.NEXT_PUBLIC_USE_FIXTURES === 'true';
 
 export interface TriggerResponse {
   lead: LeadWithCompany;
@@ -48,15 +56,18 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 /**
  * GET /leads — all leads with company + status.
- * Falls back to demo fixtures when the backend is unreachable so the UI still
- * renders during development (Phase 1).
+ * Falls back to demo fixtures only when NEXT_PUBLIC_USE_FIXTURES is enabled;
+ * otherwise the backend error propagates so failures surface.
  */
 export async function getLeads(): Promise<{ leads: LeadWithCompany[]; isDemo: boolean }> {
   try {
     const leads = await request<LeadWithCompany[]>('/leads');
     return { leads, isDemo: false };
-  } catch {
-    return { leads: FIXTURE_LEADS, isDemo: true };
+  } catch (err) {
+    if (USE_FIXTURES) {
+      return { leads: FIXTURE_LEADS, isDemo: true };
+    }
+    throw err;
   }
 }
 
@@ -67,8 +78,11 @@ export async function getLead(
   try {
     const lead = await request<LeadWithCompany>(`/leads/${id}`);
     return { lead, isDemo: false };
-  } catch {
-    return { lead: fixtureLeadById(id) ?? null, isDemo: true };
+  } catch (err) {
+    if (USE_FIXTURES) {
+      return { lead: fixtureLeadById(id) ?? null, isDemo: true };
+    }
+    throw err;
   }
 }
 

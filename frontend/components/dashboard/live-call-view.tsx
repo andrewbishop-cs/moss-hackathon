@@ -10,12 +10,12 @@ import {
   useSessionMessages,
 } from '@livekit/components-react';
 import { ArrowLeftIcon } from '@phosphor-icons/react/dist/ssr';
-import { AgentSessionProvider } from '@/components/agents-ui/agent-session-provider';
 import { AgentChatTranscript } from '@/components/agents-ui/agent-chat-transcript';
-import { StatusBadge, UseCaseBadge } from '@/components/dashboard/badges';
+import { AgentSessionProvider } from '@/components/agents-ui/agent-session-provider';
 import { MossResultsPanel } from '@/components/app/moss-results-panel';
+import { StatusBadge, UseCaseBadge } from '@/components/dashboard/badges';
 import { useMossContextEvents } from '@/hooks/useMossContextEvents';
-import { fullName, formatMonthly, type LeadWithCompany } from '@/lib/leads';
+import { type LeadWithCompany, formatMonthly, fullName } from '@/lib/leads';
 
 interface LiveCallViewProps {
   lead: LeadWithCompany;
@@ -76,7 +76,7 @@ function ContextPanel({ lead }: { lead: LeadWithCompany }) {
           </div>
           <div className="flex justify-between">
             <dt className="text-muted-foreground">Monthly savings</dt>
-            <dd className="font-semibold tabular-nums text-green-600 dark:text-green-400">
+            <dd className="font-semibold text-green-600 tabular-nums dark:text-green-400">
               {formatMonthly(company?.savings_total)}
             </dd>
           </div>

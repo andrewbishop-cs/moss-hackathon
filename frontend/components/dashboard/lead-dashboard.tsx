@@ -3,11 +3,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { PhoneCallIcon, SpinnerGapIcon } from '@phosphor-icons/react/dist/ssr';
-import { Button } from '@/components/ui/button';
 import { StatusBadge, UseCaseBadge } from '@/components/dashboard/badges';
 import { DashboardNav } from '@/components/dashboard/dashboard-nav';
-import { fullName, formatMonthly, type LeadWithCompany } from '@/lib/leads';
+import { Button } from '@/components/ui/button';
 import { getLeads, triggerCall } from '@/lib/api';
+import { type LeadWithCompany, formatMonthly, fullName } from '@/lib/leads';
 import { cn } from '@/lib/shadcn/utils';
 
 interface LeadDashboardProps {
@@ -86,7 +86,7 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
   );
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-20 sm:px-6">
+    <div className="mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6">
       <DashboardNav />
 
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
@@ -125,8 +125,7 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
             </thead>
             <tbody className="divide-border divide-y">
               {leads.map((lead) => {
-                const isCalling =
-                  callingIds.has(lead.id) || lead.status === 'calling';
+                const isCalling = callingIds.has(lead.id) || lead.status === 'calling';
                 return (
                   <tr
                     key={lead.id}
@@ -149,7 +148,7 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
                     <td className="px-4 py-3 text-right tabular-nums">
                       {formatMonthly(lead.company?.spend_total)}
                     </td>
-                    <td className="px-4 py-3 text-right font-medium tabular-nums text-green-600 dark:text-green-400">
+                    <td className="px-4 py-3 text-right font-medium text-green-600 tabular-nums dark:text-green-400">
                       {formatMonthly(lead.company?.savings_total)}
                     </td>
                     <td className="px-4 py-3">
