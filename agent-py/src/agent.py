@@ -57,15 +57,16 @@ BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 # Outcomes the agent may report. These must be valid LeadStatus values in
 # backend/src/models.py or the hub will reject the write (422). Mirrors the
-# outcome table in docs/AGENT_SCRIPT.md.
+# 7-category disposition framework in docs/LEAD_DISPOSITIONS.md.
 VALID_OUTCOMES = {
-    "booked",
-    "not_qualified",
-    "not_eligible",
-    "requested_human",
-    "callback",
-    "declined",
-    "no_answer",
+    "booked",  # Cat 1: meeting booked
+    "interested",  # Cat 2: interested, no specific time
+    "callback",  # Cat 2: specific callback time (put it in notes)
+    "declined",  # Cat 3: hard no
+    "no_answer",  # Cat 4: voicemail / no pickup
+    "disqualified",  # Cat 5: wrong ICP, no AWS/GCP, too small, already a customer
+    "bad_data",  # Cat 6: wrong number, left company, duplicate
+    "reengage_90d",  # Cat 7: revisit in ~90 days, no hard disqualifier
 }
 
 
@@ -165,13 +166,14 @@ def _instructions_for(use_case: str) -> str:
            questions wind down, move on.
         3. QUALIFY — two gates, in order:
            a. Spend: establish their approximate MONTHLY cloud spend (use the lead
-              context if you have it; otherwise ask). If under $5,000/month they
-              are NOT QUALIFIED — be upfront, say you'll check back as they scale,
-              call `log_outcome` with "not_qualified", and end.
+              context if you have it; otherwise ask). If under $5,000/month, or
+              they have no AWS/GCP usage, or they're too small / outside our ICP,
+              they're DISQUALIFIED — be upfront, say you'll check back as they
+              scale, call `log_outcome` with "disqualified", and end.
            b. Eligibility: ask if they're on an enterprise discount program (EDP)
-              or running on cloud credits. If yes, they are NOT ELIGIBLE — say you
-              can't work with active credits/EDPs yet but would love to revisit,
-              call `log_outcome` with "not_eligible", and end.
+              or running on cloud credits. If yes, they're DISQUALIFIED for now —
+              say you can't work with active credits/EDPs yet but would love to
+              revisit, call `log_outcome` with "disqualified", and end.
         4. OFFER (only if qualified + eligible): assign a tier from MONTHLY spend
            and make the matching thank-you offer, tied to booking a demo and doing
            a trial this month:
@@ -192,14 +194,24 @@ def _instructions_for(use_case: str) -> str:
         6. CLOSE: confirm everything's set, thank them by first name, and call
            `log_outcome` with "booked".
 
-        # Outcomes — always call `log_outcome` before the call ends, with one of:
-        - "booked": they agreed to a meeting
-        - "not_qualified": under $5K/year spend
-        - "not_eligible": active EDP or cloud credits
-        - "callback": they asked to be contacted later (put the timing in notes)
-        - "requested_human": they want to talk to a person
-        - "declined": not interested / do-not-call
-        - "no_answer": voicemail or no pickup (handled below)
+        # Outcomes — always call `log_outcome` before the call ends, with exactly
+        # one of these (the 7-category disposition framework):
+        - "booked": they agreed to a demo with a confirmed time
+        - "interested": interested but not ready, no specific time (door is open)
+        - "callback": they asked to be contacted at a specific later time (put the
+          time in notes)
+        - "declined": a hard no, locked into a competitor, or do-not-call
+        - "no_answer": voicemail, no pickup, or a gatekeeper with no path forward
+        - "disqualified": under $5K/month, no AWS/GCP usage, outside our ICP, on an
+          EDP/credits, or already a Pump customer
+        - "bad_data": wrong number, this isn't the person, they've left the
+          company, or it's a duplicate
+        - "reengage_90d": worth revisiting in a few months (budget freeze, recent
+          reorg) with no hard disqualifier
+        Notes: if they ask to speak to a human, treat it as "interested" (flag in
+        notes that they want a human). When unsure between "interested" and
+        "declined", prefer "interested" — misjudging a warm lead as a hard no is
+        costly.
 
         # Answering questions
 

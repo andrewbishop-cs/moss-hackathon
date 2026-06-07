@@ -9,16 +9,18 @@ from uuid import UUID
 
 UseCase = Literal["uc1_new_signup", "uc2_estimate_completed"]
 
-# Shared lead-status contract: the UNION of every disposition the dashboard can
-# display (Paul) and every outcome the agent can emit (see agent VALID_OUTCOMES).
-#   - operational: "pending", "calling", "called"
-#   - agent/script outcomes (docs/AGENT_SCRIPT.md): booked, not_qualified,
-#     not_eligible, requested_human, callback, no_answer, declined, interested
-#   - disposition framework Cat 5-7 (docs/LEAD_DISPOSITIONS.md, Paul): disqualified,
-#     bad_data, reengage_90d
-# NOTE: not_qualified/not_eligible (script) likely overlap with disqualified
-# (disposition framework); consolidate once LEAD_DISPOSITIONS.md is the agreed
-# source of truth. Kept as a superset for now so neither side breaks.
+# Lead-status contract. Canonical taxonomy = the 7-category disposition framework
+# in docs/LEAD_DISPOSITIONS.md (what the dashboard displays + the agent emits),
+# plus operational statuses the backend sets while a call is in flight.
+#   - operational: "pending" (not yet called), "calling" (dispatched), "called"
+#     (generic fallback)
+#   - Cat 1 Meeting booked:        "booked"
+#   - Cat 2 Interested / Not ready: "interested" (general) / "callback" (has a time)
+#   - Cat 3 Not interested:        "declined"
+#   - Cat 4 No connect:            "no_answer"
+#   - Cat 5 Disqualified:          "disqualified"
+#   - Cat 6 Bad data:              "bad_data"
+#   - Cat 7 Re-engage in 90 days:  "reengage_90d"
 LeadStatus = Literal[
     "pending",
     "calling",
@@ -26,11 +28,8 @@ LeadStatus = Literal[
     "booked",
     "interested",
     "callback",
-    "not_qualified",
-    "not_eligible",
-    "requested_human",
-    "no_answer",
     "declined",
+    "no_answer",
     "disqualified",
     "bad_data",
     "reengage_90d",

@@ -41,9 +41,10 @@ You don't touch: `frontend/`. See [HACKATHON_PLAN.md](HACKATHON_PLAN.md) + [ARCH
 - [x] Expanded `LeadStatus` with `interested` + `callback` so agent outcomes map 1:1 (`models.py`)
 - [x] `POST /calls/outcome` endpoint exists (dashboard write path) — present in `main.py`
 - [x] **Heads-up for Paul:** dashboard badge styles/labels for `interested` + `callback` — done by Paul (see [LEAD_DISPOSITIONS.md](LEAD_DISPOSITIONS.md), ping copy in [PING_ANDREW_DISPOSITIONS.md](PING_ANDREW_DISPOSITIONS.md))
-- [x] Added `disqualified`, `bad_data`, `reengage_90d` (+ `interested`) to `LeadStatus` in `models.py` as a superset so the dashboard works
-- [ ] Add Cat 5–7 dispositions (`disqualified`, `bad_data`, `reengage_90d`) to `VALID_OUTCOMES` + agent prompts with trigger rules from LEAD_DISPOSITIONS.md
-- [ ] Apply the canonical AGENT_SCRIPT.md → framework slug mapping in agent prompts: `not_qualified`/`not_eligible` → `disqualified`, `requested_human` → `interested`/`callback`
+- [x] `LeadStatus` (`models.py`) now matches the canonical 7-category taxonomy in LEAD_DISPOSITIONS.md (+ operational `pending`/`calling`/`called`); dropped `not_qualified`/`not_eligible`/`requested_human`
+- [x] Added Cat 5–7 (`disqualified`, `bad_data`, `reengage_90d`) to `VALID_OUTCOMES` + agent prompt outcome list with trigger rules
+- [x] Applied the slug mapping in agent prompts: under-min-spend / EDP / credits → `disqualified`; "talk to a human" → `interested` (flagged in notes)
+- [ ] If Supabase's `status` column has a CHECK/enum constraint (none in repo SQL — set via UI?), update it to allow the new values. Plain `text` needs nothing.
 - [ ] Not yet verified end-to-end against a *live* call (code + models validated; needs a real call with backend running to confirm the row updates)
 
 ## Stretch
