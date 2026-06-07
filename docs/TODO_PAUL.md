@@ -36,17 +36,15 @@ schema/migrations — just those content/data files. Code the UI against the RES
 - [x] Demo polish: Beep/Notion UI, UC1 vs UC2 badge colors, auto-dialer
 
 ## Content — the agent's words (do alongside the UI)
-- [ ] Author the agent playbook in `agent-py/knowledge.json`: product / pricing / offer FAQ +
-      objection rebuttals + per-use-case talking points, as
-      `{ id, text, metadata: { category, topic } }` entries (seed from the objection table in
-      AGENT_SCRIPT.md). Frame around **cloud + AI** savings.
+- [x] Author the agent playbook in `agent-py/knowledge.json` (29+ entries: product, pricing, objections, UC hooks)
+- [ ] Ping Andrew to re-run `pnpm moss:index` after latest knowledge edits
 - [ ] (Optional) tweak dev lead blurbs in `agent-py/leads.json` for the demo
-- [ ] After editing either file, ping Andrew to re-run `pnpm moss:index` (re-indexes Moss)
 
 ## Phase 5 — Demo prep (joint with Andrew)
-- [ ] Dry-run UC1 + UC2 from the website end-to-end (see `docs/INTEGRATION_CHECKLIST.md`)
-- [ ] Dry-run auto-dialer + live transcript with `pnpm dev:agent-py` running
-- [ ] Expand `agent-py/knowledge.json` from AGENT_SCRIPT.md; ping Andrew to re-index
+- [ ] Dry-run UC1 + UC2 — follow [DEMO_RUN_OF_SHOW.md](DEMO_RUN_OF_SHOW.md) + [INTEGRATION_CHECKLIST.md](INTEGRATION_CHECKLIST.md)
+- [ ] Set hero lead phone to your Twilio-verified number (SQL in DEMO_RUN_OF_SHOW)
+- [ ] iPhone DND prep + test call with DND on
+- [ ] Ping Andrew: `pnpm moss:index` after knowledge.json updates
 
 **Checkpoints**: P1 stubbed dashboard · P2 website fires triggers · P3 Call Now + live transcript · P4 analytics live
 

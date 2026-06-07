@@ -35,15 +35,20 @@
 
 ## Lead Status After Call
 
+> Canonical mapping: [LEAD_DISPOSITIONS.md](LEAD_DISPOSITIONS.md) (7-category framework).
+
 | Outcome | Status |
 |---|---|
-| Booked | `booked` |
-| Not qualified (spend) | `not_qualified` |
-| Not eligible (EDP/credits) | `not_eligible` |
-| Declined / DNC | `declined` |
-| No answer | `no_answer` |
-| Requested human | `requested_human` |
-| Callback requested | `pending` (callback time in notes) |
+| Meeting booked | `booked` |
+| Spends on cloud – interested (door open, no specific date) | `interested` |
+| Callback time requested (put date/time in notes) | `callback` |
+| Not interested / DNC | `declined` |
+| Voicemail / no answer / gatekeeper | `no_answer` |
+| Not qualified (spend) or not eligible (EDP/credits) / wrong ICP | `disqualified` |
+| Wrong number / left company / duplicate | `bad_data` |
+| Meeting held, revisit in ~90 days | `reengage_90d` |
+| Requested human (no callback time) | `interested` |
+| Requested human (with callback time) | `callback` |
 
 ---
 
@@ -135,14 +140,14 @@ CALL FLOW:
 SPEND QUALIFICATION:
 - < $5K/year → NOT QUALIFIED
   "Got it — honestly at that spend level we might not be the right fit just yet. I'll make a note to check back as you scale. Thanks for your time [first_name]."
-  → log_outcome: not_qualified. End call.
+  → log_outcome: disqualified. End call.
 
 - ≥ $5K/year → continue. Ask:
   "And are you currently on any enterprise discount programs or do you have cloud credits — like an EDP with AWS or similar?"
 
   → YES to EDP or credits → NOT ELIGIBLE
   "Got it — unfortunately we're not able to work with accounts that have active credits or enterprise discount programs in place. I don't want to waste your time, but I'd love to check back once that changes."
-  → log_outcome: not_eligible. End call.
+  → log_outcome: disqualified. End call.
 
   → NO → assign tier and continue:
   - $5K–$15K/year → SMB
@@ -206,10 +211,10 @@ OBJECTION HANDLING:
 | "We're in a contract until [date]" | "Got it — I'll circle back before then so you're ready to hit the ground running when it expires." |
 | "We need to loop in someone else" | "Absolutely — who else should be on the call? I want to make sure we get everyone's questions answered." |
 | "Not focused on this right now" | "Totally understand. When does it come back on the radar? I can circle back then." |
-| "Not interested" | "Totally fair, I'll make a note and won't call again. Have a good one." → log_outcome: declined_dnc |
+| "Not interested" | "Totally fair, I'll make a note and won't call again. Have a good one." → log_outcome: declined |
 | "Is this a cold call?" | "What we lack in warmth we make up for in cloud savings — do you have 30 seconds?" |
 | "Where did you get my number?" | "You provided it when you created your account. Want me to remove you from our list?" |
-| "I want to talk to a human" | "Of course — I'll flag this for our team and someone will reach out shortly." → log_outcome: requested_human |
+| "I want to talk to a human" | "Of course — I'll flag this for our team and someone will reach out shortly." → log_outcome: interested |
 | "How much does it cost?" | "Pump is completely free — we get paid directly by the cloud providers." |
 ```
 
@@ -304,11 +309,11 @@ Then ask: "Are you currently on any enterprise discount programs or do you have 
 
 → YES to EDP or credits → NOT ELIGIBLE
 "Got it — unfortunately we're not able to work with accounts that have active credits or enterprise discount programs. I don't want to waste your time, but I'd love to check back once that changes."
-→ log_outcome: not_eligible. End call.
+→ log_outcome: disqualified. End call.
 
 → < $5K/year → NOT QUALIFIED
 "I want to be upfront — at your current spend level we might not be the best fit yet. But those savings are real, and I'd encourage you to check back as you scale."
-→ log_outcome: not_qualified. End call.
+→ log_outcome: disqualified. End call.
 
 → ≥ $5K/year → assign tier and deliver hook:
 
@@ -364,9 +369,9 @@ OBJECTION HANDLING:
 | "We're in a contract until [date]" | "Got it — I'll circle back before then so you're ready to hit the ground running when it expires." |
 | "We need to loop in someone else" | "Absolutely — who else should be on the call? I want to make sure we get everyone's questions answered." |
 | "Not focused on this right now" | "Totally understand. That [savings_total * 12] will still be there — when does it come back on the radar? I can circle back then." |
-| "Not interested" | "Totally fair, I'll make a note and won't call again. Have a good one." → log_outcome: declined_dnc |
+| "Not interested" | "Totally fair, I'll make a note and won't call again. Have a good one." → log_outcome: declined |
 | "Is this a cold call?" | "What we lack in warmth we make up for in cloud savings — do you have 30 seconds?" |
 | "Where did you get my number?" | "You provided it when you ran your estimate. Want me to remove you from our list?" |
-| "I want to talk to a human" | "Of course — I'll flag this for our team and someone will reach out shortly." → log_outcome: requested_human |
+| "I want to talk to a human" | "Of course — I'll flag this for our team and someone will reach out shortly." → log_outcome: interested |
 | "How much does it cost?" | "Pump is completely free — we get paid directly by the cloud providers." |
 ```

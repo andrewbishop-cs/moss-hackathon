@@ -1,10 +1,16 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { cn } from '@/lib/shadcn/utils';
 import { DashboardShell } from '@/components/dashboard/dashboard-shell';
 import { getLeads } from '@/lib/api';
-import { PAGE_SUBTITLE, PAGE_TITLE } from '@/lib/dashboard-ui';
-import { type LeadStatus, type LeadWithCompany, STATUS_LABEL } from '@/lib/leads';
+import { BORDER_DEFAULT, PAGE_SUBTITLE, PAGE_TITLE, TEXT_SECONDARY } from '@/lib/dashboard-ui';
+import {
+  DISPOSITION_STATUS_ORDER,
+  type LeadStatus,
+  type LeadWithCompany,
+  STATUS_LABEL,
+} from '@/lib/leads';
 
 interface AnalyticsViewProps {
   initialLeads: LeadWithCompany[];
@@ -12,22 +18,25 @@ interface AnalyticsViewProps {
 }
 
 const POLL_INTERVAL_MS = 5000;
-const CALLED_STATUSES: LeadStatus[] = ['called', 'booked', 'no_answer', 'declined'];
-const STATUS_ORDER: LeadStatus[] = [
-  'pending',
-  'calling',
+const CALLED_STATUSES: LeadStatus[] = [
   'called',
-  'no_answer',
-  'declined',
   'booked',
+  'interested',
+  'callback',
+  'declined',
+  'no_answer',
+  'disqualified',
+  'bad_data',
+  'reengage_90d',
 ];
+const STATUS_ORDER = DISPOSITION_STATUS_ORDER;
 
 function StatRow({ label, value, hint }: { label: string; value: number; hint?: string }) {
   return (
-    <div className="border-border flex items-baseline justify-between border-b py-3 last:border-0">
+    <div className={cn(BORDER_DEFAULT, 'flex items-baseline justify-between border-b py-3 last:border-0')}>
       <div>
         <p className="text-[14px] font-normal">{label}</p>
-        {hint && <p className="text-muted-foreground mt-0.5 text-[12px] font-normal">{hint}</p>}
+        {hint && <p className={cn(TEXT_SECONDARY, 'mt-0.5 text-[12px] font-normal')}>{hint}</p>}
       </div>
       <p className="text-xl leading-none font-semibold tabular-nums tracking-[-0.01em]">{value}</p>
     </div>
@@ -95,15 +104,15 @@ export function AnalyticsView({ initialLeads, initialIsDemo }: AnalyticsViewProp
         </section>
 
         <section>
-          <h2 className="text-muted-foreground mb-3 text-[12px] font-normal">By status</h2>
-          <div className="divide-border divide-y">
+          <h2 className={cn(TEXT_SECONDARY, 'mb-3 text-[12px] font-normal')}>By status</h2>
+          <div className="divide-foreground divide-y">
             {STATUS_ORDER.map((status) => (
               <div
                 key={status}
-                className="hover:bg-accent flex items-center justify-between py-2.5 text-[14px] transition-colors"
+                className="hover:bg-background flex items-center justify-between py-2.5 text-[14px] transition-colors"
               >
-                <span className="text-muted-foreground">{STATUS_LABEL[status]}</span>
-                <span className="tabular-nums">{statusCounts[status]}</span>
+                <span className={TEXT_SECONDARY}>{STATUS_LABEL[status]}</span>
+                <span className="text-foreground tabular-nums">{statusCounts[status]}</span>
               </div>
             ))}
           </div>

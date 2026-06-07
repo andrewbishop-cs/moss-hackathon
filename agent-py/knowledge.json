@@ -2,146 +2,265 @@
   {
     "id": "kb-what-is-pump",
     "text": "Q: What is Pump? A: Pump is a cloud and AI cost optimization platform. It reduces what companies spend across AWS, GCP, and Azure, as well as AI model providers like OpenAI and Anthropic, through billing-layer discounts, commitment management, and AI-driven optimization. Pump works directly with the providers to unlock better pricing. Forbes calls Pump 'the Costco of cloud.'",
-    "metadata": { "category": "product", "topic": "overview" }
+    "metadata": {
+      "category": "product",
+      "topic": "overview"
+    }
   },
   {
     "id": "kb-products",
     "text": "Q: What products does Pump offer? A: Four. Pump Save automates commitment-based savings (Reserved Instances, Savings Plans, CUDs) plus rightsizing, zombie-instance detection, and modernization. Pump View gives unified multi-cloud and AI spend visibility, anomaly detection, and forecasting. Pump Secure monitors security posture across 25+ industry-standard frameworks with monthly pentesting. Caesar AI is an AI DevOps assistant that answers infrastructure and cost questions, generates code, and summarizes outages.",
-    "metadata": { "category": "product", "topic": "products" }
+    "metadata": {
+      "category": "product",
+      "topic": "products"
+    }
   },
   {
     "id": "kb-how-it-works",
     "text": "Q: How does Pump work and how do I get started? A: Onboarding is self-serve and takes under 35 minutes with no engineering effort. Step 1: grant Pump read-only access to your billing data (about 2 minutes). Step 2: authorize Pump to enroll in billing (about 1 minute). Step 3: KYB approval (about 30 minutes), usually instant for businesses in good standing. Pump then runs alongside your existing setup.",
-    "metadata": { "category": "product", "topic": "how-it-works" }
+    "metadata": {
+      "category": "product",
+      "topic": "how-it-works"
+    }
   },
   {
     "id": "kb-pricing",
     "text": "Q: How much does Pump cost and how is it free? A: Pump is free to the customer. Pump earns a small margin from the cloud providers, who pay Pump to keep customers happy on their platforms. There is no upfront cost and no credit card required to see your savings estimate. The team covers exact details on the follow-up call.",
-    "metadata": { "category": "pricing", "topic": "cost" }
+    "metadata": {
+      "category": "pricing",
+      "topic": "cost"
+    }
   },
   {
     "id": "kb-savings",
     "text": "Q: How much can we save? A: Pump typically saves customers 20 to 60 percent on their cloud and AI bill, and customers usually capture 70 to 80 percent of their estimated savings.",
-    "metadata": { "category": "product", "topic": "savings" }
+    "metadata": {
+      "category": "product",
+      "topic": "savings"
+    }
   },
   {
     "id": "kb-providers",
     "text": "Q: Which providers does Pump support? A: AWS, GCP, and Azure on the cloud side, plus AI model providers OpenAI and Anthropic.",
-    "metadata": { "category": "product", "topic": "providers" }
+    "metadata": {
+      "category": "product",
+      "topic": "providers"
+    }
   },
   {
     "id": "kb-min-spend",
     "text": "Q: What is the minimum spend to qualify? A: $5,000 per month on a single cloud provider (AWS, GCP, or Azure).",
-    "metadata": { "category": "qualification", "topic": "minimum-spend" }
+    "metadata": {
+      "category": "qualification",
+      "topic": "minimum-spend"
+    }
   },
   {
     "id": "kb-vs-commitments",
     "text": "Q: Why use Pump instead of buying commitments ourselves? A: Three things. Risk Insurance: if your usage drops and Pump has overcommitted, Pump reimburses you 100 percent. Always-on automation: the AI continuously covers your baseline with commitments, with no manual planning. Infrastructure intelligence: rightsizing, zombie-instance detection, and modernization recommendations you would not get from just buying commitments.",
-    "metadata": { "category": "product", "topic": "differentiation" }
+    "metadata": {
+      "category": "product",
+      "topic": "differentiation"
+    }
   },
   {
     "id": "kb-pump-view-vs-cost-explorer",
     "text": "Q: How is Pump View different from AWS Cost Explorer? A: Pump View is one source of truth across AWS, GCP, and Azure, plus integrations like Datadog, GitHub, ClickHouse, Cursor, OpenAI, and Anthropic. It does real-time anomaly detection with business context and finance-ready forecasting with engineering-level detail. Most dashboards show numbers; Pump View explains why they changed and what to do next.",
-    "metadata": { "category": "product", "topic": "pump-view" }
+    "metadata": {
+      "category": "product",
+      "topic": "pump-view"
+    }
   },
   {
     "id": "kb-permissions",
     "text": "Q: What permissions does Pump require? A: Two IAM roles. A read-only role for billing and usage metadata during onboarding, and an auto-pilot role that adds the ability to buy and sell Reserved Instances and Savings Plans on your behalf. Pump only sees usage metadata like compute instance type and region, never your credentials, application data, or user data, and it cannot modify your resources.",
-    "metadata": { "category": "security", "topic": "permissions" }
+    "metadata": {
+      "category": "security",
+      "topic": "permissions"
+    }
   },
   {
     "id": "kb-safe",
     "text": "Q: Is Pump safe? A: Yes. It starts with read-only access, requires no code changes, and works only at the billing layer. No changes to your org or SSO. You keep full control over everything.",
-    "metadata": { "category": "security", "topic": "safety" }
+    "metadata": {
+      "category": "security",
+      "topic": "safety"
+    }
   },
   {
     "id": "kb-offboarding",
     "text": "Q: What happens if we want to leave, and is Pump month to month? A: Pump is month to month with no lock-in. Just request to cancel and Pump offboards you. Your cloud setup reverts to exactly how it was before, with no penalty and no changes to your data or infrastructure.",
-    "metadata": { "category": "product", "topic": "offboarding" }
+    "metadata": {
+      "category": "product",
+      "topic": "offboarding"
+    }
   },
   {
     "id": "kb-social-proof",
     "text": "Q: Who uses Pump? A: More than 1,400 companies, including Deel, Tandem Bank, BUTLR, Supabase, Rho, Beehiiv, Retell AI, and Vapi. BUTLR cut their cloud spend by nearly $700K through Pump, and Tandem Bank reduced theirs by over $800K.",
-    "metadata": { "category": "social-proof", "topic": "customers" }
+    "metadata": {
+      "category": "social-proof",
+      "topic": "customers"
+    }
   },
   {
     "id": "kb-offer-tiers",
     "text": "Q: What thank-you gift or promotion can we offer? A: It depends on the lead's annual spend tier, and all gifts are tied to booking a demo and doing a trial this month. SMB ($5K to $15K/year): a $20 DoorDash credit. Core ($15K to $30K/year): $50 in AWS credits. Mid-Market ($30K to $60K/year): a World Cup jersey. Enterprise ($60K to $150K/year): a custom company pullover. Whale ($150K+/year): a Mac Mini, plus we loop in a senior account exec.",
-    "metadata": { "category": "offer", "topic": "tiers" }
+    "metadata": {
+      "category": "offer",
+      "topic": "tiers"
+    }
   },
   {
     "id": "kb-obj-real-savings",
     "text": "Q: Are these savings actually real? A: The estimate is based on your actual spend profile, and customers typically capture 70 to 80 percent of their estimated savings. The only way to know for sure is to connect your account, which takes about 10 minutes.",
-    "metadata": { "category": "objection", "topic": "savings-credibility" }
+    "metadata": {
+      "category": "objection",
+      "topic": "savings-credibility"
+    }
   },
   {
     "id": "kb-obj-existing-commitments",
     "text": "Q: We already manage RIs or Savings Plans ourselves. A: That is really common. Your existing RIs and Savings Plans keep applying until they expire, and Pump layers on top, finding uncovered on-demand spend and buying additional commitments to fill the gaps. Pump typically gets customers to 90 to 99 percent coverage versus managing it manually service by service.",
-    "metadata": { "category": "objection", "topic": "existing-commitments" }
+    "metadata": {
+      "category": "objection",
+      "topic": "existing-commitments"
+    }
   },
   {
     "id": "kb-obj-edp-ppa",
     "text": "Q: We have an EDP or cross-service PPA. Can we still use Pump? A: Yes, but the EDP or PPA needs to be transferred to the Pump billing account. Once transferred, your discount continues and stacks on top of the savings Pump generates, so you get both.",
-    "metadata": { "category": "qualification", "topic": "edp-ppa" }
+    "metadata": {
+      "category": "qualification",
+      "topic": "edp-ppa"
+    }
   },
   {
     "id": "kb-obj-cloud-credits",
     "text": "Q: We are running on cloud credits. Can we use Pump? A: Not yet. Savings kick in on actual billed spend, so while you are on free credits Pump is not the right fit. If your credits are running out soon, reach out so we can plan the timing.",
-    "metadata": { "category": "qualification", "topic": "credits" }
+    "metadata": {
+      "category": "qualification",
+      "topic": "credits"
+    }
   },
   {
     "id": "kb-obj-msp",
     "text": "Q: We already have an MSP or billing partner. A: Are you locked into a contract with them? Since Pump is completely free and does not take a cut of your savings, it is usually worth a quick look at what they have not caught.",
-    "metadata": { "category": "objection", "topic": "msp" }
+    "metadata": {
+      "category": "objection",
+      "topic": "msp"
+    }
   },
   {
     "id": "kb-obj-cost-explorer",
     "text": "Q: We just use Cost Explorer. A: Cost Explorer is a good start. Pump surfaces savings Cost Explorer misses, across cloud and AI spend, and it is included for free.",
-    "metadata": { "category": "objection", "topic": "cost-explorer" }
+    "metadata": {
+      "category": "objection",
+      "topic": "cost-explorer"
+    }
   },
   {
     "id": "kb-obj-send-email",
     "text": "Q: Just send me an email instead. A: Happy to send something over. I do want to flag that a quick call is usually the best way to see the value, because we can run a savings estimate live.",
-    "metadata": { "category": "objection", "topic": "send-email" }
+    "metadata": {
+      "category": "objection",
+      "topic": "send-email"
+    }
   },
   {
     "id": "kb-obj-contract",
     "text": "Q: We are in a contract until a certain date. A: Got it. I will circle back before then so you are ready to hit the ground running when it expires.",
-    "metadata": { "category": "objection", "topic": "contract" }
+    "metadata": {
+      "category": "objection",
+      "topic": "contract"
+    }
   },
   {
     "id": "kb-obj-loop-in",
     "text": "Q: We need to loop in someone else. A: Absolutely. Who else should be on the call? I want to make sure we get everyone's questions answered.",
-    "metadata": { "category": "objection", "topic": "stakeholders" }
+    "metadata": {
+      "category": "objection",
+      "topic": "stakeholders"
+    }
   },
   {
     "id": "kb-obj-not-now",
     "text": "Q: We are not focused on this right now. A: Totally understand. Those savings will still be there. When does it come back on the radar? I can circle back then, and I am happy to send the calendar link anyway so you have it.",
-    "metadata": { "category": "objection", "topic": "timing" }
+    "metadata": {
+      "category": "objection",
+      "topic": "timing"
+    }
   },
   {
     "id": "kb-obj-not-interested",
     "text": "Q: We are not interested. A: Totally fair. I will make a note and will not call again. Thanks for your time. Log the outcome as declined.",
-    "metadata": { "category": "objection", "topic": "not-interested" }
+    "metadata": {
+      "category": "objection",
+      "topic": "not-interested"
+    }
   },
   {
     "id": "kb-obj-cold-call",
     "text": "Q: Is this a cold call? A: What we lack in warmth we make up for in cloud and AI savings. Do you have 30 seconds?",
-    "metadata": { "category": "objection", "topic": "cold-call" }
+    "metadata": {
+      "category": "objection",
+      "topic": "cold-call"
+    }
   },
   {
     "id": "kb-obj-is-this-ai",
     "text": "Q: Is this an AI? A: Be honest and own it. You are Alex, an AI customer success manager reaching out on behalf of Pump. Offer to connect them with a human or just send the calendar link, whichever they prefer.",
-    "metadata": { "category": "objection", "topic": "disclosure" }
+    "metadata": {
+      "category": "objection",
+      "topic": "disclosure"
+    }
   },
   {
     "id": "kb-obj-how-got-number",
     "text": "Q: How did Pump get my number? A: You provided it when you signed up or ran a savings estimate on the Pump website. Offer to remove them from the list if they would like.",
-    "metadata": { "category": "objection", "topic": "privacy" }
+    "metadata": {
+      "category": "objection",
+      "topic": "privacy"
+    }
   },
   {
     "id": "kb-obj-want-human",
-    "text": "Q: I want to talk to a human. A: Of course. I will flag this for our team and someone will reach out shortly. Log the outcome as requested_human.",
-    "metadata": { "category": "objection", "topic": "human" }
+    "text": "Q: I want to talk to a human. A: Of course. I will flag this for our team and someone will reach out shortly. Log the outcome as interested (or callback if they give a specific time).",
+    "metadata": {
+      "category": "objection",
+      "topic": "human"
+    }
+  },
+  {
+    "id": "kb-obj-scam",
+    "text": "Q: Is this a scam? A: Totally fair question. Pump is a real company used by more than 1,400 businesses including Deel and Supabase. You ran a savings estimate on our website or signed up \u2014 that is why we are calling. Pump is free to customers; we are paid by the cloud providers. I can send our site and a calendar link, or you can opt out anytime.",
+    "metadata": {
+      "category": "objection",
+      "topic": "scam"
+    }
+  },
+  {
+    "id": "kb-uc2-opening",
+    "text": "UC2 opening hook: You are calling someone who just ran a savings estimate on Pump but did not sign up. Lead with their exact monthly savings number and annualized impact. Example: Hi [first_name], this is Alex from Pump \u2014 you ran an estimate showing about [savings_total] per month in potential savings. I wanted to help you capture that. Do you have two minutes?",
+    "metadata": {
+      "category": "product",
+      "topic": "uc2-opening"
+    }
+  },
+  {
+    "id": "kb-uc1-opening",
+    "text": "UC1 opening hook: You are calling someone who just signed up for Pump but has not connected their cloud account. Lead with social proof and speed to value. Example: Hi [first_name], this is Alex from Pump \u2014 thanks for signing up. Companies like yours typically save 20 to 60 percent on cloud and AI spend, and onboarding takes under 35 minutes with no engineering work. I wanted to help you get started.",
+    "metadata": {
+      "category": "product",
+      "topic": "uc1-opening"
+    }
+  },
+  {
+    "id": "kb-uc2-book-meeting",
+    "text": "UC2 close: After qualifying, offer a specific calendar slot. Tier the thank-you gift by annual spend (DoorDash credit for SMB, AWS credits for Core, jersey for Mid-Market, etc.). Confirm they received the invite verbally before logging booked.",
+    "metadata": {
+      "category": "offer",
+      "topic": "uc2-close"
+    }
   }
 ]

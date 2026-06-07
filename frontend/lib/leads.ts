@@ -3,7 +3,20 @@
 
 export type UseCase = 'uc1_new_signup' | 'uc2_estimate_completed';
 
-export type LeadStatus = 'pending' | 'calling' | 'called' | 'booked' | 'no_answer' | 'declined';
+// API values from backend/src/models.py plus disposition-framework categories
+// Andrew has not added yet (5–7). Display labels follow the Pump disposition framework.
+export type LeadStatus =
+  | 'pending'
+  | 'calling'
+  | 'called'
+  | 'booked'
+  | 'interested'
+  | 'callback'
+  | 'no_answer'
+  | 'declined'
+  | 'disqualified'
+  | 'bad_data'
+  | 'reengage_90d';
 
 export type CompanySize = '1-10' | '11-50' | '51-200' | '201-500' | '500+';
 
@@ -101,14 +114,39 @@ export const USE_CASE_LABEL: Record<UseCase, string> = {
   uc2_estimate_completed: 'UC2 · Estimate',
 };
 
+/** Pump Lead Disposition Framework — display labels for dashboard badges. */
 export const STATUS_LABEL: Record<LeadStatus, string> = {
   pending: 'Pending',
   calling: 'Calling',
   called: 'Called',
-  booked: 'Booked',
-  no_answer: 'No answer',
-  declined: 'Declined',
+  booked: 'Meeting booked',
+  interested: 'Spends on cloud – interested',
+  callback: 'Interested / Not ready',
+  declined: 'Not interested',
+  no_answer: 'No connect',
+  disqualified: 'Disqualified',
+  bad_data: 'Bad data',
+  reengage_90d: 'Re-engage in 90 days',
 };
+
+export function statusLabel(status: string): string {
+  return STATUS_LABEL[status as LeadStatus] ?? status;
+}
+
+/** Disposition order for analytics breakdown (framework categories 1–7 + in-call states). */
+export const DISPOSITION_STATUS_ORDER: LeadStatus[] = [
+  'pending',
+  'calling',
+  'called',
+  'booked',
+  'interested',
+  'callback',
+  'declined',
+  'no_answer',
+  'disqualified',
+  'bad_data',
+  'reengage_90d',
+];
 
 export const COMPANY_SIZES: CompanySize[] = ['1-10', '11-50', '51-200', '201-500', '500+'];
 export const CLOUD_PROVIDERS: CloudProvider[] = ['aws', 'gcp', 'azure'];

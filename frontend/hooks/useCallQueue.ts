@@ -8,7 +8,17 @@ const POLL_MS = 3000;
 const BETWEEN_CALLS_MS = 2000;
 const MAX_CALL_WAIT_MS = 15 * 60 * 1000;
 
-const TERMINAL_STATUSES: LeadStatus[] = ['called', 'booked', 'no_answer', 'declined'];
+const TERMINAL_STATUSES: LeadStatus[] = [
+  'called',
+  'booked',
+  'interested',
+  'callback',
+  'no_answer',
+  'declined',
+  'disqualified',
+  'bad_data',
+  'reengage_90d',
+];
 
 export type CallQueuePhase = 'idle' | 'scheduled' | 'running' | 'done';
 
