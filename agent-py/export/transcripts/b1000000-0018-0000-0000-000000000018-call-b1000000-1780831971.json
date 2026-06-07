@@ -1,0 +1,116 @@
+{
+  "lead_id": "b1000000-0018-0000-0000-000000000018",
+  "room_name": "call-b1000000-1780831971",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "agent",
+      "text": "Hey, this is Alex, an AI customer success manager calling from pump.co. I'm just calling because I saw you ran an estimate. Are there any questions that I could answer for you about pump?",
+      "timestamp": "2026-06-07T11:33:13.702757+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Why are you",
+      "timestamp": "2026-06-07T11:33:15.510699+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Why are you calling me?",
+      "timestamp": "2026-06-07T11:33:16.220501+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I’m reaching out because you recently ran a savings estimate on our site, and I’m here to help answer any questions you might have about those results. As an AI‑driven customer‑success manager, I can walk you through how Pump could capture that estimated $240 000 in annual savings at no cost or lock‑in. Would you like a quick demo to see how it works in practice?",
+      "timestamp": "2026-06-07T11:33:38.585539+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "I'm not.",
+      "timestamp": "2026-06-07T11:33:40.834252+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Interested.",
+      "timestamp": "2026-06-07T11:33:41.711789+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Got it, Tyler—just to make sure we can move forward, are you currently on any enterprise discount program or using cloud credits for your cloud spend?",
+      "timestamp": "2026-06-07T11:33:52.224854+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "I'm not",
+      "timestamp": "2026-06-07T11:33:54.964619+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I'm not interested because you just",
+      "timestamp": "2026-06-07T11:33:55.949219+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I'm not interested because you didn't even address why.",
+      "timestamp": "2026-06-07T11:33:57.047511+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I'm not interested because you didn't even address why.",
+      "timestamp": "2026-06-07T11:33:57.293480+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I",
+      "timestamp": "2026-06-07T11:34:00.032275+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "I",
+      "timestamp": "2026-06-07T11:34:00.242836+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I",
+      "timestamp": "2026-06-07T11:34:00.249442+00:00",
+      "signal": null
+    },
+    {
+      "role": "agent",
+      "text": "I’m calling because you recently ran a savings estimate on Pump, and I’m here to help you explore the $240 000 in annual savings we identified for Beehiiv. Does it sound worthwhile to see a short walkthrough of how we could lock in those savings?",
+      "timestamp": "2026-06-07T11:34:17.661052+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Yeah.",
+      "timestamp": "2026-06-07T11:34:23.406693+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Yeah.",
+      "timestamp": "2026-06-07T11:34:23.863673+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Would tomorrow at ten a.m. work for a quick 20‑minute demo so we can walk through capturing that $240 000 annual savings and discuss",
+      "timestamp": "2026-06-07T11:34:34.177985+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T11:34:38.633946+00:00"
+}

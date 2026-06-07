@@ -1,9 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
-  ArrowRightIcon,
   ChartLineUpIcon,
   CheckCircleIcon,
   ShieldCheckIcon,
@@ -13,22 +12,26 @@ import {
 } from '@phosphor-icons/react/dist/ssr';
 import { PumpShell } from '@/components/pump/pump-shell';
 import { Button } from '@/components/ui/button';
-import { ApiError, triggerNewSignup } from '@/lib/api';
-import { FIXTURE_LEADS } from '@/lib/fixtures';
 import { CLOUD_PROVIDERS, COMPANY_SIZES, type TriggerNewSignup } from '@/lib/leads';
 
 const FIELD =
   'w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-ring focus:ring-2 focus:ring-ring/30';
 
+// Demo: the Beehiiv lead (Tyler Denk, UC2) is already seeded in Supabase
+// (see backend/seed/setup_beehive.sql). The signup form is pre-filled with his
+// details and "creating an account" reuses this existing lead instead of
+// inserting a new row, so the estimate → call flow runs against real data.
+const BEEHIIV_LEAD_ID = 'b1000000-0018-0000-0000-000000000018';
+
 const DEFAULTS: TriggerNewSignup = {
-  first_name: '',
-  last_name: '',
-  email: '',
-  phone: '+1',
-  company_name: '',
+  first_name: 'Tyler',
+  last_name: 'Denk',
+  email: 'tyler@beehiiv.com',
+  phone: '+19145598426',
+  company_name: 'Beehiiv',
   company_size: '51-200',
   cloud_provider: 'aws',
-  timezone: 'America/New_York',
+  timezone: 'America/Los_Angeles',
 };
 
 const PILLARS = [
@@ -59,12 +62,9 @@ const PRICING_INCLUDES = [
 ];
 
 function SignupForm() {
+  const router = useRouter();
   const [form, setForm] = useState<TriggerNewSignup>(DEFAULTS);
   const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
-  const [demoNote, setDemoNote] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [leadId, setLeadId] = useState<string | null>(null);
 
   const update = (key: keyof TriggerNewSignup, value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -72,169 +72,116 @@ function SignupForm() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    setError(null);
-    setDemoNote(false);
-    try {
-      const res = await triggerNewSignup(form);
-      setLeadId(res?.lead?.id ?? null);
-      setDone(true);
-    } catch (err) {
-      if (!(err instanceof ApiError)) {
-        // Backend offline — let the hackathon demo proceed to the next screen.
-        setLeadId(FIXTURE_LEADS[0].id);
-        setDemoNote(true);
-        setDone(true);
-      } else {
-        setError(err.message || 'Signup failed. Please try again.');
-      }
-    } finally {
-      setSubmitting(false);
-    }
+    // The Beehiiv lead already exists in Supabase — do NOT create a new lead.
+    // After a short "creating account" beat, go straight to the estimate page
+    // (which has the TOS gate + Run estimate button) for the existing lead.
+    await new Promise((resolve) => setTimeout(resolve, 700));
+    router.push(`/pump/estimate?lead_id=${BEEHIIV_LEAD_ID}`);
   };
 
   return (
     <div className="border-border bg-card text-card-foreground shadow-primary/5 rounded-3xl border p-6 shadow-xl">
-      {done ? (
-        <div className="flex flex-col items-center py-10 text-center">
-          <CheckCircleIcon weight="fill" className="text-primary size-12" />
-          <h2 className="mt-4 text-xl font-bold">Account created!</h2>
-          <p className="text-muted-foreground mt-2 text-sm">
-            Next, connect your cloud to see how much you could save.
+      <form onSubmit={onSubmit} className="space-y-4">
+        <div>
+          <h2 className="text-lg font-bold">Get your free savings estimate</h2>
+          <p className="text-muted-foreground text-sm">
+            Two minutes to see exactly what you could save.
           </p>
-          {demoNote && (
-            <p className="mt-4 rounded-md bg-amber-500/15 px-3 py-1.5 text-xs text-amber-600 dark:text-amber-400">
-              Demo mode: backend offline, signup not actually sent.
-            </p>
-          )}
-          <Button asChild className="mt-6 w-full rounded-full">
-            <Link href={leadId ? `/pump/estimate?lead_id=${leadId}` : '/pump/estimate'}>
-              Run your estimate
-              <ArrowRightIcon weight="bold" />
-            </Link>
-          </Button>
-          <Button
-            variant="ghost"
-            className="mt-2"
-            onClick={() => {
-              setForm(DEFAULTS);
-              setLeadId(null);
-              setDone(false);
-            }}
-          >
-            Sign up another
-          </Button>
         </div>
-      ) : (
-        <form onSubmit={onSubmit} className="space-y-4">
+        <div className="grid grid-cols-2 gap-3">
           <div>
-            <h2 className="text-lg font-bold">Get your free savings estimate</h2>
-            <p className="text-muted-foreground text-sm">
-              Two minutes to see exactly what you could save.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="mb-1 block text-xs font-medium">First name</label>
-              <input
-                required
-                className={FIELD}
-                value={form.first_name}
-                onChange={(e) => update('first_name', e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="mb-1 block text-xs font-medium">Last name</label>
-              <input
-                required
-                className={FIELD}
-                value={form.last_name}
-                onChange={(e) => update('last_name', e.target.value)}
-              />
-            </div>
-          </div>
-          <div>
-            <label className="mb-1 block text-xs font-medium">Work email</label>
-            <input
-              required
-              type="email"
-              className={FIELD}
-              value={form.email}
-              onChange={(e) => update('email', e.target.value)}
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-xs font-medium">
-              Phone (E.164, e.g. +14155550123)
-            </label>
-            <input
-              required
-              pattern="\+[1-9]\d{7,14}"
-              className={FIELD}
-              value={form.phone}
-              onChange={(e) => update('phone', e.target.value)}
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-xs font-medium">Company</label>
+            <label className="mb-1 block text-xs font-medium">First name</label>
             <input
               required
               className={FIELD}
-              value={form.company_name}
-              onChange={(e) => update('company_name', e.target.value)}
+              value={form.first_name}
+              onChange={(e) => update('first_name', e.target.value)}
             />
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="mb-1 block text-xs font-medium">Company size</label>
-              <select
-                className={FIELD}
-                value={form.company_size}
-                onChange={(e) => update('company_size', e.target.value)}
-              >
-                {COMPANY_SIZES.map((size) => (
-                  <option key={size} value={size}>
-                    {size}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="mb-1 block text-xs font-medium">Cloud provider</label>
-              <select
-                className={FIELD}
-                value={form.cloud_provider}
-                onChange={(e) => update('cloud_provider', e.target.value)}
-              >
-                {CLOUD_PROVIDERS.map((provider) => (
-                  <option key={provider} value={provider}>
-                    {provider.toUpperCase()}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="mb-1 block text-xs font-medium">Last name</label>
+            <input
+              required
+              className={FIELD}
+              value={form.last_name}
+              onChange={(e) => update('last_name', e.target.value)}
+            />
           </div>
+        </div>
+        <div>
+          <label className="mb-1 block text-xs font-medium">Work email</label>
+          <input
+            required
+            type="email"
+            className={FIELD}
+            value={form.email}
+            onChange={(e) => update('email', e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs font-medium">Phone (E.164, e.g. +14155550123)</label>
+          <input
+            required
+            pattern="\+[1-9]\d{7,14}"
+            className={FIELD}
+            value={form.phone}
+            onChange={(e) => update('phone', e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs font-medium">Company</label>
+          <input
+            required
+            className={FIELD}
+            value={form.company_name}
+            onChange={(e) => update('company_name', e.target.value)}
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="mb-1 block text-xs font-medium">Company size</label>
+            <select
+              className={FIELD}
+              value={form.company_size}
+              onChange={(e) => update('company_size', e.target.value)}
+            >
+              {COMPANY_SIZES.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="mb-1 block text-xs font-medium">Cloud provider</label>
+            <select
+              className={FIELD}
+              value={form.cloud_provider}
+              onChange={(e) => update('cloud_provider', e.target.value)}
+            >
+              {CLOUD_PROVIDERS.map((provider) => (
+                <option key={provider} value={provider}>
+                  {provider.toUpperCase()}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
 
-          {error && (
-            <div className="border-destructive/30 bg-destructive/10 text-destructive rounded-lg border px-3 py-2 text-sm">
-              {error}
-            </div>
+        <Button type="submit" className="w-full rounded-full" disabled={submitting}>
+          {submitting ? (
+            <>
+              <SpinnerGapIcon className="animate-spin" weight="bold" />
+              Creating account…
+            </>
+          ) : (
+            'Get started — it\u2019s free'
           )}
-
-          <Button type="submit" className="w-full rounded-full" disabled={submitting}>
-            {submitting ? (
-              <>
-                <SpinnerGapIcon className="animate-spin" weight="bold" />
-                Creating account…
-              </>
-            ) : (
-              'Get started — it\u2019s free'
-            )}
-          </Button>
-          <p className="text-muted-foreground text-center text-xs">
-            No contracts, no credit cards, no cancellation fees.
-          </p>
-        </form>
-      )}
+        </Button>
+        <p className="text-muted-foreground text-center text-xs">
+          No contracts, no credit cards, no cancellation fees.
+        </p>
+      </form>
     </div>
   );
 }

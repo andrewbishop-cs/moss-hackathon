@@ -69,7 +69,15 @@ def _setup_file_logging() -> None:
     if not path:
         return
     root = logging.getLogger()
-    if any(getattr(h, "_agent_file_log", False) for h in root.handlers):
+    target = os.path.abspath(path)
+    # Skip if a handler for this exact file is already attached (module imported
+    # under more than one name — e.g. __main__ and "agent" — would otherwise add
+    # a second handler and double every line).
+    if any(
+        os.path.abspath(getattr(h, "baseFilename", "")) == target
+        for h in root.handlers
+        if isinstance(h, logging.FileHandler)
+    ):
         return
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     handler = logging.FileHandler(path, mode="a")
@@ -120,11 +128,6 @@ _LEAD_QUERY = "lead profile and context for this outbound call"
 # `phone_number`, the agent dials it through this trunk; otherwise it runs the
 # in-room/console flow. See agent-py/.env.local and docs/ARCHITECTURE.md.
 SIP_OUTBOUND_TRUNK_ID = os.getenv("SIP_OUTBOUND_TRUNK_ID")
-
-# Seconds to wait after SIP pickup before speaking the opener, so the callee's
-# audio path is established and the first word isn't clipped. Tunable: lower if
-# the lead-in feels sluggish, raise if words still get cut. Phone path only.
-_OPENING_LEAD_IN_S = 0.6
 
 # FastAPI hub base URL. The agent persists call outcomes by POSTing to the hub
 # (POST /calls/outcome) rather than touching Supabase directly, keeping all DB
@@ -733,9 +736,21 @@ class Assistant(Agent):
         return None
 
     async def on_enter(self) -> None:
+        # Speak the canonical opener as the VERY FIRST scheduled speech, the
+        # instant the agent becomes active. This is the critical ordering fix:
+        # if we wait until after session.start() (as we used to), the callee's
+        # "hello?" right after pickup completes a turn first and the framework
+        # auto-generates a reply to it — so the agent ad-libs ("Totally...")
+        # instead of ever speaking the UC1/UC2 opener. Scheduling here, before
+        # any user turn is processed, guarantees the opener always wins. It is
+        # non-interruptible (allow_interruptions=False) so a barge-in during the
+        # greeting can't cut off the identity disclosure, and the AEC warm-up
+        # holds this first audio until the downlink is up (no clipped first word).
+        self.session.say(
+            _spoken_opening(self._use_case, None), allow_interruptions=False
+        )
         # Warm Moss + inject this lead's profile in the BACKGROUND. These are
-        # network round-trips (~2s) and must not gate the opening line, which is
-        # spoken from the entrypoint with the lead's name from dispatch metadata.
+        # network round-trips (~2s) and must not gate the opening line above.
         # Until the injection lands, get_lead_context is the fallback for tools.
         self._context_task = asyncio.create_task(self._prepare_context())
 
@@ -1264,8 +1279,6 @@ async def my_agent(ctx: JobContext):
     # phone_number is only present for real outbound calls (set by the backend).
     # When absent (console/browser), we skip dialing and run the in-room flow.
     phone_number = None
-    # first_name lets us speak the opener immediately without a Moss round-trip.
-    first_name = None
     # lead_profile is the lead's context, prebuilt by the backend. Injecting it
     # directly removes the per-call Moss leads query (slow + 503-prone).
     lead_profile = None
@@ -1275,7 +1288,6 @@ async def my_agent(ctx: JobContext):
             lead_id = meta.get("lead_id", DEFAULT_LEAD_ID)
             use_case = meta.get("use_case", DEFAULT_USE_CASE)
             phone_number = meta.get("phone_number")
-            first_name = meta.get("first_name")
             lead_profile = meta.get("lead_profile")
         except json.JSONDecodeError:
             logger.warning(
@@ -1302,6 +1314,17 @@ async def my_agent(ctx: JobContext):
         ),
         # VAD detects when the user is speaking. (Still a direct kwarg.)
         vad=ctx.proc.userdata["vad"],
+        # Acoustic-echo-cancellation warm-up. The default (3.0s) holds the first
+        # spoken audio and disables interruptions for a full 3s after the session
+        # starts — call logs showed ~3s of dead air after pickup before the opener
+        # played. We're outbound (the agent speaks first into a fresh line), so we
+        # don't need a long AEC warm-up. The opener is now scheduled in
+        # Assistant.on_enter and HELD by this warm-up until the downlink is up, so
+        # this duration doubles as the anti-clip lead-in (it replaces the old
+        # explicit pre-opener sleep): 1.3s gives the callee's RTP path time to
+        # establish so the first word isn't clipped, while still being far faster
+        # than the 3.0s default.
+        aec_warmup_duration=1.3,
         # Turn-taking + latency tuning via the modern turn_handling API. This
         # replaces the deprecated turn_detection / min_endpointing_delay /
         # max_endpointing_delay / preemptive_generation kwargs (one source of the
@@ -1450,28 +1473,14 @@ async def my_agent(ctx: JobContext):
         (time.perf_counter() - startup_t0) * 1000,
     )
 
-    # Speak the opener as a fixed line (session.say) instead of asking the LLM to
-    # generate it. This removes the LLM time-to-first-token from the first turn
-    # and, with the Moss warm-up moved off the critical path (see
-    # Assistant.on_enter), gets the agent talking as soon as the pipeline is warm
-    # — a few seconds faster than generate_reply. The opener is deterministic by
-    # design (short greeting + AI disclosure + one-line reason), so nothing is
-    # lost by not routing it through the model.
-    # On a fresh SIP answer the callee's RTP downlink isn't always fully up at the
-    # instant the pipeline warms, so the first word of session.say gets clipped
-    # ("...ey, this is Alex" instead of "Hey, this is Alex"). A short settle delay
-    # before speaking lets the audio path establish. Phone-only — the console/in-room
-    # flow has no such race, so we don't pay the latency there.
-    if phone_number:
-        await asyncio.sleep(_OPENING_LEAD_IN_S)
-
-    opening_t = time.perf_counter()
-    await session.say(_spoken_opening(use_case, first_name))
-    logger.info(
-        "startup phase=opening_say elapsed_ms=%.0f total_ms=%.0f",
-        (time.perf_counter() - opening_t) * 1000,
-        (time.perf_counter() - startup_t0) * 1000,
-    )
+    # The canonical opener is spoken from Assistant.on_enter (scheduled as the
+    # first speech the instant the agent becomes active) rather than here. Saying
+    # it here — after session.start() plus a settle delay — left a window where
+    # the callee's "hello?" completed a turn first and the framework auto-replied
+    # to it, so the agent ad-libbed instead of ever speaking the UC1/UC2 opener.
+    # Scheduling in on_enter guarantees the opener always plays first. The opener
+    # is a fixed line (session.say, not the LLM), so it adds no time-to-first-token
+    # and stays deterministic (short greeting + AI disclosure + one-line reason).
 
 
 if __name__ == "__main__":

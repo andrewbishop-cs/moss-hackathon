@@ -1,0 +1,18 @@
+2026-06-07 04:14:22,800 INFO    [pid:35526] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:14:22,800 INFO    [pid:35526] livekit livekit_ffi::cabi:50:livekit_ffi::cabi - initializing ffi server v0.12.56
+2026-06-07 04:14:22,803 DEBUG   [pid:35526] asyncio Using selector: KqueueSelector
+2026-06-07 04:14:22,804 DEV     [pid:35526] livekit.agents Watching /Users/andrewbishop/moss-hackathon/moss-hackathon/agent-py/src
+2026-06-07 04:14:23,372 INFO    [pid:35571] livekit livekit_ffi::server:153:livekit_ffi::server - initializing ffi server v0.12.56
+2026-06-07 04:14:23,372 DEBUG   [pid:35571] asyncio Using selector: KqueueSelector
+2026-06-07 04:14:23,377 INFO    [pid:35571] livekit.agents starting worker
+2026-06-07 04:14:23,378 INFO    [pid:35571] livekit.agents plugin registered
+2026-06-07 04:14:23,378 INFO    [pid:35571] livekit.agents plugin registered
+2026-06-07 04:14:23,378 INFO    [pid:35571] livekit.agents plugin registered
+2026-06-07 04:14:23,379 INFO    [pid:35571] livekit.agents plugin registered
+2026-06-07 04:14:23,379 INFO    [pid:35571] livekit.agents starting inference executor
+2026-06-07 04:14:23,384 INFO    [pid:35571] livekit.agents initializing process
+2026-06-07 04:14:25,848 INFO    [pid:35571] livekit.agents process initialized
+2026-06-07 04:14:25,851 INFO    [pid:35571] livekit.agents HTTP server listening on :61911
+2026-06-07 04:14:25,990 INFO    [pid:35571] livekit.agents registered worker
+2026-06-07 04:16:26,997 INFO    [pid:35571] livekit.agents shutting down worker
+2026-06-07 04:16:27,008 INFO    [pid:35571] livekit.agents process exiting
