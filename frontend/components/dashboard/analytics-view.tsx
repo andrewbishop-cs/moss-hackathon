@@ -25,10 +25,10 @@ function StatRow({ label, value, hint }: { label: string; value: number; hint?: 
   return (
     <div className="border-border flex items-baseline justify-between border-b py-3 last:border-0">
       <div>
-      <p className="text-[13px] font-normal">{label}</p>
-      {hint && <p className="text-muted-foreground text-[12px] font-normal">{hint}</p>}
+        <p className="text-[14px] font-normal">{label}</p>
+        {hint && <p className="text-muted-foreground mt-0.5 text-[12px] font-normal">{hint}</p>}
       </div>
-      <p className="text-2xl font-normal tabular-nums tracking-[-0.01em]">{value}</p>
+      <p className="text-[2rem] leading-none font-bold tabular-nums tracking-[-0.02em]">{value}</p>
     </div>
   );
 }
@@ -71,16 +71,17 @@ export function AnalyticsView({ initialLeads, initialIsDemo }: AnalyticsViewProp
 
   return (
     <DashboardShell>
-      <div className="mx-auto w-full max-w-2xl flex-1 px-6 py-8 md:px-10">
-        <div className="mb-8">
-          <h1 className="text-[15px] font-medium tracking-[-0.01em]">Analytics</h1>
-          <p className="text-muted-foreground mt-1 text-[13px] font-normal">Conversion funnel</p>
-          {isDemo && (
-            <p className="text-muted-foreground mt-2 text-[12px] font-normal">Demo data · backend offline</p>
-          )}
+      <div className="mx-auto w-full max-w-3xl flex-1 px-10 py-12 md:px-16 md:py-14">
+        <div className="mb-10">
+          <h1 className="text-foreground text-[2.5rem] leading-[1.2] font-bold tracking-[-0.02em]">
+            Analytics
+          </h1>
+          <p className="text-muted-foreground mt-2 text-[14px] font-normal">
+            Conversion funnel{isDemo && ' · Demo data'}
+          </p>
         </div>
 
-        <section className="mb-10">
+        <section className="mb-12">
           <StatRow label="Triggered" value={funnel.triggered} hint="All leads" />
           <StatRow
             label="Called"
@@ -98,7 +99,10 @@ export function AnalyticsView({ initialLeads, initialIsDemo }: AnalyticsViewProp
           <h2 className="text-muted-foreground mb-3 text-[12px] font-normal">By status</h2>
           <div className="divide-border divide-y">
             {STATUS_ORDER.map((status) => (
-              <div key={status} className="flex items-center justify-between py-2 text-[13px]">
+              <div
+                key={status}
+                className="hover:bg-accent flex items-center justify-between py-2.5 text-[14px] transition-colors"
+              >
                 <span className="text-muted-foreground">{STATUS_LABEL[status]}</span>
                 <span className="tabular-nums">{statusCounts[status]}</span>
               </div>

@@ -3,12 +3,12 @@ import { cn } from '@/lib/shadcn/utils';
 
 export const BEEP_MASCOT = '/beep/beep-mascot.png';
 
-/** Halle — Vanta-inspired flat mascot for Beep. */
+/** Halle — Notion-style workspace icon (22px rounded square). */
 export function BeepLogoMark({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        'relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded bg-neutral-700 p-0.5',
+        'border-border inline-flex size-[22px] shrink-0 items-center justify-center overflow-hidden rounded-[4px] border bg-white',
         className
       )}
     >
@@ -16,7 +16,7 @@ export function BeepLogoMark({ className }: { className?: string }) {
       <img
         src={BEEP_MASCOT}
         alt="Halle"
-        className="size-full object-contain object-center"
+        className="size-full scale-125 object-cover object-[60%_40%]"
       />
     </span>
   );
@@ -26,10 +26,13 @@ export function BeepWordmark({ href = '/dashboard', className }: { href?: string
   return (
     <Link
       href={href}
-      className={cn('flex items-center gap-2 px-2 py-1', className)}
+      className={cn(
+        'hover:bg-accent flex w-full items-center gap-2 rounded-md px-2 py-1.5 transition-colors',
+        className
+      )}
     >
-      <BeepLogoMark className="size-7" />
-      <span className="text-[0.9375rem] font-medium leading-none tracking-[-0.01em]">
+      <BeepLogoMark />
+      <span className="text-foreground min-w-0 flex-1 truncate text-[14px] font-medium leading-none">
         Beep
       </span>
     </Link>

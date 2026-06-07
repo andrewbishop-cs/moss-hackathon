@@ -88,7 +88,7 @@ function CallSession({ lead }: { lead: LeadWithCompany }) {
           </div>
         )}
       </div>
-      <aside className="border-border overflow-y-auto border-l px-5 py-6">
+      <aside className="border-border bg-[var(--beep-sidebar)] overflow-y-auto border-l px-6 py-8">
         <ContextPanel lead={lead} />
         <div className="mt-8">
           <MossResultsPanel events={mossEvents} />
@@ -116,23 +116,25 @@ export function LiveCallView({ lead, roomName, isDemo }: LiveCallViewProps) {
   return (
     <DashboardShell>
       <div className="flex min-h-0 flex-1 flex-col">
-        <div className="border-border border-b px-6 py-4 md:px-8">
+        <div className="px-10 py-10 md:px-16 md:py-12">
           <Link
             href="/dashboard"
-            className="text-muted-foreground hover:text-foreground mb-3 inline-flex items-center gap-1 text-[12px] font-normal"
+            className="text-muted-foreground hover:text-foreground mb-4 inline-flex items-center gap-1.5 text-[13px] font-normal transition-colors"
           >
-            <ArrowLeftIcon weight="bold" />
+            <ArrowLeftIcon className="size-3.5" />
             Lead queue
           </Link>
-          <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <h1 className="text-[15px] font-medium tracking-[-0.01em]">{fullName(lead)}</h1>
-              <p className="text-muted-foreground mt-1 text-[13px] font-normal">
+              <h1 className="text-foreground text-[2.5rem] leading-[1.2] font-bold tracking-[-0.02em]">
+                {fullName(lead)}
+              </h1>
+              <p className="text-muted-foreground mt-2 text-[14px] font-normal">
                 {company?.name} · {formatMonthly(company?.spend_total)} spend ·{' '}
                 {formatMonthly(company?.savings_total)} savings
               </p>
             </div>
-            <div className="flex items-center gap-3 text-[12px]">
+            <div className="flex items-center gap-2 pt-2">
               <UseCaseBadge useCase={lead.use_case} />
               <StatusBadge status={lead.status} />
             </div>
@@ -140,7 +142,7 @@ export function LiveCallView({ lead, roomName, isDemo }: LiveCallViewProps) {
         </div>
 
         {isDemo && (
-          <p className="text-muted-foreground border-border border-b px-6 py-2 text-[12px] font-normal md:px-8">
+          <p className="text-muted-foreground border-border border-t px-10 py-2 text-[13px] md:px-16">
             Demo data · backend offline
           </p>
         )}
@@ -152,7 +154,7 @@ export function LiveCallView({ lead, roomName, isDemo }: LiveCallViewProps) {
             <div className="text-muted-foreground flex min-h-[50vh] items-center justify-center px-8 text-center text-[13px]">
               No active call yet. Hit Call from the queue to start one.
             </div>
-            <aside className="border-border border-l px-5 py-6">
+            <aside className="border-border bg-[var(--beep-sidebar)] border-l px-6 py-8">
               <ContextPanel lead={lead} />
             </aside>
           </div>

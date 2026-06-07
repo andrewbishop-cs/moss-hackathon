@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { PhoneCallIcon, SpinnerGapIcon } from '@phosphor-icons/react/dist/ssr';
 import { StatusBadge, UseCaseBadge } from '@/components/dashboard/badges';
 import { DashboardShell } from '@/components/dashboard/dashboard-shell';
-import { Button } from '@/components/ui/button';
 import { getLeads, triggerCall } from '@/lib/api';
 import { type LeadWithCompany, formatMonthly, fullName } from '@/lib/leads';
 import { cn } from '@/lib/shadcn/utils';
@@ -83,34 +82,32 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
 
   return (
     <DashboardShell>
-      <div className="mx-auto w-full max-w-4xl flex-1 px-6 py-8 md:px-10">
-        <div className="mb-8 flex flex-wrap items-baseline justify-between gap-3">
-          <div>
-            <h1 className="text-[15px] font-medium tracking-[-0.01em]">Lead queue</h1>
-            <p className="text-muted-foreground mt-1 text-[13px] font-normal">
-              {leads.length} leads · {pendingCount} pending
-            </p>
-          </div>
-          {isDemo && (
-            <span className="text-muted-foreground text-[12px] font-normal">Demo data · backend offline</span>
-          )}
+      <div className="mx-auto w-full max-w-5xl flex-1 px-10 py-12 md:px-16 md:py-14">
+        <div className="mb-10">
+          <h1 className="text-foreground text-[2.5rem] leading-[1.2] font-bold tracking-[-0.02em]">
+            Lead queue
+          </h1>
+          <p className="text-muted-foreground mt-2 text-[14px] font-normal">
+            {leads.length} leads · {pendingCount} pending
+            {isDemo && ' · Demo data'}
+          </p>
         </div>
 
         {error && (
-          <div className="border-border text-destructive mb-4 border px-3 py-2 text-[13px]">{error}</div>
+          <div className="text-destructive mb-6 rounded-md bg-red-50 px-3 py-2 text-[14px]">{error}</div>
         )}
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-[13px]">
+          <table className="w-full border-collapse text-left text-[14px]">
             <thead>
-              <tr className="border-border text-muted-foreground border-b text-[12px]">
-                <th className="pb-2 pr-4 font-normal">Lead</th>
-                <th className="pb-2 pr-4 font-normal">Company</th>
-                <th className="pb-2 pr-4 font-normal">Use case</th>
-                <th className="pb-2 pr-4 text-right font-normal">Spend</th>
-                <th className="pb-2 pr-4 text-right font-normal">Savings</th>
-                <th className="pb-2 pr-4 font-normal">Status</th>
-                <th className="pb-2 text-right font-normal" />
+              <tr className="text-muted-foreground border-border border-b text-[12px]">
+                <th className="pb-2 pr-3 font-normal">Lead</th>
+                <th className="pb-2 pr-3 font-normal">Company</th>
+                <th className="pb-2 pr-3 font-normal">Use case</th>
+                <th className="pb-2 pr-3 text-right font-normal">Spend</th>
+                <th className="pb-2 pr-3 text-right font-normal">Savings</th>
+                <th className="pb-2 pr-3 font-normal">Status</th>
+                <th className="pb-2 font-normal" />
               </tr>
             </thead>
             <tbody>
@@ -119,54 +116,56 @@ export function LeadDashboard({ initialLeads, initialIsDemo }: LeadDashboardProp
                 return (
                   <tr
                     key={lead.id}
-                    className="border-border hover:bg-muted/40 cursor-pointer border-b transition-colors"
+                    className="border-border hover:bg-accent group cursor-pointer border-b transition-colors"
                     onClick={() => router.push(`/dashboard/calls/${lead.id}`)}
                   >
-                    <td className="py-2.5 pr-4">
-                      <div className="font-medium">{fullName(lead)}</div>
-                      <div className="text-muted-foreground text-[12px] font-normal">{lead.email}</div>
+                    <td className="py-2 pr-3 align-middle">
+                      <div className="font-normal">{fullName(lead)}</div>
+                      <div className="text-muted-foreground text-[12px]">{lead.email}</div>
                     </td>
-                    <td className="py-2.5 pr-4">
+                    <td className="py-2 pr-3 align-middle">
                       <div>{lead.company?.name ?? '—'}</div>
-                      <div className="text-muted-foreground text-[12px] font-normal">
+                      <div className="text-muted-foreground text-[12px]">
                         {lead.company?.cloud_provider} · {lead.company?.company_size}
                       </div>
                     </td>
-                    <td className="py-2.5 pr-4">
+                    <td className="py-2 pr-3 align-middle">
                       <UseCaseBadge useCase={lead.use_case} />
                     </td>
-                    <td className="py-2.5 pr-4 text-right tabular-nums">
+                    <td className="py-2 pr-3 text-right align-middle tabular-nums">
                       {formatMonthly(lead.company?.spend_total)}
                     </td>
-                    <td className="py-2.5 pr-4 text-right tabular-nums">
+                    <td className="py-2 pr-3 text-right align-middle tabular-nums">
                       {formatMonthly(lead.company?.savings_total)}
                     </td>
-                    <td className="py-2.5 pr-4">
+                    <td className="py-2 pr-3 align-middle">
                       <StatusBadge status={lead.status} />
                     </td>
-                    <td className="py-2.5 text-right">
-                      <Button
-                        size="sm"
-                        variant="ghost"
+                    <td className="py-2 text-right align-middle">
+                      <button
+                        type="button"
                         disabled={isCalling}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleCall(lead.id);
                         }}
-                        className={cn('h-7 text-[12px] font-medium', isCalling && 'opacity-60')}
+                        className={cn(
+                          'text-muted-foreground hover:bg-accent hover:text-foreground inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[13px] transition-colors',
+                          isCalling && 'opacity-50'
+                        )}
                       >
                         {isCalling ? (
                           <>
-                            <SpinnerGapIcon className="animate-spin" weight="bold" />
+                            <SpinnerGapIcon className="size-3.5 animate-spin" />
                             Calling
                           </>
                         ) : (
                           <>
-                            <PhoneCallIcon weight="bold" />
+                            <PhoneCallIcon className="size-3.5 opacity-0 group-hover:opacity-70" />
                             Call
                           </>
                         )}
-                      </Button>
+                      </button>
                     </td>
                   </tr>
                 );

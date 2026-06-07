@@ -2,22 +2,31 @@ import { type LeadStatus, STATUS_LABEL, USE_CASE_LABEL, type UseCase } from '@/l
 import { cn } from '@/lib/shadcn/utils';
 
 const STATUS_STYLES: Record<LeadStatus, string> = {
-  pending: 'text-muted-foreground',
-  calling: 'text-foreground animate-pulse',
-  called: 'text-muted-foreground',
-  booked: 'text-foreground font-medium',
-  no_answer: 'text-muted-foreground',
-  declined: 'text-muted-foreground',
+  pending: 'bg-neutral-100 text-neutral-600',
+  calling: 'bg-sky-50 text-sky-700',
+  called: 'bg-neutral-100 text-neutral-600',
+  booked: 'bg-emerald-50 text-emerald-700',
+  no_answer: 'bg-amber-50 text-amber-800',
+  declined: 'bg-red-50 text-red-700',
 };
 
 export function StatusBadge({ status }: { status: LeadStatus }) {
   return (
-    <span className={cn('text-[12px] font-normal', STATUS_STYLES[status])}>{STATUS_LABEL[status]}</span>
+    <span
+      className={cn(
+        'inline-flex rounded px-1.5 py-0.5 text-[12px] font-normal leading-none',
+        STATUS_STYLES[status]
+      )}
+    >
+      {STATUS_LABEL[status]}
+    </span>
   );
 }
 
 export function UseCaseBadge({ useCase }: { useCase: UseCase }) {
   return (
-    <span className="text-muted-foreground text-[12px] font-normal">{USE_CASE_LABEL[useCase]}</span>
+    <span className="bg-neutral-100 text-neutral-600 inline-flex rounded px-1.5 py-0.5 text-[12px] font-normal leading-none">
+      {USE_CASE_LABEL[useCase]}
+    </span>
   );
 }
