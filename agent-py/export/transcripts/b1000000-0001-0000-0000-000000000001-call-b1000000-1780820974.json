@@ -1,0 +1,26 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780820974",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "lead",
+      "text": "So",
+      "timestamp": "2026-06-07T08:29:46.380775+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:29:46.905955+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Hey Michael, it’s Alex, the AI customer‑success manager at Pump. I saw your estimate showing you could be leaving about one point five eight three million dollars a month on the table – that’s almost nineteen million a year. Thought it’d be worth a quick chat.",
+      "timestamp": "2026-06-07T08:30:01.228198+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T08:31:43.549248+00:00"
+}

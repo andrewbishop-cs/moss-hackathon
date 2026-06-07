@@ -1,0 +1,12 @@
+exported_at=2026-06-07T07:57:28Z
+lead_id=b1000000-0001-0000-0000-000000000001
+room_name=call-b1000000-1780817950
+git_sha=5b31bd6
+git_branch=main
+
+=== processes ===
+(none)
+
+=== ports ===
+port 8000: free
+port 3000: free

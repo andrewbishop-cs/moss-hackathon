@@ -1,0 +1,68 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780819212",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "lead",
+      "text": "Hello.",
+      "timestamp": "2026-06-07T08:00:31.566126+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:00:32.003155+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Oh, sorry. This is",
+      "timestamp": "2026-06-07T08:00:49.023481+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Well, sorry. This is I'm not I'm not down",
+      "timestamp": "2026-06-07T08:00:50.046601+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Well, sorry. This is I'm not I'm not down for a spam call.",
+      "timestamp": "2026-06-07T08:00:50.990557+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Hey Michael, I’m Alex, the AI customer success manager at Pump. I saw your estimate showing about one point five eight million dollars in cloud savings each month—that’s nearly nineteen million a year—and I have a quick offer to help you lock that in. Do you have any questions about how Pump works before",
+      "timestamp": "2026-06-07T08:00:50.997131+00:00",
+      "signal": null
+    },
+    {
+      "role": "agent",
+      "text": "I’m sorry for the interruption. I’ll let you go. \n\n*log_outcome*{\"outcome\":\"declined\",\"notes\":\"Lead not interested and asked to stop the call\"}",
+      "timestamp": "2026-06-07T08:00:59.842727+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:01:09.326415+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Hello?",
+      "timestamp": "2026-06-07T08:01:09.827304+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I understand—thanks for your time, Michael. Take care. \n\n*log_outcome*{\"outcome\":\"declined\"}",
+      "timestamp": "2026-06-07T08:01:17.327553+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T08:01:45.292808+00:00"
+}

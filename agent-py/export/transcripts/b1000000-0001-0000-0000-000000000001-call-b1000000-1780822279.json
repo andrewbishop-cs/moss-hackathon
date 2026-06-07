@@ -1,0 +1,68 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780822279",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "agent",
+      "text": "Hey, this is Alex, an AI customer success manager calling from pump.co. I'm just calling because I saw you ran an estimate. Are there any questions that I could answer for you about pump?",
+      "timestamp": "2026-06-07T08:51:40.817924+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Uh-huh.",
+      "timestamp": "2026-06-07T08:51:42.757790+00:00",
+      "signal": "weak_agreement"
+    },
+    {
+      "role": "lead",
+      "text": "No. I'm I'm good",
+      "timestamp": "2026-06-07T08:51:43.764460+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. I'm I'm good, Alex. Thanks for the call.",
+      "timestamp": "2026-06-07T08:51:44.791169+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Got it, thanks! Just to make sure we can help you best, could you tell me roughly how much you spend on cloud services each month?",
+      "timestamp": "2026-06-07T08:51:53.150947+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "No.",
+      "timestamp": "2026-06-07T08:51:54.760406+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. No. No. I don't need any help",
+      "timestamp": "2026-06-07T08:51:55.783525+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. No. No. I don't need any help. It's okay.",
+      "timestamp": "2026-06-07T08:51:56.551021+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No.",
+      "timestamp": "2026-06-07T08:51:57.558449+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Not interested.",
+      "timestamp": "2026-06-07T08:51:58.569749+00:00",
+      "signal": "none"
+    }
+  ],
+  "saved_at": "2026-06-07T08:52:03.437923+00:00"
+}

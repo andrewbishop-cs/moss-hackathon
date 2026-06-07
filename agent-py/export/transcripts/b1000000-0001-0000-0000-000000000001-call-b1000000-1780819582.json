@@ -1,0 +1,236 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780819582",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "agent",
+      "text": "Hi Michael, this is Alex, an AI customer success manager at Pump. I saw you ran a savings estimate on our site and wanted to follow up personally because I have an offer for you. Do you have any questions about how Pump works before we dive in?",
+      "timestamp": "2026-06-07T08:06:47.482893+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "No.",
+      "timestamp": "2026-06-07T08:06:50.446350+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. No. Like,",
+      "timestamp": "2026-06-07T08:06:51.455215+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. No. Like,",
+      "timestamp": "2026-06-07T08:06:51.603643+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "What is this?",
+      "timestamp": "2026-06-07T08:06:52.604039+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "What is this?",
+      "timestamp": "2026-06-07T08:06:52.708520+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. No. I know",
+      "timestamp": "2026-06-07T08:07:05.238370+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. No. No. I know I know what pump is,",
+      "timestamp": "2026-06-07T08:07:05.989868+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. No. No. I know I know what pump is, but, like, why are you calling",
+      "timestamp": "2026-06-07T08:07:06.967260+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. No. I know I know what pump is, but, like, why are you calling me? Because, like, I didn't",
+      "timestamp": "2026-06-07T08:07:07.984195+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. No. No. I know I know what pump is, but, like, why are you calling me? Because, like, I didn't, like, give you my",
+      "timestamp": "2026-06-07T08:07:09.039862+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. No. I know I know what pump is, but, like, why are you calling me? Because, like, I didn't, like,",
+      "timestamp": "2026-06-07T08:07:09.091246+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Sure thing, Michael. Pump is a free, AI‑driven platform that sits on the billing layer of your AWS, GCP, Azure and AI providers. By analyzing usage and negotiating discounts directly with the clouds,",
+      "timestamp": "2026-06-07T08:07:09.097753+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "give you my consent.",
+      "timestamp": "2026-06-07T08:07:09.494341+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "give you my consent.",
+      "timestamp": "2026-06-07T08:07:09.877212+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I’m reaching out because you completed a Pump savings estimate that showed you could be leaving roughly one million five‑hundred thousand dollars on the table each month – about nineteen million dollars a year. I wanted to share that result and let you know we have a short‑term evaluation promotion you could take advantage of. Does that sound useful to discuss?",
+      "timestamp": "2026-06-07T08:07:26.510006+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Is this a scam?",
+      "timestamp": "2026-06-07T08:07:28.907845+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Is this a scam?",
+      "timestamp": "2026-06-07T08:07:29.046365+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I understand the hesitation—this isn’t a scam. I’m Alex, an AI‑based customer success manager at Pump, and we reached out because you ran a savings estimate on our site that showed you could be leaving about one million five‑hundred thousand dollars each month on the table. If you’d prefer to speak with a human or have me send more details by email, just let me know.  \n\nQuick question: are you currently using any cloud‑provider enterprise discount program or credit that’s active right now?",
+      "timestamp": "2026-06-07T08:07:54.066279+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "No.",
+      "timestamp": "2026-06-07T08:07:56.199379+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. I don't. But I I don't",
+      "timestamp": "2026-06-07T08:07:57.207837+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. I don't. But I I don't really understand what the",
+      "timestamp": "2026-06-07T08:07:58.203335+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "No. I don't. But I I don't really understand what the point of this is.",
+      "timestamp": "2026-06-07T08:07:59.040266+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "Got it—thanks for confirming. Based on the estimate, Pump could help you keep roughly one million five‑hundred thousand dollars each month, which adds up to about nineteen million dollars a year, without any code changes or upfront cost.\n\nWe’ve got a limited‑time evaluation promotion that includes a Mac Mini for teams that move forward with a quick demo, just to make the kickoff even smoother. Would a short 20‑minute call later this week work to walk through how we’d capture those savings for Cursor?",
+      "timestamp": "2026-06-07T08:08:24.199901+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Mean, like, that's a lot",
+      "timestamp": "2026-06-07T08:08:28.102165+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Mean, like, that's a lot of money.",
+      "timestamp": "2026-06-07T08:08:29.118254+00:00",
+      "signal": "positive_curiosity"
+    },
+    {
+      "role": "lead",
+      "text": "Mean, like, that's a lot of money.",
+      "timestamp": "2026-06-07T08:08:29.212032+00:00",
+      "signal": "positive_curiosity"
+    },
+    {
+      "role": "lead",
+      "text": "But I don't",
+      "timestamp": "2026-06-07T08:08:30.219377+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "But I don't really want to",
+      "timestamp": "2026-06-07T08:08:31.240338+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "But I don't really want to",
+      "timestamp": "2026-06-07T08:08:31.873880+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "to talk just",
+      "timestamp": "2026-06-07T08:08:32.809259+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "to talk just go back and forth in the",
+      "timestamp": "2026-06-07T08:08:33.822996+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "to talk just go back and forth in AI. Like, I feel like this is gonna",
+      "timestamp": "2026-06-07T08:08:34.819989+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "to talk just go back and forth in AI. Like, I feel like this is kind of a weird, like, sale",
+      "timestamp": "2026-06-07T08:08:35.845877+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "to talk just go back and forth in AI. Like, I feel like this is kind of a weird, like, sales tax",
+      "timestamp": "2026-06-07T08:08:36.865216+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "ic. So",
+      "timestamp": "2026-06-07T08:08:37.189501+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "yeah.",
+      "timestamp": "2026-06-07T08:08:38.067979+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I hear you—no pressure at all. I can email you a quick, no‑fluff summary of the estimated $1.58 million‑per‑month savings and how the implementation works, so you can review it on your own time. What’s the best email to send that to?",
+      "timestamp": "2026-06-07T08:09:24.685776+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T08:11:26.920603+00:00"
+}

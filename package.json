@@ -17,6 +17,7 @@
     "train:call:smb": "bash scripts/train-call.sh --smb",
     "train:call:whale": "bash scripts/train-call.sh --whale",
     "train:call:wait": "bash scripts/train-call.sh --wait",
+    "export:transcript-debug": "bash scripts/export-transcript-debug.sh",
     "dev": "pnpm kill:agents && pnpm reset:leads && concurrently -n agent-py,backend,frontend -c cyan,green,magenta \"pnpm dev:agent-py\" \"pnpm dev:backend\" \"pnpm dev:frontend\"",
     "dev:frontend": "pnpm --dir frontend dev",
     "dev:agent-py": "bash scripts/lib/dev-agent.sh",

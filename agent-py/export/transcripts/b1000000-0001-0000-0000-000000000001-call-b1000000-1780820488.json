@@ -1,0 +1,80 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780820488",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "lead",
+      "text": "Your call has",
+      "timestamp": "2026-06-07T08:21:54.615761+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Your call has been forwarded to voice",
+      "timestamp": "2026-06-07T08:21:55.421395+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Your call has been forwarded to voice mail.",
+      "timestamp": "2026-06-07T08:21:55.818197+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "The person you're trying",
+      "timestamp": "2026-06-07T08:21:56.621459+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "The person you're trying to reach is not available.",
+      "timestamp": "2026-06-07T08:21:57.424964+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "The person you're trying to reach is not available.",
+      "timestamp": "2026-06-07T08:21:57.679901+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "At the tone,",
+      "timestamp": "2026-06-07T08:21:58.424960+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "please record your",
+      "timestamp": "2026-06-07T08:21:59.184803+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "please record your message.",
+      "timestamp": "2026-06-07T08:21:59.626292+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "When you have finished",
+      "timestamp": "2026-06-07T08:22:00.424467+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "When you have finished recording, you may hang up.",
+      "timestamp": "2026-06-07T08:22:01.232054+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "When you have finished recording, you may hang up.",
+      "timestamp": "2026-06-07T08:22:01.672732+00:00",
+      "signal": "none"
+    }
+  ],
+  "saved_at": "2026-06-07T08:22:06.392626+00:00"
+}

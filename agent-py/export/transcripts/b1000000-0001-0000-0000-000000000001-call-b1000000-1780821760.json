@@ -1,0 +1,32 @@
+{
+  "lead_id": "b1000000-0001-0000-0000-000000000001",
+  "room_name": "call-b1000000-1780821760",
+  "use_case": "uc2_estimate_completed",
+  "turns": [
+    {
+      "role": "agent",
+      "text": "Hi, this is Alex, an AI customer success manager from Pump. I’m calling because you recently ran a savings estimate with us. I wanted to check in and see if you have any questions about Pump.",
+      "timestamp": "2026-06-07T08:43:07.562160+00:00",
+      "signal": null
+    },
+    {
+      "role": "lead",
+      "text": "Sorry.",
+      "timestamp": "2026-06-07T08:43:15.287971+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "lead",
+      "text": "Sorry. Who is this?",
+      "timestamp": "2026-06-07T08:43:16.233267+00:00",
+      "signal": "none"
+    },
+    {
+      "role": "agent",
+      "text": "I’m Alex, an AI‑powered customer‑success manager at Pump. We help companies automatically cut their cloud and AI spend, and we’re trusted by more than fourteen‑hundred businesses—including names like Deel and Supabase. Our platform is free for you; we get paid by the cloud providers for the savings we deliver. I reached out because you ran a savings estimate on our site and I’m here to answer any questions you might have.",
+      "timestamp": "2026-06-07T08:43:40.577791+00:00",
+      "signal": null
+    }
+  ],
+  "saved_at": "2026-06-07T08:47:21.729078+00:00"
+}
