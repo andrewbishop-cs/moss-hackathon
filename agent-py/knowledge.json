@@ -1,7 +1,7 @@
 [
   {
     "id": "kb-what-is-pump",
-    "text": "Q: What is Pump? A: Pump is a cloud and AI cost optimization platform. It reduces what companies spend across AWS, GCP, and Azure, as well as AI model providers like OpenAI and Anthropic, through billing-layer discounts, commitment management, and AI-driven optimization. Pump works directly with the providers to unlock better pricing. Forbes calls Pump 'the Costco of cloud.'",
+    "text": "Pump is a cloud and AI cost optimization platform. We help companies cut what they spend across AWS, GCP, and Azure, plus AI providers like OpenAI and Anthropic, through billing-layer discounts, commitment management, and AI-driven optimization. We work directly with the providers to unlock better pricing. Forbes calls us the Costco of cloud.",
     "metadata": {
       "category": "product",
       "topic": "overview"
@@ -9,7 +9,7 @@
   },
   {
     "id": "kb-products",
-    "text": "Q: What products does Pump offer? A: Four. Pump Save automates commitment-based savings (Reserved Instances, Savings Plans, CUDs) plus rightsizing, zombie-instance detection, and modernization. Pump View gives unified multi-cloud and AI spend visibility, anomaly detection, and forecasting. Pump Secure monitors security posture across 25+ industry-standard frameworks with monthly pentesting. Caesar AI is an AI DevOps assistant that answers infrastructure and cost questions, generates code, and summarizes outages.",
+    "text": "We have four products. Pump Save automates commitment-based savings — Reserved Instances, Savings Plans, CUDs — plus rightsizing, zombie-instance detection, and modernization. Pump View gives you unified multi-cloud and AI spend visibility, anomaly detection, and forecasting. Pump Secure monitors security posture across twenty-five plus industry-standard frameworks with monthly pentesting. Caesar AI is an AI DevOps assistant that answers infrastructure and cost questions, generates code, and summarizes outages.",
     "metadata": {
       "category": "product",
       "topic": "products"
@@ -17,7 +17,7 @@
   },
   {
     "id": "kb-how-it-works",
-    "text": "Q: How does Pump work and how do I get started? A: Onboarding is self-serve and takes under 35 minutes with no engineering effort. Step 1: grant Pump read-only access to your billing data (about 2 minutes). Step 2: authorize Pump to enroll in billing (about 1 minute). Step 3: KYB approval (about 30 minutes), usually instant for businesses in good standing. Pump then runs alongside your existing setup.",
+    "text": "Getting started is self-serve and takes under thirty-five minutes with no engineering effort. First, grant Pump read-only access to your billing data — about two minutes. Second, authorize Pump to enroll in billing — about one minute. Third, KYB approval — about thirty minutes, usually instant if you're in good standing. After that, Pump runs alongside your existing setup.",
     "metadata": {
       "category": "product",
       "topic": "how-it-works"
@@ -25,7 +25,7 @@
   },
   {
     "id": "kb-pricing",
-    "text": "Q: How much does Pump cost and how is it free? A: Pump is free to the customer. Pump earns a small margin from the cloud providers, who pay Pump to keep customers happy on their platforms. There is no upfront cost and no credit card required to see your savings estimate. The team covers exact details on the follow-up call.",
+    "text": "Pump is completely free to you. We earn a small margin from the cloud providers — AWS, GCP, and Azure pay us to keep customers happy on their platforms. No upfront cost, no credit card required to see your savings estimate. Our team can walk through exact details on the follow-up call.",
     "metadata": {
       "category": "pricing",
       "topic": "cost"
@@ -33,7 +33,7 @@
   },
   {
     "id": "kb-savings",
-    "text": "Q: How much can we save? A: Pump typically saves customers 20 to 60 percent on their cloud and AI bill, and customers usually capture 70 to 80 percent of their estimated savings.",
+    "text": "We typically save customers twenty to sixty percent on their cloud and AI bill, and most customers capture seventy to eighty percent of their estimated savings once they're connected.",
     "metadata": {
       "category": "product",
       "topic": "savings"
@@ -41,7 +41,7 @@
   },
   {
     "id": "kb-providers",
-    "text": "Q: Which providers does Pump support? A: AWS, GCP, and Azure on the cloud side, plus AI model providers OpenAI and Anthropic.",
+    "text": "We support AWS, GCP, and Azure on the cloud side, plus OpenAI and Anthropic on the AI side.",
     "metadata": {
       "category": "product",
       "topic": "providers"
@@ -49,7 +49,7 @@
   },
   {
     "id": "kb-min-spend",
-    "text": "Q: What is the minimum spend to qualify? A: $5,000 per month on a single cloud provider (AWS, GCP, or Azure).",
+    "text": "To qualify, you need at least five thousand dollars per month on a single cloud provider — AWS, GCP, or Azure.",
     "metadata": {
       "category": "qualification",
       "topic": "minimum-spend"
@@ -57,7 +57,7 @@
   },
   {
     "id": "kb-vs-commitments",
-    "text": "Q: Why use Pump instead of buying commitments ourselves? A: Three things. Risk Insurance: if your usage drops and Pump has overcommitted, Pump reimburses you 100 percent. Always-on automation: the AI continuously covers your baseline with commitments, with no manual planning. Infrastructure intelligence: rightsizing, zombie-instance detection, and modernization recommendations you would not get from just buying commitments.",
+    "text": "Three reasons teams pick Pump over buying commitments themselves. Risk insurance — if your usage drops and we've overcommitted, we reimburse you one hundred percent. Always-on automation — our AI continuously covers your baseline with commitments, no manual planning. Infrastructure intelligence — rightsizing, zombie-instance detection, and modernization recommendations you won't get from just buying RIs.",
     "metadata": {
       "category": "product",
       "topic": "differentiation"
@@ -65,7 +65,7 @@
   },
   {
     "id": "kb-pump-view-vs-cost-explorer",
-    "text": "Q: How is Pump View different from AWS Cost Explorer? A: Pump View is one source of truth across AWS, GCP, and Azure, plus integrations like Datadog, GitHub, ClickHouse, Cursor, OpenAI, and Anthropic. It does real-time anomaly detection with business context and finance-ready forecasting with engineering-level detail. Most dashboards show numbers; Pump View explains why they changed and what to do next.",
+    "text": "Pump View is one source of truth across AWS, GCP, and Azure, plus integrations like Datadog, GitHub, ClickHouse, Cursor, OpenAI, and Anthropic. Real-time anomaly detection with business context, and finance-ready forecasting with engineering-level detail. Most dashboards just show numbers — Pump View explains why they changed and what to do next.",
     "metadata": {
       "category": "product",
       "topic": "pump-view"
@@ -73,7 +73,7 @@
   },
   {
     "id": "kb-permissions",
-    "text": "Q: What permissions does Pump require? A: Two IAM roles. A read-only role for billing and usage metadata during onboarding, and an auto-pilot role that adds the ability to buy and sell Reserved Instances and Savings Plans on your behalf. Pump only sees usage metadata like compute instance type and region, never your credentials, application data, or user data, and it cannot modify your resources.",
+    "text": "We need two IAM roles. A read-only role for billing and usage metadata during onboarding, and an auto-pilot role that lets us buy and sell Reserved Instances and Savings Plans on your behalf. We only see usage metadata like instance type and region — never your credentials, application data, or user data, and we can't modify your resources.",
     "metadata": {
       "category": "security",
       "topic": "permissions"
@@ -81,7 +81,7 @@
   },
   {
     "id": "kb-safe",
-    "text": "Q: Is Pump safe? A: Yes. It starts with read-only access, requires no code changes, and works only at the billing layer. No changes to your org or SSO. You keep full control over everything.",
+    "text": "Yes, it's safe. We start with read-only access, require no code changes, and work only at the billing layer. No changes to your org or SSO. You keep full control over everything.",
     "metadata": {
       "category": "security",
       "topic": "safety"
@@ -89,7 +89,7 @@
   },
   {
     "id": "kb-offboarding",
-    "text": "Q: What happens if we want to leave, and is Pump month to month? A: Pump is month to month with no lock-in. Just request to cancel and Pump offboards you. Your cloud setup reverts to exactly how it was before, with no penalty and no changes to your data or infrastructure.",
+    "text": "Pump is month to month with no lock-in. Just request to cancel and we offboard you. Your cloud setup reverts to exactly how it was before — no penalty, no changes to your data or infrastructure.",
     "metadata": {
       "category": "product",
       "topic": "offboarding"
@@ -97,7 +97,7 @@
   },
   {
     "id": "kb-social-proof",
-    "text": "Q: Who uses Pump? A: More than 1,400 companies, including Deel, Tandem Bank, BUTLR, Supabase, Rho, Beehiiv, Retell AI, and Vapi. BUTLR cut their cloud spend by nearly $700K through Pump, and Tandem Bank reduced theirs by over $800K.",
+    "text": "More than fourteen hundred companies use Pump, including Deel, Tandem Bank, BUTLR, Supabase, Rho, Beehiiv, Retell AI, and Vapi. BUTLR cut their cloud spend by nearly seven hundred thousand dollars through Pump. Tandem Bank reduced theirs by over eight hundred thousand.",
     "metadata": {
       "category": "social-proof",
       "topic": "customers"
@@ -105,7 +105,7 @@
   },
   {
     "id": "kb-offer-tiers",
-    "text": "Q: What thank-you gift or promotion can we offer? A: It depends on the lead's monthly cloud spend tier, and all gifts are tied to booking a demo and doing a trial this month. Minimum to qualify is $5K/month. SMB ($5K to $15K/month): a $20 DoorDash credit. Core ($15K to $30K/month): $50 in AWS credits. Mid-Market ($30K to $60K/month): a World Cup jersey. Enterprise ($60K to $150K/month): a custom company pullover. Whale ($150K+/month): a Mac Mini, plus we loop in a senior account exec.",
+    "text": "Thank-you gifts depend on monthly cloud spend, and all gifts are tied to booking a demo and starting a trial this month. Minimum to qualify is five K per month. SMB — five to fifteen K per month — gets a twenty-dollar DoorDash credit. Core — fifteen to thirty K — gets fifty dollars in AWS credits. Mid-Market — thirty to sixty K — gets a World Cup jersey. Enterprise — sixty to one fifty K — gets a custom company pullover. Whale — one fifty K plus — gets a Mac Mini, and we loop in a senior account exec.",
     "metadata": {
       "category": "offer",
       "topic": "tiers"
@@ -113,23 +113,25 @@
   },
   {
     "id": "kb-obj-real-savings",
-    "text": "Q: Are these savings actually real? A: The estimate is based on your actual spend profile, and customers typically capture 70 to 80 percent of their estimated savings. The only way to know for sure is to connect your account, which takes about 10 minutes.",
+    "text": "The estimate is based on your actual spend profile, and customers typically capture seventy to eighty percent of their estimated savings. The only way to know for sure is to connect your account — takes about ten minutes.",
     "metadata": {
       "category": "objection",
-      "topic": "savings-credibility"
+      "topic": "savings-credibility",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-obj-existing-commitments",
-    "text": "Q: We already manage RIs or Savings Plans ourselves. A: That is really common. Your existing RIs and Savings Plans keep applying until they expire, and Pump layers on top, finding uncovered on-demand spend and buying additional commitments to fill the gaps. Pump typically gets customers to 90 to 99 percent coverage versus managing it manually service by service.",
+    "text": "That's really common. Your existing RIs and Savings Plans keep applying until they expire, and Pump layers on top — we find uncovered on-demand spend and buy additional commitments to fill the gaps. We typically get customers to ninety to ninety-nine percent coverage versus managing it manually service by service.",
     "metadata": {
       "category": "objection",
-      "topic": "existing-commitments"
+      "topic": "existing-commitments",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-obj-edp-ppa",
-    "text": "Q: We have an EDP or cross-service PPA. Can we still use Pump? A: Yes, but the EDP or PPA needs to be transferred to the Pump billing account. Once transferred, your discount continues and stacks on top of the savings Pump generates, so you get both.",
+    "text": "Yes, you can — but the EDP or PPA needs to be transferred to the Pump billing account. Once transferred, your discount continues and stacks on top of the savings Pump generates, so you get both.",
     "metadata": {
       "category": "qualification",
       "topic": "edp-ppa"
@@ -137,7 +139,7 @@
   },
   {
     "id": "kb-obj-cloud-credits",
-    "text": "Q: We are running on cloud credits. Can we use Pump? A: Not yet. Savings kick in on actual billed spend, so while you are on free credits Pump is not the right fit. If your credits are running out soon, reach out so we can plan the timing.",
+    "text": "If you're running on free cloud credits right now, Pump isn't the right fit yet — savings kick in on actual billed spend. If your credits are running out soon, happy to plan the timing with you.",
     "metadata": {
       "category": "qualification",
       "topic": "credits"
@@ -145,122 +147,365 @@
   },
   {
     "id": "kb-obj-msp",
-    "text": "Q: We already have an MSP or billing partner. A: Are you locked into a contract with them? Since Pump is completely free and does not take a cut of your savings, it is usually worth a quick look at what they have not caught.",
+    "text": "Are you locked into a contract with them? Since Pump is completely free and we don't take a cut of your savings, it's usually worth a quick look at what they might have missed.",
     "metadata": {
       "category": "objection",
-      "topic": "msp"
+      "topic": "msp",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-obj-cost-explorer",
-    "text": "Q: We just use Cost Explorer. A: Cost Explorer is a good start. Pump surfaces savings Cost Explorer misses, across cloud and AI spend, and it is included for free.",
+    "text": "Cost Explorer is a good start — Pump surfaces savings Cost Explorer misses, across cloud and AI spend, and it's included for free.",
     "metadata": {
       "category": "objection",
-      "topic": "cost-explorer"
+      "topic": "cost-explorer",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-obj-send-email",
-    "text": "Q: Just send me an email instead. A: Happy to send something over. I do want to flag that a quick call is usually the best way to see the value, because we can run a savings estimate live.",
+    "text": "Happy to send something over. I do want to flag that a quick call is usually the best way to see the value, because we can run a savings estimate live.",
     "metadata": {
       "category": "objection",
-      "topic": "send-email"
+      "topic": "send-email",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-obj-contract",
-    "text": "Q: We are in a contract until a certain date. A: Got it. I will circle back before then so you are ready to hit the ground running when it expires.",
+    "text": "Got it — I'll circle back before then so you're ready to hit the ground running when it expires.",
     "metadata": {
       "category": "objection",
-      "topic": "contract"
+      "topic": "contract",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-obj-loop-in",
-    "text": "Q: We need to loop in someone else. A: Absolutely. Who else should be on the call? I want to make sure we get everyone's questions answered.",
+    "text": "Absolutely — who else should be on the call? I want to make sure we get everyone's questions answered.",
     "metadata": {
       "category": "objection",
-      "topic": "stakeholders"
+      "topic": "stakeholders",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-obj-not-now",
-    "text": "Q: We are not focused on this right now. A: Totally understand. Those savings will still be there. When does it come back on the radar? I can circle back then, and I am happy to send the calendar link anyway so you have it.",
+    "text": "Totally understand. Those savings will still be there. When does it come back on the radar? I can circle back then, and I'm happy to send the calendar link anyway so you have it.",
     "metadata": {
       "category": "objection",
-      "topic": "timing"
+      "topic": "timing",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-obj-not-interested",
-    "text": "Q: We are not interested. A: Totally fair. I will make a note and will not call again. Thanks for your time. Log the outcome as declined.",
+    "text": "Totally fair — I'll make a note and won't call again. Thanks for your time. Log outcome as declined and end the call politely.",
     "metadata": {
       "category": "objection",
-      "topic": "not-interested"
+      "topic": "not-interested",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-obj-cold-call",
-    "text": "Q: Is this a cold call? A: What we lack in warmth we make up for in cloud and AI savings. Do you have 30 seconds?",
+    "text": "What we lack in warmth we make up for in cloud and AI savings — do you have thirty seconds?",
     "metadata": {
       "category": "objection",
-      "topic": "cold-call"
+      "topic": "cold-call",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-obj-is-this-ai",
-    "text": "Q: Is this an AI? A: Be honest and own it. You are Alex, an AI customer success manager reaching out on behalf of Pump. Offer to connect them with a human or just send the calendar link, whichever they prefer.",
+    "text": "Yes — I'm Alex, an AI customer success manager reaching out on behalf of Pump. Happy to connect you with a human or just send a calendar link, whichever you prefer.",
     "metadata": {
       "category": "objection",
-      "topic": "disclosure"
+      "topic": "disclosure",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-obj-how-got-number",
-    "text": "Q: How did Pump get my number? A: You provided it when you signed up or ran a savings estimate on the Pump website. Offer to remove them from the list if they would like.",
+    "text": "You provided it when you signed up or ran a savings estimate on the Pump website. Happy to remove you from the list if you'd like.",
     "metadata": {
       "category": "objection",
-      "topic": "privacy"
+      "topic": "privacy",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-obj-want-human",
-    "text": "Q: I want to talk to a human. A: Of course. I will flag this for our team and someone will reach out shortly. Log the outcome as interested (or callback if they give a specific time).",
+    "text": "Of course — I'll flag this for our team and someone will reach out shortly. Log outcome as interested, or callback if they give a specific time.",
     "metadata": {
       "category": "objection",
-      "topic": "human"
+      "topic": "human",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-obj-scam",
-    "text": "Q: Is this a scam? A: Totally fair question. Pump is a real company used by more than 1,400 businesses including Deel and Supabase. You ran a savings estimate on our website or signed up \u2014 that is why we are calling. Pump is free to customers; we are paid by the cloud providers. I can send our site and a calendar link, or you can opt out anytime.",
+    "text": "Totally fair question. Pump is a real company used by more than fourteen hundred businesses including Deel and Supabase. You ran a savings estimate on our website or signed up — that's why we're calling. Pump is free to customers; we're paid by the cloud providers. I can send our site and a calendar link, or you can opt out anytime.",
     "metadata": {
       "category": "objection",
-      "topic": "scam"
+      "topic": "scam",
+      "phase": "objection"
     }
   },
   {
     "id": "kb-uc2-opening",
-    "text": "UC2 opening hook: You are calling someone who just ran a savings estimate on Pump but did not sign up. Lead with their exact monthly savings number and annualized impact. Example: Hi [first_name], this is Alex from Pump \u2014 you ran an estimate showing about [savings_total] per month in potential savings. I wanted to help you capture that. Do you have two minutes?",
+    "text": "UC2 opening — call someone who ran a savings estimate but didn't sign up. Greet by first name, disclose you're an AI CSM at Pump, say they ran an estimate and you're following up personally because you have an offer, then ask if they have any questions about Pump first. Example: Hey [first_name], this is Alex — I'm an AI customer success manager at Pump. You ran a savings estimate on our site and I wanted to follow up personally — I actually have an offer for you. Do you have any questions I can answer about Pump?",
     "metadata": {
-      "category": "product",
-      "topic": "uc2-opening"
+      "category": "flow",
+      "topic": "opening",
+      "use_case": "uc2_estimate_completed",
+      "phase": "open"
     }
   },
   {
     "id": "kb-uc1-opening",
-    "text": "UC1 opening hook: You are calling someone who just signed up for Pump but has not connected their cloud account. Lead with social proof and speed to value. Example: Hi [first_name], this is Alex from Pump \u2014 thanks for signing up. Companies like yours typically save 20 to 60 percent on cloud and AI spend, and onboarding takes under 35 minutes with no engineering work. I wanted to help you get started.",
+    "text": "UC1 opening — call someone who signed up but hasn't connected their cloud account. Greet by first name, disclose you're an AI CSM at Pump, say you saw they created an account and you're reaching out personally because you have an offer, then ask if they have questions. Example: Hey [first_name], this is Alex — I'm an AI customer success manager at Pump. I saw you just created an account and I wanted to reach out personally — I actually have an offer for you. Do you have any questions I can answer about Pump?",
     "metadata": {
-      "category": "product",
-      "topic": "uc1-opening"
+      "category": "flow",
+      "topic": "opening",
+      "use_case": "uc1_new_signup",
+      "phase": "open"
+    }
+  },
+  {
+    "id": "kb-flow-uc1-qualify",
+    "text": "UC1 qualify after Q&A winds down. Use social proof, then ask monthly spend if unknown. Example: We work with a lot of companies similar to [company] — [similar_company] saves about [annual_similar_savings] a year with us. Just to make sure we can actually help — roughly what are you spending on cloud per month? If spend is already in lead context, skip the question. Then ask: Are you currently on any enterprise discount programs or do you have cloud credits — like an EDP with AWS or similar?",
+    "metadata": {
+      "category": "flow",
+      "topic": "qualify",
+      "use_case": "uc1_new_signup",
+      "phase": "qualify"
+    }
+  },
+  {
+    "id": "kb-flow-uc2-qualify",
+    "text": "UC2 qualify after Q&A winds down. Use spend from lead context if available; otherwise ask monthly spend. Example: Just to make sure we can actually help — roughly what are you spending on cloud per month? Then ask: Are you currently on any enterprise discount programs or do you have cloud credits — like an EDP with AWS or similar? Tier qualification uses monthly spend. For the savings hook, quote annual savings — monthly savings times twelve.",
+    "metadata": {
+      "category": "flow",
+      "topic": "qualify",
+      "use_case": "uc2_estimate_completed",
+      "phase": "qualify"
+    }
+  },
+  {
+    "id": "kb-exit-not-qualified",
+    "text": "Spend under five K per month — not qualified. Wind down gracefully, no hard sell. UC1 example: Got it — honestly at that spend level we might not be the right fit just yet. I'll make a note to check back as you scale. Thanks for your time [first_name]. UC2 example: I want to be upfront — at your current spend level we might not be the best fit yet. But those savings are real, and I'd encourage you to check back as you scale. Call log_outcome with disqualified and end the call.",
+    "metadata": {
+      "category": "exit",
+      "topic": "not-qualified",
+      "phase": "exit"
+    }
+  },
+  {
+    "id": "kb-exit-not-eligible-edp",
+    "text": "Active EDP or cloud credits — not eligible for now. Example: Got it — unfortunately we're not able to work with accounts that have active credits or enterprise discount programs in place. I don't want to waste your time, but I'd love to check back once that changes. Call log_outcome with disqualified and end the call.",
+    "metadata": {
+      "category": "exit",
+      "topic": "not-eligible-edp",
+      "phase": "exit"
+    }
+  },
+  {
+    "id": "kb-offer-uc1-smb",
+    "text": "UC1 SMB offer — five to fifteen K per month. I'd love to get you on a quick demo with our team — and we'd also love to send you a twenty-dollar DoorDash credit as a thank you. Would you be interested in getting a demo from someone on our team?",
+    "metadata": {
+      "category": "offer",
+      "topic": "smb",
+      "use_case": "uc1_new_signup",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-offer-uc1-core",
+    "text": "UC1 Core offer — fifteen to thirty K per month. I'd love to get you on a quick demo with our team — and we'd also love to send you fifty dollars in AWS credits as a thank you. Would you be interested in getting a demo from someone on our team?",
+    "metadata": {
+      "category": "offer",
+      "topic": "core",
+      "use_case": "uc1_new_signup",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-offer-uc1-mid-market",
+    "text": "UC1 Mid-Market offer — thirty to sixty K per month. I'd love to get you on a quick demo with our team — and we'd also love to send you a World Cup jersey as a thank you. Would you be interested in getting a demo from someone on our team?",
+    "metadata": {
+      "category": "offer",
+      "topic": "mid-market",
+      "use_case": "uc1_new_signup",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-offer-uc1-enterprise",
+    "text": "UC1 Enterprise offer — sixty to one fifty K per month. I'd love to get you on a quick demo with our team — and for companies at your scale, we'll send you a custom [company] pullover as a thank you. Would you be interested in getting a demo from someone on our team?",
+    "metadata": {
+      "category": "offer",
+      "topic": "enterprise",
+      "use_case": "uc1_new_signup",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-offer-uc1-whale",
+    "text": "UC1 Whale offer — one fifty K plus per month. I'd love to get you on a quick demo with our team — and for a company your size, we'll send you a Mac Mini on us. I'm also going to personally loop in one of our senior team members. Would you be interested in getting a demo from someone on our team?",
+    "metadata": {
+      "category": "offer",
+      "topic": "whale",
+      "use_case": "uc1_new_signup",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-offer-uc2-smb",
+    "text": "UC2 SMB offer — five to fifteen K per month. Lead with annual savings — monthly savings times twelve. Example: I'm calling because we found [annual_savings] in savings for you this year — completely free, no lock-in, no risk. We'd also love to send you a twenty-dollar DoorDash credit as a thank you. Would you be interested in getting a demo from someone on our team?",
+    "metadata": {
+      "category": "offer",
+      "topic": "smb",
+      "use_case": "uc2_estimate_completed",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-offer-uc2-core",
+    "text": "UC2 Core offer — fifteen to thirty K per month. Lead with annual savings. Example: I'm calling because we found [annual_savings] in savings for you this year — completely free, no lock-in, no risk. We'd also love to send you fifty dollars in AWS credits as a thank you. Would you be interested in getting a demo from someone on our team?",
+    "metadata": {
+      "category": "offer",
+      "topic": "core",
+      "use_case": "uc2_estimate_completed",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-offer-uc2-mid-market",
+    "text": "UC2 Mid-Market offer — thirty to sixty K per month. Lead with annual savings. Example: I'm calling because we found [annual_savings] in savings for you this year — completely free, no lock-in, no risk. We'd also love to send you a World Cup jersey as a thank you. Would you be interested in getting a demo from someone on our team?",
+    "metadata": {
+      "category": "offer",
+      "topic": "mid-market",
+      "use_case": "uc2_estimate_completed",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-offer-uc2-enterprise",
+    "text": "UC2 Enterprise offer — sixty to one fifty K per month. Lead with annual savings. Example: I'm calling because we found [annual_savings] in savings for you this year — completely free, no lock-in, no risk. We'd also love to send you a custom [company] pullover as a thank you. Would you be interested in getting a demo from someone on our team?",
+    "metadata": {
+      "category": "offer",
+      "topic": "enterprise",
+      "use_case": "uc2_estimate_completed",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-offer-uc2-whale",
+    "text": "UC2 Whale offer — one fifty K plus per month. Lead with annual savings. Example: I'm calling because we found [annual_savings] in savings for you this year — completely free, no lock-in, no risk. For a company your size, we'd love to send you a Mac Mini as a thank you, and I'm going to personally loop in one of our senior team members. Would you be interested in getting a demo from someone on our team?",
+    "metadata": {
+      "category": "offer",
+      "topic": "whale",
+      "use_case": "uc2_estimate_completed",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-flow-booking-round-1",
+    "text": "Booking round one — progressive urgency, business days only. Example: I can get you on the calendar right now — are you free later today or tomorrow?",
+    "metadata": {
+      "category": "flow",
+      "topic": "booking-round-1",
+      "phase": "book"
+    }
+  },
+  {
+    "id": "kb-flow-booking-round-2",
+    "text": "Booking round two — if they said no to today or tomorrow. Example: How about [next business day] or [business day after that]?",
+    "metadata": {
+      "category": "flow",
+      "topic": "booking-round-2",
+      "phase": "book"
+    }
+  },
+  {
+    "id": "kb-flow-booking-round-3",
+    "text": "Booking round three — if still no. Example: How about sometime next week or the week after?",
+    "metadata": {
+      "category": "flow",
+      "topic": "booking-round-3",
+      "phase": "book"
+    }
+  },
+  {
+    "id": "kb-flow-booking-round-4",
+    "text": "Booking round four — final urgency. Example: I don't want to take up too much of your time — what time works best for you? Just want to make sure we get something locked in because the promo expires at the end of the month and our team's availability is pretty limited given the amount of savings we're finding for people right now.",
+    "metadata": {
+      "category": "flow",
+      "topic": "booking-round-4",
+      "phase": "book"
+    }
+  },
+  {
+    "id": "kb-flow-calendar-confirm",
+    "text": "After they agree to a time, call book_meeting, then confirm the invite. UC2 example: I'm sending you the invite right now. Just a heads up — the offer is only eligible for people who show up to the call and do a trial this month, so I just want to make sure it's on your calendar. We know you're busy and we don't want you to miss out on [annual_savings] in savings. Wait for verbal confirmation they received the invite.",
+    "metadata": {
+      "category": "flow",
+      "topic": "calendar-confirm",
+      "phase": "book"
+    }
+  },
+  {
+    "id": "kb-flow-close",
+    "text": "Close after booking confirmed. Example: Perfect — we're all set. Talk soon [first_name]. Call log_outcome with booked.",
+    "metadata": {
+      "category": "flow",
+      "topic": "close",
+      "phase": "close"
     }
   },
   {
     "id": "kb-uc2-book-meeting",
-    "text": "UC2 close: After qualifying, offer a specific calendar slot. Tier the thank-you gift by monthly spend (DoorDash credit for SMB, AWS credits for Core, jersey for Mid-Market, etc.). Confirm they received the invite verbally before logging booked.",
+    "text": "UC2 booking reminder: after qualifying, offer a specific calendar slot using progressive urgency. Tier the thank-you gift by monthly spend. Confirm they received the invite verbally before logging booked.",
     "metadata": {
-      "category": "offer",
-      "topic": "uc2-close"
+      "category": "flow",
+      "topic": "uc2-close",
+      "use_case": "uc2_estimate_completed",
+      "phase": "book"
+    }
+  },
+  {
+    "id": "kb-spoken-alex-smb",
+    "text": "Demo reference — SMB Alex at Beacon Labs, twelve K per month, about thirty-three K per year in savings. Hey Alex, this is Alex — I'm an AI customer success manager at Pump. You ran a savings estimate on our site and I wanted to follow up personally — I actually have an offer for you. I'm calling because we found thirty-three thousand in savings for you this year. We'd love to send you a twenty-dollar DoorDash credit as a thank you.",
+    "metadata": {
+      "category": "spoken-example",
+      "topic": "smb-uc2",
+      "demo_lead": "alex-rivera",
+      "use_case": "uc2_estimate_completed",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-spoken-michael-whale",
+    "text": "Demo reference — Whale Michael Truell at Cursor, eight and a half million per month, nineteen million per year in savings. Hey Michael, this is Alex — I'm an AI customer success manager at Pump. We found nineteen million in savings for you this year. For a company your size, we'll send you a Mac Mini on us. I'm also going to personally loop in one of our senior team members.",
+    "metadata": {
+      "category": "spoken-example",
+      "topic": "whale-uc2",
+      "demo_lead": "michael-truell",
+      "use_case": "uc2_estimate_completed",
+      "phase": "offer"
+    }
+  },
+  {
+    "id": "kb-spoken-sam-uc1",
+    "text": "Demo reference — UC1 Sam Okonkwo, under five K per month, not qualified. Would open with: saw you created an account, ask what they spend on cloud per month, then exit gracefully — Got it, honestly at that spend level we might not be the right fit just yet. I'll make a note to check back as you scale. Log disqualified.",
+    "metadata": {
+      "category": "spoken-example",
+      "topic": "not-qualified-uc1",
+      "demo_lead": "sam-okonkwo",
+      "use_case": "uc1_new_signup",
+      "phase": "exit"
     }
   }
 ]

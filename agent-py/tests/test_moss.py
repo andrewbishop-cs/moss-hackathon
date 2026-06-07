@@ -105,7 +105,7 @@ async def test_search_knowledge_returns_joined_text_and_publishes_context(
     index, query, options = assistant._moss.query_calls[0]
     assert index == agent_module.KNOWLEDGE_INDEX
     assert query == "how does pump work?"
-    assert options.top_k == 3
+    assert options.top_k == 5
 
     # Published exactly one moss_context message, reliably.
     assert len(room.local_participant.published) == 1
