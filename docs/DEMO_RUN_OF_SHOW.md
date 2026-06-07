@@ -18,19 +18,29 @@ pnpm dev:frontend   # :3000
 ./scripts/smoke-backend.sh
 ```
 
-### Demo phone (Twilio verified)
+### Tier demo data (Supabase)
 
-Hero lead: **Michael Truell @ Cursor** — `b1000000-0001-0000-0000-000000000001`
-
-Run in Supabase SQL editor (replace with your verified E.164):
+Run once in Supabase SQL editor (creates SMB + Not Qualified leads, sets hero phones):
 
 ```sql
-UPDATE leads
-SET phone = '+1YOUR_VERIFIED_NUMBER'
-WHERE id = 'b1000000-0001-0000-0000-000000000001';
+-- backend/seed/setup_tier_demo.sql — replace +1YOUR_VERIFIED_NUMBER first
 ```
 
-Also update [backend/seed/seed_data.json](backend/seed/seed_data.json) line 106 so re-seeds stay consistent.
+Before each dry run:
+
+```sql
+-- backend/seed/reset_demo_leads.sql
+```
+
+**Queue personas** (Tier column on dashboard):
+
+| Lead | Company | Tier | Live call? |
+|------|---------|------|------------|
+| Sam Okonkwo `b1000000-0017-...` | Pinewood AI ($4K/mo) | Not qualified | No — narrate from queue |
+| Alex Rivera `b1000000-0016-...` | Beacon Labs ($12K/mo) | SMB · DoorDash | Yes — Call 1 |
+| Michael Truell `b1000000-0001-...` | Cursor ($8.5M/mo) | Whale · Mac Mini | Yes — Call 2 |
+
+Also keep [backend/seed/seed_data.json](backend/seed/seed_data.json) in sync when you change phones.
 
 ### iPhone + Do Not Disturb
 
@@ -46,26 +56,39 @@ Also update [backend/seed/seed_data.json](backend/seed/seed_data.json) line 106 
 
 | Segment | Time | Script |
 |---------|------|--------|
-| Problem | 20s | PLG companies lose 90% of visitors. These aren't cold leads — they just found $13K/mo in savings and walked away. Nobody calls them. |
-| UC2 demo | 40s | See click path below |
-| UC1 demo | 20s | Signup on Pump → phone rings → social proof hook |
+| Problem | 15s | PLG companies lose 90% of visitors. These aren't cold leads — they found savings and walked away. Nobody calls them. |
+| Tier queue | 10s | Dashboard: **Not qualified** / **SMB · DoorDash** / **Whale · Mac Mini** — qualifies on $5K/mo minimum, offer scales above that |
+| UC2 demo | 40s | See tier click path below (SMB + Whale calls) |
+| UC1 demo | 15s | Optional: Pinewood signup row — under $5K/mo threshold |
 | Why voice AI | 15s | Voice AI is finally good enough to do this at scale without an SDR team |
 | Sponsors | 15s | **LiveKit** — SIP telephony + inference + real-time rooms. **Moss** — agent pulls playbook + lead context live. |
 | Market | 10s | Every PLG company has this problem |
 
 ---
 
-## UC2 click path (hero demo)
+## Tier demo click path
 
 **Projector:** Dashboard already open at http://localhost:3000/dashboard
 
-1. Narrate: "Lead ran an estimate on Pump but didn't convert"
-2. Open http://localhost:3000/pump/estimate?lead_id=b1000000-0001-0000-0000-000000000001
-3. Enter spend → **Get my plan** → "We'll call you shortly"
-4. Point at dashboard — Michael Truell → status `calling`
-5. Click row → `/dashboard/calls/[id]` — **live transcript + Moss panel**
-6. **Phone rings** (or narrate transcript if DND silenced ring)
-7. Optional: agent books meeting → status `booked` on analytics
+### Queue beat (~10s)
+
+1. Point at three rows: **Sam Okonkwo · Not qualified** (under $5K/mo), **Alex Rivera · SMB · DoorDash**, **Michael Truell · Whale · Mac Mini**
+
+### Call 1 — SMB (~25s)
+
+1. Open http://localhost:3000/pump/estimate?lead_id=b1000000-0016-0000-0000-000000000016
+2. **Get my plan** → dashboard shows Alex → `calling`
+3. Live view → agent offers **$20 DoorDash credit**
+4. Run `reset_demo_leads.sql` if needed before call 2
+
+### Call 2 — Whale (~35s)
+
+1. Open http://localhost:3000/pump/estimate?lead_id=b1000000-0001-0000-0000-000000000001
+2. **Get my plan** → Michael Truell → `calling`
+3. Live view → agent offers **Mac Mini + senior AE**
+4. Optional: agent books meeting → status `booked` on analytics
+
+**Tight on time?** Skip Call 1 live — narrate Alex from the queue; keep Whale as the hero PSTN call.
 
 ---
 

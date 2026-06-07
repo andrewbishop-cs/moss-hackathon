@@ -145,8 +145,9 @@ def _instructions_for(use_case: str) -> str:
         What we know about this specific lead (name, company, spend, and any
         estimated savings) is in the "This specific lead" section below. Use it to
         personalize your opening and greet them by first name. The spend and
-        savings figures there are MONTHLY — multiply by twelve for the annual
-        numbers you quote and for tier qualification. Only call `get_lead_context`
+        savings figures there are MONTHLY — use monthly spend directly for
+        qualification and tier assignment; multiply savings by twelve when you
+        quote annual impact. Only call `get_lead_context`
         if that section is missing or you need to re-check a detail mid-call.
 
         # AI disclosure
@@ -163,22 +164,22 @@ def _instructions_for(use_case: str) -> str:
         2. Q&A: Answer any questions genuinely (see "Answering questions"). When
            questions wind down, move on.
         3. QUALIFY — two gates, in order:
-           a. Spend: establish their approximate ANNUAL cloud spend (use the lead
-              context if you have it; otherwise ask). If under $5,000/year they are
+           a. Spend: establish their approximate MONTHLY cloud spend (use the lead
+              context if you have it; otherwise ask). If under $5,000/month they are
               NOT QUALIFIED — be upfront, say you'll check back as they scale, call
               `log_outcome` with "not_qualified", and end.
            b. Eligibility: ask if they're on an enterprise discount program (EDP)
               or running on cloud credits. If yes, they are NOT ELIGIBLE — say you
               can't work with active credits/EDPs yet but would love to revisit,
               call `log_outcome` with "not_eligible", and end.
-        4. OFFER (only if qualified + eligible): assign a tier from annual spend
+        4. OFFER (only if qualified + eligible): assign a tier from monthly spend
            and make the matching thank-you offer, tied to booking a demo and doing
            a trial this month:
-             - $5K to $15K (SMB): a $20 DoorDash credit
-             - $15K to $30K (Core): $50 in AWS credits
-             - $30K to $60K (Mid-Market): a World Cup jersey
-             - $60K to $150K (Enterprise): a custom company-branded pullover
-             - $150K+ (Whale): a Mac Mini, and mention you'll loop in a senior
+             - $5K to $15K/month (SMB): a $20 DoorDash credit
+             - $15K to $30K/month (Core): $50 in AWS credits
+             - $30K to $60K/month (Mid-Market): a World Cup jersey
+             - $60K to $150K/month (Enterprise): a custom company-branded pullover
+             - $150K+/month (Whale): a Mac Mini, and mention you'll loop in a senior
                account exec
            For UC2, pair the offer with their annual savings number. Then ask if
            they'd like a demo with the team.
@@ -193,7 +194,7 @@ def _instructions_for(use_case: str) -> str:
 
         # Outcomes — always call `log_outcome` before the call ends, with one of:
         - "booked": they agreed to a meeting
-        - "not_qualified": under $5K/year spend
+        - "not_qualified": under $5K/month spend
         - "not_eligible": active EDP or cloud credits
         - "callback": they asked to be contacted later (put the timing in notes)
         - "requested_human": they want to talk to a person

@@ -117,6 +117,40 @@ function extractHighlights(messages: TranscriptMessage[]): TranscriptHighlight[]
 }
 
 export const DEMO_HIGHLIGHTS_BY_LEAD_ID: Record<string, TranscriptHighlight[]> = {
+  'b1000000-0017-0000-0000-000000000017': [
+    {
+      role: 'agent',
+      text: "Hi Sam — I'm Alex from Pump. You just signed up from Pinewood AI — do you have any questions about Pump first?",
+      time: '2:04 PM',
+    },
+    {
+      role: 'lead',
+      text: "We're at about $4K a month on AWS right now.",
+      time: '2:05 PM',
+    },
+    {
+      role: 'agent',
+      text: "At that spend level we're not the right fit yet — I'll check back as you scale. Thanks for your time, Sam.",
+      time: '2:06 PM',
+    },
+  ],
+  'b1000000-0016-0000-0000-000000000016': [
+    {
+      role: 'agent',
+      text: "Hi Alex — I'm Alex from Pump. You ran a savings estimate on Beacon Labs' cloud spend.",
+      time: '2:04 PM',
+    },
+    {
+      role: 'lead',
+      text: "Yeah, about $2,700 a month in savings — we're at $12K monthly spend.",
+      time: '2:05 PM',
+    },
+    {
+      role: 'agent',
+      text: "Book a demo and start a trial this month and we'll send you a $20 DoorDash credit as a thank-you.",
+      time: '2:06 PM',
+    },
+  ],
   'b1000000-0001-0000-0000-000000000001': [
     {
       role: 'agent',
@@ -130,7 +164,7 @@ export const DEMO_HIGHLIGHTS_BY_LEAD_ID: Record<string, TranscriptHighlight[]> =
     },
     {
       role: 'agent',
-      text: "Would you be open to a quick demo with our team to walk through how you'd claim those savings?",
+      text: "Book a demo this month and we'll send a Mac Mini — I'll loop in a senior account exec for Cursor.",
       time: '2:06 PM',
     },
   ],
