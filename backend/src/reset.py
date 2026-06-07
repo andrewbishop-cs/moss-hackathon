@@ -13,8 +13,9 @@ from src import db
 def main() -> None:
     try:
         count = db.reset_leads()
-        calls = db.reset_calls()
-        print(f"[reset] leads reset to pending: {count}; call history cleared: {calls}")
+        # NOTE: call history (the `calls` table) is intentionally NOT wiped for now
+        # so transcripts persist across demo runs. Use db.reset_calls() to clear it.
+        print(f"[reset] leads reset to pending: {count} (call history preserved)")
     except Exception as exc:  # noqa: BLE001 - never block `pnpm dev` on a reset hiccup
         print(f"[reset] skipped (could not reach Supabase): {exc}")
 
