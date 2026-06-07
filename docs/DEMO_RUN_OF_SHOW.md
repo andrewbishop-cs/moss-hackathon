@@ -20,6 +20,18 @@ pnpm dev:frontend   # :3000
 ./scripts/smoke-backend.sh
 ```
 
+### Agent model files (first run or after fresh venv)
+
+```bash
+uv --directory agent-py run python src/agent.py download-files
+```
+
+### Moss index (after knowledge.json edits)
+
+```bash
+pnpm moss:index
+```
+
 ### Tier demo dry-run (automated)
 
 ```bash

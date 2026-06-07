@@ -5,6 +5,37 @@ Spoken script: [DEMO_SCRIPT.md](DEMO_SCRIPT.md)
 
 ---
 
+## 2026-06-07 — Hour 9 plan execution (automated + blocked items)
+
+### Completed
+
+| Check | Result |
+|-------|--------|
+| Reset all leads | 22 rows → `pending` via `python -m src.reset` |
+| Tier commits pushed | `main` synced to origin |
+| Smoke check | 9/9 passed |
+| Turn detector models | Downloaded via `uv run python src/agent.py download-files` (fixes prior job crashes) |
+| Whale dispatch #1 | `status=calling` · `room=call-b1000000-1780812715` · live view HTTP 200 |
+| Whale dispatch #2 | `status=calling` · `room=call-b1000000-1780812945` · agent joined (no crash) |
+
+### Blockers found (need Andrew + Paul)
+
+| Issue | Detail |
+|-------|--------|
+| **SIP env missing** | `agent-py/.env.local` not present on Paul's machine. Agent log: `SIP_OUTBOUND_TRUNK_ID is unset; cannot dial`. Phone will not ring until Andrew shares/restores `.env.local`. |
+| **PSTN answer** | Automated dry runs cannot confirm ring/transcript/outcome — Paul must answer phone during joint session. |
+| **Outcome stuck on `calling`** | After no-answer SIP failure, `outcome_notes` set but status may remain `calling` — verify with Andrew on live answered call. |
+
+### Next steps
+
+1. Andrew restores `agent-py/.env.local` (SIP + LiveKit + Moss creds)
+2. Restart agent worker: `pnpm dev:agent-py`
+3. Paul completes [DEMO_IPHONE_PREP.md](DEMO_IPHONE_PREP.md) checklist
+4. Joint dry run × 2 with phone answered — see [PING_ANDREW_DEMO.md](PING_ANDREW_DEMO.md)
+5. Record fallback video per [FALLBACK_VIDEO.md](FALLBACK_VIDEO.md) after first clean run
+
+---
+
 ## 2026-06-06 — Automated dispatch dry-run
 
 ### Prerequisites verified

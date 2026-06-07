@@ -14,7 +14,8 @@ Hey Andrew — Paul-side demo prep is done. Ready for a **30-min joint PSTN dry 
 
 **Need from you:**
 1. **`pnpm moss:index`** — after latest `knowledge.json` tier edits (DoorDash vs Mac Mini playbook)
-2. **Joint dry run** — whale hero call, answer on speaker, confirm outcome updates in dashboard
+2. **Restore `agent-py/.env.local`** on Paul's machine — agent logs show `SIP_OUTBOUND_TRUNK_ID is unset`; PSTN cannot ring without it (trunk id `ST_RkZbHfV4vC87` per TODO_ANDREW)
+3. **Joint dry run** — whale hero call, answer on speaker, confirm outcome updates in dashboard
 
 **Dry run steps (15 min):**
 1. Three terminals: `pnpm dev:backend`, `pnpm dev:agent-py`, `pnpm dev:frontend`

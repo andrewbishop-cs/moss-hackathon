@@ -37,14 +37,14 @@ schema/migrations — just those content/data files. Code the UI against the RES
 
 ## Content — the agent's words (do alongside the UI)
 - [x] Author the agent playbook in `agent-py/knowledge.json` (29+ entries: product, pricing, objections, UC hooks)
-- [ ] Ping Andrew to re-run `pnpm moss:index` after latest knowledge edits
+- [ ] Ping Andrew to re-run `pnpm moss:index` after latest knowledge edits — **done hour 9** (33 knowledge + 4 leads docs)
 - [ ] (Optional) tweak dev lead blurbs in `agent-py/leads.json` for the demo
 
 ## Phase 5 — Demo prep (joint with Andrew)
-- [ ] Dry-run UC1 + UC2 — follow [DEMO_RUN_OF_SHOW.md](DEMO_RUN_OF_SHOW.md) + [INTEGRATION_CHECKLIST.md](INTEGRATION_CHECKLIST.md)
-- [ ] Set hero lead phone to your Twilio-verified number (SQL in DEMO_RUN_OF_SHOW)
-- [ ] iPhone DND prep + test call with DND on
-- [ ] Ping Andrew: `pnpm moss:index` after knowledge.json updates
+- [ ] Dry-run UC1 + UC2 — follow [DEMO_RUN_OF_SHOW.md](DEMO_RUN_OF_SHOW.md) + [INTEGRATION_CHECKLIST.md](INTEGRATION_CHECKLIST.md) — **in progress:** dispatch verified; PSTN blocked until `agent-py/.env.local` restored
+- [x] Set hero lead phone to your Twilio-verified number (`+19145598426` on Michael + Alex)
+- [ ] iPhone DND prep + test call with DND on — checklist: [DEMO_IPHONE_PREP.md](DEMO_IPHONE_PREP.md)
+- [x] Ping Andrew: `pnpm moss:index` after knowledge.json updates — **done hour 9**
 
 ## Phase 6 — Stretch: deeper UI, analytics, transcripts & follow-up (if time)
 

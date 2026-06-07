@@ -30,6 +30,8 @@ Confirm this is your **Twilio-verified** E.164 number.
 
 ## Test call (required before judges)
 
+**Prerequisite:** `agent-py/.env.local` must include `SIP_OUTBOUND_TRUNK_ID` (ask Andrew if missing).
+
 1. Run whale dry run: `./scripts/dry-run-tier-demo.sh --whale`
 2. **Answer when phone rings** — confirm you hear the agent
 3. Hang up after one exchange
