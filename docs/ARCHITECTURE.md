@@ -57,19 +57,38 @@ Two interactive flows that trigger calls:
 
 ### 2. Supabase Schema
 
-`**leads` table**
+**`companies` table**
+
+```sql
+id                uuid primary key
+name              text
+company_size      text     -- '1-10', '11-50', '51-200', '201-500', '500+'
+cloud_provider    text     -- 'aws' | 'gcp' | 'azure'
+spend_aws         numeric  default 0
+spend_gcp         numeric  default 0
+spend_azure       numeric  default 0
+spend_openai      numeric  default 0
+spend_anthropic   numeric  default 0
+spend_total       numeric  default 0
+savings_aws       numeric  default 0
+savings_gcp       numeric  default 0
+savings_azure     numeric  default 0
+savings_openai    numeric  default 0
+savings_anthropic numeric  default 0
+savings_total     numeric  default 0
+created_at        timestamp
+```
+
+**`leads` table**
 
 ```sql
 id              uuid primary key
-name            text
+company_id      uuid references companies(id)
+first_name      text
+last_name       text
 email           text
 phone           text
-company         text
-company_size    text  -- '1-10', '11-50', '51-200', '201-500', '500+'
-aws_spend       text  -- raw monthly spend e.g. '$42,000'
-savings_estimate text -- calculated savings e.g. '$13,240' (UC2 only)
-similar_company text  -- comparable customer reference (UC1)
-similar_savings text  -- what similar company saves (UC1)
+timezone        text
 use_case        text  -- 'uc1_new_signup' | 'uc2_estimate_completed'
 status          text  -- 'pending' | 'calling' | 'called' | 'booked' | 'no_answer' | 'declined'
 created_at      timestamp
