@@ -142,12 +142,26 @@ fi
 
 info "Triggering call — $LEAD_LABEL"
 body=$(jq -n --arg id "$LEAD_ID" '{ lead_id: $id }')
-resp=$(curl -s -X POST "$API_BASE_URL/calls/trigger" \
+resp_file=$(mktemp)
+http_code=$(curl -s -o "$resp_file" -w "%{http_code}" -X POST "$API_BASE_URL/calls/trigger" \
   -H "Content-Type: application/json" -d "$body")
+resp=$(cat "$resp_file")
+rm -f "$resp_file"
+
+if [[ "$http_code" != "200" ]]; then
+  red "Call dispatch failed — HTTP $http_code"
+  if echo "$resp" | jq -e . >/dev/null 2>&1; then
+    echo "$resp" | jq -c '.'
+  else
+    echo "$resp"
+  fi
+  exit 1
+fi
 
 room=$(echo "$resp" | jq -r '.room_name // empty')
 if [[ -z "$room" ]]; then
-  red "Call dispatch failed — $(echo "$resp" | jq -c '.')"
+  red "Call dispatch failed — missing room_name in response"
+  echo "$resp" | jq -c '.' 2>/dev/null || echo "$resp"
   exit 1
 fi
 

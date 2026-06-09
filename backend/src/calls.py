@@ -9,6 +9,7 @@ the dashboard can join that room read-only.
 from __future__ import annotations
 
 import json
+import logging
 import time
 from uuid import UUID
 
@@ -16,6 +17,8 @@ from livekit import api
 
 from src import db, moss_index
 from src.config import AGENT_NAME
+
+logger = logging.getLogger(__name__)
 
 # Outcomes that trigger one instant automatic callback:
 #   - no_answer: voicemail / no pickup. The retry lands inside iPhone's 3-minute
@@ -42,7 +45,13 @@ def should_retry(lead_id: str | UUID) -> bool:
 async def start_call(lead_id: str | UUID, *, is_retry: bool = False) -> str:
     """Index the lead and dispatch the agent. Returns the LiveKit room name."""
     lead = db.get_lead(lead_id)
-    await moss_index.upsert_lead(lead)
+    try:
+        await moss_index.upsert_lead(lead)
+    except Exception as exc:
+        # Lead profile is injected in dispatch metadata below; the Moss leads
+        # index is optional at call time (knowledge RAG still works). Do not
+        # block outbound calls when the index is missing or Moss is flaky.
+        logger.warning("moss upsert_lead failed (non-fatal): %s", exc)
 
     room_name = f"call-{str(lead.id)[:8]}-{int(time.time())}"
     metadata = json.dumps(
